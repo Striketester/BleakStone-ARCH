@@ -2,13 +2,7 @@
 	name = "Zalad Emir"
 	greet_text = "An Emir hailing from the Deshret, here on business for the Mercator's Guild."
 	allowed_sexes = list(MALE)
-	allowed_races = list(
-		"Humen",
-		"Rakshari",
-		"Elf",
-		"Half-Elf",
-		"Dwarf"
-	)
+	allowed_races = RACES_PLAYER_ZYBANTINE
 	outfit = /datum/outfit/job/zalad_migration/emir
 	grant_lit_torch = TRUE
 
@@ -66,14 +60,8 @@
 	name = "Zalad Amirah"
 	greet_text = "An Amirah hailing from Deshret, here on business for the Mercator's Guild to the Isle of the Enigma."
 	allowed_sexes = list(FEMALE)
-	allowed_races = list(
-		"Humen",
-		"Rakshari",
-		"Elf",
-		"Half-Elf",
-		"Dwarf"
-	)
-	outfit = /datum/outfit/job/zalad_migration/amirah
+	allowed_races = RACES_PLAYER_ZYBANTINE
+	outfit = /datum/outfit/job/zybantine_migration/amirah
 	grant_lit_torch = TRUE
 
 /datum/outfit/job/zalad_migration/amirah/pre_equip(mob/living/carbon/human/H)
@@ -125,14 +113,8 @@
 	name = "Furusiyya"
 	greet_text = "You are a furusiyya, pledged to the Emir and the Amirah. Make sure they come out alive of that place."
 	allowed_sexes = list(MALE)
-	allowed_races = list(
-	"Humen",
-	"Elf",
-	"Half-Elf",
-	"Dwarf",
-	"Rakshari"
-	)
-	outfit = /datum/outfit/job/zalad_migration/furusiyya
+	allowed_races = RACES_PLAYER_ZYBANTINE
+	outfit = /datum/outfit/job/zybantine_migration/furusiyya
 	grant_lit_torch = TRUE
 
 /datum/outfit/job/zalad_migration/furusiyya/pre_equip(mob/living/carbon/human/H)
@@ -238,14 +220,14 @@
 /datum/migrant_role/qatil
 	name = "Qatil"
 	greet_text = "You are the Amirah's confident and most loyal protector, you shan't let them die in these wretched lands."
-	allowed_sexes = list(MALE, FEMALE)
-	allowed_races = list(
-		"Humen",
-		"Elf",
-		"Rakshari",
-		"Half-Elf",
-		"Tiefling",
-		"Dark Elf",
+	allowed_races = list(\
+		RACE_ID_HUMEN,\
+		RACE_ID_ELF,\
+		RACE_ID_RAKSHARI,\
+		RACE_ID_HALF_ELF,\
+		RACE_ID_TIEFLING,\
+		RACE_ID_DROW,\
+		RACE_ID_HALF_DROW,\
 	)
 	outfit = /datum/outfit/job/zalad_migration/qatil
 
