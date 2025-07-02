@@ -3764,11 +3764,11 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/town)
 "clB" = (
+/obj/structure/table/wood{
+	icon_state = "map6"
+	},
 /obj/item/candle/skull,
 /obj/machinery/light/fueled/wallfire/candle/r,
-/obj/structure/table/map/vanderlin{
-	dir = 5
-	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
 "clJ" = (
@@ -6887,6 +6887,9 @@
 /turf/open/transparent/openspace,
 /area/rogue/outdoors/river)
 "ekH" = (
+/obj/structure/table/wood{
+	icon_state = "map1"
+	},
 /obj/item/reagent_containers/glass/carafe/silver/redwine{
 	pixel_x = 7;
 	pixel_y = 16
@@ -6894,9 +6897,6 @@
 /obj/item/candle/yellow{
 	pixel_x = -3;
 	pixel_y = 5
-	},
-/obj/structure/table/map{
-	dir = 10
 	},
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
@@ -11177,8 +11177,8 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/merc_guild)
 "hcM" = (
-/obj/structure/table/map{
-	dir = 6
+/obj/structure/table/wood{
+	icon_state = "map3"
 	},
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
@@ -11754,6 +11754,9 @@
 /turf/open/floor/cobble,
 /area/rogue/indoors/town/church)
 "hyh" = (
+/obj/structure/table/wood{
+	icon_state = "map2"
+	},
 /obj/item/reagent_containers/glass/cup/silver{
 	pixel_x = 7;
 	pixel_y = 11
@@ -11762,7 +11765,6 @@
 	pixel_x = -7;
 	pixel_y = 7
 	},
-/obj/structure/table/map,
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
 "hyo" = (
@@ -13185,6 +13187,9 @@
 /turf/open/floor/wood,
 /area/rogue/indoors/town)
 "ivQ" = (
+/obj/structure/table/wood{
+	icon_state = "map6"
+	},
 /obj/item/paper/scroll,
 /obj/item/paper/scroll{
 	pixel_x = -2
@@ -13192,9 +13197,6 @@
 /obj/item/paper/scroll{
 	pixel_x = -5;
 	pixel_y = 3
-	},
-/obj/structure/table/map{
-	dir = 5
 	},
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
@@ -15954,10 +15956,10 @@
 /turf/open/floor/ruinedwood,
 /area/rogue/indoors/town/church)
 "keV" = (
-/obj/item/natural/feather,
-/obj/structure/table/map/vanderlin{
-	dir = 6
+/obj/structure/table/wood{
+	icon_state = "map3"
 	},
+/obj/item/natural/feather,
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
 "keZ" = (
@@ -21647,10 +21649,10 @@
 /turf/open/floor/twig,
 /area/rogue/outdoors/rtfield/safe)
 "nPZ" = (
-/obj/item/paper/scroll,
-/obj/structure/table/map/vanderlin{
-	dir = 9
+/obj/structure/table/wood{
+	icon_state = "map4"
 	},
+/obj/item/paper/scroll,
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
 "nQk" = (
@@ -23961,8 +23963,8 @@
 /turf/open/floor/tile/bfloorz,
 /area/rogue/indoors/town/bath)
 "pte" = (
-/obj/structure/table/map/vanderlin{
-	dir = 10
+/obj/structure/table/wood{
+	icon_state = "map1"
 	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
@@ -25305,8 +25307,10 @@
 /turf/open/floor/grass,
 /area/rogue/indoors/town)
 "qpP" = (
+/obj/structure/table/wood{
+	icon_state = "map2"
+	},
 /obj/item/candle/yellow,
-/obj/structure/table/map/vanderlin,
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
 "qpW" = (
@@ -33509,10 +33513,10 @@
 /turf/open/floor/dirt,
 /area/rogue/outdoors/rtfield/safe)
 "vGE" = (
-/obj/item/candle/yellow,
-/obj/structure/table/map{
-	dir = 9
+/obj/structure/table/wood{
+	icon_state = "map4"
 	},
+/obj/item/candle/yellow,
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
 "vGG" = (
@@ -33967,12 +33971,12 @@
 /turf/open/floor/woodturned,
 /area/rogue/indoors/town/smithy)
 "vYK" = (
-/obj/item/natural/feather,
-/obj/item/natural/feather,
-/obj/item/natural/feather,
-/obj/structure/table/map{
-	dir = 1
+/obj/structure/table/wood{
+	icon_state = "map5"
 	},
+/obj/item/natural/feather,
+/obj/item/natural/feather,
+/obj/item/natural/feather,
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
 "vZb" = (
@@ -34497,8 +34501,8 @@
 /turf/open/floor/herringbone,
 /area/rogue/indoors/town/smithy)
 "wom" = (
-/obj/structure/table/map/vanderlin{
-	dir = 1
+/obj/structure/table/wood{
+	icon_state = "map5"
 	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)

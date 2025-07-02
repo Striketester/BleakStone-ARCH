@@ -2512,8 +2512,8 @@
 /turf/open/floor/hexstone,
 /area/rogue/indoors/town)
 "brL" = (
-/obj/structure/table/map/rosewood{
-	dir = 6
+/obj/structure/table/wood{
+	icon_state = "map3"
 	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
@@ -8471,8 +8471,8 @@
 /turf/open/floor/church,
 /area/rogue/indoors/town/church)
 "eDd" = (
-/obj/structure/table/map/rosewood{
-	dir = 9
+/obj/structure/table/wood{
+	icon_state = "map6"
 	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
@@ -10232,8 +10232,8 @@
 /turf/open/floor/churchrough,
 /area/rogue/indoors/town/church/chapel)
 "fAF" = (
-/obj/structure/table/map/rosewood{
-	dir = 5
+/obj/structure/table/wood{
+	icon_state = "map4"
 	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
@@ -19779,7 +19779,9 @@
 /turf/open/transparent/openspace,
 /area/rogue/indoors/town/church)
 "kXJ" = (
-/obj/structure/table/map/rosewood,
+/obj/structure/table/wood{
+	icon_state = "map2"
+	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
 "kXK" = (
@@ -21109,8 +21111,8 @@
 /turf/open/floor/metal,
 /area/rogue/indoors/town/clocktower)
 "lMC" = (
-/obj/structure/table/map/rosewood{
-	dir = 10
+/obj/structure/table/wood{
+	icon_state = "map1"
 	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
@@ -27251,10 +27253,10 @@
 /turf/open/floor/ruinedwood/turned/darker,
 /area/rogue/indoors/soilsons)
 "oWn" = (
-/obj/item/natural/feather,
-/obj/structure/table/map/rosewood{
-	dir = 9
+/obj/structure/table/wood{
+	icon_state = "map6"
 	},
+/obj/item/natural/feather,
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
 "oWq" = (
@@ -32994,8 +32996,8 @@
 /turf/open/floor/woodturned,
 /area/rogue/indoors/town/manor)
 "seU" = (
-/obj/structure/table/map/rosewood{
-	dir = 1
+/obj/structure/table/wood{
+	icon_state = "map5"
 	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
@@ -35334,10 +35336,10 @@
 /turf/open/floor/naturalstone,
 /area/rogue/indoors/town/clocktower)
 "tpq" = (
-/obj/item/paper/scroll,
-/obj/structure/table/map/rosewood{
-	dir = 1
+/obj/structure/table/wood{
+	icon_state = "map5"
 	},
+/obj/item/paper/scroll,
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
 "tpv" = (
