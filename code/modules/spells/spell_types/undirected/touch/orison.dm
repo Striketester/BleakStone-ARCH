@@ -110,8 +110,6 @@
 		return TRUE
 
 /datum/action/cooldown/spell/undirected/touch/orison/cast_on_secondary_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
-	var/mob/living/carbon/human/blessing_mob = caster
-
 	if(isliving(victim))
 		var/mob/living/blessed_mob = victim
 		if(blessed_mob.has_status_effect(/datum/status_effect/light_buff))

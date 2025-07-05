@@ -69,8 +69,6 @@
 	if(answer == CHOICE_CONFIRM)
 		anonymous = TRUE
 
-	return TRUE
-
 /datum/action/cooldown/spell/undirected/message/cast(atom/cast_on)
 	. = ..()
 	var/mob/living/recipient = recipient_ref.resolve()

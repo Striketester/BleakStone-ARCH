@@ -19,8 +19,6 @@
 		reset_cooldown()
 		return . | SPELL_CANCEL_CAST
 
-	return TRUE
-
 /datum/action/cooldown/spell/undirected/hag_call/cast(atom/cast_on)
 	. = ..()
 	owner.say("[brat_name]!!", spans = list("reallybig"))

@@ -48,7 +48,7 @@
 	. = ..()
 	set_old_appearance(remove_from)
 
-/datum/action/cooldown/spell/mimicry/is_valid_cast_on(atom/cast_on)
+/datum/action/cooldown/spell/mimicry/is_valid_target(atom/cast_on)
 	return ishuman(cast_on)
 
 /datum/action/cooldown/spell/mimicry/cast(mob/living/carbon/human/cast_on)

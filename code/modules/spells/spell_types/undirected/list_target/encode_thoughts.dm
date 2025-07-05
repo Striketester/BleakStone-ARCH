@@ -9,7 +9,6 @@
 		/datum/attunement/dark = 0.5,
 	)
 
-	charge_required = FALSE
 	cooldown_time = 25 SECONDS
 	spell_cost = 25
 

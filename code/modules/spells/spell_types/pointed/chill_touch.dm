@@ -71,7 +71,7 @@
 	bodypart = null
 	return ..()
 
-/obj/item/chilltouch/proc/attach_target(mob/living/carbon/target, /obj/item/bodypart/limb)
+/obj/item/chilltouch/proc/attach_target(mob/living/carbon/target, obj/item/bodypart/limb)
 	if(!istype(target))
 		qdel(src)
 		return

@@ -110,7 +110,7 @@
 	owner.flash_fullscreen("whiteflash")
 	var/datum/effect_system/spark_spread/S = new()
 	var/turf/front = get_step(owner, owner.dir)
-	S.set_up(1, 1, target)
+	S.set_up(1, 1, front)
 	S.start()
 
 	return TRUE

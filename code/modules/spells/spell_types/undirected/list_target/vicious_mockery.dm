@@ -6,9 +6,9 @@
 
 	associated_skill = /datum/skill/misc/music
 
-	charge_required = FALSE
+	invocation_type = INVOCATION_SHOUT
+
 	cooldown_time = 1 MINUTES
-	spell_cost = 0
 
 	choose_target_message = "Choose who to mock."
 	target_radius = 6
@@ -28,7 +28,7 @@
 		if(H.dna?.species)
 			message = pick_list_replacements("bard.json", "[H.dna.species.id]_mockery")
 	else
-		message = browser_input_text(owner, "What should they say?", "XYLIX")
+		message = browser_input_text(owner, "How will I mock this fool?", "XYLIX")
 		if(QDELETED(src) || QDELETED(owner) || QDELETED(cast_on) || !can_cast_spell())
 			return . | SPELL_CANCEL_CAST
 

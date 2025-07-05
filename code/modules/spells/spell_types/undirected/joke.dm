@@ -24,11 +24,9 @@
 
 	invocation = message
 
-	return TRUE
-
 /datum/action/cooldown/spell/undirected/joke/cast(atom/cast_on)
 	. = ..()
-	for(var/mob/living/carbon/C in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, owner))
+	for(var/mob/living/carbon/C in get_hearers_in_view(DEFAULT_MESSAGE_RANGE, owner) - owner)
 		if(C.stat > CONSCIOUS)
 			continue
 		if(C.stress <= 0)

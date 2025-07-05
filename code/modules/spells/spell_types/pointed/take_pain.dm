@@ -1,44 +1,51 @@
-/obj/effect/proc_holder/spell/invoked/transfer_pain
+/datum/action/cooldown/spell/transfer_pain
 	name = "Take Pain"
-	invocation_type = "whisper"
-	overlay_state = "curse"
-	uses_mana = FALSE
-	range = 1
-	recharge_time = 1 MINUTES
+	button_icon_state = "curse"
 
-/obj/effect/proc_holder/spell/invoked/transfer_pain/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
-	if(!istype(H))
+	cast_range = 1
+	cooldown_time = 1 MINUTES
+
+/datum/action/cooldown/spell/transfer_pain/can_cast_spell(feedback)
+	. = ..()
+	if(!.)
+		return
+
+	if(!ishuman(owner))
+		if(feedback)
+			to_chat(owner, span_warning("The burden is too great for this body"))
 		return FALSE
 
-	var/mob/living/carbon/human/target = targets[1]
-	if(!istype(target))
-		to_chat(H, span_warning("You must target a valid person!"))
-		return FALSE
+/datum/action/cooldown/spell/transfer_pain/is_valid_target(atom/cast_on)
+	return ishuman(cast_on)
 
-	if(target == H)
-		to_chat(H, span_warning("You target yourself!"))
-		return FALSE
+/datum/action/cooldown/spell/transfer_pain/before_cast(mob/living/carbon/human/cast_on)
+	. = ..()
+	if(. & SPELL_CANCEL_CAST)
+		return
 
-	if(H.stat != CONSCIOUS)
-		to_chat(H, span_warning("You must be conscious to perform this act!"))
-		return FALSE
+	if(cast_on.stat == DEAD)
+		to_chat(owner, span_warning("[cast_on] is beyond help."))
+		reset_spell_cooldown()
+		return . | SPELL_CANCEL_CAST
 
-	if(target.stat == DEAD)
-		to_chat(H, span_warning("[target] is beyond your help!"))
-		return FALSE
+/datum/action/cooldown/spell/transfer_pain/cast(mob/living/carbon/human/cast_on)
+	. = ..()
 
-	H.visible_message(span_notice("[H] begins a solemn prayer to Pestra."), \
-					span_notice("You begin the pain transfer ritual..."))
+	var/mob/living/carbon/human/follower = owner
 
-	if(!do_after(H, 5 SECONDS, target = target))
-		to_chat(H, span_warning("The ritual was interrupted!"))
-		return FALSE
+	owner.visible_message(
+		span_notice("[owner] begins a solemn prayer to Pestra."),
+		span_notice("You begin the pain transfer ritual..."),
+	)
+
+	if(!do_after(owner, 5 SECONDS, cast_on))
+		to_chat(owner, span_warning("The ritual was interrupted!"))
+		return
 
 	var/total_pain_to_transfer = 0
 	var/list/affected_wounds = list()
 
-	for(var/obj/item/bodypart/BP in target.bodyparts)
+	for(var/obj/item/bodypart/BP in cast_on.bodyparts)
 		for(var/datum/wound/W in BP.wounds)
 			if(W.woundpain <= W.sewn_woundpain)
 				continue
@@ -47,7 +54,7 @@
 			W.woundpain = max(W.sewn_woundpain, W.woundpain - pain_reduction)
 			affected_wounds += W
 
-	for(var/datum/wound/W in target.simple_wounds)
+	for(var/datum/wound/W in cast_on.simple_wounds)
 		if(W.woundpain <= W.sewn_woundpain)
 			continue
 		var/pain_reduction = W.woundpain * 0.5
@@ -56,19 +63,19 @@
 		affected_wounds += W
 
 	if(total_pain_to_transfer <= 0)
-		to_chat(H, span_warning("[target] is not in pain!"))
-		return FALSE
+		to_chat(owner, span_warning("[cast_on] is not in pain!"))
+		return
 
 	var/pain_percentage = 0
-	if(H.get_complex_pain() > 0)
-		pain_percentage = (total_pain_to_transfer / H.get_complex_pain()) * 100
+	if(follower.get_complex_pain() > 0)
+		pain_percentage = (total_pain_to_transfer / follower.get_complex_pain()) * 100
 	else
 		pain_percentage = 100
 
 	var/wound_severity_mod = clamp(pain_percentage / 50, 0.5, 3.0)
 
-	var/pain_per_wound = total_pain_to_transfer / max(1, H.bodyparts.len)
-	for(var/obj/item/bodypart/BP in H.bodyparts)
+	var/pain_per_wound = total_pain_to_transfer / max(1, length(follower.bodyparts))
+	for(var/obj/item/bodypart/BP in follower.bodyparts)
 		var/datum/wound/existing_wound
 		for(var/datum/wound/W in BP.wounds)
 			if(W.woundpain > 0)
@@ -99,8 +106,7 @@
 
 			new_wound.apply_to_bodypart(BP)
 
-	playsound(get_turf(H), 'sound/magic/heal.ogg', 50, TRUE)
-	to_chat(H, span_notice("You take [target]'s pain upon yourself!"))
-	to_chat(target, span_notice("You feel [H] take some of your pain away!"))
-	SEND_SIGNAL(user, COMSIG_PAIN_TRANSFERRED, pain_percentage)
-	return ..()
+	playsound(get_turf(owner), 'sound/magic/heal.ogg', 50, TRUE)
+	to_chat(owner, span_notice("You take [cast_on]'s pain upon yourself!"))
+	to_chat(cast_on, span_notice("You feel [owner] take some of your pain away!"))
+	SEND_SIGNAL(owner, COMSIG_PAIN_TRANSFERRED, pain_percentage)

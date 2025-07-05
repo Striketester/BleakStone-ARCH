@@ -48,7 +48,7 @@
 		reset_spell_cooldown()
 		return . | SPELL_CANCEL_CAST
 
-/datum/action/cooldown/spell/beast_tame/cast(/mob/living/simple_animal/hostile/retaliate/cast_on)
+/datum/action/cooldown/spell/beast_tame/cast(mob/living/simple_animal/hostile/retaliate/cast_on)
 	. = ..()
 	if(!prob(cast_on.dendor_taming_chance))
 		to_chat(owner, span_warning("\The [cast_on] resists your soothing!"))

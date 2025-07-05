@@ -8,6 +8,8 @@
  * The cast_on atom is the atom that was selected by the list.
  */
 /datum/action/cooldown/spell/undirected/list_target
+	charge_required = FALSE
+
 	/// The message displayed as the title of the tgui target input list.
 	var/choose_target_message = "Choose a target."
 	/// Radius around the caster that living targets are picked to choose from

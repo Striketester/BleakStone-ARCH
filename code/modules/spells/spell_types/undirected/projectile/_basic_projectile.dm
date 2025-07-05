@@ -10,7 +10,7 @@
 	/// How far we try to fire the basic projectile. Blocked by dense objects.
 	var/projectile_range = 7
 	/// The projectile type fired at all people around us
-	var/obj/projectile/projectile_type = /obj/projectile/magic/aoe/magic_missile
+	var/obj/projectile/projectile_type
 
 /datum/action/cooldown/spell/undirected/basic_projectile/cast(atom/cast_on)
 	. = ..()

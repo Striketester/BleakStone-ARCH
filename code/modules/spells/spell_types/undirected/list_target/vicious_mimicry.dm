@@ -8,7 +8,6 @@
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross/silver/xylix)
 
-	charge_required = FALSE
 	cooldown_time = 1 MINUTES
 	spell_cost = 25
 
@@ -31,8 +30,6 @@
 	if(!message)
 		reset_spell_cooldown()
 		return . | SPELL_CANCEL_CAST
-
-	return TRUE
 
 /datum/action/cooldown/spell/undirected/list_target/vicious_mimicry/cast(mob/living/cast_on)
 	. = ..()

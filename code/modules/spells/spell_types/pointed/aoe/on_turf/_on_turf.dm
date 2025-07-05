@@ -9,7 +9,7 @@
 	/// Get turfs in view instead of range
 	var/respect_LOS = TRUE
 
-/datum/action/cooldown/spell/aoe/on_turf/proc/get_things_to_cast_on(atom/center)
+/datum/action/cooldown/spell/aoe/on_turf/get_things_to_cast_on(atom/center)
 	var/list/turfs = list()
 	if(respect_LOS)
 		for(var/turf/T in view(aoe_radius, center))

@@ -19,7 +19,6 @@
  */
 /datum/action/cooldown/spell/undirected/touch
 	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_HANDS_BLOCKED
-	sound = 'sound/items/welder.ogg'
 
 	charge_required = FALSE
 

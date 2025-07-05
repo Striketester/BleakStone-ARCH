@@ -1,5 +1,4 @@
 /datum/action/cooldown/spell/conjure
-	sound = 'sound/items/welder.ogg'
 	school = SCHOOL_CONJURATION
 
 	/// A list of types that will be created on summon.

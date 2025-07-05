@@ -18,7 +18,7 @@
 
 	projectile_type = /obj/projectile/magic/acidsplash
 
-/datum/action/cooldown/spell/projectile/acid_splash/ready_projectile(/obj/projectile/magic/acidsplash/to_fire, atom/target, mob/user, iteration)
+/datum/action/cooldown/spell/projectile/acid_splash/ready_projectile(obj/projectile/magic/acidsplash/to_fire, atom/target, mob/user, iteration)
 	. = ..()
 	to_fire.damage *= attuned_strength
 	to_fire.aoe_range *= attuned_strength

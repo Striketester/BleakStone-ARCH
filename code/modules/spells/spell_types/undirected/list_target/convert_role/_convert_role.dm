@@ -65,4 +65,5 @@
 	cast_on.job = new_role
 	cast_on.advjob = new_role
 	cast_on.migrant_type = null
-	SEND_SIGNAL(SSdcs, COMSIG_GLOB_ROLE_CONVERTED, owner, cast_on, new_role)
+
+	SEND_SIGNAL(SSdcs, COMSIG_GLOBAL_ROLE_CONVERTED, owner, cast_on, new_role)

@@ -2,7 +2,7 @@
 	name = "Summon Trident"
 	desc = "Summon a trident from Abyssor's domain."
 	button_icon_state = "lightning"
-	sound = 'sound/foley/jumpland/waterland.wav'
+	sound = 'sound/foley/jumpland/waterland.ogg'
 
 	spell_flags = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY

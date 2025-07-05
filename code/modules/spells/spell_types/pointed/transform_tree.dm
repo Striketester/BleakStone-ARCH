@@ -1,31 +1,35 @@
-/obj/effect/proc_holder/spell/invoked/transform_tree
+/datum/action/cooldown/spell/transfrom_tree
 	name = "Transform Tree"
-	invocation_type = "whisper"
-	overlay_state = "entangle"
-	range = 1
-	recharge_time = 20 SECONDS
-	uses_mana = FALSE
+	button_icon_state = "entangle"
+
+	cast_range = 1
+	cooldown_time = 20 SECONDS
+
 	var/uses = 3
 
-/obj/effect/proc_holder/spell/invoked/transform_tree/cast(list/targets, mob/user = usr)
-	var/mob/living/carbon/human/H = user
-	if(!istype(H))
+/datum/action/cooldown/spell/transfrom_tree/can_cast_spell(feedback)
+	. = ..()
+	if(!.)
 		return
+	if(!ishuman(owner))
+		return FALSE
 
-	var/atom/target_atom = targets[1]
+/datum/action/cooldown/spell/transfrom_tree/cast(atom/cast_on)
+	. = ..()
+	var/mob/living/carbon/human/H = owner
 	var/obj/structure/flora/target
 
-	if(istype(target_atom, /obj/structure/flora/tree) && !istype(target_atom, /obj/structure/flora/tree/wise) && !istype(target_atom, /obj/structure/flora/tree/stump))
-		target = target_atom
-	else if(istype(target_atom, /obj/structure/flora/newtree))
-		target = target_atom
-	else if(target_atom.loc && (get_dist(user, target_atom.loc) <= 1))
-		for(var/obj/structure/flora/tree/T in target_atom.loc)
+	if(istype(cast_on, /obj/structure/flora/tree) && !istype(cast_on, /obj/structure/flora/tree/wise) && !istype(cast_on, /obj/structure/flora/tree/stump))
+		target = cast_on
+	else if(istype(cast_on, /obj/structure/flora/newtree))
+		target = cast_on
+	else if(cast_on.loc && (get_dist(owner, cast_on.loc) <= 1))
+		for(var/obj/structure/flora/tree/T in cast_on.loc)
 			if(!istype(T, /obj/structure/flora/tree/wise) && !istype(T, /obj/structure/flora/tree/stump))
 				target = T
 				break
 		if(!target)
-			for(var/obj/structure/flora/newtree/NT in target_atom.loc)
+			for(var/obj/structure/flora/newtree/NT in cast_on.loc)
 				if(!NT.burnt)
 					target = NT
 					break
@@ -41,7 +45,7 @@
 
 	if(uses <= 0)
 		to_chat(H, span_warning("Your blessing has been exhausted!"))
-		H.mind.RemoveSpell(src)
+		H.remove_spell(src)
 		return
 
 	H.visible_message(span_notice("[H] begins chanting to transform the tree."), \
@@ -79,7 +83,7 @@
 	qdel(target)
 
 	uses--
-	SEND_SIGNAL(user, COMSIG_TREE_TRANSFORMED)
+	SEND_SIGNAL(owner, COMSIG_TREE_TRANSFORMED)
 	if(uses > 0)
 		to_chat(H, span_notice("You transform the tree into a wise tree. [uses] use\s remaining."))
 	else
@@ -88,6 +92,4 @@
 
 	if(uses <= 0)
 		to_chat(H, span_warning("Dendor's blessing fades from you."))
-		H.mind.RemoveSpell(src)
-
-	return ..()
+		H.remove_spell(src)
