@@ -33,12 +33,12 @@
 /turf/open/floor/hexstone,
 /area/rogue/indoors/town/garrison)
 "abm" = (
-/obj/structure/table/wood{
-	icon_state = "map6"
-	},
 /obj/item/reagent_containers/glass/cup/silver{
 	pixel_x = -6;
 	pixel_y = 7
+	},
+/obj/structure/table/map/rosewood{
+	dir = 9
 	},
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
@@ -3308,8 +3308,8 @@
 /turf/open/floor/ruinedwood/spiralfade,
 /area/rogue/indoors/town/garrison)
 "bOa" = (
-/obj/structure/table/wood{
-	icon_state = "map4"
+/obj/structure/table/map/rosewood{
+	dir = 5
 	},
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
@@ -8471,8 +8471,8 @@
 /turf/open/floor/church,
 /area/rogue/indoors/town/church)
 "eDd" = (
-/obj/structure/table/wood{
-	icon_state = "map6"
+/obj/structure/table/map/rosewood{
+	dir = 9
 	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
@@ -8757,13 +8757,11 @@
 /turf/open/transparent,
 /area/rogue/indoors/town/tavern)
 "eMb" = (
-/obj/structure/table/wood{
-	icon_state = "map2"
-	},
 /obj/item/reagent_containers/glass/cup/silver{
 	pixel_x = -7;
 	pixel_y = 9
 	},
+/obj/structure/table/map/rosewood,
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
 "eMl" = (
@@ -11446,8 +11444,8 @@
 /turf/open/floor/ruinedwood/chevron,
 /area/rogue/indoors/town/orphanage)
 "gmd" = (
-/obj/structure/table/wood{
-	icon_state = "map1"
+/obj/structure/table/map/rosewood{
+	dir = 10
 	},
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
@@ -14789,10 +14787,10 @@
 /turf/closed/wall/mineral/wood/window,
 /area/rogue/indoors/ship)
 "ieN" = (
-/obj/structure/table/wood{
-	icon_state = "map5"
-	},
 /obj/item/reagent_containers/glass/carafe/silver/redwine,
+/obj/structure/table/map/rosewood{
+	dir = 1
+	},
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
 "ieX" = (
@@ -18449,6 +18447,10 @@
 	},
 /turf/open/floor/cobblerock,
 /area/rogue/outdoors/town)
+"kmQ" = (
+/obj/structure/table/map/rosewood,
+/turf/open/floor/carpet/lord/center,
+/area/rogue/indoors/town/manor)
 "kmU" = (
 /turf/open/floor/wood,
 /area/rogue/indoors/villagegarrison)
@@ -32996,8 +32998,8 @@
 /turf/open/floor/woodturned,
 /area/rogue/indoors/town/manor)
 "seU" = (
-/obj/structure/table/wood{
-	icon_state = "map5"
+/obj/structure/table/map/rosewood{
+	dir = 1
 	},
 /turf/open/floor/carpet/lord/center,
 /area/rogue/indoors/town/manor)
@@ -33877,8 +33879,8 @@
 /turf/open/floor/cobble,
 /area/rogue/under/town/sewer)
 "sCV" = (
-/obj/structure/table/wood{
-	icon_state = "map3"
+/obj/structure/table/map/rosewood{
+	dir = 6
 	},
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
@@ -34000,6 +34002,12 @@
 	},
 /turf/open/floor/wood,
 /area/rogue/outdoors/town)
+"sGm" = (
+/obj/structure/table/map/rosewood{
+	dir = 5
+	},
+/turf/open/floor/carpet/lord/center,
+/area/rogue/indoors/town/manor)
 "sGs" = (
 /obj/structure/fluff/railing/border{
 	dir = 4
@@ -41516,6 +41524,12 @@
 	},
 /turf/open/floor/woodturned/nosmooth/saiga,
 /area/rogue/under/town/basement)
+"wHA" = (
+/obj/structure/table/map/rosewood{
+	dir = 10
+	},
+/turf/open/floor/carpet/lord/center,
+/area/rogue/indoors/town/manor)
 "wHG" = (
 /turf/open/floor/ruinedwood/spiral,
 /area/rogue/indoors/town/smithy)
@@ -42191,6 +42205,12 @@
 	dir = 1
 	},
 /area/rogue/outdoors/river)
+"xcF" = (
+/obj/structure/table/map/rosewood{
+	dir = 6
+	},
+/turf/open/floor/carpet/lord/center,
+/area/rogue/indoors/town/manor)
 "xcT" = (
 /obj/structure/fluff/walldeco/mageguild{
 	pixel_y = 32
@@ -185594,8 +185614,8 @@ bGg
 vvE
 bGg
 bGg
-fAF
-lMC
+sGm
+wHA
 hbG
 bGg
 bJj
@@ -185797,7 +185817,7 @@ meG
 bGg
 lDB
 seU
-kXJ
+kmQ
 hbG
 bGg
 gsd
@@ -185999,7 +186019,7 @@ vvE
 bGg
 bGg
 eDd
-brL
+xcF
 hbG
 bGg
 bJj
