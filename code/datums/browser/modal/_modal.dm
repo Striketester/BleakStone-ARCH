@@ -10,7 +10,7 @@
 	/// If this modal has been closed.
 	var/final/closed = FALSE
 	/// This modal's selected choice.
-	var/final/choice = CHOICE_NO
+	var/final/choice = null
 	/// The time in deciseconds before this modal is cancelled.
 	var/final/timeout = 0
 	/// If the modal will continuously regrab focus.

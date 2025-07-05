@@ -75,7 +75,7 @@
 	var/datum/browser/window
 	var/mob/living/user
 
-/datum/spell_interface/New(/datum/action/cooldown/spell/undirected/learn/M, mob/U)
+/datum/spell_interface/New(datum/action/cooldown/spell/undirected/learn/M, mob/U)
 	matrix = M
 	user = U
 

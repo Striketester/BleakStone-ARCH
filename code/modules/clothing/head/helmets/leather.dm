@@ -92,7 +92,6 @@
 	desc = "Boiled leather kettle-like helmet with a headlamp, fueled by magiks."
 	icon_state = "minerslamp"
 	item_state = "minerslamp"
-	actions_types = list(/datum/action/item_action/toggle_helmet_light)
 	sellprice = VALUE_LEATHER_HELMET+BONUS_VALUE_MODEST
 
 	armor = ARMOR_PADDED
@@ -116,7 +115,6 @@
 	else
 		turn_off(user)
 	update_appearance(UPDATE_ICON_STATE)
-	update_item_action_buttons()
 
 /obj/item/clothing/head/helmet/leather/minershelm/update_icon_state()
 	. = ..()

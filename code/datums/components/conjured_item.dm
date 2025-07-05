@@ -83,4 +83,4 @@
 
 /datum/component/conjured_item/proc/on_examine(datum/source, mob/user, list/examine_list)
 	examine_list += "This item crackles with faint arcane energy. It seems to be conjured."
-	examine_list += "It will last for [timeleft(decay_timer) * SECONDS] more seconds."
+	examine_list += "It will last for [timeleft(decay_timer) SECONDS] more seconds."

@@ -15,7 +15,7 @@
 	cooldown_time = 30 SECONDS
 	spell_cost = 40
 
-/datum/action/cooldown/spell/raise_undead/is_valid_cast_on(atom/cast_on)
+/datum/action/cooldown/spell/raise_undead/is_valid_target(atom/cast_on)
 	return ishuman(cast_on) && !istype(cast_on, /mob/living/carbon/human/species/goblin)
 
 /datum/action/cooldown/spell/raise_undead/before_cast(mob/living/carbon/human/cast_on)
@@ -40,7 +40,6 @@
 
 	if(cast_on.ckey) //player still inside body
 		var/offer = browser_alert(cast_on, "Do you wish to be reanimated as a minion?", "RAISED BY NECROMANCER", DEFAULT_INPUT_CHOICES, 5 SECONDS)
-		var/offer_time = world.time
 
 		if(offer == CHOICE_YES)
 			to_chat(cast_on, span_danger("You rise as a minion."))

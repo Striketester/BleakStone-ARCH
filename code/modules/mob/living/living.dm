@@ -1837,10 +1837,6 @@
 	if(!(mobility_flags & MOBILITY_USE))
 		drop_all_held_items()
 
-/mob/living/proc/add_abilities_to_panel()
-	for(var/obj/effect/proc_holder/A in abilities)
-		statpanel("[A.panel]",A.get_panel_text(),A)
-
 /// Called when mob changes from a standing position into a prone while lacking the ability to stand up at the moment.
 /mob/living/proc/on_fall()
 	return
@@ -2546,14 +2542,14 @@
 			return spell
 
 /// Add a spell to the mob via typepath
-/mob/living/proc/add_spell(datum/action/cooldown/spell/spell, silent = TRUE, source)
+/mob/living/proc/add_spell(datum/action/cooldown/spell/spell_type, silent = TRUE, source)
 	if(QDELETED(src))
 		return
-	if(get_spell(spell))
+	if(get_spell(spell_type))
 		return
 	if(!source)
 		source = src
-	var/datum/action/spell = new(source)
+	var/datum/action/spell = new spell_type(source)
 	if(!silent)
 		to_chat(src, span_nicegreen("I learnt [spell.name]!"))
 	spell.Grant(src)

@@ -34,7 +34,7 @@
 		TRAIT_DEATHSIGHT,
 	)
 
-	var/static/list/spells = list(
+	var/list/spells = list(
 		/datum/action/cooldown/spell/projectile/fireball,
 		/datum/action/cooldown/spell/projectile/blood_bolt,
 		/datum/action/cooldown/spell/projectile/sickness,

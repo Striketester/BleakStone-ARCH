@@ -34,7 +34,6 @@
 	var/burndam = 20
 	if(user.mind)
 		burndam -= (user.get_skill_level(/datum/skill/misc/medicine) * 3)
-	var/unzombification_pq = 0.1
 	var/datum/antagonist/zombie/was_zombie = target.mind?.has_antag_datum(/datum/antagonist/zombie)
 	var/has_rot = was_zombie
 	if(!has_rot && iscarbon(target))

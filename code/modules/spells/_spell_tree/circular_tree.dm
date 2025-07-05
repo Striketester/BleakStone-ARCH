@@ -3,7 +3,7 @@
 	desc = "Create an invisible, magical eye."
 	node_x = 0
 	node_y = 0
-	spell_type = /obj/effect/proc_holder/spell/self/arcyne_eye
+	spell_type = /datum/action/cooldown/spell/undirected/arcyne_eye
 
 /datum/spell_node/illusionist
 	name = "Illusionist"
@@ -26,7 +26,7 @@
 	node_x = 90
 	node_y = -110
 	prerequisites = list(/datum/spell_node/illusionist)
-	spell_type = /obj/effect/proc_holder/spell/targeted/touch/nondetection
+	spell_type = /datum/action/cooldown/spell/undirected/touch/non_detection
 
 /datum/spell_node/forcewall_weak
 	name = "Weak Force Wall"
@@ -34,7 +34,7 @@
 	node_x = 110
 	node_y = -90
 	prerequisites = list(/datum/spell_node/illusionist)
-	spell_type = /obj/effect/proc_holder/spell/invoked/forcewall_weak
+	spell_type = /datum/action/cooldown/spell/undirected/forcewall
 
 /datum/spell_node/mana_well
 	name = "Mana Well"
@@ -101,7 +101,7 @@
 	node_x = -110
 	node_y = -110
 	prerequisites = list(/datum/spell_node/primal_savagery)
-	spell_type = /obj/effect/proc_holder/spell/invoked/findfamiliar
+	spell_type = /datum/action/cooldown/spell/conjure/familiar
 
 /datum/spell_node/primal_savagery
 	name = "Primal Savagery"
@@ -109,7 +109,7 @@
 	node_x = -50
 	node_y = -50
 	prerequisites = list(/datum/spell_node/earth_affinity, /datum/spell_node/arcyne_affinity)
-	spell_type = /obj/effect/proc_holder/spell/self/primalsavagery5e
+	spell_type = /datum/action/cooldown/spell/status/primal_savagery
 
 
 /datum/spell_node/blood_pact
@@ -132,7 +132,7 @@
 	node_x = -110
 	node_y = 110
 	prerequisites = list(/datum/spell_node/blood_pact)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning
+	spell_type = /datum/action/cooldown/spell/projectile/blood_bolt
 
 /datum/spell_node/elemental_harmony
 	name = "Elemental Harmony"
@@ -188,7 +188,7 @@
 	node_x = RIGHT_X_TIER_2
 	node_y = RIGHT_Y_LEFT
 	prerequisites = list(/datum/spell_node/death_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/acidsplash5e
+	spell_type = /datum/action/cooldown/spell/projectile/acid_splash
 
 /datum/spell_node/infestation
 	name = "Infestation"
@@ -196,7 +196,7 @@
 	node_x = RIGHT_X_TIER_2
 	node_y = RIGHT_Y_LEFT - 50
 	prerequisites = list(/datum/spell_node/death_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/infestation5e
+	spell_type = /datum/action/cooldown/spell/status/infestation
 
 /datum/spell_node/decompose
 	name = "Decompose"
@@ -204,7 +204,7 @@
 	node_x = RIGHT_X_TIER_3
 	node_y = RIGHT_Y_LEFT - 50
 	prerequisites = list(/datum/spell_node/infestation)
-	spell_type = /obj/effect/proc_holder/spell/invoked/decompose5e
+	spell_type = /datum/action/cooldown/spell/decompose
 
 /datum/spell_node/poison_spray
 	name = "Poison Spray"
@@ -212,7 +212,7 @@
 	node_x = RIGHT_X_TIER_3
 	node_y = RIGHT_Y_LEFT
 	prerequisites = list(/datum/spell_node/acid_splash)
-	spell_type = /obj/effect/proc_holder/spell/invoked/poisonspray5e
+	spell_type = /datum/action/cooldown/spell/undirected/create_cloud
 
 /datum/spell_node/green_flame_blade
 	name = "Green-Flame Blade"
@@ -220,7 +220,7 @@
 	node_x = RIGHT_X_TIER_2
 	node_y = RIGHT_Y_RIGHT + 50
 	prerequisites = list(/datum/spell_node/fire_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/greenflameblade5e
+	spell_type = /datum/action/cooldown/spell/enchantment/green_flame
 
 /datum/spell_node/spitfire
 	name = "Spitfire"
@@ -228,7 +228,7 @@
 	node_x = RIGHT_X_TIER_2
 	node_y = RIGHT_Y_RIGHT
 	prerequisites = list(/datum/spell_node/fire_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/spitfire
+	spell_type = /datum/action/cooldown/spell/projectile/fire_flare
 
 /datum/spell_node/fireball
 	name = "Fireball"
@@ -236,7 +236,7 @@
 	node_x = RIGHT_X_TIER_3
 	node_y = RIGHT_Y_RIGHT
 	prerequisites = list(/datum/spell_node/spitfire)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/fireball
+	spell_type = /datum/action/cooldown/spell/projectile/fireball
 
 /datum/spell_node/meteor_storm
 	name = "Meteor Storm"
@@ -244,7 +244,7 @@
 	node_x = RIGHT_X_TIER_3
 	node_y = RIGHT_Y_RIGHT + 50
 	prerequisites = list(/datum/spell_node/fireball, /datum/spell_node/green_flame_blade)
-	spell_type = /obj/effect/proc_holder/spell/invoked/meteor_storm
+	spell_type = /datum/action/cooldown/spell/aoe/on_turf/meteor_storm
 
 /datum/spell_node/message
 	name = "Message"
@@ -252,7 +252,7 @@
 	node_x = 0
 	node_y = -100
 	prerequisites = list(/datum/spell_node/arcyne_eye)
-	spell_type = /obj/effect/proc_holder/spell/self/message
+	spell_type = /datum/action/cooldown/spell/undirected/message
 
 /datum/spell_node/arcyne_affinity
 	name = "Arcyne Affinity"
@@ -282,7 +282,7 @@
 	node_x = 0
 	node_y = DOWN_Y_TIER_1 - 30
 	prerequisites = list(/datum/spell_node/air_affinity, /datum/spell_node/arcyne_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/boomingblade5e
+	//spell_type = /obj/effect/proc_holder/spell/invoked/boomingblade5e
 
 /datum/spell_node/blade_ward
 	name = "Blade Ward"
@@ -290,8 +290,7 @@
 	node_x = 0
 	node_y = DOWN_Y_TIER_1 - 70
 	prerequisites = list(/datum/spell_node/air_affinity, /datum/spell_node/arcyne_affinity)
-	spell_type = /obj/effect/proc_holder/spell/self/bladeward
-	is_passive = TRUE
+	spell_type = /datum/action/cooldown/spell/undirected/blade_ward
 
 /datum/spell_node/air_affinity/on_node_buy(mob/user)
 	user.mana_pool?.adjust_attunement(/datum/attunement/aeromancy, 0.15)
@@ -303,7 +302,7 @@
 	node_x = DOWN_X_RIGHT
 	node_y = DOWN_Y_TIER_2
 	prerequisites = list(/datum/spell_node/air_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/longstrider
+	spell_type = /datum/action/cooldown/spell/undirected/longstrider
 
 /datum/spell_node/haste
 	name = "Haste"
@@ -311,7 +310,7 @@
 	node_x = DOWN_X_RIGHT
 	node_y = DOWN_Y_TIER_3
 	prerequisites = list(/datum/spell_node/longstrider)
-	spell_type = /obj/effect/proc_holder/spell/invoked/haste
+	spell_type = /datum/action/cooldown/spell/status/haste
 
 /datum/spell_node/repel
 	name = "Repel"
@@ -319,7 +318,7 @@
 	node_x = DOWN_X_RIGHT + 100
 	node_y = DOWN_Y_TIER_3
 	prerequisites = list(/datum/spell_node/haste)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/repel
+	spell_type = /datum/action/cooldown/spell/projectile/repel
 
 /datum/spell_node/featherfall
 	name = "Featherfall"
@@ -327,7 +326,7 @@
 	node_x = DOWN_X_RIGHT + 50
 	node_y = DOWN_Y_TIER_2
 	prerequisites = list(/datum/spell_node/air_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/featherfall
+	spell_type = /datum/action/cooldown/spell/undirected/feather_falling
 
 /datum/spell_node/slowdown_aoe
 	name = "Mass Slowdown"
@@ -335,7 +334,7 @@
 	node_x = DOWN_X_RIGHT + 50
 	node_y = DOWN_Y_TIER_2 - 50
 	prerequisites = list(/datum/spell_node/featherfall)
-	spell_type = /obj/effect/proc_holder/spell/invoked/slowdown_spell_aoe
+	spell_type = /datum/action/cooldown/spell/aoe/on_turf/ensnare
 
 /datum/spell_node/fetch
 	name = "Fetch"
@@ -343,7 +342,7 @@
 	node_x = DOWN_X_LEFT
 	node_y = DOWN_Y_TIER_2
 	prerequisites = list(/datum/spell_node/arcyne_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/fetch
+	spell_type = /datum/action/cooldown/spell/projectile/fetch
 
 /datum/spell_node/arcane_bolt
 	name = "Arcane Bolt"
@@ -351,7 +350,7 @@
 	node_x = DOWN_X_LEFT -50
 	node_y = DOWN_Y_TIER_2
 	prerequisites = list(/datum/spell_node/arcyne_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/arcanebolt
+	spell_type = /datum/action/cooldown/spell/projectile/arcyne_bolt
 
 /datum/spell_node/arcyne_storm
 	name = "Arcane Storm"
@@ -359,7 +358,7 @@
 	node_x = DOWN_X_LEFT -25
 	node_y = DOWN_Y_TIER_3
 	prerequisites = list(/datum/spell_node/arcane_bolt, /datum/spell_node/fetch)
-	spell_type = /obj/effect/proc_holder/spell/invoked/arcyne_storm
+	spell_type = /datum/action/cooldown/spell/aoe/on_turf/arcyne_storm
 
 /datum/spell_node/light
 	name = "Light"
@@ -367,7 +366,7 @@
 	node_x = -100
 	node_y = 0
 	prerequisites = list(/datum/spell_node/arcyne_eye)
-	spell_type = /obj/effect/proc_holder/spell/self/light
+	spell_type = /datum/action/cooldown/spell/undirected/conjure_item/light
 
 /datum/spell_node/darkvision
 	name = "Darkvision"
@@ -375,7 +374,7 @@
 	node_x = LEFT_X_TIER_1 - 30
 	node_y = 0
 	prerequisites = list(/datum/spell_node/light)
-	spell_type = /obj/effect/proc_holder/spell/targeted/touch/darkvision
+	spell_type = /datum/action/cooldown/spell/undirected/touch/darkvision
 
 /datum/spell_node/electric_affinity
 	name = "Electric Affinity"
@@ -409,7 +408,7 @@
 	node_x = LEFT_X_TIER_2
 	node_y = LEFT_Y_LEFT
 	prerequisites = list(/datum/spell_node/earth_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/guidance
+	spell_type = /datum/action/cooldown/spell/status/guidance
 
 /datum/spell_node/magic_stone
 	name = "Magician's Brick"
@@ -417,7 +416,7 @@
 	node_x = LEFT_X_TIER_2
 	node_y = LEFT_Y_LEFT - 50
 	prerequisites = list(/datum/spell_node/earth_affinity)
-	spell_type = /obj/effect/proc_holder/spell/self/magicians_brick
+	spell_type = /datum/action/cooldown/spell/undirected/conjure_item/brick
 
 /datum/spell_node/flower_field
 	name = "Flower Field"
@@ -425,8 +424,7 @@
 	node_x = LEFT_X_TIER_3
 	node_y = LEFT_Y_LEFT - 50
 	prerequisites = list(/datum/spell_node/magic_stone)
-	spell_type = /obj/effect/proc_holder/spell/invoked/flowerfield
-
+	spell_type = /datum/action/cooldown/spell/conjure/flower_field
 
 /datum/spell_node/storm_caller
 	name = "Storm Caller"
@@ -448,7 +446,7 @@
 	node_x = LEFT_X_TIER_2
 	node_y = LEFT_Y_RIGHT + 50
 	prerequisites = list(/datum/spell_node/electric_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt
+	spell_type = /datum/action/cooldown/spell/projectile/lightning
 
 /datum/spell_node/mana_conservation
 	name = "Mana Conservation"
@@ -469,7 +467,7 @@
 	node_x = LEFT_X_TIER_3
 	node_y = LEFT_Y_RIGHT + 50
 	prerequisites = list(/datum/spell_node/lightning_bolt, /datum/spell_node/mana_conservation)
-	spell_type = /obj/effect/proc_holder/spell/invoked/sundering_lightning
+	spell_type = /datum/action/cooldown/spell/sundering_lightning
 
 /datum/spell_node/blade_burst
 	name = "Blade Burst"
@@ -477,7 +475,7 @@
 	node_x = LEFT_X_TIER_3
 	node_y = LEFT_Y_LEFT
 	prerequisites = list(/datum/spell_node/guidance)
-	spell_type = /obj/effect/proc_holder/spell/invoked/blade_burst
+	spell_type = /datum/action/cooldown/spell/blade_burst
 
 /datum/spell_node/prestidigitation
 	name = "Prestidigitation"
@@ -485,7 +483,7 @@
 	node_x = 0
 	node_y = 100
 	prerequisites = list(/datum/spell_node/arcyne_eye)
-	spell_type = /obj/effect/proc_holder/spell/targeted/touch/prestidigitation
+	spell_type = /datum/action/cooldown/spell/undirected/touch/prestidigitation
 
 /datum/spell_node/frost_affinity
 	name = "Frost Affinity"
@@ -506,7 +504,7 @@
 	node_x = UP_X_RIGHT + 50
 	node_y = UP_Y_TIER_1
 	prerequisites = list(/datum/spell_node/frost_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/snap_freeze
+	spell_type = /datum/action/cooldown/spell/aoe/on_turf/snap_freeze
 
 /datum/spell_node/dark_attunement
 	name = "Dark Affinity"
@@ -527,7 +525,7 @@
 	node_x = UP_X_LEFT
 	node_y = UP_Y_TIER_2
 	prerequisites = list(/datum/spell_node/dark_attunement)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/eldritchblast5e
+	spell_type = /datum/action/cooldown/spell/projectile/eldritch_blast
 
 /datum/spell_node/encode_thoughts
 	name = "Encode Thoughts"
@@ -535,15 +533,15 @@
 	node_x = UP_X_LEFT - 50
 	node_y = UP_Y_TIER_2
 	prerequisites = list(/datum/spell_node/dark_attunement)
-	spell_type = /obj/effect/proc_holder/spell/targeted/encodethoughts5e
+	spell_type = /datum/action/cooldown/spell/undirected/list_target/encode_thoughts
 
 /datum/spell_node/mind_sliver
-	name = "Mind Sliver"
+	name = "Mind Spike"
 	desc = "Drive a disorienting spike of psychic energy."
 	node_x = UP_X_LEFT - 50
 	node_y = UP_Y_TIER_3
 	prerequisites = list(/datum/spell_node/encode_thoughts)
-	spell_type = /obj/effect/proc_holder/spell/invoked/mindsliver5e
+	spell_type = /datum/action/cooldown/spell/mind_spike
 
 /datum/spell_node/gravity
 	name = "Gravity"
@@ -551,7 +549,7 @@
 	node_x = UP_X_LEFT
 	node_y = UP_Y_TIER_3
 	prerequisites = list(/datum/spell_node/mind_sliver, /datum/spell_node/eldritch_blast)
-	spell_type = /obj/effect/proc_holder/spell/invoked/gravity
+	spell_type = /datum/action/cooldown/spell/gravity
 
 
 /datum/spell_node/ray_of_frost
@@ -560,7 +558,7 @@
 	node_x = UP_X_RIGHT
 	node_y = UP_Y_TIER_2
 	prerequisites = list(/datum/spell_node/frost_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/beam/rayoffrost5e
+	//spell_type = /obj/effect/proc_holder/spell/invoked/beam/rayoffrost5e
 
 /datum/spell_node/chill_touch
 	name = "Chill Touch"
@@ -568,7 +566,7 @@
 	node_x = UP_X_RIGHT + 50
 	node_y = UP_Y_TIER_2
 	prerequisites = list(/datum/spell_node/frost_affinity)
-	spell_type = /obj/effect/proc_holder/spell/invoked/chilltouch5e
+	spell_type = /datum/action/cooldown/spell/chill_touch
 
 /datum/spell_node/frostbite
 	name = "Frostbite"
@@ -576,7 +574,7 @@
 	node_x = UP_X_RIGHT + 50
 	node_y = UP_Y_TIER_2 + 50
 	prerequisites = list(/datum/spell_node/chill_touch)
-	spell_type = /obj/effect/proc_holder/spell/invoked/frostbite5e
+	spell_type = /datum/action/cooldown/spell/status/frostbite
 
 /datum/spell_node/frostbolt
 	name = "Frostbolt"
@@ -584,7 +582,7 @@
 	node_x = UP_X_RIGHT
 	node_y = UP_Y_TIER_3
 	prerequisites = list(/datum/spell_node/ray_of_frost)
-	spell_type = /obj/effect/proc_holder/spell/invoked/projectile/frostbolt
+	spell_type = /datum/action/cooldown/spell/projectile/frost_bolt
 
 
 /datum/spell_node/gib

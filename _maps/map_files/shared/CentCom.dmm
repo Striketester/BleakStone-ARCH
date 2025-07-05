@@ -1724,10 +1724,6 @@
 /obj/structure/irrigation_channel,
 /turf/open/floor/grass/yel,
 /area/rogue/outdoors)
-"hQ" = (
-/obj/effect/proc_holder/spell/invoked/heal,
-/turf/open/floor/carpet,
-/area/rogue/indoors)
 "hR" = (
 /obj/item/weapon/thresher,
 /obj/item/weapon/thresher,
@@ -17727,7 +17723,7 @@ UN
 Tk
 fy
 Eg
-hQ
+fy
 fy
 fy
 fy

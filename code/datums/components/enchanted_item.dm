@@ -28,7 +28,7 @@
 	refresh_count = 4,
 	refresh_skill = /datum/skill/magic/arcane,
 	skill_threshold = SKILL_LEVEL_JOURNEYMAN,
-	enchant_type = SEARING_BLADE,
+	enchant_type = SEARING_BLADE_ENCHANT,
 	current_user,
 )
 	if(!istype(parent, /obj/item/weapon))
@@ -111,7 +111,7 @@
 		examine_list += "This weapon is enchanted with a force blade enchantment."
 	else if(enchant_type == DURABILITY_ENCHANT)
 		examine_list += "This weapon is enchanted with a durability enchantment."
-	examine_list += "It will last for [timeleft(decay_timer) * SECONDS] more seconds."
+	examine_list += "It will last for [timeleft(decay_timer) SECONDS] more seconds."
 
 /datum/component/enchanted_weapon/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	if(enchant_type == SEARING_BLADE_ENCHANT)
