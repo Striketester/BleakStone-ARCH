@@ -20,20 +20,44 @@
 	reagent_flags = OPENCONTAINER
 	spillable = TRUE
 	var/obj/item/to_grind
-	var/grinding = FALSE
 	grid_height = 32
 	grid_width = 64
 	dropshrink = 0.9
 
 /obj/item/reagent_containers/glass/mortar/attack_right(mob/user)
 	user.changeNext_move(CLICK_CD_MELEE)
-	if(to_grind)
-		var/obj/item/N = to_grind
-		N.forceMove(get_turf(user))
-		to_chat(user, "<span class='notice'>I remove [to_grind] from the mortar.</span>")
-		to_grind = null
-		return
-	to_chat(user, "<span class='notice'>It's empty.</span>")
+	var/held_item = user.get_active_held_item()
+	if(istype(held_item, /obj/item/pestle))
+		if(!to_grind)
+			to_chat(user, "<span class='warning'>There's nothing to grind.</span>")
+			return
+		if((!to_grind.grind_results && !to_grind.juice_results))
+			to_chat(user, span_warning("I cannot juice this ingredient."))
+			return
+		to_chat(user, "<span class='notice'>I start grinding...</span>")
+		if((do_after(user, 2.5 SECONDS, src)) && to_grind)
+			if(to_grind.juice_results) //prioritize juicing
+				to_grind.on_juice()
+				reagents.add_reagent_list(to_grind.juice_results)
+				to_chat(user, "<span class='notice'>I juice [to_grind] into a fine liquid.</span>")
+				if(to_grind.reagents) //food and pills
+					to_grind.reagents.trans_to(src, to_grind.reagents.total_volume, transfered_by = user)
+				QDEL_NULL(to_grind)
+				return
+			to_grind.on_grind()
+			reagents.add_reagent_list(to_grind.grind_results)
+			to_chat(user, "<span class='notice'>I break [to_grind] into powder.</span>")
+			QDEL_NULL(to_grind)
+			return
+
+	else
+		if(to_grind)
+			var/obj/item/N = to_grind
+			N.forceMove(get_turf(user))
+			to_chat(user, "<span class='notice'>I remove [to_grind] from the mortar.</span>")
+			to_grind = null
+			return
+		to_chat(user, "<span class='notice'>It's empty.</span>")
 
 /obj/item/reagent_containers/glass/mortar/AltClick(mob/user)
 	if(to_grind)
@@ -52,43 +76,9 @@
 
 		// Check for alchemical recipe first
 		var/datum/alch_grind_recipe/foundrecipe = find_recipe()
-		if(grinding)
-			return
-		grinding = TRUE
-		var/choice
-		// If item has grind/juice results but no alchemical recipe, default to reagent processing
-		if((to_grind.grind_results || to_grind.juice_results))
-			choice = "Process"
-			if(foundrecipe) // If both options are valid
-				choice = input(user, "What would you like to do?", "Grinding Options") as null|anything in list("Alchemy", "Process")
-				if(!choice)
-					grinding = FALSE
-					return
-
-		if(choice == "Process")
-			to_chat(user, "<span class='notice'>I start grinding...</span>")
-			if((do_after(user, 2.5 SECONDS, src)) && to_grind)
-				if(to_grind.juice_results) //prioritize juicing
-					to_grind.on_juice()
-					reagents.add_reagent_list(to_grind.juice_results)
-					to_chat(user, "<span class='notice'>I juice [to_grind] into a fine liquid.</span>")
-					if(to_grind.reagents) //food and pills
-						to_grind.reagents.trans_to(src, to_grind.reagents.total_volume, transfered_by = user)
-					QDEL_NULL(to_grind)
-					grinding = FALSE
-					return
-				to_grind.on_grind()
-				reagents.add_reagent_list(to_grind.grind_results)
-				to_chat(user, "<span class='notice'>I break [to_grind] into powder.</span>")
-				QDEL_NULL(to_grind)
-			grinding = FALSE
-			return
-
 		if(!foundrecipe)
 			to_chat(user, "<span class='warning'>You dont think that will work!</span>")
-			grinding = FALSE
 			return
-
 		// Process alchemical recipe
 		user.visible_message("<span class='info'>[user] begins grinding up [I].</span>")
 		playsound(loc, 'sound/foley/mortarpestle.ogg', 100, FALSE)
@@ -120,7 +110,6 @@
 			QDEL_NULL(to_grind)
 			if(user.mind)
 				user.adjust_experience(/datum/skill/craft/alchemy, user.STAINT * user.get_learning_boon(/datum/skill/craft/alchemy), FALSE)
-		grinding = FALSE
 		return
 
 	if(to_grind)
