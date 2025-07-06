@@ -3,8 +3,10 @@
 	name = "Knock"
 	desc = "This spell opens nearby doors and closets."
 	button_icon_state = "knock"
+	click_to_activate = FALSE
 
 	school = SCHOOL_TRANSMUTATION
+	charge_time = 2 SECONDS
 	cooldown_time = 10 SECONDS
 	cooldown_reduction_per_rank = 2 SECONDS
 

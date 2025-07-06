@@ -153,6 +153,8 @@
 			return FALSE
 	if((check_flags & AB_CHECK_CONSCIOUS) && owner.stat != CONSCIOUS)
 		return FALSE
+	if((check_flags & AB_CHECK_PHASED) && HAS_TRAIT(owner, TRAIT_MAGICALLY_PHASED))
+		return FALSE
 	return TRUE
 
 /// Builds / updates all buttons we have shared or given out

@@ -46,7 +46,7 @@
 	background_icon_state = "spell"
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "shieldsparkles"
-	check_flags = AB_CHECK_CONSCIOUS
+	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_PHASED
 	panel = "Spells"
 	click_to_activate = TRUE
 
@@ -151,9 +151,9 @@
 
 	// Following vars are used for mouse pointer charge only
 	/// World time that the charge started
-	var/charge_started_at
+	var/charge_started_at = 0
 	/// Charge target time, from get_charge_time()
-	var/charge_target_time
+	var/charge_target_time = 0
 
 	/// If the spell creates visual effects
 	var/has_visual_effects = TRUE
@@ -170,6 +170,10 @@
 
 	if(click_to_activate && !charge_required)
 		ranged_mousepointer = 'icons/effects/mousemice/charge/spell_charged.dmi'
+
+	if(charge_required && charge_time <= 0)
+		stack_trace("Charging spell [src] ([type]) has no charge time")
+		charge_required = FALSE
 
 /datum/action/cooldown/spell/Destroy()
 	if(charge_required && owner)
@@ -262,10 +266,11 @@
 		on_activation(on_who)
 
 	if(charge_required && click_to_activate)
+		if(currently_charging)
+			return FALSE
+
 		// If pointed we setup signals to override mouse down to call PreActivate()
 		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
-		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEUP, PROC_REF(try_casting))
-		RegisterSignal(owner, COMSIG_MOB_LOGOUT, PROC_REF(caster_logout))
 
 		return FALSE
 
@@ -390,6 +395,8 @@
 		CRASH("[type] - can_cast_spell called on a spell without an owner!")
 
 	for(var/datum/action/cooldown/spell/spell in owner.actions)
+		if(spell == src)
+			continue
 		if(spell.currently_charging)
 			if(feedback)
 				to_chat(owner, span_warning("I am already channeling a spell!"))
@@ -481,6 +488,10 @@
 			cancel_charging()
 		return FALSE
 
+	// Extra safety
+	if(!check_cost())
+		return FALSE
+
 	// Spell is officially being cast
 	if(!(precast_result & SPELL_NO_FEEDBACK))
 		// We do invocation and sound effects here, before actual cast
@@ -547,13 +558,12 @@
 		if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
 			do_after_flags &= ~IGNORE_USER_LOC_CHANGE
 		on_start_charge()
+		var/success = TRUE
 		if(!do_after(owner, get_chargetime(), owner, do_after_flags))
-			on_end_charge(success = FALSE)
-			return sig_return | SPELL_CANCEL_CAST
+			success = FALSE
+			sig_return |= SPELL_CANCEL_CAST
 
-	// Check the cost once more since spells can have a cast time
-	if(!check_cost())
-		sig_return |= SPELL_CANCEL_CAST
+		on_end_charge(success)
 
 	return sig_return
 
@@ -659,6 +669,8 @@
 
 /datum/action/cooldown/spell/proc/cancel_charging()
 	currently_charging = FALSE
+	charge_started_at = 0
+	charge_target_time = 0
 	STOP_PROCESSING(SSmousecharge, src)
 	UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 	UnregisterSignal(owner, list(COMSIG_MOB_LOGOUT, COMSIG_MOVABLE_MOVED))
@@ -842,7 +854,7 @@
 	if(spell_type == SPELL_ESSENCE)
 		return
 
-/// Try to begin the casting process
+/// Try to begin the casting process on mouse down
 /datum/action/cooldown/spell/proc/start_casting(client/source, atom/_target, turf/location, control, params)
 	SIGNAL_HANDLER
 	var/list/modifiers = params2list(params)
@@ -870,6 +882,10 @@
 
 	// We don't actually care about the target or params, we only care about the target on mouse up
 
+	// Register here because the mouse up can get triggered before the mouse down otherwise
+	RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEUP, PROC_REF(try_casting))
+	RegisterSignal(owner, COMSIG_MOB_LOGOUT, PROC_REF(caster_logout))
+
 	on_start_charge()
 
 	if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
@@ -881,11 +897,16 @@
 	charge_started_at = world.time
 	charge_target_time = get_chargetime()
 
-/// Attempt to cast the spell after the mouse down
+/// Attempt to cast the spell after the mouse up
 /datum/action/cooldown/spell/proc/try_casting(client/source, atom/_target, turf/location, control, params)
 	SIGNAL_HANDLER
 
-	var/success = world.time > (charge_started_at + charge_target_time)
+	// This can happen
+	if(!charge_started_at)
+		on_end_charge(FALSE)
+		return
+
+	var/success = world.time >= (charge_started_at + charge_target_time)
 	if(!on_end_charge(success))
 		return
 
