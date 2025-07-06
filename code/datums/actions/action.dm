@@ -37,9 +37,9 @@
 	var/background_icon_state = ACTION_BUTTON_DEFAULT_BACKGROUND
 
 	/// This is the file for the icon that appears on the button
-	var/button_icon = 'icons/hud/actions.dmi'
+	var/button_icon = 'icons/mob/actions/roguespells.dmi'
 	/// This is the icon state for the icon that appears on the button
-	var/button_icon_state = "default"
+	var/button_icon_state = "shieldsparkles"
 
 	/// This is the file for any FOREGROUND overlay icons on the button (such as borders)
 	var/overlay_icon = 'icons/mob/actions/backgrounds.dmi'

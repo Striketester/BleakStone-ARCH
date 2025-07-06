@@ -240,7 +240,7 @@
 
 	return TRUE
 
-/datum/action/cooldown/spell/InterceptClickOn(mob/living/caller, params, atom/click_target)
+/datum/action/cooldown/spell/InterceptClickOn(mob/living/clicker, params, atom/click_target)
 	var/atom/aim_assist_target
 	if(aim_assist && isturf(click_target))
 		// Find any human in the list. We aren't picky, it's aim assist after all
@@ -249,7 +249,7 @@
 			// If we didn't find a human, we settle for any living at all
 			aim_assist_target = locate(/mob/living) in click_target
 
-	return ..(caller, params, aim_assist_target || click_target)
+	return ..(clicker, params, aim_assist_target || click_target)
 
 // Where the cast chain starts
 /datum/action/cooldown/spell/PreActivate(atom/target)
