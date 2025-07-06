@@ -17,10 +17,13 @@
 	spell_cost = 120
 
 	aoe_radius = 6
+	max_targets = 12
 	respect_LOS = FALSE
 
-/datum/action/cooldown/spell/aoe/on_turf/meteor_storm/cast_on_thing_in_aoe(atom/victim, atom/caster)
+/datum/action/cooldown/spell/aoe/on_turf/meteor_storm/cast(atom/cast_on)
 	. = ..()
-	victim.visible_message(span_boldwarning("Fire is raining from the sky!"))
+	cast_on.visible_message(span_boldwarning("Fire is raining from the sky!"))
+
+/datum/action/cooldown/spell/aoe/on_turf/meteor_storm/cast_on_thing_in_aoe(turf/victim, atom/caster)
 	if(prob(20 * attuned_strength))
-		new /obj/effect/temp_visual/target/meteor()
+		new /obj/effect/temp_visual/target/meteor(get_turf(victim))

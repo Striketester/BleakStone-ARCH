@@ -16,10 +16,12 @@
 
 	invocation_type = INVOCATION_NONE
 
+	charge_required = FALSE
+
 	/// What dummy mob type do we put jaunters in on jaunt?
 	var/jaunt_type = /obj/effect/dummy/phased_mob
 
-/datum/action/cooldown/spell/jaunt/before_cast(atom/cast_on)
+/datum/action/cooldown/spell/undirected/jaunt/before_cast(atom/cast_on)
 	return ..() | SPELL_NO_FEEDBACK // Don't do the feedback until after we're jaunting
 
 /datum/action/cooldown/spell/undirected/jaunt/can_cast_spell(feedback = TRUE)
@@ -42,7 +44,6 @@
 		return FALSE
 
 	return isliving(owner)
-
 
 /**
  * Places the [jaunter] in a jaunt holder mob

@@ -59,21 +59,10 @@
 	/// Cost to cast, mana or devotion
 	var/spell_cost = 0
 
-	/// If the spell requires time to charge
-	var/charge_required = TRUE
-	/// If a charging spell can be released early
-	var/early_release = FALSE
-	/// Cost to charge, mana or devoution
-	var/charge_drain = 0
-	/// Time to charge
-	var/charge_time = 0
-	/// Slowdown while charging
-	var/charge_slowdown = 0
-
 	/// The sound played on cast
 	var/sound = null
-	/// Looping sound to play while charging
-	var/sound_loop = /datum/looping_sound/invokegen
+
+	var/sound_loop
 
 	/// If the spell uses the wizard spell rank system, the cooldown reduction per rank of the spell
 	var/cooldown_reduction_per_rank = 0 SECONDS
@@ -139,12 +128,64 @@
 	/// Variable dictating if the spell will use turf based aim assist
 	var/aim_assist = TRUE
 
+	// Charged vars
+	// Like the above, but worse since there is already charging behaviour and we are going to reuse
+	// as little of it as possible because its inconsistent
+	/// If the spell requires time to charge
+	var/charge_required = TRUE
+	/// Whether we're currently charging the spell
+	var/currently_charging = FALSE
+	/// Cost to charge, mana or devoution
+	var/charge_drain = 0
+	/// Time to charge
+	var/charge_time = 0
+	/// Slowdown while charging
+	var/charge_slowdown = 0
+	/// Message to show when we start casting
+	var/charge_message
+
+	// Not using looping_sound due to their tendancy to break and hard delete,
+	// also all the invoke sounds are just static sounds
+	/// What soundpath should we play when we start chanelling
+	var/charge_sound = 'sound/magic/charging.ogg'
+	/// The actual sound we generate, don't mess with this
+	var/sound/charge_sound_instance
+
+	// Following vars are used for mouse pointer charge only
+	/// World time that the charge started
+	var/charge_started_at
+	/// Charge target time, from get_charge_time()
+	var/charge_target_time
+
+	/// If the spell creates visual effects
+	var/has_visual_effects = TRUE
+
 /datum/action/cooldown/spell/New(Target)
 	. = ..()
 	if(!active_msg)
 		active_msg = "You prepare to use [src] on a target..."
 	if(!deactive_msg)
 		deactive_msg = "You dispel [src]."
+
+	if(charge_required && charge_sound)
+		charge_sound_instance = sound(charge_sound, channel = CHANNEL_CHARGED_SPELL)
+
+/datum/action/cooldown/spell/Destroy()
+	if(charge_required && owner)
+		cancel_charging()
+	charge_sound_instance = null
+	return ..()
+
+/datum/action/cooldown/spell/process()
+	. = ..()
+	if(!currently_charging)
+		return
+	if(charge_drain)
+		if(!check_cost(charge_drain))
+			to_chat(owner, "I cannot uphold the channeling!")
+			cancel_charging()
+			return
+		invoke_cost(charge_drain)
 
 /datum/action/cooldown/spell/Grant(mob/grant_to)
 	// If our spell is mind-bound, we only wanna grant it to our mind
@@ -185,6 +226,11 @@
 /datum/action/cooldown/spell/IsAvailable()
 	return ..() && can_cast_spell(feedback = FALSE)
 
+/datum/action/cooldown/spell/is_action_active(atom/movable/screen/movable/action_button/current_button)
+	if(charge_required)
+		return currently_charging
+	return ..()
+
 /datum/action/cooldown/spell/Trigger(trigger_flags, atom/target)
 	// We implement this can_cast_spell check before the parent call of Trigger()
 	// to allow people to click unavailable abilities to get a feedback chat message
@@ -202,16 +248,34 @@
 	if(pointed_spell)
 		on_activation(on_who)
 
+	if(charge_required)
+		if(pointed_spell)
+			// If pointed we setup signals to override mouse down to call PreActivate()
+			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
+			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEUP, PROC_REF(try_casting))
+			RegisterSignal(owner, COMSIG_MOB_LOGOUT, PROC_REF(caster_logout))
+			return
+		// Otherwise we use a simple do_after
+		var/do_after_flags = IGNORE_HELD_ITEM | IGNORE_USER_LOC_CHANGE
+		if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
+			do_after_flags &= ~IGNORE_USER_LOC_CHANGE
+		on_start_charge()
+		if(!do_after(owner, get_chargetime(), owner, do_after_flags))
+			on_end_charge(success = FALSE)
+			return
+
 	return ..()
 
 // Note: Destroy() calls Remove(), Remove() calls unset_click_ability() if our spell is active.
-/datum/action/cooldown/spell/pointed/unset_click_ability(mob/on_who, refund_cooldown = TRUE)
+/datum/action/cooldown/spell/unset_click_ability(mob/on_who, refund_cooldown = TRUE)
 	. = ..()
-	if(!.)
-		return
 
 	if(pointed_spell)
 		on_deactivation(on_who, refund_cooldown = refund_cooldown)
+
+	if(has_visual_effects && isliving(owner))
+		var/mob/living/caster = owner
+		caster.cancel_spell_visual_effects()
 
 /*
  * The following three procs are only relevant to pointed spells
@@ -222,7 +286,7 @@
 
 	var/tip = "<B>Left-click to cast the spell on a target!</B>"
 	if(charge_required)
-		tip = "<B>Hold Left-click and release once charged to cast a spell on a target!"
+		tip = "<B>Hold Left-click and release once charged to cast the spell on a target!</B>"
 
 	to_chat(on_who, span_notice("[active_msg] [tip]"))
 	build_all_button_icons()
@@ -274,6 +338,7 @@
 	var/encumbrance = L.get_encumbrance()
 	if(encumbrance > 0.4)
 		new_time += charge_time * (encumbrance * 0.5)
+
 	return clamp(new_time, 1 DECISECONDS, 30 SECONDS)
 
 /datum/action/cooldown/spell/proc/get_fatigue_drain()
@@ -284,10 +349,6 @@
 	var/mob/living/L = owner
 	var/new_cost = spell_cost
 	new_cost -= spell_cost * L.get_skill_level(associated_skill) * 0.05
-	var/charge_modifier = 100 - L.client?.chargedprog
-	if(charge_modifier && charge_modifier != 0)
-		// I love magic numbers
-		new_cost *= max(1, min(5.60 * log(0.0144 * charge_modifier + 1.297) - 0.607, 10))
 	var/INT = L.STAINT
 	if(INT > 10)
 		new_cost -= spell_cost * INT * 0.02
@@ -296,6 +357,7 @@
 	var/encumbrance = L.get_encumbrance()
 	if(encumbrance > 0.4)
 		new_cost += spell_cost * (encumbrance * 0.5)
+
 	return clamp(new_cost, 5, 200)
 
 /datum/action/cooldown/spell/proc/handle_attunements()
@@ -408,6 +470,8 @@
 	// Stuff like target input can go here.
 	var/precast_result = before_cast(target)
 	if(precast_result & SPELL_CANCEL_CAST)
+		if(charge_required)
+			cancel_charging()
 		return FALSE
 
 	// Spell is officially being cast
@@ -454,6 +518,7 @@
 	if(pointed_spell)
 		if(sig_return & SPELL_CANCEL_CAST)
 			on_deactivation(owner, refund_cooldown = FALSE)
+			return sig_return
 
 		if(get_dist(owner, cast_on) > cast_range)
 			to_chat(owner, span_warning("Too far away!"))
@@ -516,6 +581,10 @@
 		smoke.set_up(smoke_amt, loca = get_turf(owner))
 		smoke.start()
 
+	if(has_visual_effects && isliving(owner))
+		var/mob/living/caster = owner
+		caster.finish_spell_visual_effects(attunements)
+
 	invoke_cost()
 
 /// Provides feedback after a spell cast occurs, in the form of a cast sound and/or invocation
@@ -533,19 +602,59 @@
 /datum/action/cooldown/spell/proc/invocation()
 	switch(invocation_type)
 		if(INVOCATION_SHOUT)
-			if(prob(50))
-				owner.say(invocation, forced = "spell ([src])")
-			else
-				owner.say(replacetext(invocation," ","`"), forced = "spell ([src])")
+			owner.say(invocation, forced = "spell ([src])")
 
 		if(INVOCATION_WHISPER)
-			if(prob(50))
-				owner.whisper(invocation, forced = "spell ([src])")
-			else
-				owner.whisper(replacetext(invocation," ","`"), forced = "spell ([src])")
+			owner.whisper(invocation, forced = "spell ([src])")
 
 		if(INVOCATION_EMOTE)
 			owner.visible_message(invocation, invocation_self_message)
+
+/// When we start charging the spell called from set_click_ability or start_casting
+/datum/action/cooldown/spell/proc/on_start_charge()
+	currently_charging = TRUE
+	// Doesn't handle charging but does handle charge costs
+	START_PROCESSING(SSmousecharge, src)
+	build_all_button_icons(UPDATE_BUTTON_STATUS)
+
+	if(charge_sound_instance)
+		playsound(owner, charge_sound_instance, 50, FALSE)
+
+	if(has_visual_effects && isliving(owner))
+		var/mob/living/caster = owner
+		caster.start_spell_visual_effects(attunements)
+
+	if(charge_message)
+		to_chat(owner, span_warning(charge_message))
+	if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
+		to_chat(owner, span_warning("I must be still while I channel [src]!"))
+
+/// When finish charging the spell called from set_click_ability or try_casting
+/// This does not mean we succeeded in charging the spell just that we did mouseUp
+/datum/action/cooldown/spell/proc/on_end_charge(success)
+	cancel_charging()
+	. = success
+	if(success)
+		return
+	if(owner)
+		to_chat(owner, span_warning("My channeling of [src] was interrupted!"))
+
+/datum/action/cooldown/spell/proc/cancel_charging()
+	currently_charging = FALSE
+	STOP_PROCESSING(SSmousecharge, src)
+	UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
+	UnregisterSignal(owner, list(COMSIG_MOB_LOGOUT, COMSIG_MOVABLE_MOVED))
+
+	build_all_button_icons(UPDATE_BUTTON_STATUS)
+
+	if(charge_sound_instance)
+		owner.stop_sound_channel(CHANNEL_CHARGED_SPELL)
+		// Play a null sound in to cancel the sound playing, because byond
+		playsound(owner, sound(null, repeat = 0, channel = CHANNEL_CHARGED_SPELL), 50, FALSE)
+
+	if(has_visual_effects && isliving(owner))
+		var/mob/living/caster = owner
+		caster.cancel_spell_visual_effects()
 
 /// Checks if the current OWNER of the spell is in a valid state to say the spell's invocation
 /datum/action/cooldown/spell/proc/can_invoke(feedback = TRUE)
@@ -670,6 +779,19 @@
 		return TRUE
 
 	if(spell_type == SPELL_ESSENCE)
+		var/obj/item/clothing/gloves/essence_gauntlet/gaunt = target
+		if(!target || !istype(target))
+			stack_trace("Essence spell checking cost without being assigned to an essence gauntlet!")
+			return FALSE
+		if(!gaunt.check_gauntlet_validity(owner))
+			return FALSE
+		// This should not be possible without admemes
+		if(!(src in gaunt.granted_spells))
+			return FALSE
+		// Ditto
+		if(!length(gaunt.stored_vials))
+			return FALSE
+
 		return TRUE
 
 /// Charge the owner with the cost of the spell
@@ -693,3 +815,77 @@
 
 	if(spell_type == SPELL_ESSENCE)
 		return
+
+/// Try to begin the casting process
+/datum/action/cooldown/spell/proc/start_casting(client/source, atom/_target, turf/location, control, params)
+	SIGNAL_HANDLER
+	var/list/modifiers = params2list(params)
+
+	if(LAZYACCESS(modifiers, SHIFT_CLICKED))
+		return
+	if(LAZYACCESS(modifiers, CTRL_CLICKED))
+		return
+	if(LAZYACCESS(modifiers, MIDDLE_CLICK))
+		return
+	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		return
+	if(LAZYACCESS(modifiers, ALT_CLICKED))
+		return
+	if(source.mob.in_throw_mode)
+		return
+	if(!isturf(source.mob.loc))
+		return
+
+	if(isnull(location) || istype(_target, /atom/movable/screen)) //Clicking on a screen object.
+		if(_target.plane != CLICKCATCHER_PLANE) //The clickcatcher is a special case. We want the click to trigger then, under it.
+			return //If we click and drag on our worn backpack, for example, we want it to open instead.
+
+	source.click_intercept_time = world.time //From this point onwards Click() will no longer be triggered.
+
+	// We don't actually care about the target or params, we only care about the target on mouse up
+
+	on_start_charge()
+
+	if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
+		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(caster_moved))
+
+	charge_started_at = world.time
+	charge_target_time = get_chargetime()
+
+/// Attempt to cast the spell after the mouse down
+/datum/action/cooldown/spell/proc/try_casting(client/source, atom/_target, turf/location, control, params)
+	SIGNAL_HANDLER
+
+	var/success = world.time > (charge_started_at + charge_target_time)
+	if(!on_end_charge(success))
+		return
+
+	if(!can_cast_spell(TRUE))
+		return
+
+	var/list/modifiers = params2list(params)
+
+	// At this point we DO care about the _target value
+	if(isnull(location) || istype(_target, /atom/movable/screen)) //Clicking on a screen object.
+		_target = parse_caught_click_modifiers(modifiers, get_turf(source.eye), source)
+		params = list2params(modifiers)
+		if(!_target)
+			CRASH("Failed to get the turf under clickcatcher")
+
+	// Call this directly to do all the relevant checks and aim assist
+	InterceptClickOn(owner, params, _target)
+
+/// handle a caster logging out while casting
+/datum/action/cooldown/spell/proc/caster_logout()
+	SIGNAL_HANDLER
+
+	cancel_charging()
+
+/// Reset click intercept on movement cancel
+/datum/action/cooldown/spell/proc/caster_moved()
+	SIGNAL_HANDLER
+
+	if(owner.client)
+		owner.client.click_intercept_time = 0
+
+	cancel_charging()

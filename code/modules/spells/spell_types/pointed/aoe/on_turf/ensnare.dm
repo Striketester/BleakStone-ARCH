@@ -20,7 +20,6 @@
 	var/ensnare_radius = 1
 
 /datum/action/cooldown/spell/aoe/on_turf/ensnare/cast_on_thing_in_aoe(turf/victim)
-	. = ..()
 	new /obj/effect/temp_visual/slowdown_spell_aoe(victim)
 	addtimer(CALLBACK(src, PROC_REF(apply_slowdown), victim), delay)
 

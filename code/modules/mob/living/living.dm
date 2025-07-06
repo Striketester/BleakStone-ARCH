@@ -2611,6 +2611,7 @@
 	var/datum/action/cooldown/spell/undirected/learn/spell = LAZYACCESS(actions, /datum/action/cooldown/spell/undirected/learn)
 	if(((spell_points - used_spell_points) > 0))
 		if(!spell)
+			spell = /datum/action/cooldown/spell/undirected/learn
 			add_spell(spell, silent = TRUE)
 		return
 	if(spell)

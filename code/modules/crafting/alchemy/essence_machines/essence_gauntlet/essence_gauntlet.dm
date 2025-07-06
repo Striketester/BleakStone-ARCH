@@ -75,14 +75,14 @@
 	remove_essence_spells(user)
 
 /obj/item/clothing/gloves/essence_gauntlet/attack_right(mob/user)
-	if(!stored_vials.len)
+	if(!length(stored_vials))
 		to_chat(user, span_warning("[src] has no vials to remove!"))
 		return
 
 	// Create radial menu for vial selection
 	var/list/radial_options = list()
 	var/list/vial_mapping = list()
-	for(var/i in 1 to stored_vials.len)
+	for(var/i in 1 to length(stored_vials))
 		var/obj/item/essence_vial/vial = stored_vials[i]
 		var/vial_desc = "Vial [i]"
 		var/display_name = "Vial [i]"
@@ -136,7 +136,7 @@
 			to_chat(user, span_warning("[vial] is empty!"))
 			return
 
-		if(stored_vials.len >= max_vials)
+		if(length(stored_vials) >= max_vials)
 			to_chat(user, span_warning("[src] cannot hold any more essence vials!"))
 			return
 
@@ -157,7 +157,7 @@
 /obj/item/clothing/gloves/essence_gauntlet/proc/can_consume_essence(required_amount, list/required_attunements)
 	var/total_available = 0
 
-	if(!required_attunements || !required_attunements.len)
+	if(!required_attunements || !length(required_attunements))
 		for(var/obj/item/essence_vial/vial in stored_vials)
 			if(vial.contained_essence && vial.essence_amount > 0)
 				total_available += vial.essence_amount
@@ -174,7 +174,7 @@
 /obj/item/clothing/gloves/essence_gauntlet/proc/consume_essence(amount, list/required_attunements)
 	var/remaining_to_consume = amount
 
-	if(!required_attunements || !required_attunements.len)
+	if(!required_attunements || !length(required_attunements))
 		for(var/obj/item/essence_vial/vial in stored_vials)
 			if(remaining_to_consume <= 0)
 				break
@@ -307,9 +307,9 @@
 /obj/item/clothing/gloves/essence_gauntlet/examine(mob/user)
 	. = ..()
 
-	. += span_notice("Essence Vials ([stored_vials.len]/[max_vials]):")
+	. += span_notice("Essence Vials ([length(stored_vials)]/[max_vials]):")
 
-	if(!stored_vials.len)
+	if(!length(stored_vials))
 		. += span_notice("- No vials inserted")
 		. += span_notice("Right-click to remove vials when available")
 		return
@@ -329,7 +329,7 @@
 	. += span_notice("Right-click to remove vials")
 
 	// Show available combo spells
-	if(available_essences.len >= 2)
+	if(length(available_essences) >= 2)
 		. += span_notice("\nCombo Spells Available:")
 		var/combo_count = 0
 		for(var/list/combo_requirements in combo_spell_mapping)

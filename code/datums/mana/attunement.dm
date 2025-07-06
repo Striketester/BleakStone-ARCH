@@ -94,7 +94,7 @@ GLOBAL_LIST_INIT(attunement_colors, list(
 	. = ..()
 	original_color = spell_color
 	color = spell_color
-	mob = target_mob
+	mob = WEAKREF(target_mob)
 	overlays += emissive_appearance(icon, icon_state, alpha = src.alpha)
 
 /obj/effect/spell_rune/Destroy(force)
@@ -118,7 +118,7 @@ GLOBAL_LIST_INIT(attunement_colors, list(
 
 /obj/effect/temp_visual/wave_up/Initialize(mapload, mob/target_mob)
 	. = ..()
-	mob = target_mob
+	mob = WEAKREF(target_mob)
 	overlays += emissive_appearance(icon, icon_state, alpha = src.alpha)
 
 /obj/effect/temp_visual/wave_up/Destroy(force)
@@ -141,7 +141,7 @@ GLOBAL_LIST_INIT(attunement_colors, list(
 
 /obj/effect/temp_visual/particle_up/Initialize(mapload, mob/target_mob)
 	. = ..()
-	mob = target_mob
+	mob = WEAKREF(target_mob)
 	overlays += emissive_appearance(icon, icon_state, alpha = src.alpha)
 
 /obj/effect/temp_visual/particle_up/Destroy(force)
@@ -150,57 +150,6 @@ GLOBAL_LIST_INIT(attunement_colors, list(
 		holder.vis_contents -= src
 		mob = null
 	return ..()
-
-/proc/start_spell_visual_effects(mob/caster, obj/effect/proc_holder/spell/spell_obj)
-	if(!caster || !spell_obj)
-		return
-
-	var/spell_color = get_blended_attunement_color(spell_obj.attunements)
-
-	// Create the following rune
-	var/obj/effect/spell_rune/rune = new(null, WEAKREF(caster), spell_color)
-	caster.vis_contents |= rune
-	caster.spell_rune = rune
-
-	// Start particle effects
-	start_spell_particles(caster, spell_color)
-
-/proc/start_spell_particles(mob/caster, spell_color = "#FFFFFF")
-	if(!caster)
-		return
-
-	var/obj/effect/temp_visual/particle_up/particles = new(null, WEAKREF(caster))
-	caster.vis_contents |= particles
-	particles.color = spell_color
-
-	spawn(3.6 SECONDS)
-		if(caster && caster.spell_rune)
-			start_spell_particles(caster, spell_color)
-
-/proc/finish_spell_visual_effects(mob/caster, obj/effect/proc_holder/spell/spell_obj)
-	if(!caster || !spell_obj)
-		return
-
-	var/spell_color = get_blended_attunement_color(spell_obj.attunements)
-
-	// Clean up the rune
-	if(caster.spell_rune)
-		qdel(caster.spell_rune)
-		caster.spell_rune = null
-
-	// Create wave_up effect
-	var/obj/effect/temp_visual/wave_up/wave = new(null, WEAKREF(caster))
-	caster.vis_contents |= wave
-	wave.color = spell_color
-
-/proc/cancel_spell_visual_effects(mob/caster)
-	if(!caster)
-		return
-
-	// Clean up the rune
-	if(caster.spell_rune)
-		qdel(caster.spell_rune)
-		caster.spell_rune = null
 
 /proc/create_attunement_list()
 	. = list()

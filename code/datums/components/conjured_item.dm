@@ -65,7 +65,7 @@
 		clean_up(TRUE)
 		return
 
-	decay_timer = addtimer(src, CALLBACK(PROC_REF(try_decay)), duration)
+	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), duration)
 
 /datum/component/conjured_item/proc/clean_up(delete = FALSE)
 	current_user = null

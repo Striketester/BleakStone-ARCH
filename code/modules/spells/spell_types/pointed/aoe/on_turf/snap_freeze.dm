@@ -19,7 +19,6 @@
 	spell_cost = 45
 
 /datum/action/cooldown/spell/aoe/on_turf/snap_freeze/cast_on_thing_in_aoe(turf/victim, atom/caster)
-	. = ..()
 	new /obj/effect/temp_visual/trapice(victim)
 	playsound(victim, 'sound/combat/wooshes/blunt/wooshhuge (2).ogg', 80, TRUE, soundping = TRUE)
 	addtimer(CALLBACK(src, PROC_REF(do_freeze), victim), 0.5 SECONDS)

@@ -1,5 +1,6 @@
 /datum/action/cooldown/spell/undirected/shapeshift
 	school = SCHOOL_TRANSMUTATION
+	charge_required = FALSE
 
 	/// Whehter we revert to our human form on death.
 	var/revert_on_death = TRUE

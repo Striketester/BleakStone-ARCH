@@ -22,7 +22,6 @@
 	aoe_radius = 4
 
 /datum/action/cooldown/spell/aoe/churn_undead/cast_on_thing_in_aoe(atom/victim, atom/caster)
-	. = ..()
 	if(!isliving(victim))
 		return
 	var/mob/living/L = victim
