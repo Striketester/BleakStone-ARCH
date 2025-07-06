@@ -42,14 +42,16 @@
 /datum/action/cooldown/spell
 	name = "Spell"
 	desc = "A wizard spell."
-	background_icon_state = "bg_spell"
-	button_icon = 'icons/mob/actions/actions_spells.dmi'
-	button_icon_state = "spell_default"
+	background_icon = 'icons/mob/actions/roguespells.dmi'
+	background_icon_state = "spell"
+	button_icon = 'icons/mob/actions/roguespells.dmi'
+	button_icon_state = "shieldsparkles"
 	check_flags = AB_CHECK_CONSCIOUS
 	panel = "Spells"
+	click_to_activate = TRUE
 
 	/// Flags for type of spell
-	var/spell_flags = SPELL_MANA
+	var/spell_type = SPELL_MANA
 	/// School of magic (Might go unused)
 	var/school = SCHOOL_UNSET
 	/// Cost to learn this spell in the tree
@@ -154,17 +156,18 @@
 	. = ..()
 	if(!owner)
 		return
-	if(spell_flags & SPELL_MIRACLE)
-		if(!ishuman(owner))
-			stack_trace("Miracle added to mob that cannot have a cleric holder")
-		var/mob/living/carbon/human/H = owner
-		if(!H.cleric)
-			stack_trace("Miracle added to mob without a cleric holder")
+
 	// Register some signals so our button's icon stays up to date
 	if(spell_requirements & SPELL_REQUIRES_STATION)
 		RegisterSignal(owner, COMSIG_MOVABLE_Z_CHANGED, PROC_REF(update_status_on_signal))
 	if(spell_requirements & (SPELL_REQUIRES_NO_ANTIMAGIC|SPELL_REQUIRES_WIZARD_GARB))
 		RegisterSignal(owner, COMSIG_MOB_EQUIPPED_ITEM, PROC_REF(update_status_on_signal))
+
+	if(spell_type == SPELL_MANA)
+		RegisterSignal(owner, COMSIG_LIVING_MANA_CHANGED, PROC_REF(update_status_on_signal))
+	if(spell_type == SPELL_MIRACLE)
+		RegisterSignal(owner, COMSIG_LIVING_DEVOTION_CHANGED, PROC_REF(update_status_on_signal))
+
 	RegisterSignal(owner, list(COMSIG_MOB_ENTER_JAUNT, COMSIG_MOB_AFTER_EXIT_JAUNT), PROC_REF(update_status_on_signal))
 
 /datum/action/cooldown/spell/Remove(mob/living/remove_from)
@@ -173,6 +176,8 @@
 		COMSIG_MOB_ENTER_JAUNT,
 		COMSIG_MOB_EQUIPPED_ITEM,
 		COMSIG_MOVABLE_Z_CHANGED,
+		COMSIG_LIVING_MANA_CHANGED,
+		COMSIG_LIVING_DEVOTION_CHANGED
 	))
 
 	return ..()
@@ -193,6 +198,7 @@
 /datum/action/cooldown/spell/set_click_ability(mob/on_who)
 	if(SEND_SIGNAL(on_who, COMSIG_MOB_SPELL_ACTIVATED, src) & SPELL_CANCEL_CAST)
 		return FALSE
+
 	if(pointed_spell)
 		on_activation(on_who)
 
@@ -204,7 +210,8 @@
 	if(!.)
 		return
 
-	on_deactivation(on_who, refund_cooldown = refund_cooldown)
+	if(pointed_spell)
+		on_deactivation(on_who, refund_cooldown = refund_cooldown)
 
 /*
  * The following three procs are only relevant to pointed spells
@@ -213,7 +220,11 @@
 /datum/action/cooldown/spell/proc/on_activation(mob/on_who)
 	SHOULD_CALL_PARENT(TRUE)
 
-	to_chat(on_who, span_notice("[active_msg] <B>Left-click to cast the spell on a target!</B>"))
+	var/tip = "<B>Left-click to cast the spell on a target!</B>"
+	if(charge_required)
+		tip = "<B>Hold Left-click and release once charged to cast a spell on a target!"
+
+	to_chat(on_who, span_notice("[active_msg] [tip]"))
 	build_all_button_icons()
 
 	return TRUE
@@ -315,9 +326,8 @@
 	if(!owner)
 		CRASH("[type] - can_cast_spell called on a spell without an owner!")
 
-	if(charge_required && owner.mmb_intent)
-		if(SEND_SIGNAL(owner.mmb_intent, COMSIG_SPELL_BEFORE_CAST))
-			return FALSE
+	if(!check_cost(feedback = feedback))
+		return FALSE
 
 	if(!ignore_cockblock && HAS_TRAIT(owner, TRAIT_SPELLBLOCK))
 		if(feedback)
@@ -356,21 +366,10 @@
 				to_chat(owner, span_warning("[src] can only be cast by humans!"))
 			return FALSE
 
-		if(spell_flags & SPELL_MIRACLE)
+		if(spell_type == SPELL_MIRACLE)
 			if(feedback)
 				to_chat(owner, span_warning("My link to the divine is too weak to cast [src]!"))
 			return FALSE
-
-	if(spell_flags & SPELL_MIRACLE)
-		var/mob/living/carbon/human/H = owner
-		var/datum/devotion/cleric_holder/CH = H.cleric
-		if(!CH)
-			if(feedback)
-				to_chat(owner, span_warning("My link to the divine is too weak to cast [src]!"))
-			return FALSE
-		if(!CH.check_devotion(spell_cost))
-			if(feedback)
-				to_chat(owner, span_warning("I am not devoted enough to cast [src]!"))
 
 	if(LAZYLEN(required_items))
 		var/found = FALSE
@@ -460,7 +459,7 @@
 			to_chat(owner, span_warning("Too far away!"))
 			return sig_return | SPELL_CANCEL_CAST
 
-		if((spell_flags & SPELL_MIRACLE) && HAS_TRAIT(cast_on, TRAIT_ATHEISM_CURSE))
+		if((spell_type == SPELL_MIRACLE) && HAS_TRAIT(cast_on, TRAIT_ATHEISM_CURSE))
 			if(isliving(cast_on))
 				var/mob/living/L = cast_on
 				L.visible_message(
@@ -469,6 +468,10 @@
 				)
 				L.cursed_freak_out()
 			return sig_return | SPELL_CANCEL_CAST
+
+	// Check the cost once more since spells can have a cast time
+	if(!check_cost())
+		sig_return |= SPELL_CANCEL_CAST
 
 	return sig_return
 
@@ -502,7 +505,6 @@
 	if(!owner)
 		return
 
-	SEND_SIGNAL(owner.mmb_intent, COMSIG_SPELL_AFTER_CAST, cast_on)
 	SEND_SIGNAL(owner, COMSIG_MOB_AFTER_SPELL_CAST, src, cast_on)
 
 	// Sparks and smoke can only occur if there's an owner to source them from.
@@ -514,9 +516,7 @@
 		smoke.set_up(smoke_amt, loca = get_turf(owner))
 		smoke.start()
 
-	if(ishuman(owner))
-		var/mob/living/carbon/human/H = owner
-		H.cleric?.update_devotion(-spell_cost)
+	invoke_cost()
 
 /// Provides feedback after a spell cast occurs, in the form of a cast sound and/or invocation
 /datum/action/cooldown/spell/proc/spell_feedback()
@@ -638,3 +638,58 @@
 			return "Ludicrous "
 
 	return ""
+
+/// Check if the spell is castable by cost
+/datum/action/cooldown/spell/proc/check_cost(cost_override, feedback = TRUE)
+	var/used_cost = spell_cost || cost_override
+
+	if(used_cost <= 0)
+		return TRUE
+
+	if(spell_type == SPELL_MANA)
+		if(!isliving(owner))
+			if(feedback)
+				to_chat(owner, span_warning("I have no mana!"))
+			return FALSE
+		var/mob/living/caster = owner
+		if(!caster.has_mana_available(attunements, used_cost))
+			if(feedback)
+				to_chat(owner, span_warning("I am too drained to cast!"))
+			return FALSE
+
+		return TRUE
+
+	if(spell_type == SPELL_MIRACLE)
+		var/mob/living/carbon/human/H = owner
+		var/datum/devotion/cleric_holder/CH = H.cleric
+		if(!CH?.check_devotion(spell_cost))
+			if(feedback)
+				to_chat(owner, span_warning("My devotion is too weak!"))
+			return FALSE
+
+		return TRUE
+
+	if(spell_type == SPELL_ESSENCE)
+		return TRUE
+
+/// Charge the owner with the cost of the spell
+/datum/action/cooldown/spell/proc/invoke_cost(cost_override)
+	var/used_cost = spell_cost || cost_override
+	if(used_cost <= 0)
+		return
+
+	if(spell_type == SPELL_MANA)
+		if(!isliving(owner))
+			return
+		var/mob/living/caster = owner
+		caster.consume_mana(attunements, used_cost)
+		return
+
+	if(spell_type == SPELL_MIRACLE)
+		var/mob/living/carbon/human/H = owner
+		var/datum/devotion/cleric_holder/CH = H.cleric
+		CH?.update_devotion(-used_cost)
+		return
+
+	if(spell_type == SPELL_ESSENCE)
+		return
