@@ -23,7 +23,7 @@
 /datum/action/cooldown/spell/blindness/miracle
 	sound_loop = /datum/looping_sound/invokeholy
 
-	spell_flags = SPELL_MIRACLE
+	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross/noc)

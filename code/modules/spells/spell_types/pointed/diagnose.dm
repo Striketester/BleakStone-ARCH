@@ -21,7 +21,7 @@
 /datum/action/cooldown/spell/diagnose/holy
 	name = "Diagnosis"
 
-	spell_flags = SPELL_MIRACLE
+	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
 	associated_skill = /datum/skill/magic/holy
 

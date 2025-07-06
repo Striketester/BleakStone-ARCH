@@ -69,3 +69,8 @@
 
 ///from base of mob/living/set_body_position(): (new_position, old_position)
 #define COMSIG_LIVING_SET_BODY_POSITION  "living_set_body_position"
+
+/// from base of [datum/mana_pool/adjust_mana()]
+#define COMSIG_LIVING_MANA_CHANGED "living_mana_changed"
+/// from base of [datum/devotion/cleric_holder/update_devotion()]
+#define COMSIG_LIVING_DEVOTION_CHANGED "living_devotion_changed"

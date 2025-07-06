@@ -3,7 +3,7 @@
 	desc = "Speak for target in range."
 	button_icon_state = "mimicry"
 
-	spell_flags = SPELL_MIRACLE
+	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross/silver/xylix)

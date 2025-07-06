@@ -4,7 +4,7 @@
 	button_icon_state = "bestialsense"
 	sound = 'sound/vo/smokedrag.ogg'
 
-	spell_flags = SPELL_MIRACLE
+	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross/silver/dendor)

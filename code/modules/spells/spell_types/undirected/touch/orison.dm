@@ -4,7 +4,7 @@
 	button_icon_state = "thaumaturgy"
 	can_cast_on_self = TRUE
 
-	spell_flags = SPELL_MIRACLE
+	spell_type = SPELL_MIRACLE
 	associated_skill = /datum/skill/magic/holy
 	school = SCHOOL_TRANSMUTATION
 

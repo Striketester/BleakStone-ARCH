@@ -96,7 +96,7 @@
 /// Absorb from pylons with right click
 #define MANA_ALL_PYLONS (1 << 2)
 /// Absord from souls (if visible)
-#define MANA_SOULS (1 <<3 )
+#define MANA_SOULS (1 <<3)
 
 #define MANA_DISPERSE_EVENLY 1
 #define MANA_SEQUENTIAL 2
@@ -126,8 +126,10 @@
 #define MAGIC_RESISTANCE (1 << 0)
 /// Tinfoil hat magic resistance that blocks mental magic (telepathy, mind curses, abductors, jelly people)
 #define MAGIC_RESISTANCE_MIND (1 << 1)
-/// Holy magic resistance that blocks unholy magic (revenant, cult, vampire, voice of god)
+/// Holy magic resistance that blocks miracles
 #define MAGIC_RESISTANCE_HOLY (1 << 2)
+/// Holy magic resistance that blocks unholy magic (revenant, cult, vampire, voice of god)
+#define MAGIC_RESISTANCE_UNHOLY (1 << 3)
 
 DEFINE_BITFIELD(antimagic_flags, list(
 	"MAGIC_RESISTANCE" = MAGIC_RESISTANCE,
@@ -135,13 +137,17 @@ DEFINE_BITFIELD(antimagic_flags, list(
 	"MAGIC_RESISTANCE_MIND" = MAGIC_RESISTANCE_MIND,
 ))
 
-// Bitflags for spell type
+// Spell types, fallback to mana if not possible i.e non vampire with blood magic
 /// Uses mana, normal behaviour
-#define SPELL_MANA (1 << 0)
+#define SPELL_MANA 1
 /// Casted with the essence gauntlet
-#define SPELL_ESSENCE (1 << 1)
+#define SPELL_ESSENCE 2
 /// Miracle, uses devotion and thus requires a devotion holder
-#define SPELL_MIRACLE (1 << 2)
+#define SPELL_MIRACLE 3
+/// Uses vitae
+#define SPELL_BLOOD 4
+/// Use energy
+#define SPELL_ENERGY 5
 
 // Bitflags for spell requirements
 /// Whether the spell requires wizard clothes to cast.

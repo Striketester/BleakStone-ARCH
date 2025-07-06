@@ -4,7 +4,7 @@
 	button_icon_state = "entangle"
 	sound = 'sound/items/dig_shovel.ogg'
 
-	spell_flags = SPELL_MIRACLE
+	spell_type = SPELL_MIRACLE
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross/silver/dendor)
 	attunements = list(

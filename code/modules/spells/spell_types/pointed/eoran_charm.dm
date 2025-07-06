@@ -5,7 +5,7 @@
 	sound = 'sound/magic/whiteflame.ogg'
 
 	cast_range = 4
-	spell_flags = SPELL_MIRACLE
+	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross/silver/eora)
