@@ -28,9 +28,6 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/M = target
-		if(M.can_block_magic(MAGIC_RESISTANCE))
-			M.visible_message("<span class='warning'>[src] vanishes on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 		if(isliving(M))
 			var/mob/living/L = M
 			if(L.mob_biotypes & MOB_UNDEAD) //negative energy heals the undead
@@ -56,9 +53,6 @@
 /obj/projectile/magic/resurrection/on_hit(mob/living/carbon/target)
 	. = ..()
 	if(isliving(target))
-		if(target.can_block_magic(MAGIC_RESISTANCE))
-			target.visible_message("<span class='warning'>[src] vanishes on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 		if(target.mob_biotypes & MOB_UNDEAD) //positive energy harms the undead
 			target.death(0)
 		else
@@ -81,11 +75,6 @@
 
 /obj/projectile/magic/teleport/on_hit(mob/target)
 	. = ..()
-	if(ismob(target))
-		var/mob/M = target
-		if(M.can_block_magic(MAGIC_RESISTANCE))
-			M.visible_message("<span class='warning'>[src] fizzles on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 	var/teleammount = 0
 	var/teleloc = target
 	if(!isturf(target))
@@ -107,11 +96,6 @@
 
 /obj/projectile/magic/safety/on_hit(atom/target)
 	. = ..()
-	if(ismob(target))
-		var/mob/M = target
-		if(M.can_block_magic(MAGIC_RESISTANCE))
-			M.visible_message("<span class='warning'>[src] fizzles on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 	if(isturf(target))
 		return BULLET_ACT_HIT
 
@@ -133,15 +117,6 @@
 	dismemberment = 50
 	nodamage = FALSE
 
-/obj/projectile/magic/spellblade/on_hit(target)
-	if(ismob(target))
-		var/mob/M = target
-		if(M.can_block_magic(MAGIC_RESISTANCE))
-			M.visible_message("<span class='warning'>[src] vanishes on contact with [target]!</span>")
-			qdel(src)
-			return BULLET_ACT_BLOCK
-	. = ..()
-
 /obj/projectile/magic/arcane_barrage
 	name = "arcane bolt"
 	icon_state = "arcane_barrage"
@@ -152,15 +127,6 @@
 	flag = "magic"
 	hitsound = 'sound/blank.ogg'
 
-/obj/projectile/magic/arcane_barrage/on_hit(target)
-	if(ismob(target))
-		var/mob/M = target
-		if(M.can_block_magic(MAGIC_RESISTANCE))
-			M.visible_message("<span class='warning'>[src] vanishes on contact with [target]!</span>")
-			qdel(src)
-			return BULLET_ACT_BLOCK
-	. = ..()
-
 /obj/projectile/magic/flying
 	name = "bolt of flying"
 	icon_state = "flight"
@@ -169,9 +135,6 @@
 	. = ..()
 	if(isliving(target))
 		var/mob/living/L = target
-		if(L.can_block_magic(MAGIC_RESISTANCE))
-			L.visible_message("<span class='warning'>[src] vanishes on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 		var/atom/throw_target = get_edge_target_turf(L, angle2dir(Angle))
 		L.throw_at(throw_target, 200, 4)
 
@@ -183,9 +146,6 @@
 	. = ..()
 	if(isliving(target))
 		var/mob/living/L = target
-		if(L.can_block_magic(MAGIC_RESISTANCE) || !firer)
-			L.visible_message("<span class='warning'>[src] vanishes on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 		L.apply_status_effect(STATUS_EFFECT_BOUNTY, firer)
 
 /obj/projectile/magic/antimagic
@@ -196,9 +156,6 @@
 	. = ..()
 	if(isliving(target))
 		var/mob/living/L = target
-		if(L.can_block_magic(MAGIC_RESISTANCE))
-			L.visible_message("<span class='warning'>[src] vanishes on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 		L.apply_status_effect(STATUS_EFFECT_ANTIMAGIC)
 
 /obj/projectile/magic/fetch
@@ -211,9 +168,6 @@
 	var/atom/throw_target = get_step(firer, get_dir(firer, target))
 	if(isliving(target))
 		var/mob/living/L = target
-		if(L.can_block_magic(MAGIC_RESISTANCE) || !firer)
-			L.visible_message("<span class='warning'>[src] vanishes on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 		L.throw_at(throw_target, 200, 3) //4 is the default threshold speed to embed
 	else
 		if(isitem(target))
@@ -246,9 +200,6 @@
 	. = ..()
 	if(isliving(target))
 		var/mob/living/L = target
-		if(L.can_block_magic(MAGIC_RESISTANCE) || !L.mind || !L.mind.hasSoul)
-			L.visible_message("<span class='warning'>[src] vanishes on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 		to_chat(L, "<span class='danger'>My body feels drained and there is a burning pain in my chest.</span>")
 		L.setMaxHealth(L.maxHealth - 20)
 		L.set_health(L.health)
@@ -294,11 +245,8 @@
 	. = ..()
 	if(ismob(target))
 		var/mob/living/M = target
-		if(M.can_block_magic(MAGIC_RESISTANCE))
-			visible_message("<span class='warning'>[src] vanishes into smoke on contact with [target]!</span>")
-			return BULLET_ACT_BLOCK
 		M.adjust_fire_stacks(6)
-//		M.take_overall_damage(0,10) //between this 10 burn, the 10 brute, the explosion brute, and the onfire burn, my at about 65 damage if you stop drop and roll immediately
+
 	var/turf/T
 	if(isturf(target))
 		if(isclosedturf(target))
@@ -321,20 +269,3 @@
 	else
 		T = get_turf(target)
 	explosion(T, exp_devi, exp_heavy, exp_light, exp_flash, 0, flame_range = exp_fire, hotspot_range = exp_hotspot, soundin = explode_sound)
-
-/obj/projectile/magic/aoe/fireball/infernal
-	name = "infernal fireball"
-	exp_heavy = -1
-	exp_light = -1
-	exp_flash = 4
-	exp_fire= 5
-
-/obj/projectile/magic/aoe/fireball/infernal/on_hit(target)
-	. = ..()
-	if(ismob(target))
-		var/mob/living/M = target
-		if(M.can_block_magic(MAGIC_RESISTANCE))
-			return BULLET_ACT_BLOCK
-	var/turf/T = get_turf(target)
-	for(var/i=0, i<50, i+=10)
-		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(explosion), T, -1, exp_heavy, exp_light, exp_flash, FALSE, FALSE, exp_fire), i)

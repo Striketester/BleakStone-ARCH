@@ -22,7 +22,8 @@
 	name = "blood bolt"
 	tracer_type = /obj/effect/projectile/tracer/blood
 	hitscan = TRUE
-	movement_type = PHASING
+	movement_type = FLYING
+	projectile_piercing = PROJECTILE_PIERCE_HIT
 	damage = 35
 	damage_type = BURN
 	nodamage = FALSE

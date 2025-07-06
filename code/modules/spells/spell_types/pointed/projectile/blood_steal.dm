@@ -23,7 +23,8 @@
 	muzzle_type = null
 	impact_type = null
 	hitscan = TRUE
-	movement_type = PHASING
+	movement_type = FLYING
+	projectile_piercing = PROJECTILE_PIERCE_HIT
 	damage = 25
 	damage_type = BRUTE
 	nodamage = FALSE
