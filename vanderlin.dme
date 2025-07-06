@@ -201,6 +201,7 @@
 #include "code\__DEFINES\dcs\signals_atoms\signals_atom_mouse.dm"
 #include "code\__DEFINES\dcs\signals_atoms\signals_atom_movable.dm"
 #include "code\__DEFINES\dcs\signals_atoms\signals_atom_movement.dm"
+#include "code\__DEFINES\dcs\signals_atoms\signals_obj.dm"
 #include "code\__DEFINES\species\_species.dm"
 #include "code\__DEFINES\species\haircolors.dm"
 #include "code\__DEFINES\species\skintones.dm"

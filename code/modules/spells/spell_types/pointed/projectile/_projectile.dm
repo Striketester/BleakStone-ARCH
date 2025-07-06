@@ -9,10 +9,11 @@
  * Pointed spells that, instead of casting a spell directly on the target that's clicked,
  * will instead fire a projectile pointed at the target's direction.
  *
- * These REQUIRE pointed_spell to be true
+ * These REQUIRE click_to_activate to be true
  */
 /datum/action/cooldown/spell/projectile
-	pointed_spell = TRUE
+	self_cast_possible = FALSE
+
 	/// What projectile we create when we shoot our spell.
 	var/obj/projectile/magic/projectile_type = /obj/projectile/magic/teleport
 	/// How many projectiles we can fire per cast. Not all at once, per click, kinda like charges
@@ -25,8 +26,8 @@
 
 /datum/action/cooldown/spell/projectile/New(Target)
 	. = ..()
-	if(!pointed_spell)
-		stack_trace("Projectile spell [type] created without having (pointed_spell = TRUE), this won't work.")
+	if(!click_to_activate)
+		stack_trace("Projectile spell [type] created without having (click_to_activate = TRUE), this won't work.")
 		qdel(src)
 	if(projectile_amount > 1)
 		unset_after_click = FALSE
@@ -84,7 +85,9 @@
 	to_fire.fired_from = get_turf(owner)
 	to_fire.preparePixelProjectile(target, owner)
 	var/strength = min(max(0.1, attuned_strength || 1), 10)
-	to_fire.transform = matrix(strength, MATRIX_SCALE)
+	var/matrix/scale = matrix()
+	scale.Scale(strength)
+	to_fire.transform = scale
 	RegisterSignal(to_fire, COMSIG_PROJECTILE_ON_HIT, PROC_REF(on_cast_hit))
 
 	if(istype(to_fire, /obj/projectile/magic))

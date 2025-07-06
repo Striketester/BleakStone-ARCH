@@ -3,7 +3,8 @@
 	desc = "Burn the target with divine light."
 	button_icon_state = "pflower"
 	sound = 'sound/magic/heal.ogg'
-	sound_loop = /datum/looping_sound/invokeholy
+	charge_sound = 'sound/magic/holycharging.ogg'
+	self_cast_possible = FALSE
 
 	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY

@@ -6,4 +6,4 @@
  * If this spell has a cast time it will instead delay casting.
  */
 /datum/action/cooldown/spell/undirected
-	pointed_spell = FALSE
+	click_to_activate = FALSE

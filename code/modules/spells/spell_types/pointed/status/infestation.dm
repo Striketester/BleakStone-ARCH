@@ -2,9 +2,10 @@
 	name = "Infestation"
 	desc = "Causes a swarm of bugs to surround your target, bites them and causes sickness."
 	button_icon_state = "infestation"
-	point_cost = 1
+	self_cast_possible = FALSE
 	sound = 'sound/magic/whiteflame.ogg'
 
+	point_cost = 1
 	associated_skill = /datum/skill/magic/druidic
 	attunements = list(
 		/datum/attunement/dark = 0.3,

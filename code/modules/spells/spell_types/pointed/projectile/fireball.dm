@@ -2,6 +2,7 @@
 	name = "Fireball"
 	desc = "Shoot out a ball of fire that emits a light explosion on impact, setting the target alight."
 	button_icon_state = "fireball"
+	charge_sound = 'sound/magic/charging_fire.ogg'
 
 	point_cost = 4
 	attunements = list(

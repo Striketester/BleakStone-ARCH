@@ -3,7 +3,8 @@
 	desc = ""
 	button_icon_state = "craft_buff"
 	sound = 'sound/items/bsmithfail.ogg'
-	sound_loop = /datum/looping_sound/invokeholy
+	charge_sound = 'sound/magic/holycharging.ogg'
+	self_cast_possible = FALSE
 
 	cast_range = 2
 	spell_type = SPELL_MIRACLE

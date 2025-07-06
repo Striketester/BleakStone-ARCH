@@ -2,6 +2,7 @@
 	name = "Create Bonfire"
 	desc = "Creates a magical bonfire to cook on."
 	button_icon_state = "create_campfire"
+	self_cast_possible = FALSE
 
 	point_cost = 1
 

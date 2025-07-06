@@ -7,6 +7,7 @@
  */
 /datum/action/cooldown/spell/enchantment
 	cooldown_time = null
+
 	/// Base duration
 	var/enchantment_duration = 5 MINUTES
 	/// Allows refreshing of enchantment

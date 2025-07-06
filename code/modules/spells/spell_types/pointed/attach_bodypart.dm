@@ -3,7 +3,7 @@
 	desc = "Reattach a held limb instantly."
 	button_icon_state = "limb_attach"
 	sound = 'sound/gore/flesh_eat_03.ogg'
-	sound_loop = /datum/looping_sound/invokeholy
+	charge_sound = 'sound/magic/holycharging.ogg'
 
 	cast_range = 1
 	spell_type = SPELL_MIRACLE

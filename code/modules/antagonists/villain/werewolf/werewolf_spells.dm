@@ -2,6 +2,7 @@
 	name = "Howl"
 	desc = "!"
 	button_icon_state = "howl"
+	has_visual_effects = FALSE
 	antimagic_flags = NONE
 	ignore_cockblock = TRUE
 
@@ -50,6 +51,7 @@
 	name = "Lupine Claws"
 	desc = "!"
 	button_icon_state = "claws"
+	has_visual_effects = FALSE
 	antimagic_flags = NONE
 	ignore_cockblock = TRUE
 

@@ -60,9 +60,7 @@
 	var/spell_cost = 0
 
 	/// The sound played on cast
-	var/sound = null
-
-	var/sound_loop
+	var/sound = 'sound/magic/whiteflame.ogg'
 
 	/// If the spell uses the wizard spell rank system, the cooldown reduction per rank of the spell
 	var/cooldown_reduction_per_rank = 0 SECONDS
@@ -117,8 +115,8 @@
 	// Pointed vars
 	// In the TG refactor these weren't a given but almost all our spells are pointed including most spell types.
 	// I don't really like this but oh well its required without creating a mess of inheritance.
-	/// If the spell acts on the mouse cursor, either on click or after holding
-	var/pointed_spell = TRUE
+	/// If this spell can be cast on yourself
+	var/self_cast_possible = TRUE
 	/// Message showing to the spell owner upon activating pointed spell.
 	var/active_msg
 	/// Message showing to the spell owner upon deactivating pointed spell.
@@ -168,7 +166,10 @@
 		deactive_msg = "You dispel [src]."
 
 	if(charge_required && charge_sound)
-		charge_sound_instance = sound(charge_sound, channel = CHANNEL_CHARGED_SPELL)
+		charge_sound_instance = sound(charge_sound)
+
+	if(click_to_activate && !charge_required)
+		ranged_mousepointer = 'icons/effects/mousemice/charge/spell_charged.dmi'
 
 /datum/action/cooldown/spell/Destroy()
 	if(charge_required && owner)
@@ -180,6 +181,18 @@
 	. = ..()
 	if(!currently_charging)
 		return
+
+	// If this is true we hit our charge goal so stop invoking the cost and update the pointer
+	if(world.time > (charge_started_at + charge_target_time))
+		// We don't want that mouseUp to end in sadness
+		if(!check_cost(charge_drain))
+			to_chat(owner, "I cannot uphold the channeling!")
+			cancel_charging()
+			return
+		owner.client.mouse_override_icon = 'icons/effects/mousemice/charge/spell_charged.dmi'
+		owner.update_mouse_pointer()
+		return PROCESS_KILL
+
 	if(charge_drain)
 		if(!check_cost(charge_drain))
 			to_chat(owner, "I cannot uphold the channeling!")
@@ -245,24 +258,16 @@
 	if(SEND_SIGNAL(on_who, COMSIG_MOB_SPELL_ACTIVATED, src) & SPELL_CANCEL_CAST)
 		return FALSE
 
-	if(pointed_spell)
+	if(click_to_activate)
 		on_activation(on_who)
 
-	if(charge_required)
-		if(pointed_spell)
-			// If pointed we setup signals to override mouse down to call PreActivate()
-			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
-			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEUP, PROC_REF(try_casting))
-			RegisterSignal(owner, COMSIG_MOB_LOGOUT, PROC_REF(caster_logout))
-			return
-		// Otherwise we use a simple do_after
-		var/do_after_flags = IGNORE_HELD_ITEM | IGNORE_USER_LOC_CHANGE
-		if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
-			do_after_flags &= ~IGNORE_USER_LOC_CHANGE
-		on_start_charge()
-		if(!do_after(owner, get_chargetime(), owner, do_after_flags))
-			on_end_charge(success = FALSE)
-			return
+	if(charge_required && click_to_activate)
+		// If pointed we setup signals to override mouse down to call PreActivate()
+		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
+		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEUP, PROC_REF(try_casting))
+		RegisterSignal(owner, COMSIG_MOB_LOGOUT, PROC_REF(caster_logout))
+
+		return FALSE
 
 	return ..()
 
@@ -270,12 +275,8 @@
 /datum/action/cooldown/spell/unset_click_ability(mob/on_who, refund_cooldown = TRUE)
 	. = ..()
 
-	if(pointed_spell)
+	if(click_to_activate)
 		on_deactivation(on_who, refund_cooldown = refund_cooldown)
-
-	if(has_visual_effects && isliving(owner))
-		var/mob/living/caster = owner
-		caster.cancel_spell_visual_effects()
 
 /*
  * The following three procs are only relevant to pointed spells
@@ -388,6 +389,12 @@
 	if(!owner)
 		CRASH("[type] - can_cast_spell called on a spell without an owner!")
 
+	for(var/datum/action/cooldown/spell/spell in owner.actions)
+		if(spell.currently_charging)
+			if(feedback)
+				to_chat(owner, span_warning("I am already channeling a spell!"))
+			return FALSE
+
 	if(!check_cost(feedback = feedback))
 		return FALSE
 
@@ -452,8 +459,8 @@
  * Return TRUE if cast_on is valid, FALSE otherwise
  */
 /datum/action/cooldown/spell/proc/is_valid_target(atom/cast_on)
-	if(pointed_spell)
-		if(cast_on == owner)
+	if(click_to_activate)
+		if(cast_on == owner && !self_cast_possible)
 			to_chat(owner, span_warning("You cannot cast [src] on yourself!"))
 			return FALSE
 
@@ -515,7 +522,7 @@
 	if(owner)
 		sig_return |= SEND_SIGNAL(owner, COMSIG_MOB_BEFORE_SPELL_CAST, src, cast_on)
 
-	if(pointed_spell)
+	if(click_to_activate)
 		if(sig_return & SPELL_CANCEL_CAST)
 			on_deactivation(owner, refund_cooldown = FALSE)
 			return sig_return
@@ -532,6 +539,16 @@
 					span_userdanger("These fools are trying to cure me with religion!!")
 				)
 				L.cursed_freak_out()
+			return sig_return | SPELL_CANCEL_CAST
+
+	if(charge_required && !click_to_activate)
+		// Otherwise we use a simple do_after
+		var/do_after_flags = IGNORE_HELD_ITEM | IGNORE_USER_LOC_CHANGE
+		if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
+			do_after_flags &= ~IGNORE_USER_LOC_CHANGE
+		on_start_charge()
+		if(!do_after(owner, get_chargetime(), owner, do_after_flags))
+			on_end_charge(success = FALSE)
 			return sig_return | SPELL_CANCEL_CAST
 
 	// Check the cost once more since spells can have a cast time
@@ -618,7 +635,7 @@
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
 
 	if(charge_sound_instance)
-		playsound(owner, charge_sound_instance, 50, FALSE)
+		playsound(owner, charge_sound_instance, 50, FALSE, channel = CHANNEL_CHARGED_SPELL)
 
 	if(has_visual_effects && isliving(owner))
 		var/mob/living/caster = owner
@@ -626,6 +643,7 @@
 
 	if(charge_message)
 		to_chat(owner, span_warning(charge_message))
+
 	if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
 		to_chat(owner, span_warning("I must be still while I channel [src]!"))
 
@@ -650,11 +668,14 @@
 	if(charge_sound_instance)
 		owner.stop_sound_channel(CHANNEL_CHARGED_SPELL)
 		// Play a null sound in to cancel the sound playing, because byond
-		playsound(owner, sound(null, repeat = 0, channel = CHANNEL_CHARGED_SPELL), 50, FALSE)
+		playsound(owner, sound(null, repeat = 0), 50, FALSE, channel = CHANNEL_CHARGED_SPELL)
 
 	if(has_visual_effects && isliving(owner))
 		var/mob/living/caster = owner
 		caster.cancel_spell_visual_effects()
+
+	owner.client?.mouse_override_icon = initial(owner.client?.mouse_override_icon)
+	owner.update_mouse_pointer()
 
 /// Checks if the current OWNER of the spell is in a valid state to say the spell's invocation
 /datum/action/cooldown/spell/proc/can_invoke(feedback = TRUE)
@@ -750,7 +771,9 @@
 
 /// Check if the spell is castable by cost
 /datum/action/cooldown/spell/proc/check_cost(cost_override, feedback = TRUE)
-	var/used_cost = spell_cost || cost_override
+	var/used_cost = spell_cost
+	if(cost_override)
+		used_cost = cost_override
 
 	if(used_cost <= 0)
 		return TRUE
@@ -796,7 +819,10 @@
 
 /// Charge the owner with the cost of the spell
 /datum/action/cooldown/spell/proc/invoke_cost(cost_override)
-	var/used_cost = spell_cost || cost_override
+	var/used_cost = spell_cost
+	if(cost_override)
+		used_cost = cost_override
+
 	if(used_cost <= 0)
 		return
 
@@ -848,6 +874,9 @@
 
 	if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
 		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(caster_moved))
+
+	source.mouse_override_icon = 'icons/effects/mousemice/charge/spell_charging.dmi'
+	source.mob.update_mouse_pointer()
 
 	charge_started_at = world.time
 	charge_target_time = get_chargetime()

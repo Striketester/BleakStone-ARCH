@@ -6,6 +6,7 @@
 	antimagic_flags = NONE
 
 	charge_required = FALSE
+	has_visual_effects = FALSE
 	cooldown_time = 1 MINUTES
 
 /datum/action/cooldown/spell/undirected/fart/cast(atom/cast_on)

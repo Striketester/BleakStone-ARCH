@@ -3,7 +3,7 @@
 	desc = "Use arcyne energy to mend an item."
 	point_cost = 1
 	sound = 'sound/magic/whiteflame.ogg'
-
+	self_cast_possible = FALSE
 
 	attunements = list(
 		/datum/attunement/life = 1.2

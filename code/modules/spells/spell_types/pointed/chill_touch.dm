@@ -3,6 +3,7 @@
 	name = "Chill Touch"
 	desc = "A skeletal hand grips your target, the targetted zone changes the effect."
 	sound = 'sound/magic/whiteflame.ogg'
+	self_cast_possible = FALSE
 
 	point_cost = 2
 	attunements = list(

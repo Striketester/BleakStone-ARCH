@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/adopt_child
 	name = "Adopt Child"
 	button_icon_state = "bless"
+	self_cast_possible = FALSE
 
 	charge_required = TRUE
 	cooldown_time = 20 SECONDS

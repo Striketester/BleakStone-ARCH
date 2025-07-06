@@ -3,7 +3,7 @@
 	desc = "Return a soul from necra's grasp."
 	button_icon_state = "revive"
 	sound = 'sound/magic/revive.ogg'
-	sound_loop = /datum/looping_sound/invokeholy
+	charge_sound = 'sound/magic/holycharging.ogg'
 
 	cast_range = 1
 	spell_type = SPELL_MIRACLE

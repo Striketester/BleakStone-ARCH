@@ -3,6 +3,7 @@
 	desc = "Captivate a target and prevent them from moving."
 	button_icon_state = "love"
 	sound = 'sound/magic/whiteflame.ogg'
+	self_cast_possible = FALSE
 
 	cast_range = 4
 	spell_type = SPELL_MIRACLE

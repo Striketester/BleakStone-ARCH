@@ -2,6 +2,7 @@
 	name = "Mind Spike"
 	desc = "You drive a disorienting spike of psychic energy into the mind of your target."
 	sound = 'sound/magic/whiteflame.ogg'
+	self_cast_possible = FALSE
 
 	point_cost = 1
 	attunements = list(

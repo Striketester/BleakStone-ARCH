@@ -2,7 +2,7 @@
 	name = "Miracle"
 	button_icon_state = "lesserheal"
 	sound = 'sound/magic/heal.ogg'
-	sound_loop = /datum/looping_sound/invokeholy
+	charge_sound = 'sound/magic/holycharging.ogg'
 
 	cast_range = 3
 	spell_type = SPELL_MIRACLE
@@ -10,7 +10,8 @@
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross)
 
-	charge_time = 1 SECONDS
+	charge_time = 10 SECONDS
+	charge_drain = 1
 	charge_slowdown = 1
 	cooldown_time = 20 SECONDS
 	spell_cost = 25

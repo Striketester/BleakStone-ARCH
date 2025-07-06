@@ -31,10 +31,10 @@
 	var/buttontooltipstyle = ""
 
 	/// This is the file for the BACKGROUND underlay icon of the button
-	var/background_icon = 'icons/mob/actions/backgrounds.dmi'
+	var/background_icon = 'icons/mob/actions/roguespells.dmi'
 	/// This is the icon state state for the BACKGROUND underlay icon of the button
 	/// (If set to ACTION_BUTTON_DEFAULT_BACKGROUND, uses the hud's default background)
-	var/background_icon_state = ACTION_BUTTON_DEFAULT_BACKGROUND
+	var/background_icon_state = "spell"
 
 	/// This is the file for the icon that appears on the button
 	var/button_icon = 'icons/mob/actions/roguespells.dmi'

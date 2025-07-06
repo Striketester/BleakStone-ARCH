@@ -7,6 +7,7 @@
 	antimagic_flags = NONE
 
 	charge_required = FALSE
+	has_visual_effects = FALSE
 	cooldown_time = 2 MINUTES
 	spell_cost = 0
 

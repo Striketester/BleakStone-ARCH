@@ -3,6 +3,7 @@
 	desc = "Step into the shadows, becoming invisible for a duration."
 	sound = 'sound/misc/area.ogg'
 	associated_skill = /datum/skill/misc/sneaking
+	has_visual_effects = FALSE
 
 	charge_time = 1 SECONDS
 	charge_drain = 15

@@ -8,7 +8,7 @@
  * Set cooldown_time to null to inherit the duration
  */
 /datum/action/cooldown/spell/status
-	pointed_spell = TRUE
+	self_cast_possible = TRUE
 
 	/// Path of status effect to add
 	var/datum/status_effect/status_effect = /datum/status_effect/buff/calm

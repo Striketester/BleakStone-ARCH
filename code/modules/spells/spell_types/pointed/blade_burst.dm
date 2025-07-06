@@ -2,6 +2,7 @@
 	name = "Blade Burst"
 	desc = "Summon a storm of arcyne force in an area that damages through armor, wounding anything in that location after a delay."
 	button_icon_state = "blade_burst"
+	self_cast_possible = FALSE
 
 	point_cost = 2
 	attunements = list(

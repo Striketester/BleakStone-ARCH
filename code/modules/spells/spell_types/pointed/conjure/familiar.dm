@@ -2,6 +2,7 @@
 	name = "Find Familiar"
 	desc = "Summons a temporary spectral volf to aid you."
 	button_icon_state = "zad"
+	self_cast_possible = FALSE
 
 	point_cost = 3
 

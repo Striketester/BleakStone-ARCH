@@ -3,6 +3,7 @@
 	desc = "Conjure kneestingers to light the path."
 	button_icon_state = "kneestinger"
 	sound = 'sound/items/dig_shovel.ogg'
+	self_cast_possible = FALSE
 
 	cast_range = 1
 	spell_type = SPELL_MIRACLE

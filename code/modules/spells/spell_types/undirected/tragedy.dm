@@ -2,6 +2,7 @@
 	name = "Tragedia"
 	desc = "Remind someone in low spirits that it could be much worse."
 	button_icon_state = "tragedy"
+	has_visual_effects = FALSE
 	antimagic_flags = NONE
 
 	invocation_type = INVOCATION_SHOUT

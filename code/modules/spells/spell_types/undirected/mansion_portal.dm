@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/undirected/mansion_portal
 	name = "Mansion Portal"
 	desc = "Create a portal to return to MY mansion"
+	has_visual_effects = FALSE
 
 	charge_required = FALSE
 	cooldown_time = 15 MINUTES

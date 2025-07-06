@@ -3,6 +3,7 @@
 	desc = "Point at a target to blind them for few seconds."
 	button_icon_state = "blindness"
 	sound = 'sound/magic/churn.ogg'
+	self_cast_possible = FALSE
 
 	attunements = list(
 		/datum/attunement/arcyne = 0.1
@@ -21,7 +22,7 @@
 	cast_on.visible_message(span_warning("[owner] points at [cast_on]'s eyes!"), span_warning("My eyes are covered in darkness!"))
 
 /datum/action/cooldown/spell/blindness/miracle
-	sound_loop = /datum/looping_sound/invokeholy
+	charge_sound = 'sound/magic/holycharging.ogg'
 
 	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY

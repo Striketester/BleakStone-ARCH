@@ -2,6 +2,7 @@
 	name = "Flower Field"
 	desc = "Summons a magical field of flowers using a single flower."
 	button_icon_state = "flower_field"
+	self_cast_possible = FALSE
 
 	point_cost = 4
 

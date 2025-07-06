@@ -4,6 +4,7 @@
 	desc = "Instantly rots the target, if humanoid creates a deadite."
 	button_icon_state = "orison"
 	sound = 'sound/magic/whiteflame.ogg'
+	self_cast_possible = FALSE
 
 	cast_range = 1
 	point_cost = 3

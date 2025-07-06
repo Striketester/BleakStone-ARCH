@@ -3,7 +3,8 @@
 	desc = "Attempt to turn a beast of Dendor to your favor."
 	button_icon_state = "tamebeast"
 	sound = 'sound/vo/smokedrag.ogg'
-	sound_loop = /datum/looping_sound/invokeholy
+	charge_sound = 'sound/magic/holycharging.ogg'
+	self_cast_possible = FALSE
 
 	cast_range = 4
 	spell_type = SPELL_MIRACLE

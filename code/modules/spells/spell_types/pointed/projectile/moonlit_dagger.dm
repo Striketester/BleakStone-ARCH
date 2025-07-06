@@ -3,7 +3,7 @@
 	desc = "Fire off a piercing moonlit-dagger, smiting unholy creechers!"
 	button_icon_state = "moondagger"
 	sound = 'sound/misc/area.ogg'
-	sound_loop = /datum/looping_sound/invokeholy
+	charge_sound = 'sound/magic/holycharging.ogg'
 
 	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY

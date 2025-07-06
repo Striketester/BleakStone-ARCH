@@ -172,8 +172,6 @@
 /datum/action/cooldown/spell/undirected/touch/proc/on_secondary_hand_hit(datum/source, atom/victim, mob/caster, proximity_flag, click_parameters)
 	SIGNAL_HANDLER
 
-	if(!can_cast_on_self && victim == caster)
-		return
 	if(!is_valid_target(victim))
 		return
 
@@ -181,8 +179,6 @@
 
 /// Checks if the passed victim can be cast on by the caster.
 /datum/action/cooldown/spell/undirected/touch/proc/can_hit_with_hand(atom/victim, mob/caster)
-	if(!can_cast_on_self && victim == caster)
-		return FALSE
 	if(!is_valid_target(victim))
 		return FALSE
 	if(!can_cast_spell(feedback = TRUE))

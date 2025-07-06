@@ -3,6 +3,7 @@
 	desc = "Weighten space around someone, crushing them."
 	button_icon_state = "gravity"
 	sound = 'sound/magic/gravity.ogg'
+	self_cast_possible = FALSE
 
 	point_cost = 2
 	attunements = list(

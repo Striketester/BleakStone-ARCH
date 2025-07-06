@@ -3,6 +3,7 @@
 	desc = ""
 	button_icon_state = "heatmetal"
 	sound = 'sound/items/bsmithfail.ogg'
+	self_cast_possible = FALSE
 
 	cast_range = 2
 	spell_type = SPELL_MIRACLE

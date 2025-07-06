@@ -7,6 +7,7 @@
 	invocation_type = INVOCATION_SHOUT
 
 	charge_drain = FALSE
+	has_visual_effects = FALSE
 	cooldown_time = 1 MINUTES
 
 	var/message

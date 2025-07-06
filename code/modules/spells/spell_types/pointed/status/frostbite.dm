@@ -2,9 +2,10 @@
 	name = "Frostbite"
 	desc = "Freeze your enemy with an icy blast that does low damage, but reduces the target's Speed for a considerable length of time."
 	button_icon_state = "frostbite"
-	point_cost = 1
-	sound = 'sound/magic/whiteflame.ogg'
+	self_cast_possible = FALSE
 
+	sound = 'sound/magic/whiteflame.ogg'
+	point_cost = 1
 	attunements = list(
 		/datum/attunement/ice = 0.9
 	)

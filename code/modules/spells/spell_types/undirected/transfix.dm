@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/undirected/transfix
 	name = "Transfix"
 	button_icon_state = "transfix"
+	has_visual_effects = FALSE
 
 	associated_skill = /datum/skill/magic/blood
 

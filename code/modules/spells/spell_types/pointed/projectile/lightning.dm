@@ -3,7 +3,7 @@
 	desc = "Emit a bolt of lightning that burns and stuns a target."
 	button_icon_state = "lightning"
 	sound = 'sound/magic/lightning.ogg'
-	sound_loop = /datum/looping_sound/invokelightning
+	charge_sound = 'sound/magic/charging_lightning.ogg'
 	sparks_amt = 5
 
 	charge_time = 3 SECONDS

@@ -4,7 +4,7 @@
 	desc = "Shoot out a low-powered ball of fire that shines brightly on impact, potentially blinding a target."
 	button_icon_state = "fireball_multi"
 	sound = 'sound/magic/whiteflame.ogg'
-	sound_loop = /datum/looping_sound/invokefire
+	charge_sound = 'sound/magic/charging_fire.ogg'
 
 	point_cost = 3
 	attunements = list(

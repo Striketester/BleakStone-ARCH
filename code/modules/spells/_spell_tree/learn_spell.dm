@@ -5,6 +5,7 @@
 	school = SCHOOL_TRANSMUTATION
 
 	charge_required = FALSE
+	has_visual_effects = FALSE
 	spell_cost = 0
 
 	var/list/unlocked_spells = list()

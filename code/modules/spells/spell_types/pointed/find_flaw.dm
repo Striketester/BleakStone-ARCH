@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/find_flaw
 	name = "Find Flaw"
 	button_icon_state = "tragedy"
+	self_cast_possible = FALSE
 
 	cast_range = 2
 	antimagic_flags = NONE

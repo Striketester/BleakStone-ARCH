@@ -4,6 +4,7 @@
 	spell_requirements = SPELL_REQUIRES_NO_ANTIMAGIC|SPELL_REQUIRES_NO_MOVE
 	button_icon_state = "curse"
 	sound = 'sound/surgery/organ1.ogg'
+	self_cast_possible = FALSE
 
 	cast_range = 1
 	charge_required = FALSE
