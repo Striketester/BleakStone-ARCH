@@ -37,7 +37,7 @@
 	. = 0
 
 	for (var/datum/attunement/iterated_attunement as anything in attunements)
-		var/intensity = LAZYACCESS(other_attunements[iterated_attunement]) || 1
+		var/intensity = (other_attunements?[iterated_attunement]) || 1
 		. += GET_RAW_ATTUNEMENT_CORRESPONDANCE(attunements, intensity, iterated_attunement)
 
 /// Returns the "mult" value using the correspondance between attunements and intensity. This value should be multiplied against
