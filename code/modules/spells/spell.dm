@@ -821,8 +821,8 @@
 				return FALSE
 			if(!gaunt.check_gauntlet_validity(owner))
 				return FALSE
-			// This should not be possible without admemes
-			if(!(src in gaunt.granted_spells))
+			// This should not be possible without admemes or bad coders
+			if(!(is_type_in_list(src, gaunt.granted_spells)))
 				return FALSE
 			// Ditto
 			if(!length(gaunt.stored_vials))

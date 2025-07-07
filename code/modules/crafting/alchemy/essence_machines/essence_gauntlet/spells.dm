@@ -1298,10 +1298,12 @@
 	duration = 30 SECONDS
 
 /datum/status_effect/buff/wind_walking/on_apply()
+	. = ..()
 	owner.add_movespeed_modifier("wind_walking", multiplicative_slowdown = -0.3)
 	to_chat(owner, span_notice("You step upon the wind itself!"))
 
 /datum/status_effect/buff/wind_walking/on_remove()
+	. = ..()
 	owner.remove_movespeed_modifier("wind_walking")
 
 /datum/status_effect/buff/aerial_speed
@@ -1309,12 +1311,13 @@
 	alert_type = /atom/movable/screen/alert/status_effect/aerial_speed
 	duration = 15 SECONDS
 
-
 /datum/status_effect/buff/aerial_speed/on_apply()
+	. = ..()
 	owner.add_movespeed_modifier("aerial_speed", multiplicative_slowdown = -0.5)
 	to_chat(owner, span_notice("Air currents propel you forward!"))
 
 /datum/status_effect/buff/aerial_speed/on_remove()
+	. = ..()
 	owner.remove_movespeed_modifier("aerial_speed")
 
 /datum/status_effect/buff/probability_flux
@@ -1329,10 +1332,12 @@
 	duration = 300 SECONDS
 
 /datum/status_effect/buff/toxin_immunity/on_apply()
+	. = ..()
 	ADD_TRAIT(owner, TRAIT_TOXINLOVER, MAGIC_TRAIT)
 	to_chat(owner, span_notice("Toxins cannot harm you!"))
 
 /datum/status_effect/buff/toxin_immunity/on_remove()
+	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_TOXINLOVER, MAGIC_TRAIT)
 
 /datum/status_effect/buff/arcane_focus
@@ -1362,11 +1367,13 @@
 	duration = 30 SECONDS
 
 /datum/status_effect/buff/momentum_boost/on_apply()
+	. = ..()
 	owner.add_movespeed_modifier("momentum", multiplicative_slowdown = -0.4)
 	ADD_TRAIT(owner, TRAIT_PUSHIMMUNE, MAGIC_TRAIT)
 	to_chat(owner, span_notice("Kinetic energy surges through you!"))
 
 /datum/status_effect/buff/momentum_boost/on_remove()
+	. = ..()
 	owner.remove_movespeed_modifier("momentum")
 	REMOVE_TRAIT(owner, TRAIT_PUSHIMMUNE, MAGIC_TRAIT)
 
@@ -1392,9 +1399,11 @@
 	duration = 300 SECONDS
 
 /datum/status_effect/buff/elven_grace/on_apply()
+	. = ..()
 	owner.add_movespeed_modifier("elven_grace", multiplicative_slowdown = -0.2)
 
 /datum/status_effect/buff/elven_grace/on_remove()
+	. = ..()
 	owner.remove_movespeed_modifier("elven_grace")
 
 /datum/status_effect/buff/balanced_mind
@@ -1485,11 +1494,13 @@
 	duration = 15 SECONDS
 
 /datum/status_effect/buff/air_walking/on_apply()
+	. = ..()
 	ADD_TRAIT(owner, TRAIT_HOLLOWBONES, MAGIC_TRAIT)
 	owner.movement_type |= FLYING
 	to_chat(owner, span_notice("You feel light as air, able to step over gaps and chasms."))
 
 /datum/status_effect/buff/air_walking/on_remove()
+	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_HOLLOWBONES, MAGIC_TRAIT)
 	owner.movement_type &= ~FLYING
 	to_chat(owner, span_notice("Your feet return to solid ground."))
@@ -1500,10 +1511,12 @@
 	duration = 60 SECONDS
 
 /datum/status_effect/buff/water_breathing/on_apply()
+	. = ..()
 	ADD_TRAIT(owner, TRAIT_WATER_BREATHING, MAGIC_TRAIT)
 	to_chat(owner, span_notice("You can now breathe underwater."))
 
 /datum/status_effect/buff/water_breathing/on_remove()
+	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_WATER_BREATHING, MAGIC_TRAIT)
 	to_chat(owner, span_notice("Your ability to breathe underwater fades."))
 
@@ -1513,11 +1526,13 @@
 	duration = 120 SECONDS
 
 /datum/status_effect/buff/warmth/on_apply()
+	. = ..()
 	ADD_TRAIT(owner, TRAIT_RESISTCOLD, MAGIC_TRAIT)
 	owner.bodytemperature = max(owner.bodytemperature, BODYTEMP_NORMAL)
 	to_chat(owner, span_notice("A gentle warmth spreads through your body."))
 
 /datum/status_effect/buff/warmth/on_remove()
+	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_RESISTCOLD, MAGIC_TRAIT)
 	to_chat(owner, span_notice("The magical warmth fades away."))
 
@@ -1527,6 +1542,7 @@
 	duration = 5 SECONDS
 
 /datum/status_effect/buff/phase_walking/on_apply()
+	. = ..()
 	owner.pass_flags |= PASSMOB | PASSBLOB | PASSTABLE | PASSGLASS
 	owner.alpha = 128
 	to_chat(owner, span_notice("You become translucent and can pass through objects."))
@@ -1543,6 +1559,7 @@
 	effectedstats = list("strength" = 1, "endurance" = 1)
 
 /datum/status_effect/buff/vigor/on_apply()
+	. = ..()
 	if(isliving(owner))
 		var/mob/living/L = owner
 		L.adjust_stamina(50)
@@ -1550,6 +1567,7 @@
 		to_chat(owner, span_notice("You feel invigorated with supernatural strength."))
 
 /datum/status_effect/buff/vigor/on_remove()
+	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_STRONG_GRABBER, MAGIC_TRAIT)
 	to_chat(owner, span_notice("The supernatural vigor fades."))
 
@@ -1559,12 +1577,14 @@
 	duration = 600 SECONDS
 
 /datum/status_effect/buff/seasonal_attunement/on_apply()
+	. = ..()
 	// Minor resistances based on current season/time
 	ADD_TRAIT(owner, TRAIT_RESISTCOLD, MAGIC_TRAIT)
 	ADD_TRAIT(owner, TRAIT_RESISTHEAT, MAGIC_TRAIT)
 	to_chat(owner, span_notice("You harmonize with the natural cycles."))
 
 /datum/status_effect/buff/seasonal_attunement/on_remove()
+	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_RESISTCOLD, MAGIC_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_RESISTHEAT, MAGIC_TRAIT)
 	to_chat(owner, span_notice("Your connection to natural cycles fades."))

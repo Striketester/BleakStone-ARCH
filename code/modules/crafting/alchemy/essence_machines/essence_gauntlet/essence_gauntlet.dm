@@ -242,7 +242,7 @@
 	return TRUE
 
 /obj/item/clothing/gloves/essence_gauntlet/proc/update_granted_spells()
-	granted_spells = null
+	granted_spells = list()
 	var/list/available_essences = get_available_essence_types()
 
 	// Add single essence spells
@@ -272,9 +272,10 @@
 	var/user_race = get_user_race(user)
 
 	// Grant single essence and combo spells
-	for(var/spell_type in granted_spells)
-		var/datum/action/cooldown/spell/spell = new spell_type(src)
+	for(var/datum/action/spell_type as anything in granted_spells)
+		var/datum/action/cooldown/spell/spell = new spell_type
 		spell.spell_type = SPELL_ESSENCE
+		spell.link_to(src)
 		spell.Grant(living_user)
 
 	// Grant racial combo spells
@@ -283,9 +284,10 @@
 		for(var/list/combo_requirements in racial_combos)
 			if(check_combo_requirements(combo_requirements, available_essences))
 				var/list/racial_spells = racial_combos[combo_requirements]
-				for(var/spell_type in racial_spells)
-					var/datum/action/cooldown/spell/spell = new spell_type(src)
+				for(var/datum/action/spell_type as anything in racial_spells)
+					var/datum/action/cooldown/spell/spell = new spell_type
 					spell.spell_type = SPELL_ESSENCE
+					spell.link_to(src)
 					spell.Grant(living_user)
 
 /obj/item/clothing/gloves/essence_gauntlet/proc/remove_essence_spells(mob/user)
