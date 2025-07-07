@@ -848,7 +848,7 @@
  * Vars
  * cost_override override the used cost
  * type_override override the method of charging cost
- * re_run if the invoke is being recursively cast due to lack of requirements
+ * re_run if the proc is being recursively run due to lack of requirements
  */
 /datum/action/cooldown/spell/proc/invoke_cost(cost_override, type_override, re_run = FALSE)
 	if(!isliving(owner))
