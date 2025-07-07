@@ -89,7 +89,7 @@
 	if(QDELETED(src) || QDELETED(spell_rune))
 		return
 
-	var/obj/effect/temp_visual/particle_up/particles = new(null, src)
+	var/obj/effect/temp_visual/particle_up/particles = new(null, src, spell_rune)
 	vis_contents |= particles
 	particles.color = spell_color
 

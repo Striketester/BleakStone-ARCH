@@ -1838,6 +1838,7 @@
 #include "code\modules\crafting\alchemy\essence_machines\node_harvester.dm"
 #include "code\modules\crafting\alchemy\essence_machines\node_jar.dm"
 #include "code\modules\crafting\alchemy\essence_machines\essence_gauntlet\essence_gauntlet.dm"
+#include "code\modules\crafting\alchemy\essence_machines\essence_gauntlet\essence_use_component.dm"
 #include "code\modules\crafting\alchemy\essence_machines\essence_gauntlet\spells.dm"
 #include "code\modules\crafting\alchemy\essence_machines\research_matrix\_research_network.dm"
 #include "code\modules\crafting\alchemy\essence_machines\research_matrix\build_node_network.dm"

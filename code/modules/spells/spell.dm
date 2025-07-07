@@ -790,47 +790,62 @@
 	if(used_cost <= 0)
 		return TRUE
 
-	if(spell_type == SPELL_MANA)
-		if(!isliving(owner))
-			if(feedback)
-				to_chat(owner, span_warning("I have no mana!"))
-			return FALSE
-		var/mob/living/caster = owner
-		if(!caster.has_mana_available(attunements, used_cost))
-			if(feedback)
-				to_chat(owner, span_warning("I am too drained to cast!"))
-			return FALSE
+	switch(spell_type)
+		if(SPELL_MANA)
+			if(!isliving(owner))
+				if(feedback)
+					to_chat(owner, span_warning("I have no mana!"))
+				return FALSE
+			var/mob/living/caster = owner
+			if(!caster.has_mana_available(attunements, used_cost))
+				if(feedback)
+					to_chat(owner, span_warning("I am too drained to cast!"))
+				return FALSE
 
-		return TRUE
+			return TRUE
 
-	if(spell_type == SPELL_MIRACLE)
-		var/mob/living/carbon/human/H = owner
-		var/datum/devotion/cleric_holder/CH = H.cleric
-		if(!CH?.check_devotion(spell_cost))
-			if(feedback)
-				to_chat(owner, span_warning("My devotion is too weak!"))
-			return FALSE
+		if(SPELL_MIRACLE)
+			var/mob/living/carbon/human/H = owner
+			var/datum/devotion/cleric_holder/CH = H.cleric
+			if(!CH?.check_devotion(spell_cost))
+				if(feedback)
+					to_chat(owner, span_warning("My devotion is too weak!"))
+				return FALSE
 
-		return TRUE
+			return TRUE
 
-	if(spell_type == SPELL_ESSENCE)
-		var/obj/item/clothing/gloves/essence_gauntlet/gaunt = target
-		if(!target || !istype(target))
-			stack_trace("Essence spell checking cost without being assigned to an essence gauntlet!")
-			return FALSE
-		if(!gaunt.check_gauntlet_validity(owner))
-			return FALSE
-		// This should not be possible without admemes
-		if(!(src in gaunt.granted_spells))
-			return FALSE
-		// Ditto
-		if(!length(gaunt.stored_vials))
-			return FALSE
+		if(SPELL_ESSENCE)
+			var/obj/item/clothing/gloves/essence_gauntlet/gaunt = target
+			if(QDELETED(target) || !istype(target))
+				stack_trace("Essence spell checking cost without being assigned to an essence gauntlet!")
+				return FALSE
+			if(!gaunt.check_gauntlet_validity(owner))
+				return FALSE
+			// This should not be possible without admemes
+			if(!(src in gaunt.granted_spells))
+				return FALSE
+			// Ditto
+			if(!length(gaunt.stored_vials))
+				return FALSE
+			if(!gaunt.can_consume_essence(used_cost, attunements))
+				if(feedback)
+					to_chat(owner, span_warning(("The gauntlet hasn't got enough essence to cast!")))
+				return FALSE
 
-		return TRUE
+			return TRUE
 
-/// Charge the owner with the cost of the spell
-/datum/action/cooldown/spell/proc/invoke_cost(cost_override)
+/**
+ * Charge the owner with the cost of the spell.
+ *
+ * Vars
+ * cost_override override the used cost
+ * type_override override the method of charging cost
+ * re_run if the invoke is being recursively cast due to lack of requirements
+ */
+/datum/action/cooldown/spell/proc/invoke_cost(cost_override, type_override, re_run = FALSE)
+	if(!isliving(owner))
+		return
+
 	var/used_cost = spell_cost
 	if(cost_override)
 		used_cost = cost_override
@@ -838,21 +853,33 @@
 	if(used_cost <= 0)
 		return
 
-	if(spell_type == SPELL_MANA)
-		if(!isliving(owner))
-			return
-		var/mob/living/caster = owner
-		caster.consume_mana(attunements, used_cost)
-		return
+	var/used_type = spell_type
+	if(type_override)
+		used_type = type_override
 
-	if(spell_type == SPELL_MIRACLE)
-		var/mob/living/carbon/human/H = owner
-		var/datum/devotion/cleric_holder/CH = H.cleric
-		CH?.update_devotion(-used_cost)
-		return
+	if(!re_run)
+		owner.adjust_stamina(-(used_cost / 2))
 
-	if(spell_type == SPELL_ESSENCE)
-		return
+	switch(used_type)
+		if(SPELL_MANA)
+			var/mob/living/caster = owner
+			caster.consume_mana(attunements, used_cost)
+
+		if(SPELL_MIRACLE)
+			var/mob/living/carbon/human/H = owner
+			var/datum/devotion/cleric_holder/CH = H.cleric
+			if(!CH)
+				invoke_cost(used_cost, SPELL_MANA, TRUE)
+				return
+			CH.update_devotion(-used_cost)
+
+		if(SPELL_ESSENCE)
+			var/obj/item/clothing/gloves/essence_gauntlet/gaunt = target
+			if(!gaunt.check_gauntlet_validity(owner))
+				invoke_cost(used_cost, SPELL_MANA, TRUE)
+				return
+
+			gaunt.consume_essence(used_cost, attunements)
 
 /// Try to begin the casting process on mouse down
 /datum/action/cooldown/spell/proc/start_casting(client/source, atom/_target, turf/location, control, params)

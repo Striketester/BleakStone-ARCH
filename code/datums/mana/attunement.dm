@@ -139,9 +139,10 @@ GLOBAL_LIST_INIT(attunement_colors, list(
 	duration = 3.8 SECONDS
 	var/datum/weakref/mob
 
-/obj/effect/temp_visual/particle_up/Initialize(mapload, mob/target_mob)
+/obj/effect/temp_visual/particle_up/Initialize(mapload, mob/target_mob, obj/spell_rune)
 	. = ..()
 	mob = WEAKREF(target_mob)
+	RegisterSignal(spell_rune, COMSIG_PARENT_QDELETING, PROC_REF(clean_up))
 	overlays += emissive_appearance(icon, icon_state, alpha = src.alpha)
 
 /obj/effect/temp_visual/particle_up/Destroy(force)
@@ -150,6 +151,11 @@ GLOBAL_LIST_INIT(attunement_colors, list(
 		holder.vis_contents -= src
 		mob = null
 	return ..()
+
+/obj/effect/temp_visual/particle_up/proc/clean_up()
+	SIGNAL_HANDLER
+
+	qdel(src)
 
 /proc/create_attunement_list()
 	. = list()
