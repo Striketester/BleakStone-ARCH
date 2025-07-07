@@ -186,9 +186,11 @@
 				for(var/atom/movable/AM as anything in target)
 					// Do it like this for target bias
 					if(isliving(AM))
+						original = AM
 						Bump(AM)
 						return
 					else if(AM.density && isobj(AM))
+						original = AM
 						Bump(AM)
 						return
 
