@@ -796,7 +796,7 @@
 		update_inv_gloves()
 		. = TRUE
 
-/mob/living/dual_wielding_check()
+/mob/living/carbon/human/dual_wielding_check()
 	if(!HAS_TRAIT(src, TRAIT_DUALWIELDER))
 		return FALSE
 
