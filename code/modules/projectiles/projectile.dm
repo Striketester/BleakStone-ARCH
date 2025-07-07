@@ -196,8 +196,9 @@
 				// or just move to the target if none
 				forceMove(target)
 
-			// Snowflake or the arrow floats and im not setting up that signal for openspace here
-			forceMove(below)
+			else
+				// Snowflake or the arrow floats and im not setting up that signal for openspace here
+				forceMove(below)
 
 		on_range()
 
