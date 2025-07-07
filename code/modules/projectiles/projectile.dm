@@ -164,6 +164,33 @@
 /obj/projectile/proc/Range()
 	range--
 	if(range <= 0 && loc)
+		// Arcshot means that below the targeted tile is what we want to aim for
+		// and it also means that the targeted range is the target range
+		// But we can't hit openspace
+		// So we track down all Z until we hit a floor
+		// Then look for targets
+		var/turf/current = get_turf(src)
+		if(arcshot && isopenspace(current))
+			var/turf/below = GET_TURF_BELOW(current)
+			if(below && current.can_zFall(src, 1, below))
+				var/turf/target
+				while(!target)
+					var/turf/potential = GET_TURF_BELOW(below)
+					if(!potential || !below.can_zFall(src, 1, potential))
+						target = below
+					else
+						below = potential
+				target.visible_message(span_danger("[src] flies down from above!"), vision_distance = COMBAT_MESSAGE_RANGE)
+
+				// Hit the first living
+				for(var/mob/living/L in target)
+					original = L
+					Bump(L)
+					return
+
+				// or just move to the target if none
+				forceMove(target)
+
 		on_range()
 
 /obj/projectile/proc/on_range() //if we want there to be effects when they reach the end of their range
