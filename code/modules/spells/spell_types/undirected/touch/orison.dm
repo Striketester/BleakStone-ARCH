@@ -124,7 +124,7 @@
 	<b>Touch Turf</b>: Cause light sources in range to flicker.\n \
 	<b>Touch Self</b>: Direct a sliver of divine thaumaturgy into your being, causing your voice to become LOUD when you next speak. It will be removed if applied.\n \
 	<b>Touch Other</b>: Issue a prayer for illumination, causing you or another living creature to begin glowing with light for five minutes \
-	 - this stacks each time you cast it, with no upper limit. Blessings can be removed with a touch of the right hand."
+	- this stacks each time you cast it, with no upper limit. Blessings can be removed with a touch of the right hand."
 
 /datum/action/cooldown/spell/undirected/touch/orison/lesser
 	name = "Lesser Orison"
