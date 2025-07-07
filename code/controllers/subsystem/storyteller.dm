@@ -1324,6 +1324,7 @@ SUBSYSTEM_DEF(gamemode)
 		STATS_WEREVOLVES,
 		STATS_VAMPIRES,
 		STATS_DEADITES_ALIVE,
+		STATS_CLINGY_PEOPLE,
 		STATS_ALCOHOLICS,
 		STATS_JUNKIES,
 		STATS_KLEPTOMANIACS,
@@ -1416,6 +1417,8 @@ SUBSYSTEM_DEF(gamemode)
 				record_round_statistic(STATS_ALIVE_TRADESMEN)
 			if(!human_mob.is_literate())
 				record_round_statistic(STATS_ILLITERATES)
+			if(human_mob.has_flaw(/datum/charflaw/clingy))
+				record_round_statistic(STATS_CLINGY_PEOPLE)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/alcoholic))
 				record_round_statistic(STATS_ALCOHOLICS)
 			if(human_mob.has_flaw(/datum/charflaw/addiction/junkie))

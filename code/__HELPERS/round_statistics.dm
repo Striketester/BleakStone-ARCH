@@ -45,7 +45,6 @@
 #define STATS_DEADITES_ALIVE "deadites_alive"
 #define STATS_KLEPTOMANIACS "kleptomaniacs"
 #define STATS_LUX_REVIVALS "lux_revivals"
-#define STATS_TAXES_COLLECTED "taxes_collected"
 
 // Influence related statistics
 
@@ -59,6 +58,7 @@
 #define STATS_ALIVE_NOBLES "alive_nobles"
 #define STATS_NOBLE_DEATHS "noble_deaths"
 #define STATS_ASTRATA_REVIVALS "astrata_revivals"
+#define STATS_TAXES_COLLECTED "taxes_collected"
 #define STATS_SLURS_SPOKEN "slurs_spoken"
 
 // Noc
@@ -122,6 +122,7 @@
 #define STATS_MARRIAGES "marriages"
 #define STATS_HUGS_MADE "hugs_made"
 #define STATS_HANDS_HELD "hands_held"
+#define STATS_CLINGY_PEOPLE "clingy_people"
 #define STATS_PACIFISTS "pacifists"
 
 // Zizo
@@ -203,6 +204,7 @@ GLOBAL_LIST_INIT(vanderlin_round_stats, list(
 	STATS_LEECHES_EMBEDDED = 0,
 	STATS_MARRIAGES = 0,
 	STATS_HUGS_MADE = 0,
+	STATS_CLINGY_PEOPLE = 0,
 	STATS_ZIZO_PRAISED = 0,
 	STATS_DEADITES_ALIVE = 0,
 	STATS_CLERGY_DEATHS = 0,
@@ -442,7 +444,7 @@ GLOBAL_LIST_INIT(featured_stats, list(
 /proc/record_round_statistic(name, amount = 1)
 	if(SSticker.current_state == GAME_STATE_FINISHED)
 		return
-	if(!name || !GLOB.vanderlin_round_stats[name])
+	if(!name || isnull(GLOB.vanderlin_round_stats[name]))
 		return
 
 	GLOB.vanderlin_round_stats[name] += amount
@@ -451,7 +453,7 @@ GLOBAL_LIST_INIT(featured_stats, list(
 /proc/force_set_round_statistic(name, value)
 	if(SSticker.current_state == GAME_STATE_FINISHED)
 		return
-	if(!name || !GLOB.vanderlin_round_stats[name] || !value)
+	if(!name || isnull(GLOB.vanderlin_round_stats[name]))
 		return
 
 	GLOB.vanderlin_round_stats[name] = value
