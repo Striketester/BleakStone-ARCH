@@ -39,6 +39,9 @@
 		if(L.checkmiss(src))
 			return
 		if(!L.checkdefense(used_intent, src))
+			if(LAZYACCESS(params2list(params), RIGHT_CLICK))
+				L.attack_right(src)
+				return
 			L.attack_hand(src, params)
 		return
 	else
@@ -64,6 +67,9 @@
 						visible_message(span_warning("[src] pushes [AM]."))
 					changeNext_move(CLICK_CD_MELEE)
 					return
+		if(LAZYACCESS(params2list(params), RIGHT_CLICK))
+			A.attack_right(src)
+			return
 		A.attack_hand(src, params)
 
 /mob/living/attack_right(mob/user, params)
@@ -575,7 +581,7 @@
 /*
 	Animals & All Unspecified
 */
-/mob/living/UnarmedAttack(atom/A)
+/mob/living/UnarmedAttack(atom/A, proximity_flag, params)
 	if(!isliving(A))
 		if(used_intent.type == INTENT_GRAB)
 			var/obj/structure/AM = A
@@ -592,6 +598,12 @@
 				else
 					visible_message(span_warning("[src] pushes [AM]."))
 				return
+
+		if(LAZYACCESS(params2list(params), RIGHT_CLICK))
+			if(uses_intents && used_intent.rmb_ranged)
+				used_intent.rmb_ranged(A, src) //get the message from the intent
+				return
+
 	A.attack_animal(src)
 
 /atom/proc/attack_animal(mob/user)

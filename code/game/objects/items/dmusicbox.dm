@@ -60,7 +60,7 @@
 			return
 	return ..()
 
-/obj/item/dmusicbox/rmb_self(mob/user)
+/obj/item/dmusicbox/attack_self_secondary(mob/user)
 	attack_right(user)
 
 /obj/item/dmusicbox/attack_right(mob/user)

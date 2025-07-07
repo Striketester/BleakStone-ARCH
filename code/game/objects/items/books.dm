@@ -123,9 +123,8 @@
 	read(user)
 	user.update_inv_hands()
 
-/obj/item/book/rmb_self(mob/user)
+/obj/item/book/attack_self_secondary(mob/user)
 	attack_right(user)
-	return
 
 /obj/item/book/proc/read(mob/user)
 	if(!open)

@@ -111,9 +111,8 @@
 	..()
 	user.update_inv_hands()
 
-/obj/item/book/granter/spellbook/rmb_self(mob/user)
+/obj/item/book/granter/spellbook/attack_self_secondary(mob/user)
 	attack_right(user)
-	return
 
 /obj/item/book/granter/spellbook/read(mob/user)
 	return FALSE

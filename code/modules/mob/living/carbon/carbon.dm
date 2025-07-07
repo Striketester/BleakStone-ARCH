@@ -75,7 +75,7 @@
 		if(H)
 			H.update_appearance()
 		H = hud_used.action_intent
-	oactive = FALSE
+
 	update_a_intents()
 
 	givingto = null

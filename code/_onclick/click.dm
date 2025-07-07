@@ -137,22 +137,6 @@
 						adf = round(adf * 0.6)
 					changeNext_move(adf,used_hand)
 					return
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
-		if(oactive)
-			if(atkswinging != "right")
-				return
-			if(active_hand_index == 1)
-				used_hand = 2
-				if(next_rmove > world.time)
-					return
-			else
-				used_hand = 1
-				if(next_lmove > world.time)
-					return
-			if(used_intent.get_chargetime())
-				if(used_intent.no_early_release && client?.chargedprog < 100)
-					changeNext_move(used_intent.clickcd,used_hand)
-					return
 
 	if(LAZYACCESS(modifiers, SHIFT_CLICKED) && LAZYACCESS(modifiers, RIGHT_CLICK))
 		ShiftRightClickOn(A, params)
@@ -176,10 +160,6 @@
 	if(LAZYACCESS(modifiers, CTRL_CLICKED))
 		CtrlClickOn(A)
 		return
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
-		if(!oactive)
-			RightClickOn(A, params)
-			return
 
 	if(incapacitated(ignore_restraints = TRUE, ignore_grab = TRUE))
 		return
@@ -199,19 +179,16 @@
 		return
 
 	if(in_throw_mode)
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
-			if(oactive)
-				throw_item(A, TRUE)
-				return
 		throw_item(A)
 		return
 
 	var/obj/item/W = get_active_held_item()
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
-		if(oactive)
-			W = get_inactive_held_item()
 
 	if(W == A)
+		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+			W.attack_self_secondary(src, modifiers)
+			update_inv_hands()
+			return
 		W.attack_self(src)
 		update_inv_hands()
 		return
@@ -779,23 +756,6 @@
 			return TRUE
 
 	return FALSE
-
-/* RightClickOn */
-
-/atom/proc/rmb_self(mob/user)
-	return
-
-/mob/proc/RightClickOn(atom/A, params)
-	if(stat >= UNCONSCIOUS)
-		return
-	changeNext_move(CLICK_CD_MELEE)
-	if(A.Adjacent(src))
-		if(A.loc == src && (A == get_active_held_item()) )
-			A.rmb_self(src)
-	else if(uses_intents && used_intent.rmb_ranged)
-		used_intent.rmb_ranged(A, src) //get the message from the intent
-	if(isturf(A.loc))
-		face_atom(A)
 
 /mob/proc/TargetMob(mob/target)
 	if(ismob(target))

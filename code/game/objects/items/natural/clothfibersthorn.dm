@@ -170,10 +170,6 @@
 	attack_right(user)
 	return
 
-/obj/item/natural/cloth/rmb_self(mob/user)
-	attack_right(user)
-	return
-
 /obj/item/natural/cloth/attack_right(mob/user)
 	wring_cloth(user.loc, user)
 	return

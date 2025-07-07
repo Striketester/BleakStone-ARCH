@@ -1396,6 +1396,9 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 	if(gripped_intents)
 		wield(user)
 
+/obj/item/proc/attack_self_secondary(mob/user)
+	return
+
 /obj/item/equip_to_best_slot(mob/M)
 	if(..())
 		if(altgripped || wielded)

@@ -71,7 +71,7 @@
 	update_appearance(UPDATE_ICON_STATE)
 
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/rmb_self(mob/user)
+/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attack_self_secondary(mob/user)
 	. = ..()
 	if(user.get_skill_level(/datum/skill/combat/firearms) <= 0)
 		to_chat(user, "<span class='warning'>I don't know how to do this!</span>")

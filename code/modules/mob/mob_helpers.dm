@@ -515,7 +515,7 @@
 		used_intent = a_intent
 		cast_move = 0
 	if(hud_used?.action_intent)
-		hud_used.action_intent.switch_intent(r_index,l_index,oactive)
+		hud_used.action_intent.switch_intent(r_index,l_index)
 
 /mob/proc/update_a_intents()
 	possible_a_intents.Cut()
@@ -559,9 +559,9 @@
 			possible_offhand_intents += new defintent(src)
 	if(hud_used?.action_intent)
 		if(active_hand_index == 1)
-			hud_used.action_intent.update(possible_a_intents, possible_offhand_intents, oactive)
+			hud_used.action_intent.update(possible_a_intents, possible_offhand_intents)
 		else
-			hud_used.action_intent.update(possible_offhand_intents, possible_a_intents, oactive)
+			hud_used.action_intent.update(possible_offhand_intents, possible_a_intents)
 	if(active_hand_index == 1)
 		if(l_index <= possible_a_intents.len)
 			rog_intent_change(l_index)

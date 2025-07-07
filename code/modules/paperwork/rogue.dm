@@ -78,9 +78,8 @@
 	. = ..()
 	update_appearance(UPDATE_ICON_STATE | UPDATE_NAME)
 
-/obj/item/paper/scroll/rmb_self(mob/user)
+/obj/item/paper/scroll/attack_self_secondary(mob/user)
 	attack_right(user)
-	return
 
 /obj/item/paper/scroll/attack_right(mob/user)
 	if(open)
@@ -310,7 +309,7 @@
 	else
 		return "<span class='warning'>I'm too far away to read it.</span>"
 
-/obj/item/paper/confession/rmb_self(mob/user)
+/obj/item/paper/confession/attack_self_secondary(mob/user)
 	return TRUE
 
 /obj/item/paper/confession/attack_right(mob/user)

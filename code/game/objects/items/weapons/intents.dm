@@ -401,6 +401,7 @@
 
 /datum/intent/proc/arc_check()
 	return FALSE
+
 /datum/intent/arc/arc_check()
 	return TRUE
 

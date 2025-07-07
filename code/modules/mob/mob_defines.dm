@@ -127,7 +127,7 @@
 	var/r_index = 1
 	var/r_ua_index = 1
 	var/l_ua_index = 1
-	var/oactive = FALSE //offhand active
+
 	/// The movement intent of the mob (run/wal)
 	var/m_intent = MOVE_INTENT_WALK//Living
 

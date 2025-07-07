@@ -126,24 +126,9 @@
 		mob.face_atom(object)
 		if(LAZYACCESS(modifiers, LEFT_CLICK))
 			return
-		mob.atkswinging = "right"
-		if(mob.oactive)
-			if(mob.active_hand_index == 2)
-				if(mob.next_lmove > world.time)
-					return
-			else
-				if(mob.next_rmove > world.time)
-					return
-			mob.cast_move = 0
-			mob.used_intent = mob.o_intent
-			if(mob.used_intent.get_chargetime() && !AD.blockscharging && !mob.in_throw_mode)
-				updateprogbar()
-			else
-				mouse_pointer_icon = 'icons/effects/mousemice/human_attack.dmi'
-			return
-		else
-			mouse_pointer_icon = 'icons/effects/mousemice/human_looking.dmi'
-			return
+		mouse_pointer_icon = 'icons/effects/mousemice/human_looking.dmi'
+		return
+
 	if(LAZYACCESS(modifiers, MIDDLE_CLICK)) //start charging a spell or readying a mmb intent
 		if(mob.next_move > world.time)
 			return
@@ -219,11 +204,6 @@
 		if(mob.atkswinging != "left")
 			mob.atkswinging = null
 			return
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
-		if(mob.oactive)
-			if(mob.atkswinging != "right")
-				mob.atkswinging = null
-				return
 
 	if(mob.stat != CONSCIOUS)
 		chargedprog = 0

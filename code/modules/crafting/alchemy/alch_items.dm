@@ -33,7 +33,7 @@
 	if(closed)
 		. += mutable_appearance(icon, "vial_cork")
 
-/obj/item/reagent_containers/glass/alchemical/rmb_self(mob/user)
+/obj/item/reagent_containers/glass/alchemical/attack_self_secondary(mob/user)
 	. = ..()
 	closed = !closed
 	user.changeNext_move(CLICK_CD_RAPID)

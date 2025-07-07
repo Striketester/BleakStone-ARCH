@@ -408,10 +408,8 @@
 		switch_intent(M.r_index, M.l_index, active)
 		update_appearance(UPDATE_OVERLAYS)
 
-/atom/movable/screen/act_intent/rogintent/switch_intent(r_index, l_index, oactive = FALSE)
+/atom/movable/screen/act_intent/rogintent/switch_intent(r_index, l_index)
 	var/used = "offintent"
-	if(oactive)
-		used = "offintentselected"
 	if(!r_index || !l_index)
 		return
 	var/used_index = r_index
@@ -454,39 +452,6 @@
 		var/clicked = get_index_at_loc(_x, _y)
 		if(!clicked)
 			return
-/*		if(_x<=64)
-			if(user.active_hand_index == 2)
-				if(LAZYACCESS(modifiers, RIGHT_CLICK))
-					if(clicked != user.l_index)
-						user.rog_intent_change(clicked,1)
-					else
-						if(user.oactive)
-							user.oactive = FALSE
-//						else
-//							user.oactive = TRUE
-						switch_intent(user.r_index, user.l_index, user.oactive)
-					return
-				if(!user.swap_hand(1))
-					return
-			if(LAZYACCESS(modifiers, LEFT_CLICK))
-				if(LAZYACCESS(modifiers, SHIFT_CLICKED))
-					user.examine_intent(clicked, FALSE)
-					return
-			user.rog_intent_change(clicked)
-		else*/
-//			if(user.active_hand_index == 1)
-//				if(LAZYACCESS(modifiers, RIGHT_CLICK))
-//					if(clicked != user.r_index)
-//						user.rog_intent_change(clicked,1)
-//					else
-//						if(user.oactive)
-//							user.oactive = FALSE
-//						else
-//							user.oactive = TRUE
-//						switch_intent(user.r_index, user.l_index, user.oactive)
-//					return
-//				if(!user.swap_hand(2))
-//					return
 		if(LAZYACCESS(modifiers, LEFT_CLICK))
 			if(LAZYACCESS(modifiers, SHIFT_CLICKED))
 				user.examine_intent(clicked, FALSE)
