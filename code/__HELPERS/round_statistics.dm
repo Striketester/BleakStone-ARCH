@@ -438,6 +438,14 @@ GLOBAL_LIST_INIT(featured_stats, list(
 	),
 ))
 
+/proc/record_round_statistic(name, amount = 1)
+	if(SSticker.current_state == GAME_STATE_FINISHED)
+		return
+	if(!name || !GLOB.vanderlin_round_stats[name])
+		return
+
+	GLOB.vanderlin_round_stats[name] += amount
+
 /proc/format_top_stats(stat_category)
 	var/list/stat_data = GLOB.featured_stats[stat_category]
 	if(!stat_data || !stat_data["entries"])

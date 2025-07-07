@@ -223,7 +223,7 @@
 			target.emote("drown")
 			if(!already_dead)
 				if(target.stat == DEAD && target.client)
-					GLOB.vanderlin_round_stats[STATS_PEOPLE_DROWNED]++
+					record_round_statistic(STATS_PEOPLE_DROWNED)
 			return ..()
 
 		target.visible_message(span_info("A wave of replenishing water passes through [target]!"), span_notice("I'm engulfed in a wave of replenishing water!"))

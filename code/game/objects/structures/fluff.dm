@@ -1184,7 +1184,7 @@
 						thegroom.remove_stress(/datum/stressevent/eora_matchmaking)
 						thebride.remove_stress(/datum/stressevent/eora_matchmaking)
 						SEND_GLOBAL_SIGNAL(COMSIG_GLOBAL_MARRIAGE, thegroom, thebride)
-						GLOB.vanderlin_round_stats[STATS_MARRIAGES]++
+						record_round_statistic(STATS_MARRIAGES)
 						marriage = TRUE
 						qdel(A)
 

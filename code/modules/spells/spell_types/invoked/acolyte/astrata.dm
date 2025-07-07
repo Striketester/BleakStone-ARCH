@@ -97,7 +97,7 @@
 		if(!target.revive(full_heal = FALSE))
 			to_chat(user, "<span class='warning'>Astrata's light fails to heal [target]!</span>")
 			return FALSE
-		GLOB.vanderlin_round_stats[STATS_ASTRATA_REVIVALS]++
+		record_round_statistic(STATS_ASTRATA_REVIVALS)
 		target.emote("breathgasp")
 		target.Jitter(100)
 		target.update_body()
