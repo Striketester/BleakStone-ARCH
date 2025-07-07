@@ -180,13 +180,17 @@
 						target = below
 					else
 						below = potential
-				target.visible_message(span_danger("[src] flies down from above!"), vision_distance = COMBAT_MESSAGE_RANGE)
 
-				// Hit the first living
-				for(var/mob/living/L in target)
-					original = L
-					Bump(L)
-					return
+				target.visible_message(span_danger("[src] flies down from above!"), vision_distance = COMBAT_MESSAGE_RANGE)
+				// Hit the first living or first dense object
+				for(var/atom/movable/AM as anything in target)
+					// Do it like this for target bias
+					if(isliving(AM))
+						Bump(AM)
+						return
+					else if(AM.density && isobj(AM))
+						Bump(AM)
+						return
 
 				// or just move to the target if none
 				forceMove(target)
