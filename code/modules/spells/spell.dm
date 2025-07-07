@@ -641,8 +641,12 @@
 /datum/action/cooldown/spell/proc/on_start_charge()
 	currently_charging = TRUE
 	// Doesn't handle charging but does handle charge costs
+	// SSmousecharge is used to match item charge handling times
 	START_PROCESSING(SSmousecharge, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
+
+	if(charge_slowdown)
+		owner.add_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING, override = TRUE, multiplicative_slowdown = charge_slowdown)
 
 	if(charge_sound_instance)
 		playsound(owner, charge_sound_instance, 50, FALSE, channel = CHANNEL_CHARGED_SPELL)
@@ -668,14 +672,18 @@
 		to_chat(owner, span_warning("My channeling of [src] was interrupted!"))
 
 /datum/action/cooldown/spell/proc/cancel_charging()
-	currently_charging = FALSE
-	charge_started_at = 0
-	charge_target_time = 0
-	STOP_PROCESSING(SSmousecharge, src)
 	UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 	UnregisterSignal(owner, list(COMSIG_MOB_LOGOUT, COMSIG_MOVABLE_MOVED))
 
+	currently_charging = FALSE
+	charge_started_at = 0
+	charge_target_time = 0
+	// SSmousecharge is used to match item charge handling times
+	STOP_PROCESSING(SSmousecharge, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
+
+	if(charge_slowdown)
+		owner.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
 
 	if(charge_sound_instance)
 		owner.stop_sound_channel(CHANNEL_CHARGED_SPELL)
@@ -911,12 +919,12 @@
 
 	// Register here because the mouse up can get triggered before the mouse down otherwise
 	RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEUP, PROC_REF(try_casting))
-	RegisterSignal(owner, COMSIG_MOB_LOGOUT, PROC_REF(caster_logout))
+	RegisterSignal(owner, COMSIG_MOB_LOGOUT, PROC_REF(signal_cancel))
 
 	on_start_charge()
 
 	if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
-		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(caster_moved))
+		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(signal_cancel))
 
 	source.mouse_override_icon = 'icons/effects/mousemice/charge/spell_charging.dmi'
 	source.mob.update_mouse_pointer()
@@ -933,6 +941,8 @@
 		on_end_charge(FALSE)
 		return
 
+	// There is no early returning because that is a mess to PROPERLY implement for every spell,
+	// generally speaking most items don't use it either
 	var/success = world.time >= (charge_started_at + charge_target_time)
 	if(!on_end_charge(success))
 		return
@@ -952,17 +962,7 @@
 	// Call this directly to do all the relevant checks and aim assist
 	InterceptClickOn(owner, params, _target)
 
-/// handle a caster logging out while casting
-/datum/action/cooldown/spell/proc/caster_logout()
+/datum/action/cooldown/spell/proc/signal_cancel()
 	SIGNAL_HANDLER
-
-	cancel_charging()
-
-/// Reset click intercept on movement cancel
-/datum/action/cooldown/spell/proc/caster_moved()
-	SIGNAL_HANDLER
-
-	if(owner.client)
-		owner.client.click_intercept_time = 0
 
 	cancel_charging()
