@@ -16623,7 +16623,6 @@
 /obj/effect/mapping_helpers/access/keyset/town/apothecary,
 /obj/merge_conflict_marker{
 	name = "---Merge Conflict Marker---";
-	
 	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
 	},
 /obj/structure/door,
@@ -20114,7 +20113,6 @@
 /obj/item/key/church,
 /obj/merge_conflict_marker{
 	name = "---Merge Conflict Marker---";
-	
 	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
 	},
 /obj/structure/closet/crate/chest,
@@ -21030,7 +21028,6 @@
 /obj/item/clothing/cloak/stole/purple,
 /obj/merge_conflict_marker{
 	name = "---Merge Conflict Marker---";
-	
 	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
 	},
 /obj/structure/closet/crate/crafted_closet,
@@ -28693,7 +28690,6 @@
 	pixel_x = -9;
 	pixel_y = 4
 	},
-/obj/item/reagent_containers/glass/bottle/healthpot,
 /turf/open/floor/churchrough,
 /area/rogue/indoors/town/manor)
 "slX" = (
