@@ -16,8 +16,8 @@
 	cooldown_time = 3 MINUTES
 	spell_cost = 120
 
-	aoe_radius = 6
-	max_targets = 12
+	aoe_radius = 5
+	max_targets = 16
 	respect_LOS = FALSE
 
 /datum/action/cooldown/spell/aoe/on_turf/meteor_storm/cast(atom/cast_on)

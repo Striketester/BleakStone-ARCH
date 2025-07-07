@@ -554,12 +554,12 @@
 
 	if(charge_required && !click_to_activate)
 		// Otherwise we use a simple do_after
-		var/do_after_flags = IGNORE_HELD_ITEM | IGNORE_USER_LOC_CHANGE
+		var/do_after_flags = IGNORE_HELD_ITEM | IGNORE_USER_LOC_CHANGE | IGNORE_USER_DIR_CHANGE
 		if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
 			do_after_flags &= ~IGNORE_USER_LOC_CHANGE
 		on_start_charge()
 		var/success = TRUE
-		if(!do_after(owner, get_chargetime(), owner, do_after_flags))
+		if(!do_after(owner, get_chargetime(), timed_action_flags = do_after_flags))
 			success = FALSE
 			sig_return |= SPELL_CANCEL_CAST
 

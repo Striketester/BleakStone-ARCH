@@ -7,12 +7,10 @@
 	armor_penetration = 100
 	pass_flags = PASSTABLE | PASSGRILLE
 	flag = "magic"
-	/// determines what type of antimagic can block the spell projectileAdd commentMore actions
+	/// determines what type of antimagic can block the spell projectile
 	var/antimagic_flags = MAGIC_RESISTANCE
 	/// determines the drain cost on the antimagic item
 	var/antimagic_charge_cost = 1
-	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
-	var/mob/living/carbon/human/sender
 
 /obj/projectile/magic/prehit_pierce(mob/living/target)
 	. = ..()
@@ -240,6 +238,7 @@
 	var/exp_flash = 3
 	var/exp_fire = 2
 	var/exp_hotspot = 0
+	var/explode_sound = list('sound/misc/explode/incendiary (1).ogg','sound/misc/explode/incendiary (2).ogg')
 
 /obj/projectile/magic/aoe/fireball/on_hit(target)
 	. = ..()

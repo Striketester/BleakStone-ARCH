@@ -18,7 +18,7 @@
 
 /datum/action/cooldown/spell/sundering_lightning/cast(atom/cast_on)
 	. = ..()
-	addtimer(src, CALLBACK(PROC_REF(create_lightning), get_turf(cast_on)), 3 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(create_lightning), get_turf(cast_on)), 3 SECONDS)
 
 /datum/action/cooldown/spell/sundering_lightning/proc/create_lightning(turf/victim)
 	var/last_dist = 0
@@ -29,4 +29,4 @@
 		if(dist > last_dist)
 			last_dist = dist
 			sleep(2 + min(4 - last_dist, 12) * 0.5)
-		new /obj/effect/temp_visual/target/lightning(src)
+		new /obj/effect/temp_visual/target/lightning(T)

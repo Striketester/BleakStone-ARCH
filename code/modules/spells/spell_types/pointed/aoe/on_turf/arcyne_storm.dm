@@ -21,7 +21,7 @@
 		addtimer(CALLBACK(src, PROC_REF(apply_damage), victim), wait = i * 1 SECONDS)
 
 /datum/action/cooldown/spell/aoe/on_turf/arcyne_storm/proc/apply_damage(turf/victim)
-	new /obj/effect/temp_visual/arcyne_storm()
+	new /obj/effect/temp_visual/arcyne_storm(victim)
 	playsound(victim, "genslash", 40, TRUE)
 	for(var/mob/living/L in victim.contents)
 		L.adjustBruteLoss(round(10 * attuned_strength))

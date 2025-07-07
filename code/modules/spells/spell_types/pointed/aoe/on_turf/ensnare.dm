@@ -13,7 +13,7 @@
 	cooldown_time = 40 SECONDS
 	spell_cost = 40
 
-	aoe_radius = 6
+	aoe_radius = 4
 
 	var/duration = 4 SECONDS
 	var/delay = 0.8 SECONDS

@@ -83,11 +83,9 @@
 /datum/action/cooldown/spell/projectile/proc/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	to_fire.firer = owner
 	to_fire.fired_from = get_turf(owner)
+	to_fire.scale = attuned_strength
 	to_fire.preparePixelProjectile(target, owner)
-	var/strength = min(max(0.1, attuned_strength || 1), 10)
-	var/matrix/scale = matrix()
-	scale.Scale(strength)
-	to_fire.transform = scale
+
 	RegisterSignal(to_fire, COMSIG_PROJECTILE_ON_HIT, PROC_REF(on_cast_hit))
 
 	if(istype(to_fire, /obj/projectile/magic))

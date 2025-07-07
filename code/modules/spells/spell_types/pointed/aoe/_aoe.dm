@@ -30,9 +30,10 @@
 			continue
 
 		if(cast_on_delay)
-			addtimer(src, CALLBACK(PROC_REF(cast_on_thing_in_aoe), thing_to_target, cast_on), cast_on_delay)
+			addtimer(CALLBACK(src, PROC_REF(cast_on_thing_in_aoe), thing_to_target, cast_on), cast_on_delay)
 		else
 			cast_on_thing_in_aoe(thing_to_target, cast_on)
+
 		num_targets++
 
 /**

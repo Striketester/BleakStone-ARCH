@@ -8,8 +8,7 @@
 
 	sound = 'sound/magic/whiteflame.ogg'
 
-	charge_time = 0.5 SECONDS
-	charge_drain = 1
+	charge_required = FALSE
 	cooldown_time = 30 SECONDS
 	spell_cost = 30
 

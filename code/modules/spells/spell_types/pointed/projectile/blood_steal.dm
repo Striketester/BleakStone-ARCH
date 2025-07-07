@@ -17,6 +17,21 @@
 
 	projectile_type = /obj/projectile/magic/bloodsteal
 
+/datum/action/cooldown/spell/projectile/blood_steal/on_cast_hit(atom/source, mob/firer, atom/hit, angle)
+	. = ..()
+
+	if(!firer || !ishuman(hit))
+		return
+
+	var/datum/antagonist/vampire/VDrinker = firer.mind?.has_antag_datum(/datum/antagonist/vampire)
+	if(!VDrinker)
+		return
+
+	var/mob/living/carbon/human/H = hit
+	if(H.vitae_pool >= 500) // You'll only get vitae IF they have vitae.
+		H.vitae_pool -= 500
+		VDrinker.adjust_vitae(500)
+
 /obj/projectile/magic/bloodsteal
 	name = "blood steal"
 	tracer_type = /obj/effect/projectile/tracer/bloodsteal
@@ -36,12 +51,9 @@
 	. = ..()
 	if(ishuman(target))
 		var/mob/living/carbon/human/H = target
-		var/datum/antagonist/vampire/VDrinker = sender.mind?.has_antag_datum(/datum/antagonist/vampire)
+
 		H.blood_volume = max(H.blood_volume - 45, 0)
-		if(VDrinker)
-			if(H.vitae_pool >= 500) // You'll only get vitae IF they have vitae.
-				H.vitae_pool -= 500
-				VDrinker.adjust_vitae(500)
+
 		H.visible_message(
 			span_danger("[H] has their blood ripped from their body!"),
 			span_userdanger("Blood erupts from my body!"),

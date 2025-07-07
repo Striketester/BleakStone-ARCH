@@ -69,6 +69,8 @@
 	var/speed = 0.8			//Amount of deciseconds it takes for projectile to travel
 	var/Angle = 0
 	var/original_angle = 0		//Angle at firing
+	/// If not null extra scale for the projectile when firing
+	var/scale
 	var/nondirectional_sprite = FALSE //Set TRUE to prevent projectiles from having their sprites rotated based on firing angle
 	var/spread = 0			//amount (in degrees) of projectile spread
 	animate_movement = NO_STEPS	//Use SLIDE_STEPS in conjunction with legacy
@@ -592,8 +594,6 @@
 			return
 	if(isnum(angle))
 		setAngle(angle)
-	if(spread)
-		setAngle(Angle + ((rand() - 0.5) * spread))
 	var/turf/starting = get_turf(src)
 	if(isnull(Angle))	//Try to resolve through offsets if there's no angle set.
 		if(isnull(xo) || isnull(yo))
@@ -602,14 +602,9 @@
 			return
 		var/turf/target = locate(CLAMP(starting + xo, 1, world.maxx), CLAMP(starting + yo, 1, world.maxy), starting.z)
 		setAngle(Get_Angle(src, target))
+	if(spread)
+		setAngle(Angle + ((rand() - 0.5) * spread))
 	original_angle = Angle
-	if(!nondirectional_sprite)
-		if(transform)
-			transform.Turn(Angle)
-		else
-			var/matrix/M = new
-			M.Turn(Angle)
-			transform = M
 	LAZYINITLIST(impacted)
 	trajectory_ignore_forcemove = TRUE
 	forceMove(starting)
@@ -624,14 +619,15 @@
 	pixel_move(1, FALSE)	//move it now!
 
 /obj/projectile/proc/setAngle(new_angle)	//wrapper for overrides.
-	Angle = new_angle
+	if(Angle == new_angle)
+		return
 	if(!nondirectional_sprite)
-		if(transform)
-			transform.Turn(Angle)
-		else
-			var/matrix/M = new
-			M.Turn(Angle)
-			transform = M
+		var/matrix/mat = new
+		mat.TurnTo(Angle, new_angle)
+		if(scale)
+			mat.Scale(scale)
+		transform = mat
+	Angle = new_angle
 	if(trajectory)
 		trajectory.set_angle(new_angle)
 	return TRUE
@@ -699,12 +695,11 @@
 		return
 	last_projectile_move = world.time
 	if(!nondirectional_sprite && !hitscanning)
-		if(transform)
-			transform.Turn(Angle)
-		else
-			var/matrix/M = new
-			M.Turn(Angle)
-			transform = M
+		var/matrix/mat = new
+		mat.Turn(Angle)
+		if(scale)
+			mat.Scale(scale)
+		transform = mat
 	if(homing)
 		process_homing()
 	var/forcemoved = FALSE

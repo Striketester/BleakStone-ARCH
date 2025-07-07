@@ -100,6 +100,7 @@
 
 /obj/effect/temp_visual/lightning
 	icon = 'icons/effects/32x200.dmi'
+	icon_state = "lightning"
 	light_color = COLOR_PALE_BLUE_GRAY
 	light_outer_range = 15
 	light_power = 25
@@ -115,8 +116,8 @@
 	duration = 12
 
 /obj/effect/temp_visual/target/lightning/fall(list/hit_atoms)
-	sleep(duration)
 	var/turf/T = get_turf(src)
+	sleep(duration)
 	playsound(T,'sound/magic/lightning.ogg', 80, TRUE)
 	new /obj/effect/temp_visual/lightning(T)
 
