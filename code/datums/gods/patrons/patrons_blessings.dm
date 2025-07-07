@@ -84,7 +84,6 @@
 
 		/// Set actual expiration if needed (manual override for duration_modification types)
 		if(duration > 0)
-			var/datum/status_effect/active = M.get_status_effect(blessing_path)
 			M.start_blessing_duration_timer(blessing_path, duration)
 
 		if(until_sleep)

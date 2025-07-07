@@ -366,13 +366,17 @@
 
 	return clamp(new_cost, 5, 200)
 
+/// Do any attunement handling in here or any time after before_cast
 /datum/action/cooldown/spell/proc/handle_attunements()
-	var/list/datum/mana_pool/usable_pools = list()
+	SHOULD_CALL_PARENT(TRUE)
+	SHOULD_NOT_OVERRIDE(TRUE)
 
-	for(var/atom/movable/thing as anything in owner.get_all_contents())
-		if(!isnull(thing.mana_pool) && HAS_TRAIT(thing, TRAIT_POOL_AVAILABLE_FOR_CAST))
-			usable_pools += thing.mana_pool
+	if(!isliving(owner))
+		attuned_strength = 1
+		return
 
+	var/mob/living/caster = owner
+	var/list/datum/mana_pool/usable_pools = caster.get_all_pools()
 	var/list/total_attunements = GLOB.default_attunements.Copy()
 
 	for(var/datum/mana_pool/pool as anything in usable_pools)
@@ -386,7 +390,8 @@
 		if(!(attunement in total_attunements))
 			continue
 		total_value += total_attunements[attunement] * attunements[attunement]
-	attuned_strength = clamp(total_value, 0.5, 1.5)
+
+	attuned_strength = total_value
 
 /// Checks if the owner of the spell can currently cast it.
 /// Does not check anything involving potential targets.
@@ -498,8 +503,8 @@
 		// That way stuff like teleports or shape-shifts can be invoked before ocurring
 		spell_feedback()
 
-	// Setup attuned strength
-	handle_attunements()
+	if(length(attunements))
+		handle_attunements()
 
 	// Actually cast the spell. Main effects go here
 	cast(target)
