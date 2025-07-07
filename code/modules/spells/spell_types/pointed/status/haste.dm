@@ -11,11 +11,11 @@
 	school = SCHOOL_TRANSMUTATION
 
 	charge_time = 2 SECONDS
-	charge_slowdown = 1
+	charge_slowdown = 0.3
 	cooldown_time = 3 MINUTES
 	spell_cost = 40
 
-	status_effect = /datum/status_effect/buff/duration_modification/haste
+	status_effect = /datum/status_effect/buff/haste
 	duration = null
 	duration_scaling = TRUE
 	duration_modification = 30 SECONDS

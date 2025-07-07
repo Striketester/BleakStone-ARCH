@@ -16,7 +16,7 @@
 	spell_cost = 50
 	charge_time = 3 SECONDS
 	charge_drain = 1
-	charge_slowdown = 2
+	charge_slowdown = 0.7
 
 	attunements = list(
 		/datum/attunement/aeromancy = 0.4,

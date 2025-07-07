@@ -65,7 +65,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/non_detection
 	duration = 3 MINUTES
 
-/datum/status_effect/non_detection/on_creation()
+/datum/status_effect/non_detection/on_creation(mob/living/new_owner, duration_override, ...)
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_ANTISCRYING, MAGIC_TRAIT)
 

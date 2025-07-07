@@ -3,9 +3,9 @@
  *
  * Spells that grant a status effect to a living mob.
  *
- * Always applies the effect onto cast_on but extra targt handling can extend cast.
+ * Always applies the effect onto cast_on but extra target handling can extend cast.
  *
- * Set cooldown_time to null to inherit the duration
+ * Set cooldown_time to 0 to inherit the duration
  */
 /datum/action/cooldown/spell/status
 	self_cast_possible = TRUE

@@ -243,10 +243,8 @@
 	alert_type = /atom/movable/screen/alert/status_effect/thaumaturgy
 	duration = 30 SECONDS
 
-/datum/status_effect/thaumaturgy/on_creation(mob/living/new_owner, ...)
+/datum/status_effect/thaumaturgy/on_creation(mob/living/new_owner, duration_override, ...)
 	. = ..()
-	if(!.)
-		return
 	RegisterSignal(new_owner, COMSIG_MOB_SAY, PROC_REF(handle_speech))
 
 /datum/status_effect/thaumaturgy/on_remove(mob/living/new_owner)
@@ -274,7 +272,7 @@
 	var/outline_colour = "#f5edda"
 	var/list/mobs_affected
 
-/datum/status_effect/light_buff/on_creation(mob/living/new_owner, light_power)
+/datum/status_effect/light_buff/on_creation(mob/living/new_owner, duration_override, light_power)
 	potency = light_power
 	return ..()
 

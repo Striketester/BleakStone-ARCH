@@ -16,7 +16,7 @@
 	cooldown_time = 60 SECONDS
 	spell_cost = 50
 
-	status_effect = /datum/status_effect/buff/duration_increase/primal_savagery
+	status_effect = /datum/status_effect/buff/primal_savagery
 	duration = null
 	duration_scaling = TRUE
 	duration_modification = 30 SECONDS
@@ -25,16 +25,16 @@
 	. = ..()
 	cast_on.visible_message(span_warning("[cast_on] looks more primal!"), span_info("You feel more primal."))
 
-/datum/status_effect/buff/duration_increase/primal_savagery
+/datum/status_effect/buff/primal_savagery
 	id = "primal savagery"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/primal_savagery
 	duration = 30 SECONDS
 
-/datum/status_effect/buff/duration_increase/primal_savagery/on_apply()
+/datum/status_effect/buff/primal_savagery/on_apply()
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_POISONBITE, MAGIC_TRAIT)
 
-/datum/status_effect/buff/duration_increase/primal_savagery/on_remove()
+/datum/status_effect/buff/primal_savagery/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_POISONBITE, MAGIC_TRAIT)
 

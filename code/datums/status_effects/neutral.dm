@@ -47,7 +47,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/in_love
 	var/mob/living/date
 
-/datum/status_effect/in_love/on_creation(mob/living/new_owner, mob/living/love_interest)
+/datum/status_effect/in_love/on_creation(mob/living/new_owner, duration_override, mob/living/love_interest)
 	. = ..()
 	if(.)
 		date = love_interest
@@ -77,7 +77,7 @@
 	status_type = STATUS_EFFECT_UNIQUE
 	var/mob/living/rewarded
 
-/datum/status_effect/bounty/on_creation(mob/living/new_owner, mob/living/caster)
+/datum/status_effect/bounty/on_creation(mob/living/new_owner, duration_override, mob/living/caster)
 	. = ..()
 	if(.)
 		rewarded = caster
@@ -124,7 +124,7 @@
 /datum/status_effect/bugged/proc/handle_hearing(datum/source, list/hearing_args)
 	listening_in.show_message(hearing_args[HEARING_MESSAGE])
 
-/datum/status_effect/bugged/on_creation(mob/living/new_owner, mob/living/tracker)
+/datum/status_effect/bugged/on_creation(mob/living/new_owner, duration_override, mob/living/tracker)
 	. = ..()
 	if(.)
 		listening_in = tracker

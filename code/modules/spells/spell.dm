@@ -913,8 +913,6 @@
 		if(_target.plane != CLICKCATCHER_PLANE) //The clickcatcher is a special case. We want the click to trigger then, under it.
 			return //If we click and drag on our worn backpack, for example, we want it to open instead.
 
-	source.click_intercept_time = world.time //From this point onwards Click() will no longer be triggered.
-
 	// We don't actually care about the target or params, we only care about the target on mouse up
 
 	// Register here because the mouse up can get triggered before the mouse down otherwise

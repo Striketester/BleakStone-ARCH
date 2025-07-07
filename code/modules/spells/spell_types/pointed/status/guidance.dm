@@ -12,11 +12,11 @@
 
 	charge_time = 4 SECONDS
 	charge_drain = 1
-	charge_slowdown = 2
+	charge_slowdown = 0.7
 	cooldown_time = 5 MINUTES
 	spell_cost = 60
 
-	status_effect = /datum/status_effect/buff/duration_modification/guidance
+	status_effect = /datum/status_effect/buff/guidance
 	duration = null
 	duration_scaling = TRUE
 	duration_modification = 30 SECONDS
@@ -28,20 +28,20 @@
 	else
 		owner.visible_message("[owner] mutters an incantation and they briefly shine orange.")
 
-/datum/status_effect/buff/duration_modification/guidance
+/datum/status_effect/buff/guidance
 	id = "guidance"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/guidance
 	duration = 1 MINUTES
 	effectedstats = list(STATKEY_INT = 2)
 	var/static/mutable_appearance/guided = mutable_appearance('icons/effects/effects.dmi', "blessed")
 
-/datum/status_effect/buff/duration_modification/guidance/on_apply()
+/datum/status_effect/buff/guidance/on_apply()
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_GUIDANCE, MAGIC_TRAIT)
 	var/mob/living/target = owner
 	target.add_overlay(guided)
 
-/datum/status_effect/buff/duration_modification/guidance/on_remove()
+/datum/status_effect/buff/guidance/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_GUIDANCE, MAGIC_TRAIT)
 	var/mob/living/target = owner

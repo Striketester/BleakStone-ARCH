@@ -18,4 +18,4 @@
 	. = ..()
 	var/duration_increase = min(0, attuned_strength * 90 SECONDS)
 	for(var/mob/living/L in viewers(max(1, FLOOR(attuned_strength, 1)), owner))
-		L.apply_status_effect(/datum/status_effect/buff/duration_modification/featherfall, duration_increase)
+		L.apply_status_effect(/datum/status_effect/buff/featherfall, duration_increase)

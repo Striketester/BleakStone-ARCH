@@ -14,7 +14,7 @@
 
 	charge_time = 3 SECONDS
 	charge_drain = 1
-	charge_slowdown = 2
+	charge_slowdown = 0.7
 	cooldown_time = 15 SECONDS
 	spell_cost = 30
 

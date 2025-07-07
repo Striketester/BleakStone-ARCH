@@ -1,10 +1,7 @@
 /datum/status_effect/silenced
 	id = "silent"
 	alert_type = null
-
-/datum/status_effect/silenced/on_creation(mob/living/new_owner, duration = 10 SECONDS)
-	src.duration = duration
-	return ..()
+	duration = 10 SECONDS
 
 /datum/status_effect/silenced/on_apply()
 	. = ..()

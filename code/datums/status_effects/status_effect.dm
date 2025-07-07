@@ -10,6 +10,8 @@
 	var/id = "effect"
 	/// How long the status effect lasts in DECISECONDS. Enter -1 for an effect that never ends unless removed through some means.
 	var/duration = -1
+	/// What the duration was when we applied the status effect
+	var/initial_duration
 	/// How many deciseconds between ticks, approximately. Leave at 10 for every second.
 	var/tick_interval = 10
 	/// The mob affected by the status effect.
@@ -29,7 +31,7 @@
 /datum/status_effect/New(list/arguments)
 	on_creation(arglist(arguments))
 
-/datum/status_effect/proc/on_creation(mob/living/new_owner, ...)
+/datum/status_effect/proc/on_creation(mob/living/new_owner, duration_override, ...)
 	if(new_owner)
 		owner = new_owner
 	if(owner)
@@ -37,8 +39,11 @@
 	if(!owner || !on_apply())
 		qdel(src)
 		return
+	if(isnum(duration_override) && duration_override != duration)
+		duration = duration_override
 	if(duration != -1)
 		duration = world.time + duration
+	initial_duration = duration
 	tick_interval = world.time + tick_interval
 	if(alert_type)
 		var/atom/movable/screen/alert/status_effect/A = owner.throw_alert(id, alert_type)
@@ -94,10 +99,9 @@
 	qdel(src)
 
 /datum/status_effect/proc/refresh()
-	var/original_duration = initial(duration)
-	if(original_duration == -1)
+	if(initial_duration == -1)
 		return
-	duration = world.time + original_duration
+	duration = world.time + initial_duration
 
 /// clickdelay/nextmove modifiers!
 /datum/status_effect/proc/nextmove_modifier()
@@ -140,7 +144,7 @@
 //////////////////
 
 /// Applies a given status effect to this mob, returning the effect if it was successful
-/mob/living/proc/apply_status_effect(effect, ...)
+/mob/living/proc/apply_status_effect(effect, duration_override, ...)
 	. = FALSE
 	var/datum/status_effect/S1 = effect
 	LAZYINITLIST(status_effects)
@@ -277,9 +281,10 @@
 		fadeout_effect()
 		qdel(src) //deletes status if stacks fall under one
 
-/datum/status_effect/stacking/on_creation(mob/living/new_owner, stacks_to_apply)
-	..()
-	src.add_stacks(stacks_to_apply)
+/datum/status_effect/stacking/on_creation(mob/living/new_owner, duration_override, stacks_to_apply)
+	. = ..()
+	if(.)
+		add_stacks(stacks_to_apply)
 
 /datum/status_effect/stacking/on_apply()
 	if(!can_have_status())

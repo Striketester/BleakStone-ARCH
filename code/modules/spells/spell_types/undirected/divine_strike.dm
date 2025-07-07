@@ -34,10 +34,8 @@
 	on_remove_on_mob_delete = TRUE
 	var/datum/weakref/buffed_item
 
-/datum/status_effect/divine_strike/on_creation(mob/living/new_owner, obj/item/I)
+/datum/status_effect/divine_strike/on_creation(mob/living/new_owner, duration_override, obj/item/I)
 	. = ..()
-	if(!.)
-		return
 	if(istype(I) && !(I.item_flags & ABSTRACT))
 		buffed_item = WEAKREF(I)
 		if(!I.light_outer_range && I.light_system == STATIC_LIGHT)

@@ -699,8 +699,7 @@
 	desc = "Void energy is eating away at your very being!"
 	icon_state = "void_corruption"  // ICON NEEDED
 
-/datum/status_effect/void_corruption/on_creation(mob/living/new_owner, duration = 30 SECONDS, source = null)
-	src.duration = duration
+/datum/status_effect/void_corruption/on_creation(mob/living/new_owner, duration_override = 30 SECONDS, source = null)
 	next_stage_time = world.time + stage_threshold
 	if(istype(source, /mob/living/simple_animal/hostile/retaliate/voiddragon))
 		source_dragon = source

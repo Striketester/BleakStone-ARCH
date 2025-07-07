@@ -21,7 +21,7 @@
 	var/duration_increase = min(0, attuned_strength * 1.5 MINUTES)
 	if(isliving(owner))
 		var/mob/living/L = owner
-		L.apply_status_effect(/datum/status_effect/buff/duration_modification/bladeward, duration_increase)
+		L.apply_status_effect(/datum/status_effect/buff/bladeward, duration_increase)
 		L.visible_message(
 			span_info("[L] traces a warding sigil in the air."),
 			span_notice("I trace a a sigil of warding in the air."),
@@ -31,13 +31,13 @@
 		return
 
 	for(var/mob/living/extra_target in orange(FLOOR(attuned_strength, 1), owner))
-		extra_target.apply_status_effect(/datum/status_effect/buff/duration_modification/bladeward, duration_increase)
+		extra_target.apply_status_effect(/datum/status_effect/buff/bladeward, duration_increase)
 		extra_target.visible_message(
 			span_info("[extra_target] has a sigil of warding appear over them."),
 			span_notice("I see a sigil of warding floating over me."),
 		)
 
-/datum/status_effect/buff/duration_modification/bladeward
+/datum/status_effect/buff/bladeward
 	id = "blade ward"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/bladeward
 	effectedstats = list(STATKEY_CON = 3)
@@ -49,12 +49,12 @@
 	desc = "I am resistant to damage."
 	icon_state = "buff"
 
-/datum/status_effect/buff/duration_modification/bladeward/on_apply()
+/datum/status_effect/buff/bladeward/on_apply()
 	. = ..()
 	var/mob/living/target = owner
 	target.add_overlay(ward)
 
-/datum/status_effect/buff/duration_modification/bladeward/on_remove()
+/datum/status_effect/buff/bladeward/on_remove()
 	. = ..()
 	var/mob/living/target = owner
 	target.cut_overlay(ward)

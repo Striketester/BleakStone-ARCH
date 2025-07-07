@@ -34,7 +34,7 @@
 	else
 		caster.visible_message("[caster] draws a glyph in the air and touches themselves with an arcyne focus.")
 
-	victim.apply_status_effect(/datum/status_effect/buff/duration_modification/darkvision, duration_increase)
+	victim.apply_status_effect(/datum/status_effect/buff/darkvision, duration_increase)
 
 /obj/item/melee/touch_attack/darkvision
 	name = "\improper arcyne focus"

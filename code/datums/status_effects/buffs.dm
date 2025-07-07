@@ -47,7 +47,7 @@
 	alert_type = /atom/movable/screen/alert/status_effect/power_regen
 	var/power_to_give = 0 //how much power is gained each tick
 
-/datum/status_effect/cyborg_power_regen/on_creation(mob/living/new_owner, new_power_per_tick)
+/datum/status_effect/cyborg_power_regen/on_creation(mob/living/new_owner, duration_override, new_power_per_tick)
 	. = ..()
 	if(. && isnum(new_power_per_tick))
 		power_to_give = new_power_per_tick
@@ -135,7 +135,7 @@
 	duration = 1200
 	alert_type = null
 
-/datum/status_effect/exercised/on_creation(mob/living/new_owner, ...)
+/datum/status_effect/exercised/on_creation(mob/living/new_owner, duration_override, ...)
 	. = ..()
 	STOP_PROCESSING(SSfastprocess, src)
 	START_PROCESSING(SSprocessing, src) //this lasts 20 minutes, so SSfastprocess isn't needed.

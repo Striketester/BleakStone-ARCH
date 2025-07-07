@@ -1,34 +1,6 @@
 /datum/status_effect/buff
 	status_type = STATUS_EFFECT_REFRESH
 
-/datum/status_effect/buff/duration_modification
-	var/duration_modification = 0
-
-/datum/status_effect/buff/duration_modification/on_creation(mob/living/new_owner, duration_increase)
-	if(new_owner)
-		owner = new_owner
-	if(owner)
-		LAZYADD(owner.status_effects, src)
-	if(!owner || !on_apply())
-		qdel(src)
-		return
-	if(duration != -1)
-		duration = world.time + duration + duration_increase
-	duration_modification = duration_increase
-	tick_interval = world.time + tick_interval
-	if(alert_type)
-		var/atom/movable/screen/alert/status_effect/A = owner.throw_alert(id, alert_type)
-		A?.attached_effect = src //so the alert can reference us, if it needs to
-		linked_alert = A //so we can reference the alert, if we need to
-	START_PROCESSING(SSfastprocess, src)
-	return TRUE
-
-/datum/status_effect/buff/duration_modification/refresh()
-	var/original_duration = initial(duration)
-	if(original_duration == -1)
-		return
-	duration = world.time + original_duration + duration_modification
-
 /datum/status_effect/buff/drunk
 	id = "drunk"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/drunk
@@ -230,22 +202,22 @@
 	desc = "I am somewhat protected against falling from heights."
 	icon_state = "buff"
 
-/datum/status_effect/buff/duration_modification/featherfall
+/datum/status_effect/buff/featherfall
 	id = "featherfall"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/featherfall
 	duration = 1 MINUTES
 
-/datum/status_effect/buff/duration_modification/featherfall/on_apply()
+/datum/status_effect/buff/featherfall/on_apply()
 	. = ..()
 	to_chat(owner, span_warning("I feel lighter."))
 	ADD_TRAIT(owner, TRAIT_NOFALLDAMAGE1, MAGIC_TRAIT)
 
-/datum/status_effect/buff/duration_modification/featherfall/on_remove()
+/datum/status_effect/buff/featherfall/on_remove()
 	. = ..()
 	to_chat(owner, span_warning("The feeling of lightness fades."))
 	REMOVE_TRAIT(owner, TRAIT_NOFALLDAMAGE1, MAGIC_TRAIT)
 
-/datum/status_effect/buff/duration_modification/darkvision
+/datum/status_effect/buff/darkvision
 	id = "darkvision"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/darkvision
 	duration = 10 MINUTES
@@ -255,7 +227,7 @@
 	desc = span_nicegreen("I can see in the dark.")
 	icon_state = "buff"
 
-/datum/status_effect/buff/duration_modification/darkvision/on_apply()
+/datum/status_effect/buff/darkvision/on_apply()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	var/obj/item/organ/eyes/eyes = H.getorgan(/obj/item/organ/eyes)
@@ -264,7 +236,7 @@
 	ADD_TRAIT(owner, TRAIT_DARKVISION, MAGIC_TRAIT)
 	owner.update_sight()
 
-/datum/status_effect/buff/duration_modification/darkvision/on_remove()
+/datum/status_effect/buff/darkvision/on_remove()
 	. = ..()
 	to_chat(owner, span_warning("Darkness shrouds your senses once more."))
 	REMOVE_TRAIT(owner, TRAIT_DARKVISION, MAGIC_TRAIT)
@@ -275,7 +247,7 @@
 	desc = "I am magically hastened."
 	icon_state = "buff"
 
-/datum/status_effect/buff/duration_modification/haste
+/datum/status_effect/buff/haste
 	id = "haste"
 	alert_type = /atom/movable/screen/alert/status_effect/buff/haste
 	effectedstats = list(STATKEY_SPD = 3)

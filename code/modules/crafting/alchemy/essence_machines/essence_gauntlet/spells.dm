@@ -166,7 +166,7 @@
 	//playsound(get_turf(owner), 'sound/magic/whiff.ogg', 50, TRUE)
 
 	var/mob/living/L = owner
-	L.apply_status_effect(/datum/status_effect/buff/duration_modification/haste, 10 SECONDS)
+	L.apply_status_effect(/datum/status_effect/buff/haste, 10 SECONDS)
 
 /datum/action/cooldown/spell/essence/refresh
 	name = "Refresh"

@@ -21,8 +21,7 @@
 	duration = 2 MINUTES //keep same as spell charge cooldown
 	alert_type = /atom/movable/screen/alert/status_effect/buff/wheel
 
-/datum/status_effect/wheel/New(list/arguments)
-	. = ..()
+/datum/status_effect/wheel/on_creation(mob/living/new_owner, duration_override, ...)
 	var/list/mob_stats = MOBSTATS
 	mob_stats = mob_stats.Copy() //why do i have to do this
 	effectedstats[pick_n_take(mob_stats)] = rand(1, 5)
@@ -32,6 +31,7 @@
 			effectedstats[STATKEY_LCK] += 2
 		else
 			effectedstats[STATKEY_LCK] = 2
+	return ..()
 
 /atom/movable/screen/alert/status_effect/buff/wheel
 	name = "The Wheel"

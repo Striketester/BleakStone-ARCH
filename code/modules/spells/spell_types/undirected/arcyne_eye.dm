@@ -19,19 +19,19 @@
 	if(isliving(owner))
 		var/mob/living/L = owner
 		var/duration_increase = min(0, attuned_strength * 1.5 MINUTES)
-		L.apply_status_effect(/datum/status_effect/buff/duration_modification/arcyne_eye, duration_increase)
+		L.apply_status_effect(/datum/status_effect/buff/arcyne_eye, duration_increase)
 
-/datum/status_effect/buff/duration_modification/arcyne_eye
+/datum/status_effect/buff/arcyne_eye
 	duration = 1 MINUTES
 	alert_type = null
 
-/datum/status_effect/buff/duration_modification/arcyne_eye/on_apply()
+/datum/status_effect/buff/arcyne_eye/on_apply()
 	. = ..()
 	ADD_TRAIT(owner, TRAIT_SEE_LEYLINES, type)
 	owner.see_invisible = SEE_INVISIBLE_LEYLINES
 	owner.hud_used?.plane_masters_update()
 
-/datum/status_effect/buff/duration_modification/arcyne_eye/on_remove()
+/datum/status_effect/buff/arcyne_eye/on_remove()
 	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_SEE_LEYLINES, type)
 	owner.see_invisible = SEE_INVISIBLE_LIVING
