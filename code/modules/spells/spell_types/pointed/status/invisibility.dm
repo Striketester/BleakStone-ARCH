@@ -14,4 +14,3 @@
 	spell_cost = 60
 
 	status_effect = /datum/status_effect/invisibility
-	duration = 30 SECONDS

@@ -12,7 +12,6 @@
 	spell_cost = 35
 
 	status_effect = /datum/status_effect/wheel
-	duration = 2 MINUTES
 
 //Xylix Gambling
 /datum/status_effect/wheel

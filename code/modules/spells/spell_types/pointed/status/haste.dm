@@ -16,7 +16,6 @@
 	spell_cost = 40
 
 	status_effect = /datum/status_effect/buff/haste
-	duration = null
 	duration_scaling = TRUE
 	duration_modification = 30 SECONDS
 

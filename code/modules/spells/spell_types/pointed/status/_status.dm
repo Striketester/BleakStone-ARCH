@@ -12,8 +12,8 @@
 
 	/// Path of status effect to add
 	var/datum/status_effect/status_effect = /datum/status_effect/buff/calm
-	/// Duration of the status effect
-	var/duration = 5 MINUTES
+	/// Duration of the status effect, null to use status effect duration
+	var/duration
 	/// If attunement strength scales the duration
 	var/duration_scaling = FALSE
 	/// Base duration increase, if null multiply duration by attuned strength

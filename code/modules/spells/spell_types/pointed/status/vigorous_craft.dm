@@ -19,7 +19,6 @@
 	spell_cost = 30
 
 	status_effect = /datum/status_effect/buff/craft_buff
-	duration = 3 MINUTES
 
 /datum/action/cooldown/spell/status/vigorous_craft/cast(mob/living/cast_on)
 	. = ..()

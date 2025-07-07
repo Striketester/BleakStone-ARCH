@@ -17,7 +17,6 @@
 	spell_cost = 60
 
 	status_effect = /datum/status_effect/buff/guidance
-	duration = null
 	duration_scaling = TRUE
 	duration_modification = 30 SECONDS
 

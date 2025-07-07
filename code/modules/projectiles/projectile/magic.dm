@@ -144,7 +144,7 @@
 	. = ..()
 	if(isliving(target))
 		var/mob/living/L = target
-		L.apply_status_effect(STATUS_EFFECT_BOUNTY, firer)
+		L.apply_status_effect(STATUS_EFFECT_BOUNTY, null, firer)
 
 /obj/projectile/magic/antimagic
 	name = "bolt of antimagic"

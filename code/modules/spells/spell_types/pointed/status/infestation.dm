@@ -20,7 +20,6 @@
 	spell_cost = 20
 
 	status_effect = /datum/status_effect/debuff/infestation
-	duration = null
 
 /datum/status_effect/debuff/infestation
 	id = "infestation"

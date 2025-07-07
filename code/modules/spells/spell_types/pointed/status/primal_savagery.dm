@@ -17,7 +17,6 @@
 	spell_cost = 50
 
 	status_effect = /datum/status_effect/buff/primal_savagery
-	duration = null
 	duration_scaling = TRUE
 	duration_modification = 30 SECONDS
 

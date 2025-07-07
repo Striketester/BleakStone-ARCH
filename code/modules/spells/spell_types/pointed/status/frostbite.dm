@@ -15,7 +15,7 @@
 	cooldown_time = 25 SECONDS
 	spell_cost = 50
 
-	status_effect
+	status_effect = /datum/status_effect/debuff/frostbite
 
 /datum/action/cooldown/spell/status/frostbite/cast(mob/living/cast_on)
 	. = ..()
