@@ -16621,13 +16621,6 @@
 /obj/structure/door,
 /obj/effect/mapping_helpers/access/locker,
 /obj/effect/mapping_helpers/access/keyset/town/apothecary,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/door,
-/obj/effect/mapping_helpers/access/locker,
-/obj/effect/mapping_helpers/access/keyset/town/clinic,
 /turf/open/floor/twig,
 /area/rogue/indoors/town/bath)
 "knk" = (
@@ -20111,20 +20104,6 @@
 /obj/item/key/church,
 /obj/item/key/church,
 /obj/item/key/church,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/closet/crate/chest,
-/obj/item/storage/keyring,
-/obj/item/key/church,
-/obj/item/key/church,
-/obj/item/key/church,
-/obj/item/needle,
-/obj/machinery/light/fueled/wallfire/candle{
-	pixel_x = -32;
-	pixel_y = 0
-	},
 /turf/open/floor/blocks/newstone,
 /area/rogue/indoors/town/church)
 "mHz" = (
@@ -21026,19 +21005,6 @@
 	},
 /obj/item/clothing/cloak/stole,
 /obj/item/clothing/cloak/stole/purple,
-/obj/merge_conflict_marker{
-	name = "---Merge Conflict Marker---";
-	desc = "A best-effort merge was performed. You must resolve this conflict yourself (manually) and remove this object once complete."
-	},
-/obj/structure/closet/crate/crafted_closet,
-/obj/item/clothing/cloak/stole/red,
-/obj/item/clothing/cloak/chasuble,
-/obj/item/storage/backpack/satchel,
-/obj/item/weapon/polearm/woodstaff/aries,
-/obj/machinery/light/fueled/wallfire/candle{
-	pixel_x = 32;
-	pixel_y = 0
-	},
 /turf/open/floor/blocks/newstone,
 /area/rogue/indoors/town/church)
 "ngV" = (
