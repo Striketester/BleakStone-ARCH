@@ -438,6 +438,7 @@ GLOBAL_LIST_INIT(featured_stats, list(
 	),
 ))
 
+/// Increment a round statistic by a given amount
 /proc/record_round_statistic(name, amount = 1)
 	if(SSticker.current_state == GAME_STATE_FINISHED)
 		return
@@ -445,6 +446,15 @@ GLOBAL_LIST_INIT(featured_stats, list(
 		return
 
 	GLOB.vanderlin_round_stats[name] += amount
+
+/// Force set a value of a specific round statistic to a given value
+/proc/force_set_round_statistic(name, value)
+	if(SSticker.current_state == GAME_STATE_FINISHED)
+		return
+	if(!name || !GLOB.vanderlin_round_stats[name] || !value)
+		return
+
+	GLOB.vanderlin_round_stats[name] = value
 
 /proc/format_top_stats(stat_category)
 	var/list/stat_data = GLOB.featured_stats[stat_category]

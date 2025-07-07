@@ -1313,50 +1313,50 @@ SUBSYSTEM_DEF(gamemode)
 
 	GLOB.featured_stats[FEATURED_STATS_FLAWS]["entries"] = list()
 
-	GLOB.vanderlin_round_stats[STATS_TOTAL_POPULATION] = 0
-	GLOB.vanderlin_round_stats[STATS_PSYCROSS_USERS] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_NOBLES] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_GARRISON] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_CLERGY] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_TRADESMEN] = 0
-	GLOB.vanderlin_round_stats[STATS_ILLITERATES] = 0
-	GLOB.vanderlin_round_stats[STATS_WEREVOLVES] = 0
-	GLOB.vanderlin_round_stats[STATS_VAMPIRES] = 0
-	GLOB.vanderlin_round_stats[STATS_DEADITES_ALIVE] = 0
+	var/list/statistics_to_clear = list(
+		STATS_TOTAL_POPULATION,
+		STATS_PSYCROSS_USERS,
+		STATS_ALIVE_NOBLES,
+		STATS_ALIVE_GARRISON,
+		STATS_ALIVE_CLERGY,
+		STATS_ALIVE_TRADESMEN,
+		STATS_ILLITERATES,
+		STATS_WEREVOLVES,
+		STATS_VAMPIRES,
+		STATS_DEADITES_ALIVE,
+		STATS_ALCOHOLICS,
+		STATS_JUNKIES,
+		STATS_KLEPTOMANIACS,
+		STATS_GREEDY_PEOPLE,
+		STATS_PARENTS,
+		STATS_PACIFISTS,
+		STATS_MARRIED,
+		STATS_MALE_POPULATION,
+		STATS_FEMALE_POPULATION,
+		STATS_OTHER_GENDER,
+		STATS_CHILD_POPULATION,
+		STATS_ADULT_POPULATION,
+		STATS_MIDDLEAGED_POPULATION,
+		STATS_ELDERLY_POPULATION,
+		STATS_IMMORTAL_POPULATION,
+		STATS_ALIVE_TIEFLINGS,
+		STATS_ALIVE_NORTHERN_HUMANS,
+		STATS_ALIVE_DWARVES,
+		STATS_ALIVE_DARK_ELVES,
+		STATS_ALIVE_SNOW_ELVES,
+		STATS_ALIVE_HALF_ELVES,
+		STATS_ALIVE_HALF_DROWS,
+		STATS_ALIVE_HALF_ORCS,
+		STATS_ALIVE_KOBOLDS,
+		STATS_ALIVE_RAKSHARI,
+		STATS_ALIVE_AASIMAR,
+		STATS_ALIVE_HOLLOWKINS,
+		STATS_ALIVE_HARPIES,
+		STATS_ALIVE_TRITONS,
+	)
 
-	GLOB.vanderlin_round_stats[STATS_ALCOHOLICS] = 0
-	GLOB.vanderlin_round_stats[STATS_JUNKIES] = 0
-	GLOB.vanderlin_round_stats[STATS_KLEPTOMANIACS] = 0
-	GLOB.vanderlin_round_stats[STATS_GREEDY_PEOPLE] = 0
-	GLOB.vanderlin_round_stats[STATS_PARENTS] = 0
-	GLOB.vanderlin_round_stats[STATS_PACIFISTS] = 0
-	GLOB.vanderlin_round_stats[STATS_MARRIED] = 0
-
-	GLOB.vanderlin_round_stats[STATS_MALE_POPULATION] = 0
-	GLOB.vanderlin_round_stats[STATS_FEMALE_POPULATION] = 0
-	GLOB.vanderlin_round_stats[STATS_OTHER_GENDER] = 0
-
-	GLOB.vanderlin_round_stats[STATS_CHILD_POPULATION] = 0
-	GLOB.vanderlin_round_stats[STATS_ADULT_POPULATION] = 0
-	GLOB.vanderlin_round_stats[STATS_MIDDLEAGED_POPULATION] = 0
-	GLOB.vanderlin_round_stats[STATS_ELDERLY_POPULATION] = 0
-	GLOB.vanderlin_round_stats[STATS_IMMORTAL_POPULATION] = 0
-
-	// Races count
-	GLOB.vanderlin_round_stats[STATS_ALIVE_TIEFLINGS] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_NORTHERN_HUMANS] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_DWARVES] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_DARK_ELVES] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_SNOW_ELVES] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_HALF_ELVES] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_HALF_DROWS] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_HALF_ORCS] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_KOBOLDS] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_RAKSHARI] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_AASIMAR] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_HOLLOWKINS] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_HARPIES] = 0
-	GLOB.vanderlin_round_stats[STATS_ALIVE_TRITONS] = 0
+	for(var/stat_name in statistics_to_clear)
+		force_set_round_statistic(stat_name, 0)
 
 	for(var/client/client in GLOB.clients)
 		if(roundstart)
@@ -1372,7 +1372,7 @@ SUBSYSTEM_DEF(gamemode)
 			if(living.patron)
 				GLOB.patron_follower_counts[living.patron.name]++
 				if(living.job == "Monarch")
-					GLOB.vanderlin_round_stats[STATS_MONARCH_PATRON] = "[living.patron.name]"
+					force_set_round_statistic(STATS_MONARCH_PATRON, living.patron.name)
 		if(living.mind.has_antag_datum(/datum/antagonist/werewolf))
 			record_round_statistic(STATS_WEREVOLVES)
 		if(living.mind.has_antag_datum(/datum/antagonist/vampire))
