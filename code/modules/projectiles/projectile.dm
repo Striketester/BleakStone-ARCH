@@ -136,6 +136,8 @@
 	var/obj/item/dropped = null //Holds reference to object drop/embed. DO NOT SET TO TYPEPATH
 	var/ammo_type
 
+	/// If the projectile is arcing, it will try to ignore mobs except for the direct target.
+	/// It also has seperate range behaviour where it will Zfall onto targets.
 	var/arcshot = FALSE
 
 	var/accuracy = 65 //How likely the project will hit it's intended target area. Decreases over distance moved, increased from perception.
@@ -343,15 +345,6 @@
 	var/distance = get_dist(T, starting) // Get the distance between the turf shot from and the mob we hit and use that for the calculations.
 	def_zone = ran_zone(def_zone, max(100-(7*distance), 5)) //Lower accurancy/longer range tradeoff. 7 is a balanced number to use.
 
-	if(arcshot)
-		if(A.loc != original.loc)
-			if(ismob(A))
-				var/mob/M = A
-				if(!CHECK_BITFIELD(movement_type, PHASING))
-					temporary_unstoppable_movement = TRUE
-					ENABLE_BITFIELD(movement_type, PHASING)
-				M.playsound_local(T, "whiz", 100, FALSE, pressure_affected = FALSE)
-				return process_hit(T, hit_something = TRUE)
 	return process_hit(T, select_target(T, A))
 
 /**
@@ -468,6 +461,10 @@
 		if((target == firer) || (target in firer.buckled_mobs) || (istype(M) && (M.buckled == target)))
 			return FALSE
 	if(target.density)		//This thing blocks projectiles, hit it regardless of layer/mob stuns/etc.
+		// :((
+		// Snowflake for arcshot because fuck shit
+		if(arcshot && !direct_target && isliving(target))
+			return FALSE
 		return TRUE
 	if(!isliving(target))
 		if(isturf(target))		// non dense turfs
