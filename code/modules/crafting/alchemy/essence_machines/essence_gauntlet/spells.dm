@@ -1548,6 +1548,7 @@
 	to_chat(owner, span_notice("You become translucent and can pass through objects."))
 
 /datum/status_effect/buff/phase_walking/on_remove()
+	. = ..()
 	owner.pass_flags &= ~(PASSMOB | PASSBLOB | PASSTABLE | PASSGLASS)
 	owner.alpha = 255
 	to_chat(owner, span_notice("You return to solid form."))

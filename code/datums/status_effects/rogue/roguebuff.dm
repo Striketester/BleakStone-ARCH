@@ -499,6 +499,7 @@
 	duration = 50 // Sanity, so that people outside the bard buff listening area lose the buff after a few seconds
 
 /datum/status_effect/bardicbuff/on_apply()
+	. = ..()
 	if(owner.mind?.has_antag_datum(/datum/antagonist)) // Check if antag datum present
 		if(owner.mind?.isactuallygood()) // Then check if they're actually a "good" antag (purishep, prisoner)
 			for(var/stat in effectedstats)

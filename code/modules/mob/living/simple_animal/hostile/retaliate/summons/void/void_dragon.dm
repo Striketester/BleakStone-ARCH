@@ -707,6 +707,7 @@
 	return ..()
 
 /datum/status_effect/void_corruption/on_apply()
+	. = ..()
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
 		H.add_overlay(mutable_appearance('icons/effects/effects.dmi', "void_corruption_overlay", -BODY_BEHIND_LAYER))
@@ -718,6 +719,7 @@
 	return TRUE
 
 /datum/status_effect/void_corruption/on_remove()
+	. = ..()
 	STOP_PROCESSING(SSfastprocess, src)
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner

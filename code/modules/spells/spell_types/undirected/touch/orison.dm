@@ -283,6 +283,7 @@
 	duration += initial(duration)
 
 /datum/status_effect/light_buff/on_apply()
+	. = ..()
 	to_chat(owner, span_notice("Light blossoms into being around me!"))
 	var/filter = owner.get_filter("blessing_of_light")
 	if (!filter)
@@ -307,6 +308,7 @@
 	remove_light(M)
 
 /datum/status_effect/light_buff/on_remove()
+	. = ..()
 	to_chat(owner, span_notice("The miraculous light surrounding me has fled..."))
 	owner.remove_filter("blessing_of_light")
 	remove_light(owner)

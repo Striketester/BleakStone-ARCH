@@ -7,11 +7,13 @@
 	return ..()
 
 /datum/status_effect/silenced/on_apply()
+	. = ..()
 	RegisterSignal(owner, COMSIG_LIVING_DEATH, PROC_REF(clear_silence))
 	ADD_TRAIT(owner, TRAIT_MUTE, id)
 	return TRUE
 
 /datum/status_effect/silenced/on_remove()
+	. = ..()
 	UnregisterSignal(owner, COMSIG_LIVING_DEATH)
 	REMOVE_TRAIT(owner, TRAIT_MUTE, id)
 

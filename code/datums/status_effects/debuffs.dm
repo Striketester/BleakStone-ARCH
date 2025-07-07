@@ -234,6 +234,7 @@
 	return ..()
 
 /datum/status_effect/pacify/on_remove()
+	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_PACIFISM, "status_effect")
 
 //OTHER DEBUFFS
@@ -254,6 +255,7 @@
 	return ..()
 
 /datum/status_effect/pacify/on_remove()
+	. = ..()
 	REMOVE_TRAIT(owner, TRAIT_PACIFISM, "status_effect")
 
 /datum/status_effect/neck_slice
@@ -297,6 +299,7 @@
 	owner.dizziness = 20
 
 /datum/status_effect/trance/on_apply()
+	. = ..()
 	if(!iscarbon(owner))
 		return FALSE
 	RegisterSignal(owner, COMSIG_MOVABLE_HEAR, PROC_REF(hypnotize))
@@ -312,6 +315,7 @@
 	return ..()
 
 /datum/status_effect/trance/on_remove()
+	. = ..()
 	UnregisterSignal(owner, COMSIG_MOVABLE_HEAR)
 	REMOVE_TRAIT(owner, TRAIT_MUTE, "trance")
 	owner.dizziness = 0
