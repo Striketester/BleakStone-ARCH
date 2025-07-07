@@ -731,6 +731,8 @@
 	next_use_time -= cooldown_time // Basically, ensures that the ability can be used now
 	build_all_button_icons()
 
+// Spell level is unused currently, it could be used for attunement thresholds
+
 /**
  * Levels the spell up a single level, reducing the cooldown.
  * If bypass_cap is TRUE, will level the spell up past it's set cap.
@@ -851,7 +853,7 @@
  * re_run if the proc is being recursively run due to lack of requirements
  */
 /datum/action/cooldown/spell/proc/invoke_cost(cost_override, type_override, re_run = FALSE)
-	if(!isliving(owner))
+	if(!owner || !isliving(owner))
 		return
 
 	var/used_cost = spell_cost
@@ -903,8 +905,6 @@
 	if(LAZYACCESS(modifiers, RIGHT_CLICK))
 		return
 	if(LAZYACCESS(modifiers, ALT_CLICKED))
-		return
-	if(source.mob.in_throw_mode)
 		return
 	if(!isturf(source.mob.loc))
 		return
