@@ -167,8 +167,7 @@
 		// Arcshot means that below the targeted tile is what we want to aim for
 		// and it also means that the targeted range is the target range
 		// But we can't hit openspace
-		// So we track down all Z until we hit a floor
-		// Then look for targets
+		// So we track down all Z until we hit a floor, then look for targets
 		var/turf/current = get_turf(src)
 		if(arcshot && isopenspace(current))
 			var/turf/below = GET_TURF_BELOW(current)
@@ -196,6 +195,9 @@
 
 				// or just move to the target if none
 				forceMove(target)
+
+			// Snowflake or the arrow floats and im not setting up that signal for openspace here
+			forceMove(below)
 
 		on_range()
 

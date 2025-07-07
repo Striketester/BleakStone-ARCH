@@ -242,7 +242,7 @@
 /atom/movable/screen/button_palette
 	desc = "<b>Drag</b> buttons to move them<br><b>Shift-click</b> any button to reset it<br><b>Alt-click</b> this to reset all buttons"
 	icon = 'icons/hud/64x16_actions.dmi'
-	icon_state = "screen_gen_palette"
+	icon_state = "roguehud_palette"
 	screen_loc = ui_action_palette
 	var/datum/hud/our_hud
 	var/expanded = FALSE
@@ -389,9 +389,6 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 	if(viewer.client)
 		viewer.client.screen |= src
 
-	var/list/settings = our_hud.get_action_buttons_icons()
-	icon = settings["bg_icon"]
-
 /atom/movable/screen/palette_scroll/Click(location, control, params)
 	if(!can_use(usr))
 		return
@@ -460,9 +457,6 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 	var/mob/viewer = our_hud.mymob
 	if(viewer.client)
 		viewer.client.screen |= src
-
-	var/list/settings = our_hud.get_action_buttons_icons()
-	icon = settings["bg_icon"]
 
 /// Reacts to having a button dropped on it
 /atom/movable/screen/action_landing/proc/hit_by(atom/movable/screen/movable/action_button/button)

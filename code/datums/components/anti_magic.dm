@@ -123,7 +123,7 @@
 				span_userdanger("A feeling of cold splashes on [self_subject] as your forehead reflects magic usering your mind!"),
 			)
 
-		user.mob_light(_range = 2, _color = antimagic_color, _duration = 5 SECONDS)
+		//user.mob_light(_range = 2, _color = antimagic_color, _duration = 5 SECONDS)
 		//user.add_overlay(antimagic_effect)
 		//addtimer(CALLBACK(user, TYPE_PROC_REF(/atom, cut_overlay), antimagic_effect), 5 SECONDS)
 
