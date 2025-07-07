@@ -170,8 +170,9 @@
 		// So we track down all Z until we hit a floor, then look for targets
 		var/turf/current = get_turf(src)
 		if(arcshot && isopenspace(current))
+			// If this is null something is VERY wrong
 			var/turf/below = GET_TURF_BELOW(current)
-			if(below && current.can_zFall(src, 1, below))
+			if(current.can_zFall(src, 1, below))
 				var/turf/target
 				while(!target)
 					var/turf/potential = GET_TURF_BELOW(below)
