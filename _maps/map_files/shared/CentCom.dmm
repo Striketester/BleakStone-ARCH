@@ -3029,7 +3029,7 @@
 /turf/open/floor/herringbone,
 /area/rogue/indoors/vampire_manor)
 "qX" = (
-/obj/item/clothing/neck/horus,
+/obj/item/clothing/neck/mercator,
 /obj/item/clothing/neck/shalal,
 /obj/item/clothing/neck/psycross/silver/astrata,
 /obj/item/clothing/neck/psycross/silver/dendor,
