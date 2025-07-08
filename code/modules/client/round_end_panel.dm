@@ -287,16 +287,6 @@
 	data += "</div></div></div>"
 
 	// The Ten Section
-	var/astrata_storyteller = /datum/storyteller/astrata
-	var/noc_storyteller = /datum/storyteller/noc
-	var/necra_storyteller = /datum/storyteller/necra
-	var/pestra_storyteller = /datum/storyteller/pestra
-	var/dendor_storyteller = /datum/storyteller/dendor
-	var/ravox_storyteller = /datum/storyteller/ravox
-	var/xylix_storyteller = /datum/storyteller/xylix
-	var/malum_storyteller = /datum/storyteller/malum
-	var/abyssor_storyteller = /datum/storyteller/abyssor
-	var/eora_storyteller = /datum/storyteller/eora
 
 	data += "<div style='text-align: center; font-size: 1.3em; color: #c0a828; margin: 20px 0 10px 0;'><b>THE TEN</b></div>"
 	data += "<div style='border-top: 3px solid #404040; margin: 0 auto 30px; width: 91.5%;'></div>"
@@ -305,46 +295,42 @@
 	data += "<div style='display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 30px;'>"
 
 	// Astrata
-	data += god_ui_block("ASTRATA", "#e7a962", "#642705", astrata_storyteller, debug)
+	data += god_ui_block("ASTRATA", "#e7a962", "#642705", /datum/storyteller/astrata, debug)
 
 	// Dendor
-	data += god_ui_block("DENDOR", "#412938", "#66745c", dendor_storyteller, debug)
+	data += god_ui_block("DENDOR", "#412938", "#66745c", /datum/storyteller/dendor, debug)
 
 	// Ravox
-	data += god_ui_block("RAVOX", "#2c232d", "#710f0f", ravox_storyteller, debug)
+	data += god_ui_block("RAVOX", "#2c232d", "#710f0f", /datum/storyteller/ravox, debug)
 
 	// Eora
-	data += god_ui_block("EORA", "#a95063", "#e7c3da", eora_storyteller, debug)
+	data += god_ui_block("EORA", "#a95063", "#e7c3da", /datum/storyteller/eora, debug)
 
 	// Necra
-	data += god_ui_block("NECRA", "#2a2459", "#4c82a8", necra_storyteller, debug)
+	data += god_ui_block("NECRA", "#2a2459", "#4c82a8", /datum/storyteller/necra, debug)
 
 	data += "</div>"
 
 	data += "<div style='display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;'>"
 
 	// Noc
-	data += god_ui_block("NOC", "#4e72a1", "#282137", noc_storyteller, debug)
+	data += god_ui_block("NOC", "#4e72a1", "#282137", /datum/storyteller/noc, debug)
 
 	// Abyssor
-	data += god_ui_block("ABYSSOR", "#50090f", "#bbace0", abyssor_storyteller, debug)
+	data += god_ui_block("ABYSSOR", "#50090f", "#bbace0", /datum/storyteller/abyssor, debug)
 
 	// Malum
-	data += god_ui_block("MALUM", "#3d4139", "#955454", malum_storyteller, debug)
+	data += god_ui_block("MALUM", "#3d4139", "#955454", /datum/storyteller/malum, debug)
 
 	// Xylix
-	data += god_ui_block("XYLIX", "#7e632c", "#f6feff", xylix_storyteller, debug)
+	data += god_ui_block("XYLIX", "#7e632c", "#f6feff", /datum/storyteller/xylix, debug)
 
 	// Pestra
-	data += god_ui_block("PESTRA", "#517b27", "#1b2a2a", pestra_storyteller, debug)
+	data += god_ui_block("PESTRA", "#517b27", "#1b2a2a", /datum/storyteller/pestra, debug)
 
 	data += "</div></div>"
 
 	// Inhumen Gods Section
-	var/zizo_storyteller = /datum/storyteller/zizo
-	var/graggar_storyteller = /datum/storyteller/graggar
-	var/baotha_storyteller = /datum/storyteller/baotha
-	var/matthios_storyteller = /datum/storyteller/matthios
 
 	data += "<div style='text-align: center; font-size: 1.3em; color: #AA0000; margin: 20px 0 10px 0;'><b>INHUMEN GODS</b></div>"
 	data += "<div style='border-top: 3px solid #404040; margin: 0 auto 30px; width: 91.5%;'></div>"
@@ -353,16 +339,16 @@
 	data += "<div style='display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 20px; margin-bottom: 20px;'>"
 
 	// Matthios
-	data += god_ui_block("MATTHIOS", "#20202e", "#99b2b1", matthios_storyteller, debug)
+	data += god_ui_block("MATTHIOS", "#20202e", "#99b2b1", /datum/storyteller/matthios, debug)
 
 	// Baotha
-	data += god_ui_block("BAOTHA", "#46254a", "#e2abee", baotha_storyteller, debug)
+	data += god_ui_block("BAOTHA", "#46254a", "#e2abee", /datum/storyteller/baotha, debug)
 
 	// Graggar
-	data += god_ui_block("GRAGGAR", "#3b5e51", "#99bbc7", graggar_storyteller, debug)
+	data += god_ui_block("GRAGGAR", "#3b5e51", "#99bbc7", /datum/storyteller/graggar, debug)
 
 	// Zizo
-	data += god_ui_block("ZIZO", "#661239", "#ed9da3", zizo_storyteller, debug)
+	data += god_ui_block("ZIZO", "#661239", "#ed9da3", /datum/storyteller/zizo, debug)
 
 	data += "</div></div>"
 
