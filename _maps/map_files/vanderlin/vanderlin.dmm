@@ -6895,7 +6895,7 @@
 	pixel_x = -3;
 	pixel_y = 5
 	},
-/obj/structure/table/map{
+/obj/structure/table/map/enigma{
 	dir = 10
 	},
 /turf/open/floor/church,
@@ -11177,7 +11177,7 @@
 /turf/open/floor/carpet/royalblack,
 /area/rogue/indoors/town/merc_guild)
 "hcM" = (
-/obj/structure/table/map{
+/obj/structure/table/map/enigma{
 	dir = 6
 	},
 /turf/open/floor/church,
@@ -11762,7 +11762,7 @@
 	pixel_x = -7;
 	pixel_y = 7
 	},
-/obj/structure/table/map,
+/obj/structure/table/map/enigma,
 /turf/open/floor/church,
 /area/rogue/indoors/town/manor)
 "hyo" = (
@@ -13193,7 +13193,7 @@
 	pixel_x = -5;
 	pixel_y = 3
 	},
-/obj/structure/table/map{
+/obj/structure/table/map/enigma{
 	dir = 5
 	},
 /turf/open/floor/church,
@@ -33510,7 +33510,7 @@
 /area/rogue/outdoors/rtfield/safe)
 "vGE" = (
 /obj/item/candle/yellow,
-/obj/structure/table/map{
+/obj/structure/table/map/enigma{
 	dir = 9
 	},
 /turf/open/floor/church,
@@ -33970,7 +33970,7 @@
 /obj/item/natural/feather,
 /obj/item/natural/feather,
 /obj/item/natural/feather,
-/obj/structure/table/map{
+/obj/structure/table/map/enigma{
 	dir = 1
 	},
 /turf/open/floor/church,

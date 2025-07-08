@@ -307,6 +307,11 @@
 
 /obj/structure/table/map
 	icon = 'icons/roguetown/misc/tables.dmi'
+	icon_state = "map_blank"
+	desc = "A table which probably should have a map covering it."
+
+/obj/structure/table/map/enigma
+	icon = 'icons/roguetown/misc/tables.dmi'
 	icon_state = "map_enigma"
 	desc = "A table displaying a map of Enigma."
 
@@ -329,6 +334,10 @@
 /obj/structure/table/map/kingsfield
 	icon_state = "map_kingsfield"
 	desc = "A table displaying a map of the capital of Kingsfield."
+
+/obj/structure/table/map/baotha
+	icon_state = "map_baotha"
+	desc = "A table displaying the lands surrounding the fallen kingdom of Azuria, doomed to ash."
 
 /obj/structure/table/wood/fine
 	icon = 'icons/roguetown/misc/tables.dmi'
