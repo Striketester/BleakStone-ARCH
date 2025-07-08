@@ -1,6 +1,6 @@
 /// Shows round end popup with all kind of statistics
 /client/proc/show_round_stats(featured_stat)
-	if(SSticker.current_state != GAME_STATE_FINISHED && (!check_rights(R_ADMIN) && !check_rights(R_DEBUG)))
+	if(SSticker.current_state != GAME_STATE_FINISHED && !check_rights(R_ADMIN|R_DEBUG))
 		return
 
 	var/list/data = list()
@@ -220,8 +220,8 @@
 	popup.open()
 
 /// Shows Gods influences menu
-/client/proc/show_influences()
-	if(SSticker.current_state != GAME_STATE_FINISHED && (!check_rights(R_ADMIN) && !check_rights(R_DEBUG)))
+/client/proc/show_influences(debug = FALSE)
+	if(SSticker.current_state != GAME_STATE_FINISHED && !check_rights(R_ADMIN|R_DEBUG))
 		return
 
 	var/list/data = list()
@@ -231,6 +231,11 @@
 	data += "<a href='byond://?src=[REF(src)];viewstats=1' style='padding: 12px 24px; background: #282828; border: 2px solid #404040; color: #d0d0d0; font-weight: bold; text-decoration: none; border-radius: 4px;'>STATISTICS</a>"
 	data += "<a href='byond://?src=[REF(src)];viewinfluences=1' style='padding: 12px 24px; background: #282828; border: 2px solid #404040; color: #d0d0d0; font-weight: bold; text-decoration: none; border-radius: 4px;'>INFLUENCES</a>"
 	data += "</div>"
+
+	if(debug && check_rights(R_DEBUG))
+		data += "<div style='text-align: center; margin: 10px 0;'>"
+		data += "<a href='byond://?src=[REF(src)];viewinfluences=1;debug=[!debug]' style='color: [debug ? "#00FF00" : "#FF0000"];'>[debug ? "DEBUG MODE ON" : "DEBUG MODE OFF"]</a>"
+		data += "</div>"
 
 	// Psydon Section
 	var/psydonite_user = FALSE
@@ -300,38 +305,38 @@
 	data += "<div style='display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px; margin-bottom: 30px;'>"
 
 	// Astrata
-	data += god_ui_block("ASTRATA", "#e7a962", "#642705", astrata_storyteller)
+	data += god_ui_block("ASTRATA", "#e7a962", "#642705", astrata_storyteller, debug)
 
 	// Dendor
-	data += god_ui_block("DENDOR", "#412938", "#66745c", dendor_storyteller)
+	data += god_ui_block("DENDOR", "#412938", "#66745c", dendor_storyteller, debug)
 
 	// Ravox
-	data += god_ui_block("RAVOX", "#2c232d", "#710f0f", ravox_storyteller)
+	data += god_ui_block("RAVOX", "#2c232d", "#710f0f", ravox_storyteller, debug)
 
 	// Eora
-	data += god_ui_block("EORA", "#a95063", "#e7c3da", eora_storyteller)
+	data += god_ui_block("EORA", "#a95063", "#e7c3da", eora_storyteller, debug)
 
 	// Necra
-	data += god_ui_block("NECRA", "#2a2459", "#4c82a8", necra_storyteller)
+	data += god_ui_block("NECRA", "#2a2459", "#4c82a8", necra_storyteller, debug)
 
 	data += "</div>"
 
 	data += "<div style='display: grid; grid-template-columns: repeat(5, 1fr); gap: 20px;'>"
 
 	// Noc
-	data += god_ui_block("NOC", "#4e72a1", "#282137", noc_storyteller)
+	data += god_ui_block("NOC", "#4e72a1", "#282137", noc_storyteller, debug)
 
 	// Abyssor
-	data += god_ui_block("ABYSSOR", "#50090f", "#bbace0", abyssor_storyteller)
+	data += god_ui_block("ABYSSOR", "#50090f", "#bbace0", abyssor_storyteller, debug)
 
 	// Malum
-	data += god_ui_block("MALUM", "#3d4139", "#955454", malum_storyteller)
+	data += god_ui_block("MALUM", "#3d4139", "#955454", malum_storyteller, debug)
 
 	// Xylix
-	data += god_ui_block("XYLIX", "#7e632c", "#f6feff", xylix_storyteller)
+	data += god_ui_block("XYLIX", "#7e632c", "#f6feff", xylix_storyteller, debug)
 
 	// Pestra
-	data += god_ui_block("PESTRA", "#517b27", "#1b2a2a", pestra_storyteller)
+	data += god_ui_block("PESTRA", "#517b27", "#1b2a2a", pestra_storyteller, debug)
 
 	data += "</div></div>"
 
@@ -348,16 +353,16 @@
 	data += "<div style='display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 1fr; gap: 20px; margin-bottom: 20px;'>"
 
 	// Matthios
-	data += god_ui_block("MATTHIOS", "#20202e", "#99b2b1", matthios_storyteller)
+	data += god_ui_block("MATTHIOS", "#20202e", "#99b2b1", matthios_storyteller, debug)
 
 	// Baotha
-	data += god_ui_block("BAOTHA", "#46254a", "#e2abee", baotha_storyteller)
+	data += god_ui_block("BAOTHA", "#46254a", "#e2abee", baotha_storyteller, debug)
 
 	// Graggar
-	data += god_ui_block("GRAGGAR", "#3b5e51", "#99bbc7", graggar_storyteller)
+	data += god_ui_block("GRAGGAR", "#3b5e51", "#99bbc7", graggar_storyteller, debug)
 
 	// Zizo
-	data += god_ui_block("ZIZO", "#661239", "#ed9da3", zizo_storyteller)
+	data += god_ui_block("ZIZO", "#661239", "#ed9da3", zizo_storyteller, debug)
 
 	data += "</div></div>"
 
@@ -367,7 +372,7 @@
 	popup.open()
 
 /// UI block to format information about storyteller god and his influences
-/proc/god_ui_block(name, bg_color, title_color, datum/storyteller/storyteller)
+/proc/god_ui_block(name, bg_color, title_color, datum/storyteller/storyteller, debug = FALSE)
 	var/total_influence = SSgamemode.calculate_storyteller_influence(storyteller)
 	var/datum/storyteller/initialized_storyteller = SSgamemode.storytellers[storyteller]
 	if(!initialized_storyteller)
@@ -375,12 +380,29 @@
 
 	var/dynamic_content = ""
 	var/followers = GLOB.patron_follower_counts[initialized_storyteller.name] || 0
-	dynamic_content += "Number of followers: [followers] ([get_colored_influence_value(SSgamemode.get_follower_influence(storyteller))])<br>"
 
-	for(var/stat in initialized_storyteller.influence_factors)
-		var/list/stat_data = initialized_storyteller.influence_factors[stat]
-		var/stat_value = GLOB.vanderlin_round_stats[stat] || 0
-		dynamic_content += "[stat_data["name"]] [stat_value] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(storyteller, stat))])<br>"
+	if(!debug)
+		dynamic_content += "Number of followers: [followers] ([get_colored_influence_value(SSgamemode.get_follower_influence(storyteller))])<br>"
+		for(var/stat in initialized_storyteller.influence_factors)
+			var/list/stat_data = initialized_storyteller.influence_factors[stat]
+			var/stat_value = GLOB.vanderlin_round_stats[stat] || 0
+			dynamic_content += "[stat_data["name"]] [stat_value] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(storyteller, stat))])<br>"
+	else
+		dynamic_content += "<div style='color: #FFFF00;'><b>DEBUG MODE</b></div>"
+		dynamic_content += "Number of followers: [followers] ([get_colored_influence_value(SSgamemode.get_follower_influence(storyteller))])<br>"
+
+		var/datum/storyteller/prototype = new storyteller
+		for(var/set_name in prototype.influence_sets)
+			var/list/current_set = prototype.influence_sets[set_name]
+			for(var/stat in current_set)
+				var/list/stat_data = current_set[stat]
+				var/stat_value = GLOB.vanderlin_round_stats[stat] || 0
+				var/influence_value = stat_value * stat_data["points"]
+				var/is_active = (stat in initialized_storyteller.influence_factors)
+
+				dynamic_content += "<span style='color: [is_active ? "#88f088" : "#f79090"];'>"
+				dynamic_content += "[stat_data["name"]] [stat_value] ([get_colored_influence_value(influence_value)])</span><br>"
+		qdel(prototype)
 
 	var/suffix = initialized_storyteller.bonus_points >= 0 ? "from wanting to rule" : "from long reign exhaustion"
 	var/bonus_display = "<div>([get_colored_influence_value(round(initialized_storyteller.bonus_points))] [suffix])</div>"
@@ -412,3 +434,10 @@
 		color = "#ffff00"
 		display_num = "+0"
 	return "<font color='[color]'>[display_num]</font>"
+
+/// Global proc to show debug version of gods influences
+/client/proc/debug_influences()
+	set name = "Debug Gods Influences"
+	set category = "Debug"
+
+	show_influences(debug = TRUE)

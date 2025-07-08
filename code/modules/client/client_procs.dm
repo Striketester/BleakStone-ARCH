@@ -138,7 +138,8 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		return
 
 	if(href_list["viewinfluences"])
-		show_influences()
+		var/debug_mode = text2num(href_list["debug"])
+		show_influences(debug_mode)
 		return
 
 	switch(href_list["_src_"])
