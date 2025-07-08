@@ -896,8 +896,8 @@
 /// Try to begin the casting process on mouse down
 /datum/action/cooldown/spell/proc/start_casting(client/source, atom/_target, turf/location, control, params)
 	SIGNAL_HANDLER
-	var/list/modifiers = params2list(params)
 
+	var/list/modifiers = params2list(params)
 	if(LAZYACCESS(modifiers, SHIFT_CLICKED))
 		return
 	if(LAZYACCESS(modifiers, CTRL_CLICKED))
@@ -908,7 +908,7 @@
 		return
 	if(LAZYACCESS(modifiers, ALT_CLICKED))
 		return
-	if(!isturf(source.mob.loc))
+	if(!isturf(owner.loc))
 		return
 
 	if(isnull(location) || istype(_target, /atom/movable/screen)) //Clicking on a screen object.
@@ -927,7 +927,7 @@
 		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(signal_cancel))
 
 	source.mouse_override_icon = 'icons/effects/mousemice/charge/spell_charging.dmi'
-	source.mob.update_mouse_pointer()
+	owner.update_mouse_pointer()
 
 	charge_started_at = world.time
 	charge_target_time = get_chargetime()
@@ -941,8 +941,6 @@
 		on_end_charge(FALSE)
 		return
 
-	// There is no early returning because that is a mess to PROPERLY implement for every spell,
-	// generally speaking most items don't use it either
 	var/success = world.time >= (charge_started_at + charge_target_time)
 	if(!on_end_charge(success))
 		return
