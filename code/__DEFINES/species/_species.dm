@@ -12,7 +12,7 @@
 #define RACE_ID_HOLLOWKIN "hollowkin"
 #define RACE_ID_HARPY "harpy"
 #define RACE_ID_TRITON "triton"
-#define RACE_HUMAN_SPACE "space_human"
+#define RACE_ID_HUMAN_SPACE "space_human"
 
 /// List of all species
 #define ALL_RACES_LIST list(\
@@ -31,13 +31,12 @@
 	RACE_ID_HOLLOWKIN,\
 	RACE_ID_HALF_ORC,\
 	"orc",\
-	"zizozombie",\
 	"goblin",\
 	"rousman",\
 	"zizombie",\
 	"kobold",\
 	"triton",\
-	"humanspace",\
+	RACE_ID_HUMAN_SPACE,\
 	)
 
 /// Species where females get underwear, no underwear for kobold, rakshari and triton, dwarves handled seperately
@@ -51,8 +50,7 @@
 	"orc",\
 	"zizombie",\
 	RACE_ID_ELF,\
-	"elf",\
-	"humanspace",\
+	RACE_ID_HUMAN_SPACE,\
 	)
 
 /// Species where males get underwear, identical to above, elves handled seperately
@@ -65,7 +63,7 @@
 	RACE_ID_HALF_ORC,\
 	"orc",\
 	"zizombie",\
-	"humanspace",\
+	RACE_ID_HUMAN_SPACE,\
 	)
 
 // ============ USING NAME
@@ -132,7 +130,7 @@
 	RACE_KOBOLD,\
 	RACE_HOLLOWKIN,\
 	RACE_RAKSHARI,\
-	RACE_HUMAN_SPACE,\
+	RACE_ID_HUMAN_SPACE,\
 )
 
 /// Species who are affiliated with Grenzelhoft or Psydon specifically.
@@ -218,5 +216,5 @@
 /// Nonnative species - Anything not native to Psydonia.
 /// Probably only will ever contain humans pragmatically, as funny as ethereals pretending to be tieflings would be.
 #define RACES_PLAYER_ALIEN list(\
-	RACE_HUMAN_SPACE,\
+	RACE_ID_HUMAN_SPACE,\
 )
