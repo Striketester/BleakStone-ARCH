@@ -51,5 +51,5 @@
 		playsound(victim, 'sound/items/stunmace_toggle (3).ogg', 100)
 		owner.visible_message(span_warning("The lightning lure fizzles out!"), span_warning("[victim] is too far away!"))
 		return
-	victim.visible_message(span_warning("[victim] is hooked!"), span_userdanger("You are hooked!"))
+	victim.visible_message(span_warning("[victim] is hooked!"), span_userdanger("I'm hooked!"))
 	victim.electrocute_act(15, owner)
