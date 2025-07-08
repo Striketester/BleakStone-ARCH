@@ -82,7 +82,7 @@
 		clean_up(TRUE)
 		return
 
-	to_chat(holder, span_nicegreen("A faint glow eminates from \the [parent] the enchantment is renewed!"))
+	to_chat(holder, span_nicegreen("A faint glow eminates from \the [parent], its enchantment is renewed!"))
 
 	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), duration, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_OVERRIDE)
 
@@ -102,6 +102,9 @@
 			I.max_integrity -= DURABILITY_INCREASE
 			I.obj_integrity -= DURABILITY_INCREASE
 			I.remove_filter(DURABILITY_FILTER)
+
+	I.visible_message(span_warning("\The enchantment on [I] falls!"))
+
 	if(delete)
 		qdel(src)
 

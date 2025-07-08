@@ -68,7 +68,7 @@
 		clean_up(TRUE)
 		return
 
-	to_chat(holder, span_nicegreen("A faint glow eminates from \the [parent] the enchantment is renewed!"))
+	to_chat(holder, span_nicegreen("A faint glow eminates from \the [parent], its enchantment is renewed!"))
 
 	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), duration, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_OVERRIDE)
 
@@ -79,7 +79,7 @@
 	if(!QDELETED(parent))
 		if(isatom(parent))
 			var/atom/thing = parent
-			thing.visible_message(span_warning("\The [thing] begins to crumble as the enchantment falls!"))
+			thing.visible_message(span_warning("\The [thing] begins to crumble, the enchantment falls!"))
 		QDEL_IN(parent, 3 SECONDS)
 	if(delete)
 		qdel(src)
