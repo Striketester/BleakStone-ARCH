@@ -19,31 +19,7 @@
 
 /datum/action/cooldown/spell/status/frostbite/cast(mob/living/cast_on)
 	. = ..()
+	extra_args = list(attuned_strength)
 	if(iscarbon(cast_on))
 		var/mob/living/carbon/C = cast_on
-		C.adjustFireLoss(25)
-
-/datum/status_effect/debuff/frostbite
-	id = "frostbite"
-	alert_type = /atom/movable/screen/alert/status_effect/debuff/frostbite
-	duration = 20 SECONDS
-	effectedstats = list(STATKEY_SPD = -2)
-
-/atom/movable/screen/alert/status_effect/debuff/frostbite
-	name = "Frostbite"
-	desc = "I can feel myself slowing down."
-	icon_state = "frozen"
-	color = "#00fffb"
-
-/datum/status_effect/debuff/frostbite/on_apply()
-	. = ..()
-	var/mob/living/target = owner
-	var/new_color = "#88BFFF"
-	target.add_atom_colour(new_color, TEMPORARY_COLOUR_PRIORITY)
-	addtimer(CALLBACK(target, TYPE_PROC_REF(/atom, remove_atom_colour), TEMPORARY_COLOUR_PRIORITY, new_color), duration)
-	target.add_movespeed_modifier(MOVESPEED_ID_ADMIN_VAREDIT, update=TRUE, priority=100, multiplicative_slowdown=4, movetypes=GROUND)
-
-/datum/status_effect/debuff/frostbite/on_remove()
-	. = ..()
-	var/mob/living/target = owner
-	target.remove_movespeed_modifier(MOVESPEED_ID_ADMIN_VAREDIT, TRUE)
+		C.adjustFireLoss(15 * attuned_strength)
