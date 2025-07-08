@@ -61,7 +61,7 @@
 	greet_text = "An Amirah hailing from Deshret, here on business for the Mercator's Guild to the Isle of the Enigma."
 	allowed_sexes = list(FEMALE)
 	allowed_races = RACES_PLAYER_ZYBANTINE
-	outfit = /datum/outfit/job/zybantine_migration/amirah
+	outfit = /datum/outfit/job/zalad_migration/amirah
 	grant_lit_torch = TRUE
 
 /datum/outfit/job/zalad_migration/amirah/pre_equip(mob/living/carbon/human/H)
@@ -114,7 +114,7 @@
 	greet_text = "You are a furusiyya, pledged to the Emir and the Amirah. Make sure they come out alive of that place."
 	allowed_sexes = list(MALE)
 	allowed_races = RACES_PLAYER_ZYBANTINE
-	outfit = /datum/outfit/job/zybantine_migration/furusiyya
+	outfit = /datum/outfit/job/zalad_migration/furusiyya
 	grant_lit_torch = TRUE
 
 /datum/outfit/job/zalad_migration/furusiyya/pre_equip(mob/living/carbon/human/H)
