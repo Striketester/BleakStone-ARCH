@@ -64,6 +64,11 @@
 		RegisterSignal(loc, COMSIG_ATOM_ATTACK_HAND, PROC_REF(redirect_attack)) // redirect the attack to the door
 	set_init_layer()
 
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_MAGICALLY_UNLOCKED = PROC_REF(on_magic_unlock),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
+
 /obj/structure/door/Destroy()
 	. = ..()
 	UnregisterSignal(loc, COMSIG_ATOM_ATTACK_HAND, PROC_REF(redirect_attack))
@@ -347,9 +352,6 @@
 	update_appearance(UPDATE_ICON_STATE)
 	switching_states = FALSE
 
-	if(close_delay > 0)
-		addtimer(CALLBACK(src, PROC_REF(Close)), close_delay)
-
 /obj/structure/door/proc/Close(silent = FALSE)
 	if(switching_states || !door_opened)
 		return
@@ -536,3 +538,10 @@
 	repair_skill = /datum/skill/craft/masonry
 	smeltresult = null
 	metalizer_result = null
+
+/// Signal proc for [COMSIG_ATOM_MAGICALLY_UNLOCKED]. Open up when someone casts knock.
+/obj/structure/door/proc/on_magic_unlock(datum/source, datum/action/cooldown/spell/aoe/knock, mob/living/caster)
+	SIGNAL_HANDLER
+
+	INVOKE_ASYNC(src, PROC_REF(unlock))
+	INVOKE_ASYNC(src, PROC_REF(force_open))

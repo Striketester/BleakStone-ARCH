@@ -134,8 +134,8 @@ GLOBAL_LIST_EMPTY(heretical_players)
 	var/datum/patron/A = H.patron
 	var/list/spells = list(A.t0, A.t1)
 
-	// if(istype(A, /datum/patron/divine/necra))
-	// 	spells += /datum/action/cooldown/spell/avert
+	if(istype(A, /datum/patron/divine/necra))
+		spells += /datum/action/cooldown/spell/avert
 
 	for(var/datum/action/cooldown/spell/spell as anything in spells)
 		H.add_spell(spell, source = src)
@@ -149,11 +149,11 @@ GLOBAL_LIST_EMPTY(heretical_players)
 
 	var/datum/patron/A = H.patron
 	var/list/spells = list(
-		///datum/action/cooldown/spell/aoe/abrogation,
+		/datum/action/cooldown/spell/aoe/abrogation,
 		A.t0, A.t1,
 	)
-	// if(istype(A, /datum/patron/divine/necra))
-	// 	spells += /datum/action/cooldown/spell/avert
+	if(istype(A, /datum/patron/divine/necra))
+		spells += /datum/action/cooldown/spell/avert
 
 	for(var/datum/action/cooldown/spell/spell as anything in spells)
 		H.add_spell(spell, source = src)
@@ -178,7 +178,7 @@ GLOBAL_LIST_EMPTY(heretical_players)
 			H.add_spell(spell, source = src)
 	else
 		var/list/spells = list(
-			///datum/action/cooldown/spell/aoe/abrogation,
+			/datum/action/cooldown/spell/aoe/abrogation,
 			A.t0,
 		)
 		for(var/datum/action/cooldown/spell/spell as anything in spells)

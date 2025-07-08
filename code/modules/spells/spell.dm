@@ -369,7 +369,6 @@
 /// Do any attunement handling in here or any time after before_cast
 /datum/action/cooldown/spell/proc/handle_attunements()
 	SHOULD_CALL_PARENT(TRUE)
-	SHOULD_NOT_OVERRIDE(TRUE)
 
 	if(!isliving(owner))
 		attuned_strength = 1
@@ -471,8 +470,8 @@
  * Return TRUE if cast_on is valid, FALSE otherwise
  */
 /datum/action/cooldown/spell/proc/is_valid_target(atom/cast_on)
-	if(click_to_activate)
-		if(cast_on == owner && !self_cast_possible)
+	if(click_to_activate && !self_cast_possible)
+		if(cast_on == owner)
 			to_chat(owner, span_warning("You cannot cast [src] on yourself!"))
 			return FALSE
 
@@ -821,8 +820,7 @@
 
 		if(SPELL_MIRACLE)
 			var/mob/living/carbon/human/H = owner
-			var/datum/devotion/cleric_holder/CH = H.cleric
-			if(!CH?.check_devotion(spell_cost))
+			if(!H.cleric?.check_devotion(spell_cost))
 				if(feedback)
 					to_chat(owner, span_warning("My devotion is too weak!"))
 				return FALSE
@@ -882,11 +880,10 @@
 
 		if(SPELL_MIRACLE)
 			var/mob/living/carbon/human/H = owner
-			var/datum/devotion/cleric_holder/CH = H.cleric
-			if(!CH)
+			if(!H.cleric)
 				invoke_cost(used_cost, SPELL_MANA, TRUE)
 				return
-			CH.update_devotion(-used_cost)
+			H.cleric.update_devotion(-used_cost)
 
 		if(SPELL_ESSENCE)
 			var/obj/item/clothing/gloves/essence_gauntlet/gaunt = target

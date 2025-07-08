@@ -125,10 +125,19 @@
 	. = ..()
 	lockdir = dir
 	GLOB.TodUpdate += src
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_MAGICALLY_UNLOCKED = PROC_REF(on_magic_unlock),
+	)
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/structure/window/openclose/Destroy()
 	GLOB.TodUpdate -= src
 	return ..()
+
+/obj/structure/window/openclose/proc/on_magic_unlock(datum/source, datum/action/cooldown/spell/aoe/knock, mob/living/caster)
+	SIGNAL_HANDLER
+
+	INVOKE_ASYNC(src, PROC_REF(open_up))
 
 /obj/structure/window/openclose/update_tod(todd)
 	update_appearance(UPDATE_ICON_STATE)
@@ -177,13 +186,15 @@
 	smeltresult = /obj/item/ingot/iron
 
 /obj/structure/window/proc/open_up(mob/user)
-	visible_message("<span class='info'>[user] opens [src].</span>")
+	if(user)
+		visible_message("<span class='info'>[user] opens [src].</span>")
 	playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
 	climbable = TRUE
 	update_appearance(UPDATE_ICON_STATE)
 
 /obj/structure/window/proc/close_up(mob/user)
-	visible_message("<span class='info'>[user] closes [src].</span>")
+	if(user)
+		visible_message("<span class='info'>[user] closes [src].</span>")
 	playsound(src, 'sound/foley/doors/windowdown.ogg', 100, FALSE)
 	climbable = FALSE
 	update_appearance(UPDATE_ICON_STATE)

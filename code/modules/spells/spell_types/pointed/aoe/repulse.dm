@@ -29,17 +29,8 @@
 	/// The moveforce of the throw done by the repulsion.
 	var/repulse_force = MOVE_FORCE_EXTREMELY_STRONG
 
-/datum/action/cooldown/spell/aoe/repulse/get_things_to_cast_on(atom/center)
-	var/list/things = list()
-	for(var/atom/movable/nearby_movable in oview(aoe_radius, center))
-		if(nearby_movable == owner)
-			continue
-		if(nearby_movable.anchored)
-			continue
-
-		things += nearby_movable
-
-	return things
+/datum/action/cooldown/spell/aoe/repulse/is_valid_target(atom/cast_on)
+	return ismovable(cast_on)
 
 /datum/action/cooldown/spell/aoe/repulse/cast_on_thing_in_aoe(atom/movable/victim, atom/caster)
 	if(ismob(victim))

@@ -1,5 +1,6 @@
 /datum/action/cooldown/spell/healing
 	name = "Miracle"
+	desc = "Call upon your patron to heal the wounds of yourself or others."
 	button_icon_state = "lesserheal"
 	sound = 'sound/magic/heal.ogg'
 	charge_sound = 'sound/magic/holycharging.ogg'
