@@ -46,8 +46,10 @@
 		return
 	if(answer != CHOICE_YES)
 		to_chat(owner, span_warning("[duelist] has refused your challenge!"))
-		to_chat(duelist, span_warning("You refuse [owner]'s challenge."))
-		owner.visible_message(span_warning("[duelist] refuses [owner]'s duel challenge."))
+		duelist.visible_message(
+			span_warning("[duelist] refuses [owner]'s duel challenge."),
+			span_warning("You refuse [owner]'s challenge."),
+		)
 		return
 
 	owner.visible_message(span_notice("[owner] and [duelist] prepare for an honor duel!"), span_notice("The duel begins!"))
