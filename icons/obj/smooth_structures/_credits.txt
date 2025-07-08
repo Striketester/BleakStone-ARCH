@@ -1,0 +1,14 @@
+All carpets
+carpet_blue.dmi
+carpet_brown.dmi
+carpet_cyan.dmi
+carpet_green.dmi
+carpet_purple.dmi
+carpet_red.dmi
+
+taken from
+https://github.com/crystallpunk-14/crystall-punk-14/tree/master/Resources/Textures/_CP14/Structures/Furniture/Carpets
+https://github.com/crystallpunk-14/crystall-punk-14/commit/911e39f029b2881e0d1173f14ae6cb0788c42b52
+
+License CC-BY-SA-3.0
+Made by Hqlle https://github.com/Hqlle
