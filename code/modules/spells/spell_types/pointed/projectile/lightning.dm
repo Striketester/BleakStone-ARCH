@@ -6,6 +6,10 @@
 	charge_sound = 'sound/magic/charging_lightning.ogg'
 	sparks_amt = 5
 
+	attunements = list(
+		/datum/attunement/electric = 0.7,
+	)
+
 	charge_time = 3 SECONDS
 	charge_drain = 1
 	charge_slowdown = 0.7
