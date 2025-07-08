@@ -4,7 +4,7 @@
  */
 /datum/component/conjured_item
 	/// Duration before we try to clean up
-	var/duration = null
+	var/duration
 	/// How many times this can have its duration refreshed, -1 for infinite
 	var/refresh_count
 	/// Skill to determine if we can refresh
@@ -15,7 +15,7 @@
 	var/outline_color
 	/// Weakref to current user
 	var/datum/weakref/current_user
-	/// Timer reference, for timeleft
+	/// Timer id
 	var/decay_timer
 
 /datum/component/conjured_item/Initialize(
@@ -42,19 +42,22 @@
 	RegisterSignal(parent, COMSIG_PARENT_QDELETING, PROC_REF(clean_up))
 
 	var/obj/item/I = parent
-	if(src.outline_color)
-		I.add_filter("conjured_drop", 3, drop_shadow_filter(size = 1, offset = 2, color = src.outline_color))
+	if(outline_color)
+		I.add_filter("conjured_drop", 3, drop_shadow_filter(size = 1, offset = 1, color = outline_color))
 	I.smeltresult = null
 	I.salvage_result = null
 
-	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), src.duration, TIMER_DELETE_ME|TIMER_STOPPABLE)
+	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), duration, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /datum/component/conjured_item/Destroy(force)
 	clean_up()
 	return ..()
 
 /datum/component/conjured_item/proc/try_decay()
-	var/mob/holder = current_user.resolve()
+	if(QDELETED(parent))
+		clean_up(TRUE)
+		return
+	var/mob/holder = current_user?.resolve()
 	if(QDELETED(holder))
 		clean_up(TRUE)
 		return
@@ -65,13 +68,19 @@
 		clean_up(TRUE)
 		return
 
-	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), duration)
+	to_chat(holder, span_nicegreen("A faint glow eminates from \the [parent] the enchantment is renewed!"))
+
+	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), duration, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /datum/component/conjured_item/proc/clean_up(delete = FALSE)
 	current_user = null
 	deltimer(decay_timer)
+	decay_timer = null
 	if(!QDELETED(parent))
-		qdel(parent)
+		if(isatom(parent))
+			var/atom/thing = parent
+			thing.visible_message(span_warning("\The [thing] begins to crumble as the enchantment falls!"))
+		QDEL_IN(parent, 3 SECONDS)
 	if(delete)
 		qdel(src)
 
@@ -83,4 +92,4 @@
 
 /datum/component/conjured_item/proc/on_examine(datum/source, mob/user, list/examine_list)
 	examine_list += "This item crackles with faint arcane energy. It seems to be conjured."
-	examine_list += "It will last for [timeleft(decay_timer) SECONDS] more seconds."
+	examine_list += "It will last for [timeleft(decay_timer) / 10] more seconds."

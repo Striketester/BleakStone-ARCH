@@ -1,4 +1,5 @@
 // There is literally an echantment system ?? why
+// Integrate with conjured item as subtypes?
 
 /**
  * Component used for adding enchantment from the enchant weapon spell
@@ -9,7 +10,7 @@
  */
 /datum/component/enchanted_weapon
 	/// Duration before we try to clean up
-	var/duration = null
+	var/duration
 	/// How many times this can have its duration refreshed, -1 for infinite
 	var/refresh_count
 	/// Skill to determine if we can refresh
@@ -20,7 +21,7 @@
 	var/enchant_type
 	/// Weakref to current user
 	var/datum/weakref/current_user
-	/// Timer reference, for timeleft
+	/// Timer id
 	var/decay_timer
 
 /datum/component/enchanted_weapon/Initialize(
@@ -60,14 +61,17 @@
 			I.obj_integrity += DURABILITY_INCREASE
 			I.add_filter(DURABILITY_FILTER, 2, outline_filter(1, "#808080"))
 
-	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), src.duration, TIMER_DELETE_ME|TIMER_STOPPABLE)
+	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), duration, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /datum/component/enchanted_weapon/Destroy()
 	clean_up()
 	return ..()
 
 /datum/component/enchanted_weapon/proc/try_decay()
-	var/mob/holder = current_user.resolve()
+	if(QDELETED(parent))
+		clean_up(TRUE)
+		return
+	var/mob/holder = current_user?.resolve()
 	if(QDELETED(holder))
 		clean_up(TRUE)
 		return
@@ -78,11 +82,14 @@
 		clean_up(TRUE)
 		return
 
-	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), duration)
+	to_chat(holder, span_nicegreen("A faint glow eminates from \the [parent] the enchantment is renewed!"))
+
+	decay_timer = addtimer(CALLBACK(src, PROC_REF(try_decay)), duration, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /datum/component/enchanted_weapon/proc/clean_up(delete = FALSE)
 	current_user = null
 	deltimer(decay_timer)
+	decay_timer = null
 	var/obj/item/weapon/I = parent
 	switch(enchant_type)
 		if(FORCE_BLADE_ENCHANT)
@@ -111,7 +118,7 @@
 		examine_list += "This weapon is enchanted with a force blade enchantment."
 	else if(enchant_type == DURABILITY_ENCHANT)
 		examine_list += "This weapon is enchanted with a durability enchantment."
-	examine_list += "It will last for [timeleft(decay_timer) SECONDS] more seconds."
+	examine_list += "It will last for [timeleft(decay_timer) / 10] more seconds."
 
 /datum/component/enchanted_weapon/proc/item_afterattack(obj/item/source, atom/target, mob/user, proximity_flag, click_parameters)
 	if(enchant_type == SEARING_BLADE_ENCHANT)
