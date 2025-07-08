@@ -64,6 +64,8 @@
 	var/datum/weakref/challenger
 	var/datum/weakref/challenged
 	var/datum/weakref/objective
+	/// Timer id
+	var/dueltimer
 
 /datum/duel/New(mob/living/carbon/human/challenger, mob/living/carbon/human/challenged, /datum/objective/listener)
 	src.challenger = WEAKREF(challenger)
@@ -71,9 +73,7 @@
 	src.objective = WEAKREF(objective)
 
 	addtimer(CALLBACK(src, PROC_REF(end_duel)), 8 MINUTES, TIMER_DELETE_ME)
-
-	// sorry
-	addtimer(CALLBACK(src, PROC_REF(check_duel)), 2 SECONDS, TIMER_LOOP|TIMER_DELETE_ME)
+	dueltimer = addtimer(CALLBACK(src, PROC_REF(check_duel)), 4 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /datum/duel/Destroy(force, ...)
 	challenger = null
@@ -95,6 +95,8 @@
 	if(challenged_mob.surrendering || challenged_mob.incapacitated(ignore_grab = TRUE))
 		challenger_mob.visible_message(span_notice("[challenger_mob] defeats [challenged_mob] in the honor duel!"))
 		finish_duel(challenged_mob, challenger_mob)
+
+	dueltimer = addtimer(CALLBACK(src, PROC_REF(check_duel)), 4 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 /datum/duel/proc/end_duel()
 	if(QDELETED(src) || !ongoing)
