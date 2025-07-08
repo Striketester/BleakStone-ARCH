@@ -803,7 +803,7 @@
 	var/main_hand = get_active_held_item()
 	var/off_hand = get_inactive_held_item()
 
-	if(istype(main_hand, off_hand))
+	if(istype(main_hand, off_hand) || (isweapon(main_hand) && isweapon(off_hand)))
 		return TRUE
 
 	return FALSE

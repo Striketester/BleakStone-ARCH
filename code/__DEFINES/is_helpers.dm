@@ -115,7 +115,7 @@ GLOBAL_LIST_INIT(turfs_without_ground, typecacheof(list(
 
 #define isitem(A) (istype(A, /obj/item))
 
-#define isweapn(A) (istype(A, /obj/item/weapon))
+#define isweapon(A) (istype(A, /obj/item/weapon))
 
 #define isstructure(A) (istype(A, /obj/structure))
 
