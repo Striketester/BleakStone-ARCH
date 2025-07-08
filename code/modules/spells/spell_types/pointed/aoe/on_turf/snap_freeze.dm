@@ -18,7 +18,7 @@
 	cooldown_time = 40 SECONDS
 	spell_cost = 45
 
-	aoe_radius = 4
+	aoe_radius = 3
 
 /datum/action/cooldown/spell/aoe/on_turf/snap_freeze/cast_on_thing_in_aoe(turf/victim, atom/caster)
 	new /obj/effect/temp_visual/trapice(victim)

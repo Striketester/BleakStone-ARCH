@@ -32,7 +32,7 @@
 /atom/movable/screen/alert/status_effect/debuff/frostbite
 	name = "Frostbite"
 	desc = "I can feel myself slowing down."
-	icon_state = "debuff"
+	icon_state = "frozen"
 	color = "#00fffb"
 
 /datum/status_effect/debuff/frostbite/on_apply()
