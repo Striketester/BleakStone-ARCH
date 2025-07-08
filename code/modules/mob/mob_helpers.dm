@@ -117,7 +117,7 @@
 
 /proc/relative_angular_facing(mob/living/user, mob/living/target)
 	var/target_facing = dir2angle(target.dir)
-	var/abs_angle = Get_Angle(target, user)
+	var/abs_angle = get_angle(target, user)
 	target_facing = 360 + (abs_angle - target_facing)
 	if(target_facing > 360)
 		target_facing -= 360

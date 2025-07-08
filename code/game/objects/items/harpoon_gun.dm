@@ -68,8 +68,7 @@
 	if(harpoon_sound)
 		QDEL_NULL(harpoon_sound)
 	if(zipline)
-		zipline.End(TRUE)
-		zipline = null
+		QDEL_NULL(zipline)
 	return ..()
 
 /obj/item/harpoon_gun/afterattack(atom/target, mob/living/user, proximity)
@@ -103,7 +102,7 @@
 	. |= TRUE
 
 	var/atom/bullet = fire_projectile(/obj/projectile/grapple_hook, attacked_atom, 'sound/zipline_fire.ogg')
-	zipline = user.Beam(bullet, icon_state = "chain", maxdistance = 9, time = INFINITY)
+	zipline = user.Beam(bullet, icon_state = "chain", max_distance = 9, time = INFINITY)
 	retracted_hook = FALSE
 	RegisterSignal(bullet, COMSIG_PROJECTILE_SELF_ON_HIT, PROC_REF(on_grapple_hit))
 	RegisterSignal(bullet, COMSIG_PARENT_PREQDELETED, PROC_REF(on_grapple_fail))
@@ -168,7 +167,7 @@
 		setup_leash(target, firer)
 		return
 
-	zipline = user.Beam(target, icon_state = "chain", maxdistance = 9, time = INFINITY)
+	zipline = user.Beam(target, icon_state = "chain", max_distance = 9, time = INFINITY)
 	RegisterSignal(zipline, COMSIG_PARENT_PREQDELETED, PROC_REF(on_zipline_break))
 	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(determine_distance))
 	RegisterSignal(user, COMSIG_MOVABLE_PRE_THROW, PROC_REF(apply_throw_traits))
@@ -223,7 +222,7 @@
 	var/atom/target_atom = arguements[1]
 	if(isnull(target_atom))
 		return
-	var/dir_to_turn = Get_Angle(source, target_atom)
+	var/dir_to_turn = get_angle(source, target_atom)
 	if(dir_to_turn > 175 && dir_to_turn < 190)
 		dir_to_turn = 0
 

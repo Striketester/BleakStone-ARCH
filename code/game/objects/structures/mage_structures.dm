@@ -59,7 +59,16 @@
 		if(!istype(movable, find_type))
 			continue
 
-		LeyBeam(movable, "drain_life", time = INFINITY, maxdistance = max_distance, layer = LOWER_LEYLINE_LAYER)
+		Beam(
+			movable,
+			icon_state = "drain_life",
+			max_distance = max_distance,
+			time = INFINITY,
+			beam_layer = LOWER_LEYLINE_LAYER,
+			beam_plane = LEYLINE_PLANE,
+			invisibility = INVISIBILITY_LEYLINES,
+		)
+
 		LAZYADD(mana_beams, movable)
 
 /atom/movable/proc/draw_mana_beams_from_list(list/found_types, max_distance = 3)
@@ -69,7 +78,16 @@
 		if(movable in mana_beams)
 			continue
 
-		LeyBeam(movable, "drain_life", time = INFINITY, maxdistance = max_distance, layer = LOWER_LEYLINE_LAYER)
+		Beam(
+			movable,
+			icon_state = "drain_life",
+			max_distance = max_distance,
+			time = INFINITY,
+			beam_layer = LOWER_LEYLINE_LAYER,
+			beam_plane = LEYLINE_PLANE,
+			invisibility = INVISIBILITY_LEYLINES,
+		)
+
 		LAZYADD(mana_beams, movable)
 
 /obj/structure/well/fountain/mana
