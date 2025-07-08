@@ -45,6 +45,8 @@
 	)
 
 /datum/action/cooldown/spell/aoe/lightning_lure/proc/on_break(mob/living/carbon/victim)
+	if(QDELETED(owner))
+		return
 	if(get_dist(victim, owner) > aoe_radius - 1)
 		playsound(victim, 'sound/items/stunmace_toggle (3).ogg', 100)
 		owner.visible_message(span_warning("The lightning lure fizzles out!"), span_warning("[victim] is too far away!"))
