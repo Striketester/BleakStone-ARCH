@@ -3,10 +3,10 @@ name: BYOND Build
 on:
   pull_request:
     branches:
-    - main
+      - main
   merge_group:
     branches:
-    - main
+      - main
 
 env:
   BYOND_MAJOR: 515
@@ -29,7 +29,7 @@ jobs:
   run_linters:
     name: Run Linters
     needs: start_gate
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -74,7 +74,7 @@ jobs:
           tools/bootstrap/python -c ''
       - name: Give Linters A Go
         id: linter-setup
-        run: ':'
+        run: ":"
       - name: Run Grep Checks
         if: steps.linter-setup.conclusion == 'success' && !cancelled()
         run: bash tools/ci/check_grep.sh
@@ -114,7 +114,7 @@ jobs:
 
   compile_all_maps:
     name: Compile Maps
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs: collect_data
     steps:
       - name: Checkout code
@@ -139,7 +139,7 @@ jobs:
   collect_data:
     name: Collect data for other tasks
     needs: start_gate
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     outputs:
       maps: ${{ steps.map_finder.outputs.maps }}
       max_required_byond_client: ${{ steps.max_required_byond_client.outputs.max_required_byond_client }}
@@ -160,7 +160,7 @@ jobs:
 
   run_all_tests:
     name: Integration Tests
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     needs: collect_data
     strategy:
       fail-fast: false
