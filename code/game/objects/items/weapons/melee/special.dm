@@ -113,7 +113,7 @@
 				H.set_silence(20 SECONDS)
 				HU.log_message("has silenced [H.real_name] with the [src]!", LOG_ATTACK)
 				to_chat(H, span_danger("I'm silenced by the scepter!"))
-				COOLDOWN_START(src, scepter, 15 SECONDS)
+				COOLDOWN_START(src, scepter, 10 SECONDS)
 				return
 
 /obj/item/weapon/mace/stunmace
