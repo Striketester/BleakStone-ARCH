@@ -48,4 +48,4 @@
 
 	// client?.change_view(8)
 	// sleep(1 SECONDS)
-	client?.view_size.resetToDefault()
+	client?.view_size?.resetToDefault()
