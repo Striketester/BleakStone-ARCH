@@ -1,25 +1,28 @@
-/datum/action/cooldown/spell/conjure/flower_field
+/datum/action/cooldown/spell/aoe/on_turf/circle/flower_field
 	name = "Flower Field"
 	desc = "Summons a magical field of flowers using a single flower."
 	button_icon_state = "flower_field"
-	self_cast_possible = FALSE
 
 	point_cost = 4
-
-	charge_time = 4 SECONDS
-	charge_drain = 3
-	cooldown_time = 60 SECONDS
-	spell_cost = 40
-
-	summon_radius = 3
-	summon_amount = 35
-
 	attunements = list(
-		/datum/attunement/earth = 0.2,
-		/datum/attunement/life = 0.2,
+		/datum/attunement/earth = 0.4,
+		/datum/attunement/life = 0.3,
 	)
 
-/datum/action/cooldown/spell/conjure/flower_field/before_cast(atom/cast_on)
+	charge_time = 5 SECONDS
+	charge_drain = 3
+	charge_slowdown = 1.4
+	cooldown_time = 60 SECONDS
+	spell_cost = 50
+
+	aoe_radius = 3
+	ignore_openspace = TRUE
+	staggered = TRUE
+	stagger_delay = 0.5 SECONDS
+
+	var/obj/structure/flora/field/flowers
+
+/datum/action/cooldown/spell/aoe/on_turf/circle/flower_field/before_cast(atom/cast_on)
 	. = ..()
 	if(. & SPELL_CANCEL_CAST)
 		return
@@ -40,10 +43,12 @@
 		var/obj/structure/flora/field_type = LAZYACCESS(flower_type_map, I.type)
 		if(field_type)
 			flower_item = I
-			summon_type = list(field_type)
+			flowers = field_type
 			break
 
-	if(!flower_item || !LAZYLEN(summon_type))
+	if(!flower_item || !flowers)
+		to_chat(owner, span_warning("I need a flower as a catalyst!"))
+		reset_spell_cooldown()
 		return . | SPELL_CANCEL_CAST
 
 	animate(flower_item, alpha = 0, time = 0.5 SECONDS)
@@ -52,6 +57,12 @@
 	if(isliving(owner))
 		var/mob/living/L = owner
 		L.apply_status_effect(/datum/status_effect/buff/flowerfield_resistance)
+
+/datum/action/cooldown/spell/aoe/on_turf/circle/flower_field/cast_on_thing_in_aoe(turf/victim, atom/caster)
+	if(prob(25))
+		return
+	var/obj/structure/flora/field/field = new flowers(victim)
+	field.dir = pick(GLOB.cardinals)
 
 /*-----------------\
 |  Flower Fields   |

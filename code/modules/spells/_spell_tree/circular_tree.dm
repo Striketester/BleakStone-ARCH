@@ -282,7 +282,7 @@
 	node_x = 0
 	node_y = DOWN_Y_TIER_1 - 30
 	prerequisites = list(/datum/spell_node/air_affinity, /datum/spell_node/arcyne_affinity)
-	//spell_type = /obj/effect/proc_holder/spell/invoked/boomingblade5e
+	spell_type = /datum/action/cooldown/spell/status/booming_blade
 
 /datum/spell_node/blade_ward
 	name = "Blade Ward"
@@ -424,7 +424,7 @@
 	node_x = LEFT_X_TIER_3
 	node_y = LEFT_Y_LEFT - 50
 	prerequisites = list(/datum/spell_node/magic_stone)
-	spell_type = /datum/action/cooldown/spell/conjure/flower_field
+	spell_type = /datum/action/cooldown/spell/aoe/on_turf/circle/flower_field
 
 /datum/spell_node/storm_caller
 	name = "Storm Caller"
@@ -558,7 +558,7 @@
 	node_x = UP_X_RIGHT
 	node_y = UP_Y_TIER_2
 	prerequisites = list(/datum/spell_node/frost_affinity)
-	//spell_type = /obj/effect/proc_holder/spell/invoked/beam/rayoffrost5e
+	spell_type = /datum/action/cooldown/spell/beam/ray_of_frost
 
 /datum/spell_node/chill_touch
 	name = "Chill Touch"
