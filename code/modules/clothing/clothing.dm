@@ -431,7 +431,7 @@ BLIND     // can't see anything
 		W.connectedc = src
 		hood = W
 
-/obj/item/clothing/attack_right(mob/user)
+/obj/item/clothing/attack_hand_secondary(mob/user, params)
 	if(hoodtype)
 		ToggleHood()
 	if(adjustable > 0)

@@ -28,7 +28,7 @@
 	if(proximity && istype(G) && G.Touch(A,1))
 		return
 	//This signal is needed to prevent gloves of the north star + hulk.
-	if(SEND_SIGNAL(src, COMSIG_HUMAN_EARLY_UNARMED_ATTACK, A, proximity) & COMPONENT_NO_ATTACK_HAND)
+	if(SEND_SIGNAL(src, COMSIG_HUMAN_EARLY_UNARMED_ATTACK, A, proximity) & COMPONENT_CANCEL_ATTACK_CHAIN)
 		return
 	SEND_SIGNAL(src, COMSIG_HUMAN_MELEE_UNARMED_ATTACK, A, proximity)
 	if(isliving(A))
@@ -40,7 +40,7 @@
 			return
 		if(!L.checkdefense(used_intent, src))
 			if(LAZYACCESS(params2list(params), RIGHT_CLICK))
-				L.attack_right(src)
+				L.attack_hand_secondary(src, params)
 				return
 			L.attack_hand(src, params)
 		return
@@ -68,11 +68,11 @@
 					changeNext_move(CLICK_CD_MELEE)
 					return
 		if(LAZYACCESS(params2list(params), RIGHT_CLICK))
-			A.attack_right(src)
+			A.attack_hand_secondary(src, params)
 			return
 		A.attack_hand(src, params)
 
-/mob/living/attack_right(mob/user, params)
+/mob/living/attack_hand_secondary(mob/user, params)
 	. = ..()
 //	if(!user.Adjacent(src)) //alreadyu checked in rmb_on
 //		return
@@ -96,7 +96,7 @@
 	else
 		ongive(user, params)
 
-/turf/attack_right(mob/user, params)
+/turf/attack_hand_secondary(mob/user, params)
 	. = ..()
 	user.changeNext_move(CLICK_CD_MELEE)
 	user.face_atom(src)
@@ -399,17 +399,17 @@
 	. = FALSE
 	if(!(interaction_flags_atom & INTERACT_ATOM_NO_FINGERPRINT_ATTACK_HAND))
 		add_fingerprint(user)
-	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_HAND, user) & COMPONENT_NO_ATTACK_HAND)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_HAND, user, params) & COMPONENT_CANCEL_ATTACK_CHAIN)
 		. |= TRUE
 	if(interaction_flags_atom & INTERACT_ATOM_ATTACK_HAND)
 		. |= _try_interact(user)
 
-/atom/proc/attack_right(mob/user)
-	. = FALSE
-	if(!(interaction_flags_atom & INTERACT_ATOM_NO_FINGERPRINT_ATTACK_RIGHT))
-		add_fingerprint(user)
-	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_RIGHT, user) & COMPONENT_NO_ATTACK_RIGHT)
-		. = TRUE
+/// When the user uses their hand on an item while holding right-click
+/// Returns a SECONDARY_ATTACK_* value.
+/atom/proc/attack_hand_secondary(mob/user, params)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_HAND_SECONDARY, user, params) & COMPONENT_CANCEL_ATTACK_CHAIN)
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	return SECONDARY_ATTACK_CALL_NORMAL
 
 //Return a non FALSE value to cancel whatever called this from propagating, if it respects it.
 /atom/proc/_try_interact(mob/user)
@@ -639,7 +639,7 @@
 	A.attack_paw(src)
 
 /atom/proc/attack_paw(mob/user)
-	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_PAW, user) & COMPONENT_NO_ATTACK_HAND)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_PAW, user) & COMPONENT_CANCEL_ATTACK_CHAIN)
 		return TRUE
 	return FALSE
 

@@ -146,7 +146,7 @@
 		return
 	. = ..()
 
-/obj/structure/composter/attack_right(mob/user)
+/obj/structure/composter/attack_hand_secondary(mob/user, params)
 	user.changeNext_move(CLICK_CD_FAST)
 	var/obj/item = user.get_active_held_item()
 	if(try_handle_flipping_compost(item, user, null))

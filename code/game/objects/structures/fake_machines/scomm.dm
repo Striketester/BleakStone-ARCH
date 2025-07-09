@@ -63,7 +63,7 @@
 	to_chat(user, "<span class='info'>I [speaking ? "unmute" : "mute"] the SCOM.</span>")
 	update_appearance(UPDATE_ICON_STATE)
 
-/obj/structure/fake_machine/scomm/attack_right(mob/user)
+/obj/structure/fake_machine/scomm/attack_hand_secondary(mob/user, params)
 	if(.)
 		return
 	user.changeNext_move(CLICK_CD_MELEE)
@@ -188,7 +188,7 @@
 	return ..()
 
 //wip
-/obj/item/scomstone/attack_right(mob/user)
+/obj/item/scomstone/attack_hand_secondary(mob/user, params)
 	user.changeNext_move(CLICK_CD_MELEE)
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(input_text)

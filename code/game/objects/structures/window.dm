@@ -156,7 +156,7 @@
 		return
 	icon_state = "[icon]"
 
-/obj/structure/window/openclose/attack_right(mob/user)
+/obj/structure/window/openclose/attack_hand_secondary(mob/user, params)
 	if(get_dir(src,user) == lockdir)
 		if(brokenstate)
 			to_chat(user, "<span class='warning'>It's broken, that would be foolish.</span>")

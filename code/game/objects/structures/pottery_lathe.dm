@@ -60,7 +60,7 @@
 	. = ..()
 	start_spinning_pottery(user)
 
-/obj/structure/pottery_lathe/attack_right(mob/user)
+/obj/structure/pottery_lathe/attack_hand_secondary(mob/user, params)
 	. = ..()
 	var/choice = input(user, "Set the speed of the lathe.", src) as null|num
 	if(!choice)

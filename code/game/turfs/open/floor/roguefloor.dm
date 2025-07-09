@@ -241,7 +241,7 @@
 	var/obj/structure/closet/dirthole/holie
 	var/dirt_amt = 3
 
-/turf/open/floor/dirt/attack_right(mob/user)
+/turf/open/floor/dirt/attack_hand_secondary(mob/user, params)
 	if(isliving(user))
 		var/mob/living/L = user
 		if(L.stat != CONSCIOUS)
@@ -346,7 +346,7 @@
 	slowdown = 0
 	path_weight = 10
 
-/turf/open/floor/dirt/road/attack_right(mob/user)
+/turf/open/floor/dirt/road/attack_hand_secondary(mob/user, params)
 	return
 
 /turf/open/floor/dirt/turf_destruction(damage_flag)

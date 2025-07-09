@@ -148,7 +148,7 @@
 		else
 			attemptsell(P, user, TRUE, TRUE)
 
-/obj/structure/fake_machine/stockpile/attack_right(mob/user)
+/obj/structure/fake_machine/stockpile/attack_hand_secondary(mob/user, params)
 	if(ishuman(user))
 		if(user.real_name in GLOB.outlawed_players)
 			say("OUTLAW DETECTED! REFUSING SERVICE!")

@@ -89,7 +89,7 @@
 	var/activetime
 	var/activate_sound
 
-/obj/item/clothing/ring/active/attack_right(mob/user)
+/obj/item/clothing/ring/active/attack_hand_secondary(mob/user, params)
 	if(loc != user)
 		return
 	if(cooldowny)

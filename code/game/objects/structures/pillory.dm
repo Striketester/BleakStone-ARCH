@@ -35,7 +35,7 @@
 	if(lock)
 		. += span_info("It is [locked() ? "locked" : "unlocked"].")
 
-/obj/structure/pillory/attack_right(mob/living/user)
+/obj/structure/pillory/attack_hand_secondary(mob/living/user, params)
 	. = ..()
 	if(!length(buckled_mobs))
 		to_chat(user, span_warning("What's the point of latching it with nobody inside?"))

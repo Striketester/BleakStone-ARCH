@@ -35,7 +35,7 @@
 	mutable.dir = dir
 	. += mutable
 
-/obj/structure/flora/newtree/attack_right(mob/user)
+/obj/structure/flora/newtree/attack_hand_secondary(mob/user, params)
 	if(user.mind && isliving(user))
 		if(user.mind.special_items && user.mind.special_items.len)
 			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items

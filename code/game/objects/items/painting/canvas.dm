@@ -64,10 +64,8 @@
 			anchored = FALSE
 			to_chat(user, "I unmount [src].")
 
-/obj/item/canvas/attack_right(mob/user)
+/obj/item/canvas/attack_hand_secondary(mob/user, params)
 	. = ..()
-	if(user.get_active_held_item())
-		return
 	if(user in showers)
 		return
 	user?.client.screen += used_canvas

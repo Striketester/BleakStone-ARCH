@@ -6,7 +6,7 @@
 	desc = "Grain that has not yet been made suitable for grinding and baking."
 	var/canthresh = TRUE
 
-/obj/item/natural/chaff/attack_right(mob/user)
+/obj/item/natural/chaff/attack_hand_secondary(mob/user, params)
 	if(foodextracted && !user.get_active_held_item())
 		to_chat(user, span_warning("I start to shuck [src]..."))
 		if(do_after(user, 4 SECONDS, src))

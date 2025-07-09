@@ -228,7 +228,7 @@
 	if(M)
 		. += M
 
-/obj/structure/handcart/attack_right(mob/user)
+/obj/structure/handcart/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(.)
 		return

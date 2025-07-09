@@ -98,7 +98,7 @@
 		qdel(src)
 		return TRUE
 
-/obj/item/fishingrod/abyssor_trident/attack_right(mob/user)
+/obj/item/fishingrod/abyssor_trident/attack_hand_secondary(mob/user, params)
 	return
 
 /obj/item/fishingrod/abyssor_trident/afterattack(obj/target, mob/user, proximity, params)

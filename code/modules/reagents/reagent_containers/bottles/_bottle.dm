@@ -56,7 +56,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	if(closed)
 		. += "[icon_state]cork"
 
-/obj/item/reagent_containers/glass/bottle/attack_self_secondary(mob/user)
+/obj/item/reagent_containers/glass/bottle/attack_self_secondary(mob/user, params)
 	. = ..()
 	closed = !closed
 	user.changeNext_move(CLICK_CD_RAPID)
@@ -145,7 +145,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	contained = pp
 	pp.info = pick(GLOB.wisdoms)
 
-/obj/item/bottlemessage/attack_self_secondary(mob/user)
+/obj/item/bottlemessage/attack_self_secondary(mob/user, params)
 	. = ..()
 	playsound(user.loc,'sound/items/uncork.ogg', 100, TRUE)
 	if(!contained)
@@ -188,7 +188,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 	icon_state = "clear_vial1"
 	update_appearance(UPDATE_OVERLAYS)
 
-/obj/item/reagent_containers/glass/bottle/vial/attack_self_secondary(mob/user)
+/obj/item/reagent_containers/glass/bottle/vial/attack_self_secondary(mob/user, params)
 	closed = !closed
 	user.changeNext_move(CLICK_CD_RAPID)
 	if(closed)

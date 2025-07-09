@@ -105,7 +105,7 @@
 	AddElement(/datum/element/update_icon_updates_onmob)
 	return ..()
 
-/obj/item/clothing/head/helmet/leather/minershelm/attack_self(mob/living/user)
+/obj/item/clothing/head/helmet/leather/minershelm/attack_self(mob/living/user, params)
 	toggle_helmet_light(user)
 
 /obj/item/clothing/head/helmet/leather/minershelm/proc/toggle_helmet_light(mob/living/user)

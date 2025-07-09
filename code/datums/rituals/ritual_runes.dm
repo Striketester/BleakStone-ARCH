@@ -352,8 +352,6 @@ GLOBAL_LIST(teleport_runes)
 	associated_ritual = /datum/runerituals/knowledge
 	var/buffed = FALSE
 
-/obj/effect/decal/cleanable/roguerune/arcyne/knowledge/attack_hand(mob/living/user)
-	. = ..()
 /obj/effect/decal/cleanable/roguerune/arcyne/knowledge/invoke(list/invokers, datum/runerituals/runeritual)
 	runeritual = associated_ritual
 	if(!..())	//VERY important. Calls parent and checks if it fails. parent/invoke has all the checks for ingredients

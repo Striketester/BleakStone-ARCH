@@ -57,7 +57,7 @@
 /obj/structure/door/Initialize()
 	. = ..()
 	if(has_bolt && has_viewport)
-		warning("[src] at [AREACOORD(src)] has both a deadbolt and a viewport, these will conflict as they both use attack_right.")
+		warning("[src] at [AREACOORD(src)] has both a deadbolt and a viewport, these will conflict as they both use attack_hand_secondary.")
 	if(has_bolt && lock?.uses_key)
 		warning("[src] at [AREACOORD(src)] has both a deadbolt and a keylock, while this will work it may produce unintended behaviour.")
 	if(isopenturf(loc))
@@ -188,7 +188,7 @@
 		return
 	return ..()
 
-/obj/structure/door/attack_right(mob/user)
+/obj/structure/door/attack_hand_secondary(mob/user, params)
 	if(switching_states)
 		return
 	user.changeNext_move(CLICK_CD_FAST)

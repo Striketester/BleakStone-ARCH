@@ -60,10 +60,10 @@
 			return
 	return ..()
 
-/obj/item/dmusicbox/attack_self_secondary(mob/user)
-	attack_right(user)
+/obj/item/dmusicbox/attack_self_secondary(mob/user, params)
+	attack_hand_secondary(user, params)
 
-/obj/item/dmusicbox/attack_right(mob/user)
+/obj/item/dmusicbox/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(.)
 		return
@@ -107,7 +107,7 @@
 	loaded = FALSE
 	update_appearance(UPDATE_ICON_STATE)
 
-/obj/item/dmusicbox/attack_self(mob/living/user)
+/obj/item/dmusicbox/attack_self(mob/living/user, params)
 	. = ..()
 	if(.)
 		return

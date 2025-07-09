@@ -15,7 +15,7 @@
 	if(contents.len)
 		. += span_notice("[contents.len] thing[contents.len > 1 ? "s" : ""] in the pouch.")
 
-/obj/item/storage/magebag/attack_right(mob/user)
+/obj/item/storage/magebag/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(.)
 		return
@@ -94,7 +94,7 @@
 	else
 		return ..()
 
-/obj/item/chalk/attack_self(mob/living/carbon/human/user)
+/obj/item/chalk/attack_self(mob/living/carbon/human/user, params)
 	if(!isarcyne(user))//We'll set up other items for other types of rune rituals
 		to_chat(user, span_cult("Nothing comes in mind to draw with the chalk."))
 		return
@@ -163,7 +163,7 @@
 	else
 		return ..()
 
-/obj/item/weapon/knife/dagger/silver/arcyne/attack_self(mob/living/carbon/human/user)
+/obj/item/weapon/knife/dagger/silver/arcyne/attack_self(mob/living/carbon/human/user, params)
 	if(!isarcyne(user))
 		return
 	var/obj/effect/decal/cleanable/roguerune/pickrune
@@ -239,7 +239,7 @@
 	var/ready = TRUE
 	var/timing_id
 
-/obj/item/mimictrinket/attack_self(mob/living/carbon/human/user)
+/obj/item/mimictrinket/attack_self(mob/living/carbon/human/user, params)
 	revert()
 
 /obj/item/mimictrinket/proc/revert()
@@ -314,7 +314,7 @@
 	var/cdtime = 30 MINUTES
 	var/ready = TRUE
 
-/obj/item/clothing/ring/arcanesigil/attack_self(mob/living/carbon/human/user)
+/obj/item/clothing/ring/arcanesigil/attack_self(mob/living/carbon/human/user, params)
 	if(ready)
 		if(do_after(user, 25, target = src))
 			to_chat(user,span_notice("[src] heats up to an almost burning temperature, flooding you with overwhelming arcane knowledge!"))
@@ -336,7 +336,7 @@
 	resistance_flags = FIRE_PROOF | ACID_PROOF
 	var/active = FALSE
 
-/obj/item/clothing/ring/shimmeringlens/attack_right(mob/user)
+/obj/item/clothing/ring/shimmeringlens/attack_hand_secondary(mob/user, params)
 	if(loc != user)
 		return
 	if(!active)
@@ -379,7 +379,7 @@
 	desc = "One of a pair of sending stones."
 	var/obj/item/natural/stone/sending/paired_with
 
-/obj/item/natural/stone/sending/attack_self(mob/user)
+/obj/item/natural/stone/sending/attack_self(mob/user, params)
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(input_text)
 		paired_with.say(input_text)

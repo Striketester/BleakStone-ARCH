@@ -186,10 +186,10 @@
 
 	if(W == A)
 		if(LAZYACCESS(modifiers, RIGHT_CLICK))
-			W.attack_self_secondary(src, modifiers)
+			W.attack_self_secondary(src, params)
 			update_inv_hands()
 			return
-		W.attack_self(src)
+		W.attack_self(src, params)
 		update_inv_hands()
 		return
 

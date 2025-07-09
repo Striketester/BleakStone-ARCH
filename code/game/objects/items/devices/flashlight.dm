@@ -29,7 +29,7 @@
 		icon_state = initial(icon_state)
 	set_light_on(on)
 
-/obj/item/flashlight/attack_self(mob/user)
+/obj/item/flashlight/attack_self(mob/user, params)
 	on = !on
 	update_brightness(user)
 	update_item_action_buttons()
@@ -97,7 +97,7 @@
 	else
 		item_state = "[initial(item_state)]"
 
-/obj/item/flashlight/flare/attack_self(mob/user)
+/obj/item/flashlight/flare/attack_self(mob/user, params)
 
 	// Usual checks
 	if(!fuel)
@@ -177,7 +177,7 @@
 					return
 		fuel = max(fuel - 10, 0)
 
-/obj/item/flashlight/flare/torch/attack_self(mob/user)
+/obj/item/flashlight/flare/torch/attack_self(mob/user, params)
 
 	// Usual checks
 	if(!fuel)

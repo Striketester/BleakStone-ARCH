@@ -173,7 +173,7 @@
 	RegisterSignal(user, COMSIG_MOVABLE_PRE_THROW, PROC_REF(apply_throw_traits))
 	stored_launch = target
 
-/obj/item/harpoon_gun/attack_right(mob/user)
+/obj/item/harpoon_gun/attack_hand_secondary(mob/user, params)
 	if(leashed)
 		user.visible_message(span_danger("[user] starts to retract [src]."), span_danger("You start to retract [src]."))
 		if(!do_after(user, 2.5 SECONDS, src))
@@ -184,7 +184,7 @@
 	. = ..()
 
 
-/obj/item/harpoon_gun/attack_self(mob/user)
+/obj/item/harpoon_gun/attack_self(mob/user, params)
 	. = ..()
 	if(leashed)
 		user.visible_message(span_danger("[user] starts to reel in [src]."), span_danger("You start to reel in [src]."))

@@ -113,9 +113,7 @@
 	try_step(STEP_BUTTON, user)
 	return TRUE
 
-/obj/structure/orphan_smasher/attack_right(mob/user)
-	if(!user.Adjacent(src))
-		return
+/obj/structure/orphan_smasher/attack_hand_secondary(mob/user, params)
 	try_step(STEP_FIDDLE, user)
 	return TRUE
 
@@ -326,7 +324,7 @@
 	else
 		icon_state = initial(icon_state)
 
-/obj/structure/material_bin/attack_right(mob/user)
+/obj/structure/material_bin/attack_hand_secondary(mob/user, params)
 	. = ..()
 	user.visible_message(span_danger("[user] starts to [opened ? "close" : "open"] [src]!"), span_danger("You start to [opened ? "close" : "open"] [src]!"))
 	if(!do_after(user, 2.5 SECONDS, src))

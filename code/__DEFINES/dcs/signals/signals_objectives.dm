@@ -34,7 +34,7 @@
 #define COMSIG_TREE_TRANSFORMED "tree_transformed"
 /// from base of /datum/emote/living/spit/adjacentaction() (mob/target)
 #define COMSIG_SPAT_ON "spat_on"
-/// from base of /mob/living/attack_right() (mob/new_apprentice)
+/// from base of /mob/living/attack_hand_secondary() (mob/new_apprentice)
 #define COMSIG_APPRENTICE_MADE "apprentice_made"
 /// from base of /datum/action/cooldown/spell/adopt_child/cast() (mob/adoptee)
 #define COMSIG_ORPHAN_ADOPTED "orphan_adopted"

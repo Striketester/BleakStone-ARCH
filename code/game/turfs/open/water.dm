@@ -390,7 +390,7 @@
 			return
 	. = ..()
 
-/turf/open/water/attack_right(mob/user)
+/turf/open/water/attack_hand_secondary(mob/user, params)
 	if(water_volume < 10)
 		return
 	if(isliving(user))

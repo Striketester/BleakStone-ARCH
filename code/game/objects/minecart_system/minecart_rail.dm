@@ -98,10 +98,9 @@
 	secondary_direction = dir
 	setDir(last_direction)
 
-/obj/structure/minecart_rail/attack_right(mob/user)
+/obj/structure/minecart_rail/attackby_secondary(obj/item/I, mob/user, params)
 	. = ..()
-	var/obj/item/held_item = user.get_active_held_item()
-	if(held_item?.tool_behaviour == TOOL_MULTITOOL)
+	if(I?.tool_behaviour == TOOL_MULTITOOL)
 		rotate_direction(user)
 		return
 

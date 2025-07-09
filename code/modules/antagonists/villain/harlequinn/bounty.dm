@@ -19,7 +19,7 @@ GLOBAL_LIST_INIT(bounty_rep, list())  // ckey -> reputation score
 	var/last_harlequin_spawn = 0
 	COOLDOWN_DECLARE(bounty_marker)
 
-/obj/structure/bounty_board/attack_right(mob/user)
+/obj/structure/bounty_board/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(!COOLDOWN_FINISHED(src, bounty_marker))
 		return
@@ -1797,7 +1797,7 @@ GLOBAL_LIST_INIT(bounty_rep, list())  // ckey -> reputation score
 	var/list/marked_targets = list()
 	var/max_targets = 5 // Maximum number of targets that can be marked
 
-/obj/item/bounty_marker/attack_self(mob/user)
+/obj/item/bounty_marker/attack_self(mob/user, params)
 	if(!marked_targets.len)
 		to_chat(user, span_warning("No targets have been marked with this device."))
 		return

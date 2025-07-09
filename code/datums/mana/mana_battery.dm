@@ -44,8 +44,9 @@
 		var/drawn_mana = mana_to_draw
 		to_chat(user, "drawing mana....")
 		mana_pool.transfer_specific_mana(user.mana_pool, drawn_mana, decrement_budget = TRUE)
+
 // when we hit ourself with right click, however, we send mana TO the battery.
-/obj/item/mana_battery/attack_right(mob/user)
+/obj/item/mana_battery/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if (.)
 		return TRUE

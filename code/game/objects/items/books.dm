@@ -110,9 +110,9 @@
 		base_icon_state = "book[rand(1,8)]"
 		icon_state = "[base_icon_state]_0"
 
-/obj/item/book/attack_self(mob/user)
+/obj/item/book/attack_self(mob/user, params)
 	if(!open)
-		attack_right(user)
+		attack_hand_secondary(user, params)
 		return
 	if(!user.can_read(src))
 		return
@@ -123,8 +123,8 @@
 	read(user)
 	user.update_inv_hands()
 
-/obj/item/book/attack_self_secondary(mob/user)
-	attack_right(user)
+/obj/item/book/attack_self_secondary(mob/user, params)
+	attack_hand_secondary(user, params)
 
 /obj/item/book/proc/read(mob/user)
 	if(!open)
@@ -191,7 +191,7 @@
 /obj/item/book/attackby(obj/item/I, mob/user, params)
 	return
 
-/obj/item/book/attack_right(mob/user)
+/obj/item/book/attack_hand_secondary(mob/user, params)
 	if(!open)
 		slot_flags &= ~ITEM_SLOT_HIP
 		open = TRUE
@@ -232,7 +232,7 @@
 		if(!PA.contraband) // You can add a var to control whether to show contraband
 			types += PA
 
-/obj/item/book/secret/ledger/attack_self(mob/user)
+/obj/item/book/secret/ledger/attack_self(mob/user, params)
 	. = ..()
 	current_reader = user
 	current_reader << browse(generate_html(user),"window=ledger;size=800x810")
@@ -777,7 +777,7 @@
 	base_icon_state = "pellbookmimic"
 	bookfile = "xylix.json"
 
-/obj/item/book/xylix/attack_self(mob/user)
+/obj/item/book/xylix/attack_self(mob/user, params)
 	user.update_inv_hands()
 	to_chat(user, "<span class='notice'>You feel laughter echo in your head.</span>")
 
@@ -1055,7 +1055,7 @@
 	if(href_list["read"])
 		read(usr)
 
-/obj/item/manuscript/attack_self(mob/user)
+/obj/item/manuscript/attack_self(mob/user, params)
 	read(user)
 
 /obj/item/manuscript/proc/read(mob/user)
@@ -1093,7 +1093,7 @@
 	onclose(user, "reading", src)
 
 
-/obj/item/manuscript/attack_right(mob/user)
+/obj/item/manuscript/attackby_secondary(obj/item/weapon, mob/user, params)
 	. = ..()
 	var/obj/item/P = user.get_active_held_item()
 	if(istype(P, /obj/item/natural/feather))

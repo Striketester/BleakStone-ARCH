@@ -32,7 +32,7 @@
 
 	update_appearance(UPDATE_ICON_STATE | UPDATE_DESC)
 
-/obj/item/storage/keyring/attack_right(mob/user)
+/obj/item/storage/keyring/attack_hand_secondary(mob/user, params)
 	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
 	if(CP)
 		CP.rmb_show(user)
@@ -186,7 +186,7 @@
 	else
 		return ..()
 
-/obj/item/lockpickring/attack_right(mob/user)
+/obj/item/lockpickring/attack_hand_secondary(mob/user, params)
 	if(picks.len)
 		to_chat(user, span_notice("I steal a pick off the ring."))
 		var/obj/item/lockpick/K = removefromring(user)

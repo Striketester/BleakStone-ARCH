@@ -70,7 +70,7 @@
 
 		unbuckle_all_mobs()
 
-/obj/structure/guillotine/attack_right(mob/user)
+/obj/structure/guillotine/attack_hand_secondary(mob/user, params)
 	if(.)
 		return
 	user.changeNext_move(CLICK_CD_MELEE)

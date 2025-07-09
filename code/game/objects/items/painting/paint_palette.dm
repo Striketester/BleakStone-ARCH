@@ -44,11 +44,11 @@
 	colors -= remove_color
 	update_appearance(UPDATE_OVERLAYS)
 
-/obj/item/paint_palette/attack_right(mob/user)
+/obj/item/paint_palette/attack_hand_secondary(mob/user, params)
 	. = ..()
 	remove_color(user)
 
-/obj/item/paint_palette/attack_self(mob/user)
+/obj/item/paint_palette/attack_self(mob/user, params)
 	. = ..()
 	add_color(user)
 

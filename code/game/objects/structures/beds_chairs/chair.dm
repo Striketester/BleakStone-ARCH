@@ -169,7 +169,7 @@
 	W.setDir(dir)
 	qdel(src)
 
-/obj/item/chair/attack_self(mob/user)
+/obj/item/chair/attack_self(mob/user, params)
 	plant(user)
 
 /obj/item/chair/proc/plant(mob/user)

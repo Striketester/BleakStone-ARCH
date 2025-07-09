@@ -1384,21 +1384,6 @@ GLOBAL_DATUM_INIT(fire_overlay, /mutable_appearance, mutable_appearance('icons/e
 	impactee.visible_message(span_danger("[src] crashes into [impactee]'s [target_zone]!"), span_danger("A [src] hits you in your [target_zone]!"))
 	impactee.apply_damage(item_weight * fall_speed, BRUTE, target_zone, impactee.run_armor_check(target_zone, "blunt", damage = item_weight * fall_speed))
 
-/obj/item/attack_self(mob/user)
-	. = ..()
-	if(twohands_required)
-		return
-	if(altgripped || wielded) //Trying to unwield it
-		ungrip(user)
-		return
-	if(alt_intents)
-		altgrip(user)
-	if(gripped_intents)
-		wield(user)
-
-/obj/item/proc/attack_self_secondary(mob/user)
-	return
-
 /obj/item/equip_to_best_slot(mob/M)
 	if(..())
 		if(altgripped || wielded)

@@ -24,7 +24,7 @@
 	grid_width = 64
 	dropshrink = 0.9
 
-/obj/item/reagent_containers/glass/mortar/attack_right(mob/user)
+/obj/item/reagent_containers/glass/mortar/attack_hand_secondary(mob/user, params)
 	user.changeNext_move(CLICK_CD_MELEE)
 	var/held_item = user.get_active_held_item()
 	if(istype(held_item, /obj/item/pestle))

@@ -60,7 +60,7 @@
 		return
 	..()
 
-/obj/item/ammo_holder/attack_right(mob/user)
+/obj/item/ammo_holder/attack_hand_secondary(mob/user, params)
 	if(ammo_list.len)
 		var/obj/O = ammo_list[ammo_list.len]
 		ammo_list -= O

@@ -55,7 +55,7 @@
 	wound = FALSE
 	update_appearance(UPDATE_ICON_STATE)
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attack_right(mob/user)
+/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(!user.is_holding(src))
 		to_chat(user, "<span class='warning'>I need to hold \the [src] to cock it!</span>")
@@ -71,7 +71,7 @@
 	update_appearance(UPDATE_ICON_STATE)
 
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attack_self_secondary(mob/user)
+/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attack_self_secondary(mob/user, params)
 	. = ..()
 	if(user.get_skill_level(/datum/skill/combat/firearms) <= 0)
 		to_chat(user, "<span class='warning'>I don't know how to do this!</span>")

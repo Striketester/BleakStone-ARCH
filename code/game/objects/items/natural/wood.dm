@@ -56,12 +56,8 @@
 	. = ..()
 
 
-/obj/item/grown/log/tree/attack_right(mob/living/user)
+/obj/item/grown/log/tree/attackby_secondary(obj/item/I, mob/living/user, params)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
-	if(!I)
-		return
-
 	if(user.used_intent.blade_class == BCLASS_CHOP && lumber_amount && lumber_alt)
 		var/skill_level = user.get_skill_level(/datum/skill/labor/lumberjacking)
 		var/lumber_time = (4 SECONDS - (skill_level * 5))
@@ -175,7 +171,7 @@
 				L.update_sneak_invis(TRUE)
 			L.consider_ambush()
 
-/obj/item/grown/log/tree/stick/attack_self(mob/living/user)
+/obj/item/grown/log/tree/stick/attack_self(mob/living/user, params)
 	user.visible_message("<span class='warning'>[user] snaps [src].</span>")
 	playsound(user,'sound/items/seedextract.ogg', 100, FALSE)
 	qdel(src)
@@ -192,9 +188,8 @@
 		return
 	return ..()
 
-/obj/item/grown/log/tree/stick/attack_right(mob/living/user)
+/obj/item/grown/log/tree/stick/attackby_secondary(obj/item/I, mob/user, params)
 	. = ..()
-	var/obj/item/I = user.get_active_held_item()
 	if(istype(I, /obj/item/grown/log/tree/stick))
 		var/obj/item/natural/bundle/stick/F = new(get_turf(user))
 		qdel(I)

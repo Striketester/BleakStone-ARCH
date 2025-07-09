@@ -85,7 +85,7 @@
 	salvage_result = /obj/item/rope
 	component_type = /datum/component/storage/concrete/grid/belt/cloth
 
-/obj/item/storage/belt/leather/rope/attack_self(mob/user)
+/obj/item/storage/belt/leather/rope/attack_self(mob/user, params)
 	. = ..()
 	to_chat(user, span_notice("You begin untying [src]."))
 	if(do_after(user, 1.5 SECONDS, src))
@@ -99,7 +99,7 @@
 	salvage_result = /obj/item/natural/cloth
 	component_type = /datum/component/storage/concrete/grid/belt/cloth
 
-/obj/item/storage/belt/leather/cloth/attack_self(mob/user)
+/obj/item/storage/belt/leather/cloth/attack_self(mob/user, params)
 	. = ..()
 	to_chat(user, span_notice("You begin untying [src]."))
 	if(do_after(user, 1.5 SECONDS, src))
@@ -251,7 +251,7 @@
 /obj/item/storage/backpack/satchel/black
 	color = CLOTHING_SOOT_BLACK
 
-/obj/item/storage/backpack/attack_right(mob/user)
+/obj/item/storage/backpack/attack_hand_secondary(mob/user, params)
 	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
 	if(CP)
 		CP.rmb_show(user)
@@ -352,7 +352,7 @@
 		return TRUE
 	. = ..()
 
-/obj/item/storage/belt/leather/knifebelt/attack_right(mob/user)
+/obj/item/storage/belt/leather/knifebelt/attack_hand_secondary(mob/user, params)
 	if(length(contents))
 		var/list/knives = list()
 		SEND_SIGNAL(src, COMSIG_TRY_STORAGE_TAKE_TYPE, /obj/item/weapon/knife/throwingknife, drop_location(), amount = 1, check_adjacent = TRUE, user = user, inserted = knives)

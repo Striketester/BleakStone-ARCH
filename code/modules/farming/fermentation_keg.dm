@@ -86,7 +86,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 	if(master?.glows)
 		. += emissive_appearance(icon, "filling", alpha = used_alpha)
 
-/obj/structure/fermentation_keg/attack_right(mob/user)
+/obj/structure/fermentation_keg/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(!ready_to_bottle && selected_recipe && !brewing)
 		user.visible_message("[user] starts emptying out [src].", "You start emptying out [src].")

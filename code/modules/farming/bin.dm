@@ -85,7 +85,7 @@
 		CP.rmb_show(user)
 		return TRUE
 
-/obj/item/bin/attack_right(mob/user)
+/obj/item/bin/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(.)
 		return

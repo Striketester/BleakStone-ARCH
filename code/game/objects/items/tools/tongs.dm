@@ -60,7 +60,7 @@
 	else if(held_item)
 		to_chat(user, "<span class='warning'>Cannot place [held_item] here!</span>")
 
-/obj/item/weapon/tongs/attack_self(mob/user)
+/obj/item/weapon/tongs/attack_self(mob/user, params)
 	place_item_to_atom(get_turf(user), user)
 
 /obj/item/weapon/tongs/dropped(mob/user)

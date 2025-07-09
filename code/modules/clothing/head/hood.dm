@@ -9,7 +9,7 @@
 	connectedc = null
 	return ..()
 
-/obj/item/clothing/head/hooded/attack_right(mob/user)
+/obj/item/clothing/head/hooded/attack_hand_secondary(mob/user, params)
 	if(connectedc)
 		connectedc.ToggleHood()
 

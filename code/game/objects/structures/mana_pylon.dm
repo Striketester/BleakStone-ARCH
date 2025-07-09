@@ -152,7 +152,7 @@
 		else
 			mana_pool.transfer_specific_mana(user.mana_pool, transfer_amount, decrement_budget = TRUE)
 
-/obj/structure/mana_pylon/attack_right(mob/user)
+/obj/structure/mana_pylon/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(user.client)
 		drain_mana(user)

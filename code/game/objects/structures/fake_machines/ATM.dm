@@ -74,7 +74,7 @@
 			playsound(src, 'sound/misc/machinetalk.ogg', 100, FALSE, -1)
 
 /*
-/obj/structure/fake_machine/atm/attack_right(mob/user)
+/obj/structure/fake_machine/atm/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(.)
 		return

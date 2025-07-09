@@ -32,7 +32,7 @@
 	. = ..()
 	caster = summoner
 
-/obj/structure/door/arcyne/bolt/caster/attack_right(mob/user)
+/obj/structure/door/arcyne/bolt/caster/attack_hand_secondary(mob/user, params)
 	if(user != caster)
 		to_chat(user, span_warning("A magical force prevents me from interacting with [src]!"))
 		return

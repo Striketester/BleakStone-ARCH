@@ -74,7 +74,7 @@
 
 	return prioritized
 
-/obj/machinery/essence/attack_right(mob/user, list/modifiers)
+/obj/machinery/essence/attack_hand_secondary(mob/user, list/modifiers)
 	var/obj/item/essence_connector/held = user.get_active_held_item()
 	if(!istype(held))
 		return ..()

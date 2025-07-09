@@ -50,7 +50,7 @@
 		component_overlay.overlays = component.overlays
 		. += component_overlay
 
-/obj/item/slapcraft_assembly/attack_right(mob/user)
+/obj/item/slapcraft_assembly/attack_hand_secondary(mob/user, params)
 	if(recipe.can_disassemble)
 		to_chat(user, span_notice("You take apart \the [src]."))
 		disassemble()

@@ -57,7 +57,7 @@
 	user.visible_message(span_suicide("[user] is gambling with death! It looks like [user.p_theyre()] trying to commit suicide!"))
 	return (OXYLOSS)
 
-/obj/item/dice/attack_right(mob/user)
+/obj/item/dice/attack_hand_secondary(mob/user, params)
 	if(HAS_TRAIT(user, TRAIT_BLACKLEG))
 		var/list/possible_outcomes = list()
 		var/special = FALSE
@@ -190,7 +190,7 @@
 	AddElement(/datum/element/update_icon_blocker)
 	return ..()
 
-/obj/item/dice/attack_self(mob/user)
+/obj/item/dice/attack_self(mob/user, params)
 	diceroll(user)
 
 /obj/item/dice/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)

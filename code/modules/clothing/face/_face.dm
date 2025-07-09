@@ -22,7 +22,7 @@
 	var/mask_adjusted = 0
 	var/adjusted_flags = null
 
-/obj/item/clothing/face/attack_self(mob/user)
+/obj/item/clothing/face/attack_self(mob/user, params)
 	if(CHECK_BITFIELD(clothing_flags, VOICEBOX_TOGGLABLE))
 		TOGGLE_BITFIELD(clothing_flags, VOICEBOX_DISABLED)
 		var/status = !CHECK_BITFIELD(clothing_flags, VOICEBOX_DISABLED)

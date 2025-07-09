@@ -31,7 +31,7 @@
 			show_inquisitor_shop(user)
 			return
 
-/obj/structure/fake_machine/mail/attack_right(mob/user)
+/obj/structure/fake_machine/mail/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(.)
 		return
