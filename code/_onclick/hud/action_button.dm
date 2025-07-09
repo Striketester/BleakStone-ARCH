@@ -288,7 +288,7 @@
 	. = ..()
 	if(QDELETED(src))
 		return
-	show_tooltip(params)
+	//show_tooltip(params)
 
 /atom/movable/screen/button_palette/MouseExited()
 	closeToolTip(usr)
