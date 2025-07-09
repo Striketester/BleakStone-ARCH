@@ -24,8 +24,6 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 
 	var/atom/movable/screen/blobpwrdisplay
 
-	var/atom/movable/screen/devil/soul_counter/devilsouldisplay
-
 	var/atom/movable/screen/act_intent/rogintent/action_intent
 	var/atom/movable/screen/scannies
 	var/atom/movable/screen/act_intent/rogintent/magic/spell_intent
@@ -164,7 +162,6 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 
 	healths = null
 	healthdoll = null
-	devilsouldisplay = null
 	blobpwrdisplay = null
 
 	QDEL_LIST_ASSOC_VAL(plane_masters)
@@ -539,12 +536,12 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 		number = row * column_max
 
 	var/visual_row = row + north_offset
-	var/coord_row = visual_row ? "-[visual_row]" : "+0"
+	var/coord_row = visual_row ? "+[visual_row]" : "+0"
 
 	var/visual_column = number % column_max
 	var/coord_col = "+[visual_column]"
 	var/coord_col_offset = 4 + 2 * (visual_column + 1)
-	return "WEST[coord_col]:[coord_col_offset],NORTH[coord_row]:-[pixel_north_offset]"
+	return "WEST[coord_col]:[coord_col_offset],SOUTH[coord_row]:+[pixel_north_offset]"
 
 /datum/action_group/proc/check_against_view()
 	var/owner_view = owner?.mymob?.client?.view
@@ -598,11 +595,12 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	landing.refresh_owner()
 
 /datum/action_group/proc/scroll(amount)
-	row_offset += amount
+	row_offset -= amount
 	refresh_actions()
 
 /datum/action_group/palette
 	north_offset = 2
+	pixel_north_offset = 4
 	column_max = 3
 	max_rows = 3
 	location = SCRN_OBJ_IN_PALETTE
@@ -624,18 +622,18 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 	var/atom/movable/screen/palette_scroll/scroll_down = owner.palette_down
 	var/atom/movable/screen/palette_scroll/scroll_up = owner.palette_up
 
-	var/actions_above = round((owner.listed_actions.size() - 1) / owner.listed_actions.column_max)
-	north_offset = initial(north_offset) + actions_above
+	var/actions_below = round((owner.listed_actions.size() - 1) / owner.listed_actions.column_max)
+	north_offset = initial(north_offset) + actions_below
 
-	palette.screen_loc = ui_action_palette_offset(actions_above)
+	palette.screen_loc = ui_action_palette_offset(actions_below)
 	var/action_count = length(owner?.mymob?.actions)
 	var/our_row_count = round((length(actions) - 1) / column_max)
 	if(!action_count)
 		palette.screen_loc = null
 
 	if(palette.expanded && action_count && our_row_count >= max_rows)
-		scroll_down.screen_loc = ui_palette_scroll_offset(actions_above)
-		scroll_up.screen_loc = ui_palette_scroll_offset(actions_above)
+		scroll_down.screen_loc = ui_palette_scroll_offset(actions_below)
+		scroll_up.screen_loc = ui_palette_scroll_offset(actions_below)
 	else
 		scroll_down.screen_loc = null
 		scroll_up.screen_loc = null
@@ -656,7 +654,7 @@ GLOBAL_LIST_INIT(available_ui_styles, sortList(list(
 
 
 /datum/action_group/listed
-	pixel_north_offset = 6
+	pixel_north_offset = 12
 	column_max = 10
 	location = SCRN_OBJ_IN_LIST
 

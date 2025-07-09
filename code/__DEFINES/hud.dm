@@ -19,7 +19,7 @@
 #define SCRN_OBJ_DEFAULT "default"
 /// Floating somewhere on the hud, not in any predefined place
 #define SCRN_OBJ_FLOATING "floating"
-/// In the list of buttons stored at the top of the screen
+/// In the list of buttons stored at the bottom of the screen
 #define SCRN_OBJ_IN_LIST "list"
 /// In the collapseable palette
 #define SCRN_OBJ_IN_PALETTE "palette"
@@ -53,20 +53,9 @@
 	var/y_off = round((M.held_items.len-1) / 2)
 	return "CENTER+[x_off]:16,SOUTH+[y_off+1]:5"
 
-//Lower left, persistent menu
-#define ui_inventory "WEST:6,SOUTH:5"
-
-//Middle left indicators
-#define ui_lingchemdisplay "WEST,CENTER-1:15"
-#define ui_lingstingdisplay "WEST:6,CENTER-3:11"
-
-#define ui_devilsouldisplay "WEST:6,CENTER-1:15"
-
 //Lower center, persistent menu
-#define ui_sstore1 "CENTER-5:10,SOUTH:5"
 #define ui_id "CENTER-4:12,SOUTH:5"
 #define ui_belt "CENTER-3:14,SOUTH:5"
-#define ui_back "CENTER-2:14,SOUTH:5"
 
 //Lower right, persistent menu
 #define ui_drop_throw "EAST-1:28,SOUTH+1:7"
@@ -83,11 +72,11 @@
 #define ui_skill_menu "EAST-4:22,SOUTH:5"
 
 //Upper left (action buttons)
-#define ui_action_palette "WEST+0:23,NORTH-1:5"
-#define ui_action_palette_offset(north_offset) ("WEST+0:23,NORTH-[1+north_offset]:5")
+#define ui_action_palette "WEST+0:23,SOUTH+1:16"
+#define ui_action_palette_offset(north_offset) ("WEST+0:23,SOUTH+[1+north_offset]:16")
 
-#define ui_palette_scroll "WEST+1:8,NORTH-6:28"
-#define ui_palette_scroll_offset(north_offset) ("WEST+1:8,NORTH-[6+north_offset]:28")
+#define ui_palette_scroll "WEST+1:8,SOUTH+5:8"
+#define ui_palette_scroll_offset(north_offset) ("WEST+1:8,SOUTH+[5+north_offset]:8")
 
 #define ui_storage1 "CENTER+1:18,SOUTH:5"
 #define ui_storage2 "CENTER+2:20,SOUTH:5"

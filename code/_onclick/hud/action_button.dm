@@ -406,7 +406,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 
 /atom/movable/screen/palette_scroll/down
 	name = "Scroll Down"
-	desc = "<b>Click</b> on this to scroll the actions above down"
+	desc = "<b>Click</b> on this to scroll the actions below down"
 	icon_state = "scroll_down"
 	scroll_direction = 1
 
@@ -419,7 +419,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 
 /atom/movable/screen/palette_scroll/up
 	name = "Scroll Up"
-	desc = "<b>Click</b> on this to scroll the actions above up"
+	desc = "<b>Click</b> on this to scroll the actions below up"
 	icon_state = "scroll_up"
 	scroll_direction = -1
 
