@@ -290,9 +290,9 @@
 /datum/action/cooldown/spell/proc/on_activation(mob/on_who)
 	SHOULD_CALL_PARENT(TRUE)
 
-	var/tip = "<B>Left-click to cast the spell on a target!</B>"
+	var/tip = "<B>Middle-click to cast the spell on a target!</B>"
 	if(charge_required)
-		tip = "<B>Hold Left-click and release once charged to cast the spell on a target!</B>"
+		tip = "<B>Hold Middle-click and release once charged to cast the spell on a target!</B>"
 
 	to_chat(on_who, span_notice("[active_msg] [tip]"))
 	build_all_button_icons()
@@ -686,6 +686,9 @@
 	STOP_PROCESSING(SSmousecharge, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
 
+	if(owner?.mmb_intent)
+		QDEL_NULL(owner.mmb_intent)
+
 	if(charge_slowdown)
 		owner.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
 
@@ -902,7 +905,7 @@
 		return
 	if(LAZYACCESS(modifiers, CTRL_CLICKED))
 		return
-	if(LAZYACCESS(modifiers, MIDDLE_CLICK))
+	if(LAZYACCESS(modifiers, LEFT_CLICK))
 		return
 	if(LAZYACCESS(modifiers, RIGHT_CLICK))
 		return

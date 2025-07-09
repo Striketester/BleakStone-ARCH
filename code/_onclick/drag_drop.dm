@@ -122,11 +122,10 @@
 		active_mousedown_item.onMouseDown(object, location, params, mob)
 
 	var/list/modifiers = params2list(params)
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+	if(LAZYACCESS(modifiers, RIGHT_CLICK) || LAZYACCESS(modifiers, MIDDLE_CLICK))
 		mob.face_atom(object)
-		if(LAZYACCESS(modifiers, LEFT_CLICK))
-			return
-		mouse_pointer_icon = 'icons/effects/mousemice/human_looking.dmi'
+		if(!mouse_override_icon)
+			mouse_pointer_icon = 'icons/effects/mousemice/human_looking.dmi'
 		return
 
 	if(LAZYACCESS(modifiers, MIDDLE_CLICK)) //start charging a spell or readying a mmb intent
@@ -137,12 +136,11 @@
 			mob.cast_move = 0
 			mob.used_intent = mob.mmb_intent
 		if(!mob.mmb_intent)
-			mouse_pointer_icon = 'icons/effects/mousemice/human_looking.dmi'
+			return
+		if(mob.mmb_intent.get_chargetime() && !AD.blockscharging)
+			updateprogbar()
 		else
-			if(mob.mmb_intent.get_chargetime() && !AD.blockscharging)
-				updateprogbar()
-			else
-				mouse_pointer_icon = mob.mmb_intent.pointer
+			mouse_pointer_icon = mob.mmb_intent.pointer
 		return
 	if(LAZYACCESS(modifiers, LEFT_CLICK)) //start charging a lmb intent
 		mob.face_atom(object)
@@ -174,6 +172,8 @@
 	if(SEND_SIGNAL(src, COMSIG_CLIENT_MOUSEUP, object, location, control, params) & COMPONENT_CLIENT_MOUSEUP_INTERCEPT)
 		click_intercept_time = world.time
 	if(mouse_up_icon)
+		mouse_pointer_icon = mouse_up_icon
+	else
 		mouse_pointer_icon = 'icons/effects/mousemice/human.dmi'
 	var/mob/living/L = mob
 	if(L)
@@ -244,20 +244,15 @@
 		return
 	L.used_intent.prewarning()
 	if(!charging)
-		charging = 1
+		charging = TRUE
 		L.used_intent.on_charge_start()
 		L.update_charging_movespeed(L.used_intent)
-//		L.update_warning(L.used_intent)
 		progress = 0
-//		if(L.used_intent.charge_invocation)
-//			sections = 100/L.used_intent.charge_invocation.len
-//		else
-//			sections = null
 		sections = null //commented
 		goal = L.used_intent.get_chargetime()
 		part = 1
 		lastplayed = 0
-		doneset = 0
+		doneset = FALSE
 		chargedprog = 0
 		START_PROCESSING(SSmousecharge, src)
 
@@ -266,53 +261,56 @@
 	return ..()
 
 /client/process()
-	if(!isliving(mob))
+	if(!mob || !isliving(mob))
 		return PROCESS_KILL
 	var/mob/living/L = mob
-	if(!L?.client || !update_to_mob(L))
-		if(L.curplaying)
-			L.curplaying.on_mouse_up()
-		L.update_charging_movespeed()
+	if(!L.client)
 		return PROCESS_KILL
+	if(update_to_mob(L))
+		L.update_mouse_pointer()
+		return
+	if(L.curplaying)
+		L.curplaying.on_mouse_up()
+	L.update_charging_movespeed()
+	mouse_override_icon = null
+	L.update_mouse_pointer()
+	return PROCESS_KILL
 
 /client/proc/update_to_mob(mob/living/L)
-	if(charging)
-		if(progress < goal)
-			if(last_charge_process)
-				progress += world.time - last_charge_process
-			else
-				progress++
-			chargedprog = text2num("[((progress / goal) * 100)]")
-			last_charge_process = world.time
-// Here we start changing the mouse_pointer_icon
-			if(!(mob.used_intent.charge_pointer & mob.used_intent.charged_pointer))
-				var/mouseprog = clamp(round(((progress / goal)*100),5), 0, 100)
-				mouse_pointer_icon = file("icons/effects/mousemice/charge/default/[mouseprog].dmi")
-			else
-				mouse_pointer_icon = mob.used_intent.charge_pointer
-		else
-			if(!doneset)
-				doneset = 1
-				chargedprog = 100
-				if(!(mob.used_intent.charge_pointer & mob.used_intent.charged_pointer))
-					mouse_pointer_icon = 'icons/effects/mousemice/charge/default/100.dmi'
-				else
-					mouse_pointer_icon = mob.used_intent.charged_pointer
-// Now we are done messing with the mouse_pointer_icon
-//				if(sections)
-//					L.say(L.used_intent.charge_invocation[L.used_intent.charge_invocation.len])
-				if(L.curplaying && !L.used_intent.keep_looping)
-					playsound(L, 'sound/magic/charged.ogg', 100, TRUE)
-					L.curplaying.on_mouse_up()
-				if(istype(L.used_intent, /datum/intent/shield/block))
-					L.visible_message("<span class='danger'>[L] prepares to do a shield bash!</span>")
-					playsound(L, 'sound/combat/shieldraise.ogg', 100, TRUE)
-			else
-				if(!L.adjust_stamina(L.used_intent.chargedrain))
-					L.stop_attack()
-		return TRUE
-	else
+	if(!charging)
 		return FALSE
+	if(doneset)
+		return TRUE
+	if(progress >= goal)
+		doneset = TRUE
+		chargedprog = 100
+		if(mob.used_intent.charged_pointer)
+			mouse_override_icon = mob.used_intent.charged_pointer
+		else
+			mouse_override_icon = 'icons/effects/mousemice/charge/default/100.dmi'
+		if(L.curplaying && !L.used_intent.keep_looping)
+			playsound(L, 'sound/magic/charged.ogg', 100, TRUE)
+			L.curplaying.on_mouse_up()
+		if(istype(L.used_intent, /datum/intent/shield/block))
+			L.visible_message("<span class='danger'>[L] prepares to do a shield bash!</span>")
+			playsound(L, 'sound/combat/shieldraise.ogg', 100, TRUE)
+
+		return TRUE
+
+	if(!L.adjust_stamina(L.used_intent.chargedrain))
+		L.stop_attack()
+		return FALSE
+	if(last_charge_process)
+		progress += world.time - last_charge_process
+	last_charge_process = world.time
+	chargedprog = round((progress / goal) * 100)
+	if(mob.used_intent.charge_pointer)
+		mouse_override_icon = mob.used_intent.charge_pointer
+	else
+		var/mouseprog = clamp(round(chargedprog, 5), 0, 100)
+		mouse_override_icon = file("icons/effects/mousemice/charge/default/[mouseprog].dmi")
+
+	return TRUE
 
 /mob/proc/CanMobAutoclick(object, location, params)
 

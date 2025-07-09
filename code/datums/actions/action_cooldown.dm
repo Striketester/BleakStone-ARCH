@@ -164,6 +164,8 @@
 
 /// Intercepts client owner clicks to activate the ability
 /datum/action/cooldown/proc/InterceptClickOn(mob/living/clicker, params, atom/target)
+	if(!LAZYACCESS(params2list(params), MIDDLE_CLICK))
+		return FALSE
 	if(!IsAvailable())
 		return FALSE
 	if(!target)

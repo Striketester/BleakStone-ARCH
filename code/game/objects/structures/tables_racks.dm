@@ -172,8 +172,8 @@
 		if(!(I.item_flags & ABSTRACT))
 			if(user.transferItemToLoc(I, drop_location(), silent = FALSE))
 				var/list/modifiers = params2list(params)
-				var/icon_x = LAZYACCESS(modifiers, ICON_X)
-				var/icon_y = LAZYACCESS(modifiers, ICON_Y)
+				var/icon_x = text2num(LAZYACCESS(modifiers, ICON_X))
+				var/icon_y = text2num(LAZYACCESS(modifiers, ICON_Y))
 				//Center the icon where the user clicked.
 				if(!icon_x || !icon_y)
 					return
@@ -191,8 +191,8 @@
 		if(!(I.item_flags & ABSTRACT))
 			if(user.transferItemToLoc(I, drop_location(), silent = FALSE))
 				var/list/modifiers = params2list(params)
-				var/icon_x = LAZYACCESS(modifiers, ICON_X)
-				var/icon_y = LAZYACCESS(modifiers, ICON_Y)
+				var/icon_x = text2num(LAZYACCESS(modifiers, ICON_X))
+				var/icon_y = text2num(LAZYACCESS(modifiers, ICON_Y))
 				//Center the icon where the user clicked.
 				if(!icon_x || !icon_y)
 					return
@@ -429,8 +429,8 @@
 		if(!(I.item_flags & ABSTRACT))
 			if(user.transferItemToLoc(I, drop_location(), silent = FALSE))
 				var/list/modifiers = params2list(params)
-				var/icon_x = LAZYACCESS(modifiers, ICON_X)
-				var/icon_y = LAZYACCESS(modifiers, ICON_Y)
+				var/icon_x = text2num(LAZYACCESS(modifiers, ICON_X))
+				var/icon_y = text2num(LAZYACCESS(modifiers, ICON_Y))
 				//Center the icon where the user clicked.
 				if(!icon_x || !icon_y)
 					return
@@ -479,8 +479,8 @@
 		if(!(I.item_flags & ABSTRACT))
 			if(user.transferItemToLoc(I, drop_location(), silent = FALSE))
 				var/list/modifiers = params2list(params)
-				var/icon_x = LAZYACCESS(modifiers, ICON_X)
-				var/icon_y = LAZYACCESS(modifiers, ICON_Y)
+				var/icon_x = text2num(LAZYACCESS(modifiers, ICON_X))
+				var/icon_y = text2num(LAZYACCESS(modifiers, ICON_Y))
 				//Center the icon where the user clicked.
 				if(!icon_x || !icon_y)
 					return
