@@ -65,6 +65,7 @@ GLOBAL_PROTECT(tracy_init_reason)
 			Genesis(tracy_initialized = TRUE)
 			return
 #endif
+
 	// THAT'S IT, WE'RE DONE, THE. FUCKING. END.
 	Master = new
 
@@ -97,6 +98,7 @@ GLOBAL_PROTECT(tracy_init_reason)
 	else // We got a db connected, GLOB.round_id ticks up based on where its at on the db.
 		GLOB.rogue_round_id = "[pick(GLOB.roundid)][GLOB.round_id]-[timestamp]"
 	SetupLogs()
+	RUSTG_CALL(RUST_G, "start_dhat")("[GLOB.log_directory]/rustg-dhat-heap.json")
 	if(CONFIG_GET(string/channel_announce_new_game_message))
 		send2chat(new /datum/tgs_message_content(CONFIG_GET(string/channel_announce_new_game_message)), CONFIG_GET(string/chat_announce_new_game))
 
@@ -199,6 +201,7 @@ GLOBAL_PROTECT(tracy_init_reason)
 	GLOB.world_job_debug_log = "[GLOB.log_directory]/job_debug.log"
 	GLOB.world_paper_log = "[GLOB.log_directory]/paper.log"
 	GLOB.tgui_log = "[GLOB.log_directory]/tgui.log"
+	GLOB.rustg_debug_log = "[GLOB.rustg_debug_log]/rustg_debug.log"
 #ifdef REFERENCE_DOING_IT_LIVE
 	GLOB.harddel_log = "[GLOB.log_directory]/harddel.log"
 #endif

@@ -84,3 +84,6 @@ GLOBAL_PROTECT(picture_logging_prefix)
 GLOBAL_LIST_EMPTY(harddel_log)
 GLOBAL_PROTECT(harddel_log)
 #endif
+
+GLOBAL_VAR(rustg_debug_log)
+GLOBAL_PROTECT(rustg_debug_log)

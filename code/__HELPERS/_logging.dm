@@ -212,6 +212,12 @@
 /proc/log_character(text)
 	WRITE_LOG(GLOB.character_list_log, text)
 
+/proc/log_rustg_debug(text)
+#ifdef UNIT_TESTS
+	SEND_TEXT(world.log, "\[rust-g debug\] [text]")
+#endif
+	WRITE_LOG(GLOB.rustg_debug_log, "\[[TIMETOTEXT4LOGS]\] [text]")
+
 /proc/log_hunted(text)
 	WRITE_LOG(GLOB.hunted_log, text)
 

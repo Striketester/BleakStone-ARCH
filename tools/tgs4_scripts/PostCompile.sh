@@ -47,7 +47,7 @@ fi
 #update rust-g
 if [ ! -d "rust-g" ]; then
 	echo "Cloning rust-g..."
-	git clone https://github.com/tgstation/rust-g
+	git clone "https://github.com/${RUST_G_REPO}"
 else
 	echo "Fetching rust-g..."
 	cd rust-g
@@ -68,7 +68,7 @@ fi
 
 echo "Deploying rust-g..."
 cd rust-g
-git checkout $RUST_G_VERSION
+git checkout "${RUST_G_VERSION}"
 ~/.cargo/bin/cargo build --release
 mv target/release/librust_g.so $1/rust_g
 cd ..
