@@ -9,7 +9,7 @@ export BYOND_MINOR=1647
 
 #rust_g git tag
 export RUST_G_REPO="Absolucy/rust-g"
-export RUST_G_VERSION="vanderlin-debug-2"
+export RUST_G_VERSION="vanderlin-debug-4"
 
 #node version
 export NODE_VERSION=20
