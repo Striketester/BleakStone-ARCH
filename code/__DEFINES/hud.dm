@@ -40,7 +40,7 @@
 	Therefore, the top right corner (except during admin shenanigans) is at "15,15"
 */
 
-/proc/ui_hand_position(i) //values based on old hand ui positions (CENTER:-/+16,SOUTH:5)
+/proc/ui_hand_position(i)
 	var/x_off = i % 2 ? 0 : 1
 	return "WEST-[2+x_off]:-16,SOUTH+7"
 

@@ -141,7 +141,7 @@
 
 	//Hands
 	///What hand is the active hand
-	var/active_hand_index = 1
+	var/active_hand_index = 2
 	/**
 	 * list of items held in hands
 	 *
