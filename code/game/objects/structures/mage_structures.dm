@@ -41,15 +41,6 @@
 /atom/movable
 	var/list/mana_beams
 
-/atom/proc/BeamBroken(atom/movable/target)
-	return
-
-/atom/movable/BeamBroken(atom/movable/target)
-	if(!length(mana_beams))
-		return
-	if(target in mana_beams)
-		mana_beams -= target
-
 /atom/movable/proc/draw_mana_beams(atom/movable/find_type, max_distance = 3)
 	for(var/atom/movable/movable in range(max_distance, src))
 		if(movable == src)
@@ -59,7 +50,7 @@
 		if(!istype(movable, find_type))
 			continue
 
-		Beam(
+		var/datum/beam/mana = Beam(
 			movable,
 			icon_state = "drain_life",
 			max_distance = max_distance,
@@ -69,7 +60,15 @@
 			invisibility = INVISIBILITY_LEYLINES,
 		)
 
+		RegisterSignal(mana, COMSIG_PARENT_QDELETING, PROC_REF(beam_ended), movable)
+
 		LAZYADD(mana_beams, movable)
+
+/atom/movable/proc/beam_ended(atom/movable/target)
+	if(!length(mana_beams))
+		return
+	if(target in mana_beams)
+		mana_beams -= target
 
 /atom/movable/proc/draw_mana_beams_from_list(list/found_types, max_distance = 3)
 	for(var/atom/movable/movable in found_types)
@@ -78,7 +77,7 @@
 		if(movable in mana_beams)
 			continue
 
-		Beam(
+		var/datum/beam/mana = Beam(
 			movable,
 			icon_state = "drain_life",
 			max_distance = max_distance,
@@ -87,6 +86,8 @@
 			beam_plane = LEYLINE_PLANE,
 			invisibility = INVISIBILITY_LEYLINES,
 		)
+
+		RegisterSignal(mana, COMSIG_PARENT_QDELETING, PROC_REF(beam_ended), movable)
 
 		LAZYADD(mana_beams, movable)
 
