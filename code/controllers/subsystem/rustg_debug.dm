@@ -9,7 +9,9 @@ SUBSYSTEM_DEF(rustg_debug)
 	var/shutting_down = FALSE
 
 /datum/controller/subsystem/rustg_debug/PreInit()
+#if !defined(OPENDREAM) && !defined(SPACEMAN_DMM) && DM_VERSION > 515
 	loaded = load_ext(RUST_G, "rg_debug_info")
+#endif
 
 /datum/controller/subsystem/rustg_debug/Initialize(start_timeofday)
 	log_rustg_debug("INIT: [debug_info()]")
@@ -28,7 +30,9 @@ SUBSYSTEM_DEF(rustg_debug)
 	return ..("[last_info]")
 
 /datum/controller/subsystem/rustg_debug/proc/debug_info()
-#if !defined(OPENDREAM) && !defined(SPACEMAN_DMM)
+#if !defined(OPENDREAM) && !defined(SPACEMAN_DMM) && DM_VERSION > 515
 	last_info = call_ext(loaded)()
+#else
+	last_info = RUSTG_CALL(RUST_G, "rg_debug_info")()
 #endif
 	return last_info
