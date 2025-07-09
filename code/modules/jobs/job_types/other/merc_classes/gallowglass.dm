@@ -3,10 +3,10 @@
 	name = "Gallowglass"
 	tutorial = "A claymore wielding mercanary hailing from the land of Kaledon, you are a fighter for coin, having fled the Grenzelhoftian occupation of your homeland. Your Kerns fight under you."
 	allowed_races = list(\
-		RACE_ID_HUMEN,\
-		RACE_ID_ELF,\
-		RACE_ID_HALF_ELF,\
-		RACE_ID_DWARF,\
+		SPEC_ID_HUMEN,\
+		SPEC_ID_ELF,\
+		SPEC_ID_HALF_ELF,\
+		SPEC_ID_DWARF,\
 	)
 	outfit = /datum/outfit/job/mercenary/gallowglass
 	category_tags = list(CTAG_MERCENARY)

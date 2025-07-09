@@ -3,7 +3,7 @@
 
 /datum/species/elf
 	name = "Elfb"
-	id = RACE_ID_ELF
+	id = SPEC_ID_ELF
 	changesource_flags = WABBAJACK
 
 	bodypart_features = list(

@@ -3,14 +3,14 @@
 	tutorial = "Humen and elf rangers often live among each other, as these bow-wielding \
 	adventurers are often scouting the lands for the same purpose."
 	allowed_races = list(\
-		RACE_ID_HUMEN,\
-		RACE_ID_ELF,\
-		RACE_ID_HALF_ELF,\
-		RACE_ID_TIEFLING,\
-		RACE_ID_DROW,\
-		RACE_ID_AASIMAR,\
-		RACE_ID_HALF_ORC,\
-		RACE_ID_RAKSHARI,\
+		SPEC_ID_HUMEN,\
+		SPEC_ID_ELF,\
+		SPEC_ID_HALF_ELF,\
+		SPEC_ID_TIEFLING,\
+		SPEC_ID_DROW,\
+		SPEC_ID_AASIMAR,\
+		SPEC_ID_HALF_ORC,\
+		SPEC_ID_RAKSHARI,\
 	)
 	outfit = /datum/outfit/job/adventurer/ranger
 	min_pq = 0

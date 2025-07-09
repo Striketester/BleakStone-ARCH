@@ -2,12 +2,12 @@
 	name = "Qatil"
 	tutorial = "Hailing from Zalad lands, you are a killer for hire that is trained both in murdering unseen and seen with your trusty knife."
 	allowed_races = list(\
-		RACE_ID_HUMEN,\
-		RACE_ID_ELF,\
-		RACE_ID_RAKSHARI,\
-		RACE_ID_HALF_ELF,\
-		RACE_ID_TIEFLING,\
-		RACE_ID_DROW,\
+		SPEC_ID_HUMEN,\
+		SPEC_ID_ELF,\
+		SPEC_ID_RAKSHARI,\
+		SPEC_ID_HALF_ELF,\
+		SPEC_ID_TIEFLING,\
+		SPEC_ID_DROW,\
 	)
 	outfit = /datum/outfit/job/adventurer/qatil
 	maximum_possible_slots = 1
