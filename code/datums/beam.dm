@@ -209,7 +209,7 @@
 	. = ..()
 	if(!emissive)
 		return
-	var/mutable_appearance/emissive_overlay = emissive_appearance(icon, icon_state, src)
+	var/mutable_appearance/emissive_overlay = emissive_appearance(icon, icon_state)
 	emissive_overlay.transform = transform
 	emissive_overlay.alpha = alpha
 	. += emissive_overlay
