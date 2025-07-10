@@ -135,6 +135,7 @@
 		to_chat(flier, span_warning("I need space to fly!"))
 		return FALSE
 	if(flier.body_position != STANDING_UP)
+		to_chat(flier, span_warning("I can't spread my wings!"))
 		return FALSE
 	if(IS_DEAD_OR_INCAP(flier))
 		return FALSE
@@ -143,6 +144,9 @@
 
 // Start flying normally
 /datum/action/item_action/organ_action/use/flight/proc/start_flying()
+	if(!owner.can_zTravel(direction = UP))
+		to_chat(owner, span_warning("Something is blocking me!"))
+		return
 	var/turf/turf = get_turf(owner)
 	if(isopenspace(GET_TURF_ABOVE(turf)))
 		turf = GET_TURF_ABOVE(turf)
@@ -152,7 +156,7 @@
 		var/matrix/original = owner.transform
 		var/prev_alpha = owner.alpha
 		var/prev_pixel_z = owner.pixel_z
-		animate(owner, pixel_z = 156, alpha = 0, time = 1.5 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
+		animate(owner, pixel_z = 156, alpha = 0, time = 1.5 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL|ANIMATION_RELATIVE)
 		animate(owner, transform = matrix() * 8, time = 1 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
 		animate(transform = original, time = 0.5 SECONDS, EASE_OUT)
 		owner.pixel_z = prev_pixel_z
@@ -176,15 +180,13 @@
 		SIGNAL_ADDTRAIT(TRAIT_IMMOBILIZED),
 		SIGNAL_ADDTRAIT(TRAIT_KNOCKEDOUT),
 		SIGNAL_ADDTRAIT(TRAIT_FLOORED),
-
 	), PROC_REF(fall))
 
 // Stop flying normally
 /datum/action/item_action/organ_action/use/flight/proc/stop_flying()
-	if(!isturf(owner.loc))
-		fall()
+	if(!owner.can_zTravel(direction = DOWN))
+		to_chat(owner, span_warning("Something is blocking me!"))
 		return
-
 	var/turf/turf = get_turf(owner)
 	if(isopenspace(turf))
 		turf = GET_TURF_BELOW(turf)
@@ -196,8 +198,8 @@
 		owner.pixel_z = 156
 		owner.transform = matrix() * 8
 		owner.forceMove(turf)
-		animate(owner, transform = original, time = 1.2 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
 		animate(owner, pixel_z = prev_pixel_z, alpha = prev_alpha, time = 1.2 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
+		animate(owner, transform = original, time = 1.2 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
 
 	remove_signals()
 
