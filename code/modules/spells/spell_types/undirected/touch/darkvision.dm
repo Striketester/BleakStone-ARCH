@@ -22,7 +22,7 @@
 /datum/action/cooldown/spell/undirected/touch/darkvision/is_valid_target(atom/cast_on)
 	return isliving(cast_on)
 
-/datum/action/cooldown/spell/undirected/touch/darkvision/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/victim, mob/living/carbon/caster)
+/datum/action/cooldown/spell/undirected/touch/darkvision/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/victim, mob/living/carbon/caster, list/modifiers)
 	. = ..()
 	if(!do_after(caster, 5 SECONDS, victim))
 		return

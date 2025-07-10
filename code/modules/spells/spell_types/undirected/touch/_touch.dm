@@ -159,23 +159,11 @@
 	if(!proximity_flag || !can_hit_with_hand(victim, caster))
 		return
 
-	if(LAZYACCESS(params2list(click_parameters), RIGHT_CLICK))
-		INVOKE_ASYNC(src, PROC_REF(do_secondary_hand_hit), source, victim, caster)
+	var/list/modifiers = params2list(click_parameters)
+	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		INVOKE_ASYNC(src, PROC_REF(do_secondary_hand_hit), source, victim, caster, modifiers)
 	else
-		INVOKE_ASYNC(src, PROC_REF(do_hand_hit), source, victim, caster)
-
-/**
- * Signal proc for [COMSIG_ITEM_AFTERATTACK_SECONDARY] from our attached hand.
- *
- * Same as on_hand_hit, but for if right-click was used on hit.
- */
-/datum/action/cooldown/spell/undirected/touch/proc/on_secondary_hand_hit(datum/source, atom/victim, mob/caster, proximity_flag, click_parameters)
-	SIGNAL_HANDLER
-
-	if(!is_valid_target(victim))
-		return
-
-	INVOKE_ASYNC(src, PROC_REF(do_secondary_hand_hit), source, victim, caster)
+		INVOKE_ASYNC(src, PROC_REF(do_hand_hit), source, victim, caster, modifiers)
 
 /// Checks if the passed victim can be cast on by the caster.
 /datum/action/cooldown/spell/undirected/touch/proc/can_hit_with_hand(atom/victim, mob/caster)
@@ -192,7 +180,7 @@
  *
  * Implements checks for antimagic.
  */
-/datum/action/cooldown/spell/undirected/touch/proc/do_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
+/datum/action/cooldown/spell/undirected/touch/proc/do_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
 	SHOULD_NOT_OVERRIDE(TRUE) // Don't put effects here, put them in cast_on_hand_hit
 
 	SEND_SIGNAL(src, COMSIG_SPELL_TOUCH_HAND_HIT, victim, caster, hand)
@@ -200,7 +188,7 @@
 	if(istype(mob_victim) && mob_victim.can_block_magic(antimagic_flags))
 		on_antimagic_triggered(hand, victim, caster)
 
-	else if(!cast_on_hand_hit(hand, victim, caster))
+	else if(!cast_on_hand_hit(hand, victim, caster, modifiers))
 		return
 
 	log_combat(caster, victim, "cast the touch spell [name] on", hand)
@@ -215,10 +203,10 @@
  * It's worth noting that victim will be guaranteed to be whatever checks are implemented in is_valid_target by this point.
  * Does NOT check for antimagic on its own. Implement your own checks if you want the r-click to abide by it.
  */
-/datum/action/cooldown/spell/undirected/touch/proc/do_secondary_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
+/datum/action/cooldown/spell/undirected/touch/proc/do_secondary_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
 	SHOULD_NOT_OVERRIDE(TRUE) // Don't put effects here, put them in cast_on_secondary_hand_hit
 
-	var/secondary_result = cast_on_secondary_hand_hit(hand, victim, caster)
+	var/secondary_result = cast_on_secondary_hand_hit(hand, victim, caster, modifiers)
 	switch(secondary_result)
 		// Continue will remove the hand here and stop
 		if(SECONDARY_ATTACK_CONTINUE_CHAIN)
@@ -244,7 +232,7 @@
  * Return TRUE on a successful cast to use up the hand (delete it)
  * Return FALSE to do nothing and let them keep the hand in hand
  */
-/datum/action/cooldown/spell/undirected/touch/proc/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
+/datum/action/cooldown/spell/undirected/touch/proc/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
 	return FALSE
 
 /**
@@ -255,7 +243,7 @@
  * Return SECONDARY_ATTACK_CONTINUE_CHAIN to prevent the normal cast_on_hand_hit from calling, but still use up the hand
  * Return SECONDARY_ATTACK_CANCEL_CHAIN to prevent the spell from being used
  */
-/datum/action/cooldown/spell/undirected/touch/proc/cast_on_secondary_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
+/datum/action/cooldown/spell/undirected/touch/proc/cast_on_secondary_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
 	return SECONDARY_ATTACK_CALL_NORMAL
 
 /**

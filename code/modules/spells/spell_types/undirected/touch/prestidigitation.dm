@@ -25,20 +25,21 @@
 	var/sparkspeed = 3 SECONDS
 	var/spark_cd = 0
 
-/datum/action/cooldown/spell/undirected/touch/prestidigitation/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
-	if(victim == caster)
+/datum/action/cooldown/spell/undirected/touch/prestidigitation/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
+	if(victim == caster && !LAZYACCESS(modifiers, SHIFT_CLICKED))
 		if(handle_mote())
 			after_action(PRESTI_MOTE)
-	else
-		if(clean_thing(victim))
-			after_action(PRESTI_CLEAN)
+		return
+	if(clean_thing(victim))
+		after_action(PRESTI_CLEAN)
 
-/datum/action/cooldown/spell/undirected/touch/prestidigitation/cast_on_secondary_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
-	if(victim == caster)
+/datum/action/cooldown/spell/undirected/touch/prestidigitation/cast_on_secondary_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
+	if(victim == caster && !LAZYACCESS(modifiers, SHIFT_CLICKED))
 		if(create_spark())
 			after_action(PRESTI_SPARK)
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	return SECONDARY_ATTACK_CALL_NORMAL
 
 /datum/action/cooldown/spell/undirected/touch/prestidigitation/proc/handle_mote()
 	// adjusted from /obj/item/wisp_lantern & /obj/item/wisp
@@ -137,10 +138,11 @@
 
 /obj/item/melee/touch_attack/prestidigitation
 	name = "\improper prestidigitating touch"
-	desc = "You recall the following incantations you've learned:\n \
+	desc = "I recall the following incantations I've learned:\n \
 	<b>Touch Left</b>: Use your arcyne powers to scrub something clean, also known as the Apprentice's Woe.\n \
 	<b>Touch Self Right</b>: Will forth a spark to ignite flammable items like torches, lanterns or campfires.\n \
-	<b>Touch Self Left</b>: Conjure forth an orbiting mote of magelight to light your way."
+	<b>Touch Self Left</b>: Conjure forth an orbiting mote of magelight to light your way.\n \
+	I also recall: If Shift is used, I can cast as though I'm casting on someone else."
 	color = "#3FBAFD"
 
 /obj/effect/wisp/prestidigitation

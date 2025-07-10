@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/undirected/touch/non_detection
 	name = "Nondetection"
-	desc = "Consume a handful of ash and shroud a target that you touch from divination magic for 1 hour."
+	desc = "Consume a handful of ash and shroud a target that you touch from divination magic for two daes."
 	button_icon_state = "prestidigitation"
 	can_cast_on_self = "nondetect"
 
@@ -22,7 +22,7 @@
 /datum/action/cooldown/spell/undirected/touch/non_detection/is_valid_target(atom/cast_on)
 	return isliving(cast_on)
 
-/datum/action/cooldown/spell/undirected/touch/non_detection/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/victim, mob/living/carbon/caster)
+/datum/action/cooldown/spell/undirected/touch/non_detection/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/victim, mob/living/carbon/caster, list/modifiers)
 	if(victim.has_status_effect(/datum/status_effect/non_detection) || HAS_TRAIT(target, TRAIT_ANTISCRYING))
 		to_chat(caster, span_warning("[victim] already has protection from divination magic."))
 		return FALSE
@@ -52,7 +52,7 @@
 
 /obj/item/melee/touch_attack/nondetection
 	name = "\improper arcyne focus"
-	desc = "Touch a creature to cover them in an anti-scrying shroud for 1 hour, consumes some ash as a catalyst."
+	desc = "Touch a creature to cover them in an anti-scrying shroud for two daes, consumes some ash as a catalyst."
 	color = "#3FBAFD"
 
 /atom/movable/screen/alert/status_effect/non_detection

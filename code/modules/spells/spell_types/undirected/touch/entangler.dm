@@ -23,7 +23,7 @@
 	// Permanent for now
 	ADD_TRAIT(cast_on, TRAIT_ENTANGLER_IMMUNE, MAGIC_TRAIT)
 
-/datum/action/cooldown/spell/undirected/touch/entangler/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster)
+/datum/action/cooldown/spell/undirected/touch/entangler/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
 	. = ..()
 	if(isliving(victim))
 		try_mark(victim)
