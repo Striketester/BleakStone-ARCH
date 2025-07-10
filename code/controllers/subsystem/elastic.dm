@@ -18,7 +18,7 @@ SUBSYSTEM_DEF(elastic)
 	///abstract information - basically want to keep track of spell casts over the round? do it like this
 	var/list/abstract_information = list()
 	/// list of /datum/http_request that we check to ensure they don't leak memory
-	var/list/active_queries = list()
+	var/list/active_requests = list()
 	var/shutting_down = FALSE
 
 /datum/controller/subsystem/elastic/Initialize(start_timeofday)
@@ -30,19 +30,19 @@ SUBSYSTEM_DEF(elastic)
 /datum/controller/subsystem/elastic/Shutdown()
 	shutting_down = TRUE
 	var/end_time = REALTIMEOFDAY + (5 SECONDS)
-	while((length(active_queries) > 0) && (REALTIMEOFDAY < end_time))
-		for(var/datum/http_request/query as anything in active_queries)
-			if(query.is_complete())
-				active_queries -= query
-				qdel(query)
-	active_queries.Cut()
+	while((length(active_requests) > 0) && (REALTIMEOFDAY < end_time))
+		for(var/datum/http_request/request as anything in active_requests)
+			if(request.is_complete())
+				active_requests -= request
+				qdel(request)
+	active_requests.Cut()
 
 /datum/controller/subsystem/elastic/fire(resumed)
 	send_data()
-	for(var/datum/http_request/query as anything in active_queries)
-		if(query.is_complete()) // rust-g will clear the job once it's complete
-			active_queries -= query
-			qdel(query)
+	for(var/datum/http_request/request as anything in active_requests)
+		if(request.is_complete()) // rust-g will clear the job once it's complete
+			active_requests -= request
+			qdel(request)
 
 /datum/controller/subsystem/elastic/proc/send_data()
 	if(shutting_down)
@@ -53,7 +53,7 @@ SUBSYSTEM_DEF(elastic)
 		"Content-Type" = "application/json"
 	))
 	request.begin_async()
-	active_queries += request
+	active_requests += request
 
 /datum/controller/subsystem/elastic/proc/get_compiled_data()
 	var/list/compiled = list()
