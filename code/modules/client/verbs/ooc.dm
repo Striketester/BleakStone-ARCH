@@ -1,6 +1,27 @@
 GLOBAL_VAR_INIT(normal_ooc_colour, "#4972bc")
 GLOBAL_VAR_INIT(OOC_COLOR, normal_ooc_colour)//If this is null, use the CSS for OOC. Otherwise, use a custom colour.
 
+#define MAX_PRONOUNS 4
+// This list is non-exhaustive
+GLOBAL_LIST_INIT(pronouns_valid, list(
+	"he", "him", "his",
+	"she","her","hers",
+	"hyr", "hyrs",
+	"they", "them", "their","theirs",
+	"it", "its",
+	"xey", "xe", "xem", "xyr", "xyrs",
+	"ze", "zir", "zirs",
+	"ey", "em", "eir", "eirs",
+	"fae", "faer", "faers",
+	"ve", "ver", "vis", "vers",
+	"ne", "nem", "nir", "nirs"
+))
+
+// at least one is required
+GLOBAL_LIST_INIT(pronouns_required, list(
+	"he", "her", "she", "they", "them", "it", "fae", "its"
+))
+
 //client/verb/ooc(msg as text)
 
 /client/verb/ooc(msg as text)
@@ -71,11 +92,12 @@ GLOBAL_VAR_INIT(OOC_COLOR, normal_ooc_colour)//If this is null, use the CSS for 
 	var/msg_to_send = ""
 
 	for(var/client/C in GLOB.clients)
-		var/real_key = C.holder ? "([key])" : ""
+		var/pre_keyfield = C.holder ? "[keyname]([key])" : keyname
+		var/keyfield = conditional_tooltip_alt(pre_keyfield, prefs.oocpronouns, length(prefs.oocpronouns))
 		if(C.prefs.chat_toggles & CHAT_OOC)
-			msg_to_send = "<font color='[color2use]'><EM>[keyname][real_key]:</EM></font> <font color='[chat_color]'><span class='message linkify'>[msg]</span></font>"
+			msg_to_send = "<font color='[color2use]'><EM>[keyfield]:</EM></font> <font color='[chat_color]'><span class='message linkify'>[msg]</span></font>"
 			if(holder)
-				msg_to_send = "<font color='[color2use]'><EM>[keyname][real_key]:</EM></font> <font color='[admin_message_color ? admin_message_color : GLOB.OOC_COLOR]'><span class='message linkify'>[msg]</span></font>"
+				msg_to_send = "<font color='[color2use]'><EM>[keyfield]:</EM></font> <font color='[admin_message_color ? admin_message_color : GLOB.OOC_COLOR]'><span class='message linkify'>[msg]</span></font>"
 			to_chat(C, msg_to_send)
 
 
@@ -353,6 +375,79 @@ GLOBAL_VAR_INIT(OOC_COLOR, normal_ooc_colour)//If this is null, use the CSS for 
 					winset(src, "browseroutput", "is-disabled=true;is-visible=false")
 				log_game("GOONCHAT: [key_name(src)] Failed to fix their goonchat window after manually calling start() and forcing a load()")
 
+/client/proc/validate_oocpronouns(value)
+	value = lowertext(value)
+
+	if (!value || trim(value) == "")
+		return TRUE
+
+	// staff/ can choose whatever pronouns they want given, you know, we trust them to use them like a normal person
+	if (usr && is_admin(usr))
+		return TRUE
+
+	var/pronouns = splittext(value, "/")
+	if (length(pronouns) > MAX_PRONOUNS)
+		to_chat(usr, span_warning("You can only set up to [MAX_PRONOUNS] different pronouns."))
+		return FALSE
+
+
+	for (var/pronoun in pronouns)
+		// pronouns can end in "self" or "selfs" so allow those
+		// if has "self" or "selfs" at the end, remove it
+		if (endswith(pronoun, "selfs"))
+			pronoun = copytext(pronoun, 1, length(pronoun) - 5)
+		else if (endswith(pronoun, "self"))
+			pronoun = copytext(pronoun, 1, length(pronoun) - 4)
+		pronoun = trim(pronoun)
+
+		if (!(pronoun in GLOB.pronouns_valid))
+			to_chat(usr, span_warning("Invalid pronoun: [pronoun]. Valid pronouns are: [GLOB.pronouns_valid.Join(", ")]"))
+			return FALSE
+
+	if (length(pronouns) != length(uniqueList(pronouns)))
+		to_chat(usr, span_warning("You cannot use the same pronoun multiple times."))
+		return FALSE
+
+	for (var/pronoun in GLOB.pronouns_required)
+		if (pronoun in pronouns)
+			return TRUE
+
+	to_chat(usr, span_warning("You must include at least one of the following pronouns: [GLOB.pronouns_required.Join(", ")]"))
+	// Someone may yell at me i dont know
+	return FALSE
+
+/client/verb/setoocpronouns()
+	set name = "Set OOC Pronouns"
+	set category = "OOC"
+	set desc = "Set the pronouns you want to use in OOC messages."
+
+	if(is_misc_banned(ckey, BAN_MISC_OOC))
+		to_chat(src, "<span class='danger'>I have been banned from setting my OOC pronouns.</span>")
+		return
+
+	var/old_pronouns = prefs.oocpronouns
+	to_chat(src, span_notice("You can set up to [MAX_PRONOUNS] different pronouns, separated by slashes (/)."))
+	if (prefs.oocpronouns)
+		to_chat(src, span_notice("Your current OOC pronouns are: [prefs.oocpronouns]"))
+	else
+		to_chat(src, span_notice("You have not set any OOC pronouns yet."))
+
+	if (usr && is_admin(usr))
+		to_chat(src, span_notice("As staff, you can set this field however you like. But please use it in good faith."))
+
+	var/new_pronouns = input("Enter your OOC pronouns (separated by slashes):", "Set OOC Pronouns", prefs.oocpronouns) as text|null
+	if (isnull(new_pronouns))
+		return
+	if (!validate_oocpronouns(new_pronouns))
+		return
+	message_admins("OOC pronouns set by [usr] ([usr.ckey]) from [html_encode(old_pronouns)] to: [html_encode(new_pronouns)]")
+	log_game("OOC pronouns set by [usr] ([usr.ckey]) from [html_encode(old_pronouns)] to: [html_encode(new_pronouns)]")
+	prefs.oocpronouns = new_pronouns
+	prefs.save_preferences()
+	if (new_pronouns == "")
+		to_chat(src, span_notice("Your OOC pronouns have been cleared."))
+		return
+	to_chat(src, span_notice("Your OOC pronouns have been set to: [new_pronouns]"))
 
 
 /client/verb/motd()
@@ -504,3 +599,5 @@ GLOBAL_VAR_INIT(OOC_COLOR, normal_ooc_colour)//If this is null, use the CSS for 
 		policytext += "No related rules found."
 
 	usr << browse(policytext.Join(""),"window=policy")
+
+#undef MAX_PRONOUNS

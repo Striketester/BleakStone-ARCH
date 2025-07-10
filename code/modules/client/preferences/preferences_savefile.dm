@@ -94,6 +94,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	//general preferences
 	S["asaycolor"]			>> asaycolor
 	S["ooccolor"]			>> ooccolor
+	S["oocpronouns"]		>> oocpronouns
 	S["admin_ghost_icon"]	>> admin_ghost_icon
 	S["ui_theme"]			>> ui_theme
 	S["lastchangelog"]		>> lastchangelog
@@ -224,6 +225,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["ghost_accs"], ghost_accs)
 	WRITE_FILE(S["ghost_others"], ghost_others)
 	WRITE_FILE(S["preferred_map"], preferred_map)
+	WRITE_FILE(S["oocpronouns"], oocpronouns)
 	WRITE_FILE(S["ignoring"], ignoring)
 	WRITE_FILE(S["ghost_hud"], ghost_hud)
 	WRITE_FILE(S["inquisitive_ghost"], inquisitive_ghost)
