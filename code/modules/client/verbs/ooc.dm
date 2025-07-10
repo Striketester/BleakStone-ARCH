@@ -93,7 +93,7 @@ GLOBAL_LIST_INIT(pronouns_required, list(
 
 	for(var/client/C in GLOB.clients)
 		var/pre_keyfield = C.holder ? "[keyname]([key])" : keyname
-		var/keyfield = conditional_tooltip_alt(pre_keyfield, prefs.oocpronouns, length(prefs.oocpronouns))
+		var/keyfield = conditional_tooltip_alt(pre_keyfield, prefs.oocpronouns, length(prefs.oocpronouns) && !is_misc_banned(ckey, BAN_MISC_OOCPRONOUNS))
 		if(C.prefs.chat_toggles & CHAT_OOC)
 			msg_to_send = "<font color='[color2use]'><EM>[keyfield]:</EM></font> <font color='[chat_color]'><span class='message linkify'>[msg]</span></font>"
 			if(holder)
