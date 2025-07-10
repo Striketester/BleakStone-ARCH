@@ -1029,12 +1029,12 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						to_chat(user, span_warning("This species can only use [pronouns]."))
 						return
 
-					var/pronouns_input = input(user, "Choose your character's pronouns", "Pronouns") as null|anything in allowed_pronouns
+					var/pronouns_input = browser_input_list(user, "CHOOSE HOW MORTALS REFER TO YOUR HERO", "DISOBEY SOCIAL NORMS", allowed_pronouns)
 					if(pronouns_input)
 						pronouns = pronouns_input
 						to_chat(user, span_warning("Your character's pronouns are now [pronouns]."))
 				if ("voicetype")
-					var voicetype_input = input(user, "Choose your character's voice type", "Voice Type") as null|anything in VOICE_TYPES_LIST
+					var voicetype_input = browser_input_list(user, "CHOOSE YOUR HERO'S VOICE TYPE", "DISCARD SOCIETY'S EXPECTATIONS", VOICE_TYPES_LIST)
 					if(voicetype_input)
 						voice_type = voicetype_input
 						// TODO: remove the notice when we have a sound pack for androgynous voices
@@ -1439,7 +1439,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 
 				if("randomiseappearanceprefs")
 					if (!randomize_shutup)
-						var/alert_response = alert(user, "Are you sure you want to randomise your appearance preferences? This will overwrite your current preferences.", "Randomise Appearance Preferences", "Yes", "No", "Don't Ask Again This Round (Yes)")
+						var/alert_response = browser_alert(user, "Are you sure you want to randomise your appearance preferences? This will overwrite your current preferences.", "Randomise Appearance Preferences", "Yes", "No", "Don't Ask Again This Round (Yes)")
 						if(alert_response != "Yes")
 							if(alert_response == "Don't Ask Again This Round (Yes)")
 								randomize_shutup = TRUE
