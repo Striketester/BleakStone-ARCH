@@ -1,3 +1,4 @@
+/// A transparent wall, not to be confused with the breakable structure.
 /obj/effect/forcefield
 	name = "FORCEWALL"
 	desc = "A wizard's magic wall."
@@ -14,7 +15,7 @@
 	if(initial_duration > 0 SECONDS)
 		QDEL_IN(src, initial_duration)
 
-/// The wizard's forcefield, summoned by forcewall
+/// The wizard's forcefield, summoned by forcewall. Can only be passed by the caster.
 /obj/effect/forcefield/wizard
 	/// Flags for what antimagic can just ignore our forcefields
 	var/antimagic_flags = MAGIC_RESISTANCE
@@ -37,6 +38,7 @@
 
 	return ..()
 
+/// A BREAKABLE, transparent wall, not to be confused with the effect.
 /obj/structure/forcefield
 	name = "arcyne wall"
 	desc = "A wall of pure arcyne force."
@@ -58,6 +60,7 @@
 /obj/structure/forcefield/strong
 	max_integrity = 200
 
+/// A forcewall casted by a mage, which only allows the caster through.
 /obj/structure/forcefield/casted
 	/// Flags for what antimagic can just ignore our forcefields
 	var/antimagic_flags = MAGIC_RESISTANCE
