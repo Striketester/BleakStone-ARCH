@@ -65,7 +65,9 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	//character preferences
 	var/slot_randomized					//keeps track of round-to-round randomization of the character slot, prevents overwriting
 	var/real_name						//our character's name
-	var/gender = MALE					//gender of character (well duh)
+	var/gender = MALE					//gender of character (well duh) (this no longer references anything but whether the masculine or feminine model is used)
+	var/pronouns = HE_HIM				// character's pronouns (well duh)
+	var/voice_type = VOICE_TYPE_MASC	// the type of soundpack the mob should use
 	var/age = AGE_ADULT						//age of character
 	var/origin = "Default"
 	var/underwear = "Nude"				//underwear type
@@ -160,6 +162,9 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	var/selected_accent = ACCENT_DEFAULT
 	/// If our owner has patreon access
 	var/patreon = FALSE
+
+	// If the user clicked "Don't ask again" on the randomize character prompt
+	var/randomize_shutup = FALSE
 
 /datum/preferences/New(client/C)
 	parent = C
@@ -303,20 +308,25 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 		dat += "<a href='?_src_=prefs;preference=name;task=input'>[real_name]</a> <a href='?_src_=prefs;preference=name;task=random'>\[R\]</a>"
 
 	dat += "<BR>"
+	dat += "<b>Pronouns:</b> <a href='?_src_=prefs;preference=pronouns;task=input'>[pronouns]</a><BR>"
+
+	dat += "<BR>"
 	dat += "<b>Species:</b> <a href='?_src_=prefs;preference=species;task=input'>[pref_species.name]</a>[spec_check() ? "" : " (!)"]<BR>"
 
 	if(!(AGENDER in pref_species.species_traits))
 		var/dispGender
 		if(gender == MALE)
-			dispGender = "Man"
+			dispGender = "Masculine" // repurpose gender as bodytype, display accordingly
 		else if(gender == FEMALE)
-			dispGender = "Woman"
+			dispGender = "Feminine" // repurpose gender as bodytype, display accordingly
 		else
 			dispGender = "Other"
-		dat += "<b>Sex:</b> <a href='?_src_=prefs;preference=gender'>[dispGender]</a><BR>"
+		dat += "<b>Body Type:</b> <a href='?_src_=prefs;preference=gender'>[dispGender]</a><BR>"
 		if(randomise[RANDOM_BODY] || randomise[RANDOM_BODY_ANTAG]) //doesn't work unless random body
-			dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_GENDER]'>Always Random Gender: [(randomise[RANDOM_GENDER]) ? "Yes" : "No"]</A>"
+			dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_GENDER]'>Always Random Bodytype: [(randomise[RANDOM_GENDER]) ? "Yes" : "No"]</A>"
 			dat += "<a href='?_src_=prefs;preference=toggle_random;random_type=[RANDOM_GENDER_ANTAG]'>When Antagonist: [(randomise[RANDOM_GENDER_ANTAG]) ? "Yes" : "No"]</A>"
+
+	dat += "<b>Voice Type</b>: <a href='?_src_=prefs;preference=voicetype;task=input'>[voice_type]</a><BR>"
 
 	if(AGE_IMMORTAL in pref_species.possible_ages)
 		dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[AGE_IMMORTAL]</a><BR>"
@@ -1007,7 +1017,29 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 					if(new_age)
 						age = new_age
 						ResetJobs(user)
+				if ("pronouns")
+					var/list/allowed_pronouns = pref_species.allowed_pronouns
+					if(!allowed_pronouns || !length(allowed_pronouns))
+						// fallback to the default pronouns list
+						allowed_pronouns = PRONOUNS_LIST
 
+					if(length(allowed_pronouns) == 1)
+						pronouns = allowed_pronouns[1]
+						to_chat(user, "<font color='red'> This species can only use [pronouns].</font>")
+						return
+
+					var pronouns_input = input(user, "Choose your character's pronouns", "Pronouns") as null|anything in allowed_pronouns
+					if(pronouns_input)
+						pronouns = pronouns_input
+						to_chat(user, "<font color='red'>Your character's pronouns are now [pronouns].")
+				if ("voicetype")
+					var voicetype_input = input(user, "Choose your character's voice type", "Voice Type") as null|anything in VOICE_TYPES_LIST
+					if(voicetype_input)
+						voice_type = voicetype_input
+						// TODO: remove the notice when we have a sound pack for androgynous voices
+						if(voicetype_input == VOICE_TYPE_ANDRO)
+							to_chat(user, "<font color='orange'>Heads up, we don't have a soundpack for androgynous voices, so it will use the fem voicepack by default, pitched down a bit to achieve a more androgynous sound.</font>")
+						to_chat(user, "<font color='red'>Your character will now vocalize with a [lowertext(voice_type)] affect.")
 				if("faith")
 					var/list/faiths_named = list()
 					for(var/path as anything in GLOB.preference_faiths)
@@ -1080,6 +1112,14 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						to_chat(user, "<em>[pref_species.name]</em>")
 						if(pref_species.desc)
 							to_chat(user, "[pref_species.desc]")
+
+						if(!length(pref_species.allowed_pronouns))
+							to_chat(user, "<span class='warning'>This species does not have any allowed pronouns. Please contact a coder to add them.</span>")
+						else if (length(pref_species.allowed_pronouns) == 1)
+							pronouns = pref_species.allowed_pronouns[1]
+						else
+							if(!(pronouns in pref_species.allowed_pronouns))
+								pronouns = pref_species.allowed_pronouns[1]
 
 						//Now that we changed our species, we must verify that the mutant colour is still allowed.
 						real_name = pref_species.random_name(gender,1)
@@ -1397,6 +1437,13 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 							save_character()
 
 				if("randomiseappearanceprefs")
+					if (!randomize_shutup)
+						var/alert_response = alert(user, "Are you sure you want to randomise your appearance preferences? This will overwrite your current preferences.", "Randomise Appearance Preferences", "Yes", "No", "Don't Ask Again This Round (Yes)")
+						if(alert_response != "Yes")
+							if(alert_response == "Don't Ask Again This Round (Yes)")
+								randomize_shutup = TRUE
+							else
+								return
 					randomise_appearance_prefs(include_patreon = patreon)
 					customizer_entries = list()
 					validate_customizer_entries()
@@ -1466,6 +1513,8 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 
 	character.headshot_link = headshot_link
 	character.flavortext = flavortext
+	character.pronouns = pronouns
+	character.voice_type = voice_type
 
 	character.domhand = domhand
 	character.voice_color = voice_color

@@ -126,6 +126,8 @@
 
 	rot_type = /datum/component/rot/corpse
 
+	var/voice_type = null //  defines what sound pack we use. keep this null so mobs resort to their typical gender typing - preferences set this
+
 	blocks_emissive = EMISSIVE_BLOCK_UNIQUE
 	var/datum/charflaw/charflaw
 

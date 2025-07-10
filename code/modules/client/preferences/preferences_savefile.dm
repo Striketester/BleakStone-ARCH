@@ -332,6 +332,9 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	if(!is_valid_headshot_link(null, headshot_link, TRUE))
 		headshot_link = null
 
+	S["pronouns"] >> pronouns
+	S["voice_type"] >> voice_type
+
 	//Load flavor text
 	S["flavortext"] >> flavortext
 
@@ -357,6 +360,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	age = sanitize_inlist(age, pref_species.possible_ages)
 	eye_color = sanitize_hexcolor(eye_color, 3, 0)
 	voice_color = voice_color
+	pronouns = sanitize_text(pronouns, THEY_THEM)
+	voice_type = sanitize_text(voice_type, VOICE_TYPE_MASC)
 	skin_tone = skin_tone
 	family = family
 	setspouse = setspouse
@@ -412,6 +417,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["detail"]				, detail)
 	WRITE_FILE(S["socks"]				, socks)
 	WRITE_FILE(S["randomise"]		, randomise)
+	WRITE_FILE(S["pronouns"]		, pronouns)
+	WRITE_FILE(S["voice_type"]		, voice_type)
 	WRITE_FILE(S["species"]			, pref_species.name)
 	WRITE_FILE(S["charflaw"]			, charflaw.type)
 	WRITE_FILE(S["family"]			, 	family)
