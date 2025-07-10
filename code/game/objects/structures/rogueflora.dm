@@ -32,6 +32,9 @@
 	smeltresult = /obj/item/ore/coal
 
 /obj/structure/flora/tree/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(user.mind && isliving(user))
 		if(user.mind.special_items && user.mind.special_items.len)
 			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
@@ -42,6 +45,7 @@
 						user.mind.special_items -= item
 						var/obj/item/I = new path2item(user.loc)
 						user.put_in_hands(I)
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/flora/tree/attacked_by(obj/item/I, mob/living/user)
 	var/was_destroyed = obj_destroyed
@@ -592,6 +596,9 @@
 	static_debris = list(/obj/item/grown/log/tree/small = 1)
 
 /obj/structure/flora/shroom_tree/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(user.mind && isliving(user))
 		if(user.mind.special_items && user.mind.special_items.len)
 			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
@@ -602,7 +609,7 @@
 						user.mind.special_items -= item
 						var/obj/item/I = new path2item(user.loc)
 						user.put_in_hands(I)
-
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/flora/shroom_tree/Initialize()
 	. = ..()

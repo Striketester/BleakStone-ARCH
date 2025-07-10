@@ -73,6 +73,10 @@
 	access2add = list("[input]")
 
 /obj/item/key/custom/attackby_secondary(obj/item/I, mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(lockids)
 		to_chat(user, span_warning("[src] has been finished, it cannot be adjusted again!"))
 		return

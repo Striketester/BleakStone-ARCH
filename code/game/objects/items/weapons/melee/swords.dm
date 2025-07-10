@@ -927,10 +927,14 @@
 	name = "Terminus Est"
 
 /obj/item/weapon/sword/long/exe/cloth/attack_self_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	user.changeNext_move(CLICK_CD_MELEE)
 	playsound(user, "clothwipe", 100, TRUE)
 	SEND_SIGNAL(src, COMSIG_COMPONENT_CLEAN_ACT, CLEAN_SCRUB)
-	user.visible_message("<span class='warning'>[user] wipes [src] down with its cloth.</span>","<span class='notice'>I wipe [src] down with its cloth.</span>")
+	user.visible_message("<span class='warning'>[user] wipes [src] down with its cloth.</span>", "<span class='notice'>I wipe [src] down with its cloth.</span>")
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 // Copper Messer
 

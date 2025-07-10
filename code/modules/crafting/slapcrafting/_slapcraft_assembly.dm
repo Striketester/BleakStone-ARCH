@@ -51,11 +51,15 @@
 		. += component_overlay
 
 /obj/item/slapcraft_assembly/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(recipe.can_disassemble)
 		to_chat(user, span_notice("You take apart \the [src]."))
 		disassemble()
 	else
 		to_chat(user, span_warning("You can't take this apart!"))
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 // Something in the assembly got deleted. Perhaps burned, melted or otherwise.
 /obj/item/slapcraft_assembly/handle_atom_del(atom/deleted_atom)

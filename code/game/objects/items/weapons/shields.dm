@@ -94,6 +94,9 @@
 	max_integrity = 150
 
 /obj/item/weapon/shield/wood/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(!overlays.len)
 		if(!('icons/roguetown/weapons/wood_heraldry.dmi' in GLOB.IconStates_cache))
 			var/icon/J = new('icons/roguetown/weapons/wood_heraldry.dmi')
@@ -112,8 +115,7 @@
 		add_overlay(MU)
 		if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 			cut_overlays()
-	else
-		..()
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/weapon/shield/wood/getonmobprop(tag)
 	. = ..()
@@ -233,6 +235,9 @@
 	return ..()
 
 /obj/item/weapon/shield/tower/metal/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(!overlays.len)
 		if(!('icons/roguetown/weapons/shield_heraldry.dmi' in GLOB.IconStates_cache))
 			var/icon/J = new('icons/roguetown/weapons/shield_heraldry.dmi')
@@ -250,8 +255,7 @@
 		add_overlay(MU)
 		if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 			cut_overlays()
-	else
-		..()
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 #undef SHIELD_BANG_COOLDOWN
 
@@ -301,6 +305,9 @@
 	max_integrity = 200
 
 /obj/item/weapon/shield/heater/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(!overlays.len)
 		var/icon/J = new('icons/roguetown/weapons/heater_heraldry.dmi')
 		var/list/istates = J.IconStates()
@@ -315,8 +322,7 @@
 		add_overlay(MU)
 		if(alert("Are you pleased with your heraldry?", "Heraldry", "Yes", "No") != "Yes")
 			cut_overlays()
-	else
-		..()
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/weapon/shield/heater/getonmobprop(tag)
 	. = ..()

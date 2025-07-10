@@ -154,6 +154,9 @@
 
 /obj/structure/mana_pylon/attack_hand_secondary(mob/user, params)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(user.client)
 		drain_mana(user)
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 

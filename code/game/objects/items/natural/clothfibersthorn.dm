@@ -170,7 +170,13 @@
 	wring_cloth(user.loc, user)
 
 /obj/item/natural/cloth/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+
 	wring_cloth(user.loc, user)
+
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/natural/cloth/proc/soak_cloth(atom/target, mob/living/user)
 	if(reagents.total_volume == reagents.maximum_volume)

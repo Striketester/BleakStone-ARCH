@@ -21,10 +21,13 @@ GLOBAL_LIST_INIT(bounty_rep, list())  // ckey -> reputation score
 
 /obj/structure/bounty_board/attack_hand_secondary(mob/user, params)
 	. = ..()
-	if(!COOLDOWN_FINISHED(src, bounty_marker))
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
+	if(!COOLDOWN_FINISHED(src, bounty_marker))
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	COOLDOWN_START(src, bounty_marker, 30 SECONDS)
 	new /obj/item/bounty_marker(get_turf(src))
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/bounty_board/Initialize()
 	. = ..()

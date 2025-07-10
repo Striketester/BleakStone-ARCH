@@ -84,22 +84,24 @@
 /datum/lock/key/proc/key_act_left(obj/source, obj/item/I, mob/living/user, params)
 	SIGNAL_HANDLER
 
-	attack_wrap(source, I, user, params2list(params))
+	return attack_wrap(source, I, user, params2list(params))
 
 /datum/lock/key/proc/key_act_right(obj/source, obj/item/I, mob/living/user, params)
 	SIGNAL_HANDLER
 
-	attack_wrap(source, I, user, params2list(params))
+	return attack_wrap(source, I, user, params2list(params))
 
 /datum/lock/key/proc/attack_wrap(obj/source, obj/item/I, mob/living/user, list/modifiers)
-	var/is_right = LAZYACCESS(modifiers, RIGHT_CLICK)
+	SIGNAL_HANDLER
+
+	var/is_right = text2num(LAZYACCESS(modifiers, RIGHT_CLICK))
 	if(I.has_access() && source.pre_lock_interact(user))
 		try_toggle(I, user, is_right)
-		// :(
+		// :( these are technically the same thing
 		return is_right ? COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN : COMPONENT_NO_AFTERATTACK
 	if(is_type_in_list(I, lockpicks))
 		if(source.pre_lock_interact(user) && user.try_pick(source, I, lockpicks, wedges, difficulty))
-			// :(
+			// :( these are technically the same thing
 			return is_right ? COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN : COMPONENT_NO_AFTERATTACK
 
 /// Try to toggle the lock with I

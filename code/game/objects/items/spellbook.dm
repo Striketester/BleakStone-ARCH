@@ -112,7 +112,11 @@
 	user.update_inv_hands()
 
 /obj/item/book/granter/spellbook/attack_self_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	attack_hand_secondary(user, params)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/book/granter/spellbook/read(mob/user)
 	return FALSE

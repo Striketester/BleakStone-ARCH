@@ -45,6 +45,10 @@
 	to_chat(user, span_notice("[I] twists cleanly in [src]."))
 
 /obj/item/customlock/attackby_secondary(obj/item/I, mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(istype(I, /obj/item/weapon/hammer))
 		if(!length(lockids))
 			to_chat(user, span_notice("[src] is not ready, its pins are not set!"))

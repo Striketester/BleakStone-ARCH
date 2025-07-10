@@ -66,11 +66,14 @@
 
 /obj/item/canvas/attack_hand_secondary(mob/user, params)
 	. = ..()
-	if(user in showers)
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
+	if(user in showers)
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	user?.client.screen += used_canvas
 	showers |= user
 	RegisterSignal(user, COMSIG_MOVABLE_TURF_ENTERED, PROC_REF(remove_shower))
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/canvas/attackby(obj/item/I, mob/living/user, params)
 	. = ..()

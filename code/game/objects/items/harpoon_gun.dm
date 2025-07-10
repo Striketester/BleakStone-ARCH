@@ -174,15 +174,17 @@
 	stored_launch = target
 
 /obj/item/harpoon_gun/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(leashed)
 		user.visible_message(span_danger("[user] starts to retract [src]."), span_danger("You start to retract [src]."))
 		if(!do_after(user, 2.5 SECONDS, src))
-			return
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 		QDEL_NULL(leash)
 		leashed = FALSE
 		leash_target = null
-	. = ..()
-
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/harpoon_gun/attack_self(mob/user, params)
 	. = ..()

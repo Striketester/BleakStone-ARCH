@@ -331,6 +331,9 @@
 	..()
 
 /obj/structure/fluff/clock/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(user.mind && isliving(user))
 		if(user.mind.special_items && user.mind.special_items.len)
 			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
@@ -341,7 +344,7 @@
 						user.mind.special_items -= item
 						var/obj/item/I = new path2item(user.loc)
 						user.put_in_hands(I)
-			return
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/fluff/clock/examine(mob/user)
 	. = ..()
@@ -573,6 +576,9 @@
 	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/structure/fluff/statue/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(user.mind && isliving(user))
 		if(user.mind.special_items && user.mind.special_items.len)
 			var/item = input(user, "What will I take?", "STASH") as null|anything in user.mind.special_items
@@ -583,8 +589,7 @@
 						user.mind.special_items -= item
 						var/obj/item/I = new path2item(user.loc)
 						user.put_in_hands(I)
-			return
-
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/fluff/statue/CanAllowThrough(atom/movable/mover, turf/target)
 	. = ..()

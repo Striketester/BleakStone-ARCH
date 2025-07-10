@@ -46,7 +46,10 @@
 
 /obj/item/paint_palette/attack_hand_secondary(mob/user, params)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	remove_color(user)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/paint_palette/attack_self(mob/user, params)
 	. = ..()

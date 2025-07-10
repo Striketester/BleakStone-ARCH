@@ -17,15 +17,16 @@
 
 /obj/item/storage/magebag/attack_hand_secondary(mob/user, params)
 	. = ..()
-	if(.)
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
 	user.changeNext_move(CLICK_CD_MELEE)
 	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
 	var/list/things = STR.contents()
-	if(things.len)
+	if(length(things))
 		var/obj/item/I = pick(things)
 		STR.remove_from_storage(I, get_turf(user))
 		user.put_in_hands(I)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/storage/magebag/update_icon_state()
 	. = ..()
@@ -337,6 +338,9 @@
 	var/active = FALSE
 
 /obj/item/clothing/ring/shimmeringlens/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(loc != user)
 		return
 	if(!active)
@@ -346,6 +350,7 @@
 	else
 		user.visible_message(span_warning("[user] stops looking through the [src]!"))
 		demagicify()
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/clothing/ring/shimmeringlens/proc/activate(mob/user)
 	ADD_TRAIT(user, TRAIT_SEE_LEYLINES, "[type]")

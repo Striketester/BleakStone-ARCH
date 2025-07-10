@@ -391,6 +391,10 @@
 	. = ..()
 
 /turf/open/water/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(water_volume < 10)
 		return
 	if(isliving(user))
@@ -417,8 +421,6 @@
 				if(wash_in)
 					item2wash.wash(CLEAN_WASH)
 				playsound(user, pick(wash), 100, FALSE)
-		return
-	..()
 
 /turf/open/water/onbite(mob/user)
 	if(water_volume < 10)

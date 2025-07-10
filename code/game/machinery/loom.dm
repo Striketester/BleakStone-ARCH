@@ -33,6 +33,9 @@
 	. = ..()
 
 /obj/machinery/loom/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	var/mob/living/L = user
 	if(isliving(user) && L.stat == CONSCIOUS && !user.get_active_held_item())
 		if(src.storedfiber > 0)
@@ -42,6 +45,8 @@
 			L.put_in_hands(F)
 		else
 			to_chat(user, "There's nothing to take from [src].")
+
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/machinery/loom/attack_hand(mob/user, params)
 	var/mob/living/weaver = user

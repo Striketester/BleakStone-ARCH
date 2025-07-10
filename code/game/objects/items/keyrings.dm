@@ -33,10 +33,13 @@
 	update_appearance(UPDATE_ICON_STATE | UPDATE_DESC)
 
 /obj/item/storage/keyring/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
 	if(CP)
 		CP.rmb_show(user)
-		return TRUE
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/storage/keyring/update_icon_state()
 	icon_state = "keyring[clamp(length(contents), 0, 5)]"
@@ -187,10 +190,16 @@
 		return ..()
 
 /obj/item/lockpickring/attack_hand_secondary(mob/user, params)
-	if(picks.len)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	if(length(picks))
 		to_chat(user, span_notice("I steal a pick off the ring."))
 		var/obj/item/lockpick/K = removefromring(user)
 		user.put_in_active_hand(K)
+	else
+		to_chat(user, span_notice("No picks."))
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/lockpickring/update_icon_state()
 	icon_state = "keyring[clamp(length(contents), 0, 3)]"

@@ -87,8 +87,9 @@
 
 /obj/item/bin/attack_hand_secondary(mob/user, params)
 	. = ..()
-	if(.)
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(kover)
 		if(kover)
 			user.visible_message("<span class='notice'>[user] starts to pick up [src]...</span>", \

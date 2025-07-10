@@ -73,7 +73,9 @@
 	icon_state = "skullmet_volf"
 
 /obj/item/clothing/head/helmet/medium/decorated/skullmet/attack_hand_secondary(mob/user, params)
-	..()
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(!picked)
 		var/list/icons = SKULLMET_ICONS
 		var/choice = input(user, "Choose a helmet design.", "Helmet designs") as anything in icons
@@ -84,3 +86,4 @@
 		if(loc == user && ishuman(user))
 			var/mob/living/carbon/H = user
 			H.update_inv_head()
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN

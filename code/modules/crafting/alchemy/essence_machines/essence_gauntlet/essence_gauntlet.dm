@@ -75,6 +75,10 @@
 	remove_essence_spells(user)
 
 /obj/item/clothing/gloves/essence_gauntlet/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(!length(stored_vials))
 		to_chat(user, span_warning("[src] has no vials to remove!"))
 		return

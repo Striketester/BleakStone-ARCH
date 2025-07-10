@@ -35,8 +35,8 @@
 /obj/structure/door/arcyne/bolt/caster/attack_hand_secondary(mob/user, params)
 	if(user != caster)
 		to_chat(user, span_warning("A magical force prevents me from interacting with [src]!"))
-		return
-	..()
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	return ..()
 
 /atom/movable
 	var/list/mana_beams

@@ -189,29 +189,31 @@
 	return ..()
 
 /obj/structure/door/attack_hand_secondary(mob/user, params)
-	if(switching_states)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
 	user.changeNext_move(CLICK_CD_FAST)
-	if(!user.get_active_held_item())
-		if(has_bolt)
-			if(obj_broken)
-				to_chat(user, span_warning("The bolt has nothing to latch to!"))
-				return
-			if(get_dir(src, user) == dir)
-				lock?.toggle(user)
-				return
-			to_chat(user, span_notice("I can't reach the bolt from this side."))
-			return
-		if(has_viewport)
-			if(obj_broken)
-				to_chat(user, span_warning("The viewport is broken!"))
-				return
-			if(get_dir(src, user) == dir)
-				viewport_toggle(user)
-				return
-			to_chat(user, span_notice("The viewport does not open from this side."))
-			return
-	return ..()
+	if((has_bolt || has_viewport) && user.get_active_held_item())
+		to_chat(user, span_warning("I need a free hand."))
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	if(has_bolt)
+		if(obj_broken)
+			to_chat(user, span_warning("The bolt has nothing to latch to!"))
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		if(get_dir(src, user) == dir)
+			lock?.toggle(user)
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		to_chat(user, span_notice("I can't reach the bolt from this side."))
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	if(has_viewport)
+		if(obj_broken)
+			to_chat(user, span_warning("The viewport is broken!"))
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		if(get_dir(src, user) == dir)
+			viewport_toggle(user)
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		to_chat(user, span_notice("The viewport does not open from this side."))
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/door/attack_ghost(mob/dead/observer/user)	// lets ghosts click on windows to transport across
 	if(!ghostproof)

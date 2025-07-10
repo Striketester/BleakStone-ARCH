@@ -242,10 +242,11 @@
 	var/dirt_amt = 3
 
 /turf/open/floor/dirt/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(isliving(user))
 		var/mob/living/L = user
-		if(L.stat != CONSCIOUS)
-			return
 		var/obj/item/I = new /obj/item/natural/dirtclod(src)
 		if(L.put_in_active_hand(I))
 			L.visible_message("<span class='warning'>[L] picks up some dirt.</span>")
@@ -254,7 +255,7 @@
 				src.ChangeTurf(/turf/open/floor/dirt/road, flags = CHANGETURF_INHERIT_AIR)
 		else
 			qdel(I)
-	.=..()
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /turf/open/floor/dirt/Destroy()
 	if(holie)

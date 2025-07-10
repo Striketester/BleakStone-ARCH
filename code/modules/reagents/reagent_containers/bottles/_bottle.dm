@@ -58,6 +58,8 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 
 /obj/item/reagent_containers/glass/bottle/attack_self_secondary(mob/user, params)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	closed = !closed
 	user.changeNext_move(CLICK_CD_RAPID)
 	if(closed)
@@ -78,6 +80,7 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 		if(!fancy)
 			desc = "An open bottle, hopefully a cork is close by."
 	update_appearance(UPDATE_OVERLAYS)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/reagent_containers/glass/bottle/toxin
 	name = "toxin bottle"
@@ -147,19 +150,19 @@ GLOBAL_LIST_INIT(wisdoms, world.file2list("strings/rt/wisdoms.txt"))
 
 /obj/item/bottlemessage/attack_self_secondary(mob/user, params)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	playsound(user.loc,'sound/items/uncork.ogg', 100, TRUE)
 	if(!contained)
-		return
-	if(ishuman(user))
-		var/mob/living/carbon/human/H = user
-		var/obj/item/reagent_containers/glass/bottle/btle = new
-		btle.icon_state = replacetext("[icon_state]","_message","")
-		btle.closed = FALSE
-		H.dropItemToGround(src, silent=TRUE)
-		H.put_in_active_hand(btle)
-		H.put_in_hands(contained)
-		contained = null
-		qdel(src)
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	var/obj/item/reagent_containers/glass/bottle/btle = new
+	btle.icon_state = replacetext("[icon_state]","_message","")
+	btle.closed = FALSE
+	user.dropItemToGround(src, silent=TRUE)
+	user.put_in_active_hand(btle)
+	contained = null
+	qdel(src)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 // vials
 /obj/item/reagent_containers/glass/bottle/vial

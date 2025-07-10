@@ -58,13 +58,16 @@
 
 /obj/item/grown/log/tree/attackby_secondary(obj/item/I, mob/living/user, params)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+
 	if(user.used_intent.blade_class == BCLASS_CHOP && lumber_amount && lumber_alt)
 		var/skill_level = user.get_skill_level(/datum/skill/labor/lumberjacking)
 		var/lumber_time = (4 SECONDS - (skill_level * 5))
 		var/minimum = 1
 		playsound(src, 'sound/misc/woodhit.ogg', 100, TRUE)
 		if(!do_after(user, lumber_time, user))
-			return
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 		if(skill_level > 0) // If skill level is 1 or higher, we get more minimum wood!
 			minimum = 2
 		lumber_amount = rand(minimum, max(round(skill_level), minimum))
@@ -83,8 +86,7 @@
 		user.mind.add_sleep_experience(/datum/skill/labor/lumberjacking, (user.STAINT*0.5))
 		playsound(src, destroy_sound, 100, TRUE)
 		qdel(src)
-		return TRUE
-	..()
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /*
 * Okay so the root of this proc defines dissasemble
@@ -190,12 +192,16 @@
 
 /obj/item/grown/log/tree/stick/attackby_secondary(obj/item/I, mob/user, params)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+
 	if(istype(I, /obj/item/grown/log/tree/stick))
 		var/obj/item/natural/bundle/stick/F = new(get_turf(user))
 		qdel(I)
 		qdel(src)
 		user.put_in_hands(F)
 		to_chat(user, "You collect the [F.stackname] into a bundle.")
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/grown/log/tree/stake
 	name = "stake"

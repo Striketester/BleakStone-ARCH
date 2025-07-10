@@ -157,16 +157,21 @@
 	icon_state = "[icon]"
 
 /obj/structure/window/openclose/attack_hand_secondary(mob/user, params)
-	if(get_dir(src,user) == lockdir)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	if(get_dir(src, user) == lockdir)
 		if(brokenstate)
 			to_chat(user, "<span class='warning'>It's broken, that would be foolish.</span>")
-			return
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 		if(climbable)
 			close_up(user)
 		else
 			open_up(user)
 	else
 		to_chat(user, "<span class='warning'>The window doesn't close from this side.</span>")
+
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/window/openclose/attackby(obj/item/attacking_item, mob/user, params)
 	if(istype(attacking_item, /obj/item/weapon/knife/dagger) && !climbable && !user.cmode)

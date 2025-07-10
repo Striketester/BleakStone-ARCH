@@ -28,8 +28,10 @@
 	return BRUTELOSS
 
 /obj/item/storage/belt/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
 	if(CP)
 		CP.rmb_show(user)
-		return TRUE
-	..()
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN

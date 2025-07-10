@@ -82,6 +82,9 @@
 	attack_hand_secondary(user, params)
 
 /obj/item/paper/scroll/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(open)
 		slot_flags |= ITEM_SLOT_HIP
 		open = FALSE
@@ -92,6 +95,7 @@
 		playsound(src, 'sound/items/scroll_open.ogg', 100, FALSE)
 	update_appearance(UPDATE_ICON_STATE | UPDATE_NAME)
 	user.update_inv_hands()
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/paper/scroll/update_icon_state()
 	. = ..()
@@ -310,10 +314,10 @@
 		return "<span class='warning'>I'm too far away to read it.</span>"
 
 /obj/item/paper/confession/attack_self_secondary(mob/user, params)
-	return TRUE
+	return SECONDARY_ATTACK_CALL_NORMAL
 
 /obj/item/paper/confession/attack_hand_secondary(mob/user, params)
-	return TRUE
+	return SECONDARY_ATTACK_CALL_NORMAL
 
 /obj/item/merctoken
 	name = "mercenary token"

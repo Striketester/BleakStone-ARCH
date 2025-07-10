@@ -69,7 +69,10 @@
 
 /obj/item/weapon/tongs/pre_attack_secondary(atom/A, mob/living/user, params)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	place_item_to_atom(get_turf(A), user)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/weapon/tongs/pre_attack(obj/item/A, mob/living/user, params)
 	if(held_item?.tong_interaction(A, user))

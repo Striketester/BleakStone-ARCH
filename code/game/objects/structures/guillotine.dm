@@ -71,8 +71,11 @@
 		unbuckle_all_mobs()
 
 /obj/structure/guillotine/attack_hand_secondary(mob/user, params)
-	if(.)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+
 	user.changeNext_move(CLICK_CD_MELEE)
 	add_fingerprint(user)
 

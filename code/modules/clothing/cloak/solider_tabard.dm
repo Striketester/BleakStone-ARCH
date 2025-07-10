@@ -13,6 +13,10 @@
 	var/picked
 
 /obj/item/clothing/cloak/stabard/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(picked)
 		return
 	var/the_time = world.time
@@ -64,6 +68,10 @@
 	uses_lord_coloring = LORD_PRIMARY | LORD_DETAIL_AND_COLOR
 
 /obj/item/clothing/cloak/stabard/guard/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(picked)
 		return
 	var/the_time = world.time
@@ -196,6 +204,10 @@
 	icon_state = "surcoat"
 
 /obj/item/clothing/cloak/stabard/surcoat/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(picked)
 		return
 	var/the_time = world.time
@@ -247,6 +259,10 @@
 	uses_lord_coloring = LORD_PRIMARY | LORD_DETAIL_AND_COLOR
 
 /obj/item/clothing/cloak/stabard/surcoat/guard/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(picked)
 		return
 	var/the_time = world.time

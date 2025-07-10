@@ -88,16 +88,18 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 
 /obj/structure/fermentation_keg/attack_hand_secondary(mob/user, params)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(!ready_to_bottle && selected_recipe && !brewing)
 		user.visible_message("[user] starts emptying out [src].", "You start emptying out [src].")
 		if(!do_after(user, 5 SECONDS, src))
-			return
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 		clear_keg(TRUE)
-		return
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 	if(!brewing && (!selected_recipe || ready_to_bottle))
 		if(!shopping_run(user))
-			return
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/fermentation_keg/AltClick(mob/user)
 	. = ..()

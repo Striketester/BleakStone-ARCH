@@ -23,6 +23,10 @@
 	. += pic
 
 /obj/item/clothing/cloak/tabard/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(picked)
 		return
 	var/the_time = world.time
@@ -91,6 +95,10 @@
 	update_appearance(UPDATE_ICON)
 
 /obj/item/clothing/cloak/tabard/crusader/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(picked)
 		return
 	var/the_time = world.time
@@ -125,6 +133,10 @@
 	picked = TRUE
 
 /obj/item/clothing/cloak/tabard/crusader/tief/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(picked)
 		return
 	var/the_time = world.time
@@ -161,6 +173,10 @@
 	uses_lord_coloring = LORD_PRIMARY
 
 /obj/item/clothing/cloak/tabard/knight/guard/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(picked)
 		return
 	var/the_time = world.time

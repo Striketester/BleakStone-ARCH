@@ -58,6 +58,9 @@
 	return (OXYLOSS)
 
 /obj/item/dice/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	if(HAS_TRAIT(user, TRAIT_BLACKLEG))
 		var/list/possible_outcomes = list()
 		var/special = FALSE
@@ -71,13 +74,12 @@
 		if(special)
 			outcome = special_faces.Find(outcome)
 		if(!outcome)
-			return
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 		record_featured_stat(FEATURED_STATS_CRIMINALS, user)
 		GLOB.vanderlin_round_stats[STATS_GAMES_RIGGED]++
 		rigged = DICE_BASICALLY_RIGGED
 		rigged_value = outcome
-		return
-	. = ..()
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/dice/d1
 	name = "d1"

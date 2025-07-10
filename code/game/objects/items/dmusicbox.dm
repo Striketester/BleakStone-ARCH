@@ -61,12 +61,17 @@
 	return ..()
 
 /obj/item/dmusicbox/attack_self_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 	attack_hand_secondary(user, params)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/dmusicbox/attack_hand_secondary(mob/user, params)
 	. = ..()
-	if(.)
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(loc != user)
 		return
 	if(!user.ckey)
