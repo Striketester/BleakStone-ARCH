@@ -818,7 +818,6 @@ h1.alert, h2.alert	{color: #c9c1ba;font-family: Pterra, TrueType;}
 	position: relative;
 	cursor: help;
 	text-decoration: underline dotted;
-	color: lightblue;
 }
 /* Alt Tooltip (No Italics) */
 .tooltip-alt-trigger {
