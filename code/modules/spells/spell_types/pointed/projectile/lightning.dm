@@ -21,12 +21,9 @@
 /obj/projectile/magic/lightning
 	name = "bolt of lightning"
 	tracer_type = /obj/effect/projectile/tracer/stun
-	muzzle_type = null
-	impact_type = null
 	hitscan = TRUE
 	movement_type = FLYING
 	projectile_piercing = PROJECTILE_PIERCE_HIT
-	light_color = LIGHT_COLOR_WHITE
 	damage = 15
 	damage_type = BURN
 	nodamage = FALSE
