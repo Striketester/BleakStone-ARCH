@@ -2566,7 +2566,6 @@
 		check_learnspell()
 	if(!silent)
 		to_chat(src, span_boldwarning("I forgot [real_spell.name]!"))
-	actions -= real_spell
 	qdel(real_spell)
 
 /**
@@ -2575,7 +2574,6 @@
  ** return_skill_points - do we return the skillpoints for the spells?
  ** silent - do we notify the player of this change?
 */
-//purge_all_spells
 /mob/living/proc/remove_spells(return_skill_points = FALSE, silent = TRUE, source)
 	if(QDELETED(src))
 		return
@@ -2612,7 +2610,17 @@
 	if(((spell_points - used_spell_points) > 0))
 		if(!spell)
 			spell = /datum/action/cooldown/spell/undirected/learn
-			add_spell(spell, silent = TRUE)
+			add_spell(spell)
 		return
 	if(spell)
-		remove_spell(spell, silent = TRUE)
+		remove_spell(spell)
+
+/**
+ * purges all spells and skills
+ * Vars:
+ ** silent - do we notify the player of this change?
+*/
+/mob/living/proc/purge_combat_knowledge(silent = TRUE)
+	purge_all_skills(silent)
+	remove_spells(silent = silent)
+	purge_all_spellpoints(silent)

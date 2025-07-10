@@ -333,16 +333,6 @@ GLOBAL_LIST_EMPTY(personal_objective_minds)
 /datum/mind/proc/wipe_memory()
 	memory = null
 
-/**
- * purges all spells and skills
- * Vars:
- ** silent - do we notify the player of this change?
-*/
-/datum/mind/proc/purge_combat_knowledge(silent)
-	current.purge_all_skills(TRUE)
-	current.remove_spells(silent = TRUE)
-	current.purge_all_spellpoints(TRUE)
-
 // Datum antag mind procs
 
 /**

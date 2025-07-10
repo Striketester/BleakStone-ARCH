@@ -31,7 +31,7 @@
 	for(var/mob/living/carbon/human/H in oview(5, owner))
 		if(H.stat != CONSCIOUS)
 			continue
-		if(!H.mind)
+		if(!H.mind || !H.client)
 			continue
 		duelists += H
 

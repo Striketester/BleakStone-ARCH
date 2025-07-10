@@ -49,6 +49,7 @@
 
 /datum/antagonist/lich/on_gain()
 	SSmapping.retainer.liches |= owner
+	owner.current?.purge_combat_knowledge() // purge all their combat skills first
 	. = ..()
 	if(iscarbon(owner.current))
 		lich_body_ref = WEAKREF(owner.current)
@@ -61,7 +62,6 @@
 	owner.current?.roll_mob_stats()
 	skele_look()
 	equip_lich()
-	return ..()
 
 /datum/antagonist/lich/on_removal()
 	var/mob/living/lich_mob = owner.current
@@ -121,7 +121,6 @@
 	beltl = /obj/item/weapon/knife/dagger/steel
 	r_hand = /obj/item/weapon/polearm/woodstaff
 
-	H.mind.purge_combat_knowledge(TRUE) // purge all their combat skills first
 	H.set_skillrank(/datum/skill/misc/reading, 6, TRUE)
 	H.set_skillrank(/datum/skill/craft/alchemy, 5, TRUE)
 	H.set_skillrank(/datum/skill/magic/arcane, 5, TRUE)
