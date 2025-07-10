@@ -1,5 +1,6 @@
 SUBSYSTEM_DEF(rustg_debug)
 	name = "rust-g debugging"
+	init_order = INIT_ORDER_DBCORE + 1 // always load before dbcore
 	wait = 1 MINUTES
 	flags = SS_KEEP_TIMING | SS_NO_TICK_CHECK
 	runlevels = ALL
