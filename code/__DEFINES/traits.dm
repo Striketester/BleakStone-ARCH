@@ -41,10 +41,6 @@
 #define TRAIT_MISSING_NOSE				"Missing Nose" //halved stamina regeneration
 #define TRAIT_DISFIGURED				"Disfigured"
 #define TRAIT_SPELLBLOCK				"Bewitched" //prevents spellcasting
-/// This mob is antimagic, and immune to spells / cannot cast spells
-#define TRAIT_ANTIMAGIC "anti_magic"
-/// This allows a person who has antimagic to cast spells without getting blocked
-#define TRAIT_ANTIMAGIC_NO_SELFBLOCK "anti_magic_no_selfblock"
 #define TRAIT_ANTISCRYING				"Anti-Scrying"
 #define TRAIT_SHOCKIMMUNE				"Shock Immunity"
 #define TRAIT_LEGENDARY_ALCHEMIST		"Expert Herb Finder"
@@ -444,6 +440,12 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 /// Target can't be grabbed by tanglers
 #define TRAIT_ENTANGLER_IMMUNE "tangler_immune"
+
+/// This mob is antimagic, and immune to spells / cannot cast spells
+#define TRAIT_ANTIMAGIC "anti_magic"
+
+/// This allows a person who has antimagic to cast spells without getting blocked
+#define TRAIT_ANTIMAGIC_NO_SELFBLOCK "anti_magic_no_selfblock"
 
 /// makes your footsteps completely silent
 #define TRAIT_SILENT_FOOTSTEPS "silent_footsteps"
