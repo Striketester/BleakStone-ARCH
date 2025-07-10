@@ -59,7 +59,7 @@
 
 /obj/structure/fluff/railing/CanPass(atom/movable/mover, turf/target)
 	. = ..()
-	if(REVERSE_DIR(get_dir(mover, loc)) & dir)
+	if(REVERSE_DIR(get_dir(mover, loc)) == dir)
 		if(passcrawl && isliving(mover))
 			var/mob/living/M = mover
 			if(M.body_position == LYING_DOWN)
