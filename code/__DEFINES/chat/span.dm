@@ -169,7 +169,7 @@
 // Normal tooltip with underline and default styling
 #define span_tooltip(tip, main_text) ("<span data-tooltip=\"" + tip + "\" class=\"tooltip-trigger\">" + main_text + "</span>")
 
-// No italics, potentially different styling if 'tooltip-alt-trigger' has unique CSS rules
+/// No italics, potentially different styling if 'tooltip-alt-trigger' has unique CSS rules
 #define span_tooltip_alt(tip, main_text) ("<span data-tooltip=\"" + tip + "\" class=\"tooltip-trigger tooltip-alt-trigger\">" + main_text + "</span>")
 
 /// Helper which creates a chat message which may have a tooltip in some contexts, but not others.
