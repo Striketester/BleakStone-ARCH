@@ -33,3 +33,9 @@
 	speed = 0.3
 	light_color = "#dbe72c"
 	light_outer_range =  7
+
+/obj/projectile/magic/lightning/on_hit(atom/target, blocked, pierce_hit)
+	. = ..()
+	if(isliving(target))
+		var/mob/living/L = target
+		L.electrocute_act(1, src)
