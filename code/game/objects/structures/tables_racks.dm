@@ -185,22 +185,6 @@
 
 	return ..()
 
-/obj/structure/table/ongive(mob/user, params)
-	var/obj/item/I = user.get_active_held_item()
-	if(I)
-		if(!(I.item_flags & ABSTRACT))
-			if(user.transferItemToLoc(I, drop_location(), silent = FALSE))
-				var/list/modifiers = params2list(params)
-				var/icon_x = text2num(LAZYACCESS(modifiers, ICON_X))
-				var/icon_y = text2num(LAZYACCESS(modifiers, ICON_Y))
-				//Center the icon where the user clicked.
-				if(!icon_x || !icon_y)
-					return
-				//Clamp it so that the icon never moves more than 16 pixels in either direction (thus leaving the table turf)
-				I.pixel_x = initial(I.pixel_x) + CLAMP(icon_x - 16, -(world.icon_size/2), world.icon_size/2)
-				I.pixel_y = initial(I.pixel_y) + CLAMP(icon_y - 16, -(world.icon_size/2), world.icon_size/2)
-				return 1
-
 /obj/structure/table/deconstruct(disassembled = TRUE, wrench_disassembly = 0)
 	if(disassembled)
 		if(!(flags_1 & NODECONSTRUCT_1))

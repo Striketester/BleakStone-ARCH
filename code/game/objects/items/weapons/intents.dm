@@ -287,17 +287,6 @@
 	chargetime = 0
 	noaa = TRUE
 
-/datum/intent/spell
-	name = "spell"
-	tranged = 1
-	chargedrain = 0
-	chargetime = 0
-	warnie = "aimwarn"
-	warnoffset = 0
-	move_limit = 6
-	charge_pointer = 'icons/effects/mousemice/charge/spell_charging.dmi'
-	charged_pointer = 'icons/effects/mousemice/charge/spell_charged.dmi'
-
 /datum/looping_sound/invokegen
 	mid_sounds = list('sound/magic/charging.ogg')
 	mid_length = 130
