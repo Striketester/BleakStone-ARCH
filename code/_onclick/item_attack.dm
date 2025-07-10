@@ -218,6 +218,22 @@
 
 
 /mob/living/attackby_secondary(obj/item/weapon, mob/living/user, params)
+	if(!user.cmode)
+		var/obj/item/offer_attempt = user.get_active_held_item()
+		if(HAS_TRAIT(offer_attempt, TRAIT_NODROP) || offer_attempt.item_flags & ABSTRACT)
+			to_chat(user, span_warning("I can't offer this."))
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		user.offered_item = WEAKREF(offer_attempt)
+		user.visible_message(
+			span_notice("[user] offers [offer_attempt] to [src] with an outstreched hand."),
+			span_notice("I offer [offer_attempt] to [src] with an outstreched hand."),
+		)
+		to_chat(user, span_notice("I will hold [offer_attempt] out for 10 seconds, \
+		if I switch hands or take it out my hand it will not be able to be taken."))
+		to_chat(src, span_notice("[user] offers [offer_attempt] to me..."))
+		addtimer(VARSET_CALLBACK(user, offered_item, null), 10 SECONDS)
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+
 	var/result = weapon.attack_secondary(src, user, params)
 
 	// Normal attackby updates click cooldown, so we have to make up for it

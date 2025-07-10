@@ -40,61 +40,92 @@
 			return
 		if(!L.checkdefense(used_intent, src))
 			if(LAZYACCESS(params2list(params), RIGHT_CLICK))
-				L.attack_hand_secondary(src, params)
-				return
+				if(L.attack_hand_secondary(src, params) != SECONDARY_ATTACK_CALL_NORMAL)
+					return
 			L.attack_hand(src, params)
 		return
-	else
-		var/item_skip = FALSE
-		if(isitem(A))
-			var/obj/item/I = A
-			if(I.w_class < WEIGHT_CLASS_GIGANTIC)
-				item_skip = TRUE
-		if(!item_skip)
-			if(used_intent.type == INTENT_GRAB)
-				var/obj/AM = A
-				if(istype(AM) && !AM.anchored)
-					start_pulling(A) //add params to grab bodyparts based on loc
-					return
-			if(used_intent.type == INTENT_DISARM)
-				var/obj/AM = A
-				if(istype(AM) && !AM.anchored)
-					var/jadded = max(100-(STASTR*10),5)
-					if(adjust_stamina(jadded))
-						visible_message(span_info("[src] pushes [AM]."))
-						PushAM(AM, MOVE_FORCE_STRONG)
-					else
-						visible_message(span_warning("[src] pushes [AM]."))
-					changeNext_move(CLICK_CD_MELEE)
-					return
-		if(LAZYACCESS(params2list(params), RIGHT_CLICK))
-			A.attack_hand_secondary(src, params)
+	var/item_skip = FALSE
+	if(isitem(A))
+		var/obj/item/I = A
+		if(I.w_class < WEIGHT_CLASS_GIGANTIC)
+			item_skip = TRUE
+	if(!item_skip)
+		if(used_intent.type == INTENT_GRAB)
+			var/obj/AM = A
+			if(istype(AM) && !AM.anchored)
+				start_pulling(A) //add params to grab bodyparts based on loc
+				return
+		if(used_intent.type == INTENT_DISARM)
+			var/obj/AM = A
+			if(istype(AM) && !AM.anchored)
+				var/jadded = max(100-(STASTR*10),5)
+				if(adjust_stamina(jadded))
+					visible_message(span_info("[src] pushes [AM]."))
+					PushAM(AM, MOVE_FORCE_STRONG)
+				else
+					visible_message(span_warning("[src] pushes [AM]."))
+				changeNext_move(CLICK_CD_MELEE)
+				return
+	if(LAZYACCESS(params2list(params), RIGHT_CLICK))
+		if(A.attack_hand_secondary(src, params) != SECONDARY_ATTACK_CALL_NORMAL)
 			return
-		A.attack_hand(src, params)
+	A.attack_hand(src, params)
 
 /mob/living/attack_hand_secondary(mob/user, params)
 	. = ..()
-//	if(!user.Adjacent(src)) //alreadyu checked in rmb_on
-//		return
-	user.changeNext_move(CLICK_CD_MELEE)
-	user.face_atom(src)
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
 
-	if(!user.get_active_held_item() && !user.cmode && src.givingto != user)
-		if(ishuman(src) && ishuman(user))
-			var/mob/living/carbon/human/target = src
-			var/datum/job/job = SSjob.GetJob(target.job)
-			if(length(user.return_apprentices()) >= user.return_max_apprentices())
-				return
-			if((target.age == AGE_CHILD || job?.type == /datum/job/vagrant) && target.mind && !target.is_apprentice())
-				to_chat(user, span_notice("You offer apprenticeship to [target]."))
-				user.make_apprentice(target)
-				return
+	user.changeNext_move(CLICK_CD_MELEE)
 
 	if(user.cmode)
 		if(user.rmb_intent)
 			user.rmb_intent.special_attack(user, src)
-	else
-		ongive(user, params)
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		// Throw hands
+		return
+
+	// Anyone can take it to be devilish
+	if(offered_item)
+		if(user.get_active_held_item())
+			to_chat(user, span_warning("I need a free hand to take it!"))
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		var/obj/item/I = offered_item.resolve()
+		if(!QDELETED(I))
+			offered_item = null
+			if(I != get_active_held_item())
+				to_chat(src, span_warning("I must keep hold of what i'm offering!"))
+				user.visible_message(
+					span_warning("[user] attempts to take [I] from [src], but it is moved out of reach!"),
+					span_warning("I attempt to take [I], but [user] moved it from my reach!"),
+				)
+				return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+			transferItemToLoc(I, user)
+			user.put_in_active_hand(I)
+			to_chat(src, span_notice("[user] takes [I] from my outstreched hand."))
+			user.visible_message(
+				span_warning("[user] takes [I] from [src]'s outstreched hand!"),
+				span_notice("I take [I] from [src]'s outstreched hand."),
+			)
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+
+/mob/living/carbon/human/attack_hand_secondary(mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+
+	if(user.cmode)
+		return
+
+	if(ishuman(src) && ishuman(user))
+		var/mob/living/carbon/human/target = src
+		var/datum/job/job = SSjob.GetJob(target.job)
+		if(length(user.return_apprentices()) >= user.return_max_apprentices())
+			return
+		if((target.age == AGE_CHILD || job?.type == /datum/job/vagrant) && target.mind && !target.is_apprentice())
+			to_chat(user, span_notice("You offer apprenticeship to [target]."))
+			user.make_apprentice(target)
+			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /turf/attack_hand_secondary(mob/user, params)
 	. = ..()
@@ -103,46 +134,6 @@
 	if(user.cmode)
 		if(user.rmb_intent)
 			user.rmb_intent.special_attack(user, src)
-
-/atom/proc/ongive(mob/user, params)
-	return
-
-/obj/item/ongive(mob/user, params) //take an item if hand is empty
-	if(user.get_active_held_item())
-		return
-	src.attack_hand(user, params)
-
-/mob
-	var/mob/givingto
-	var/lastgibto
-
-/mob/living/ongive(mob/user, params)
-	if(!ishuman(user) || src == user)
-		return
-	var/mob/living/carbon/human/H = user
-	if(givingto == H && !H.get_active_held_item()) //take item being offered
-		if(world.time > lastgibto + 100) //time out give after a while
-			givingto = null
-			return
-		var/obj/item/I = get_active_held_item()
-		if(I)
-			transferItemToLoc(I, newloc = H, force = FALSE, silent = TRUE)
-			H.put_in_active_hand(I)
-			visible_message(span_notice("[src.name] gives [I] to [H.name]."))
-			return
-		else
-			givingto = null
-	else if(!H.givingto && H.get_active_held_item()) //offer item
-		if(get_empty_held_indexes())
-			var/obj/item/I = H.get_active_held_item()
-			if(HAS_TRAIT(I, TRAIT_NODROP) || I.item_flags & ABSTRACT)
-				return
-			H.givingto = src
-			H.lastgibto = world.time
-			to_chat(src, span_notice("[H.name] offers [I] to me."))
-			to_chat(H, span_notice("I offer [I] to [src.name]."))
-		else
-			to_chat(H, span_warning("[src.name]'s hands are full."))
 
 /atom/proc/onkick(mob/user)
 	return
@@ -252,12 +243,6 @@
 		A.MiddleClick(src, params)
 	else
 		switch(mmb_intent.type)
-//			if(INTENT_GIVE)
-//				if(!A.Adjacent(src))
-//					return
-//				changeNext_move(mmb_intent.clickcd)
-//				face_atom(A)
-//				A.ongive(src, params)
 			if(INTENT_KICK)
 				if(src.usable_legs < 2)
 					return
