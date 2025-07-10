@@ -246,7 +246,6 @@
 
 	if(owner.movement_type & FLYING)
 		if(!can_fly())
-			to_chat(owner, span_warning("I am too heavy to fly."))
 			stop_flying(owner)
 			return
 
