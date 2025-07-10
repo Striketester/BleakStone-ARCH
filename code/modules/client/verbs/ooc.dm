@@ -381,8 +381,8 @@ GLOBAL_LIST_INIT(oocpronouns_required, list(
 	if (!value || trim(value) == "")
 		return TRUE
 
-	// staff/ can choose whatever pronouns they want given, you know, we trust them to use them like a normal person
-	if (usr && is_admin(usr))
+	// staff/donators can choose whatever pronouns they want given, you know, we trust them to use them like a normal person
+	if (usr && is_admin(usr) || patreon.is_donator())
 		return TRUE
 
 	var/pronouns = splittext(value, "/")
@@ -421,7 +421,7 @@ GLOBAL_LIST_INIT(oocpronouns_required, list(
 	set category = "OOC"
 	set desc = "Set the pronouns you want to use in OOC messages."
 
-	if(is_misc_banned(ckey, BAN_MISC_OOC))
+	if(is_misc_banned(ckey, BAN_MISC_OOCPRONOUNS))
 		to_chat(src, span_danger("I have been banned from setting my OOC pronouns."))
 		return
 
