@@ -121,12 +121,12 @@
 	if(active_mousedown_item)
 		active_mousedown_item.onMouseDown(object, location, params, mob)
 
+	mob.face_atom(object)
+
 	var/list/modifiers = params2list(params)
 	if(LAZYACCESS(modifiers, RIGHT_CLICK) || LAZYACCESS(modifiers, MIDDLE_CLICK))
-		mob.face_atom(object)
 		if(!mouse_override_icon)
 			mouse_pointer_icon = 'icons/effects/mousemice/human_looking.dmi'
-		return
 
 	if(LAZYACCESS(modifiers, MIDDLE_CLICK)) //start charging a spell or readying a mmb intent
 		if(mob.next_move > world.time)
@@ -142,10 +142,8 @@
 		else
 			mouse_pointer_icon = mob.mmb_intent.pointer
 		return
+
 	if(LAZYACCESS(modifiers, LEFT_CLICK)) //start charging a lmb intent
-		mob.face_atom(object)
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
-			return
 		if(mob.active_hand_index == 1)
 			if(mob.next_lmove > world.time)
 				return
