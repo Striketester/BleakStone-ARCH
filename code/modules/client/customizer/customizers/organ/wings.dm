@@ -156,8 +156,8 @@
 		var/matrix/original = owner.transform
 		var/prev_alpha = owner.alpha
 		var/prev_pixel_z = owner.pixel_z
-		animate(owner, pixel_z = 156, alpha = 0, time = 1.5 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL|ANIMATION_RELATIVE)
-		animate(owner, transform = matrix() * 8, time = 1 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
+		animate(owner, pixel_z = 156, alpha = 0, time = 1.5 SECONDS, easing = EASE_IN, flags = ANIMATION_PARALLEL|ANIMATION_RELATIVE)
+		animate(owner, transform = matrix() * 6, time = 1 SECONDS, easing = EASE_IN, flags = ANIMATION_PARALLEL)
 		animate(transform = original, time = 0.5 SECONDS, EASE_OUT)
 		owner.pixel_z = prev_pixel_z
 		owner.alpha = prev_alpha
@@ -198,8 +198,8 @@
 		owner.pixel_z = 156
 		owner.transform = matrix() * 8
 		owner.forceMove(turf)
-		animate(owner, pixel_z = prev_pixel_z, alpha = prev_alpha, time = 1.2 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
-		animate(owner, transform = original, time = 1.2 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
+		animate(owner, pixel_z = prev_pixel_z, alpha = prev_alpha, time = 1.2 SECONDS, easing = EASE_IN, flags = ANIMATION_PARALLEL)
+		animate(owner, transform = original, time = 1.2 SECONDS, easing = EASE_IN, flags = ANIMATION_PARALLEL)
 
 	remove_signals()
 
