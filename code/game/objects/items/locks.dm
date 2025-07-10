@@ -76,7 +76,7 @@
 	if(holdname)
 		to_chat(user, span_notice("You label the [name] with [holdname]."))
 
-/obj/item/customlock/finished/attack_hand_secondary(mob/user, params)//does nothing. probably better ways to do this but whatever
+/obj/item/customlock/finished/attackby_secondary(obj/item/I, mob/user, params)
 
 /obj/item/customlock/finished/attack_obj(obj/O, mob/living/user)
 	if(!O.can_add_lock)
