@@ -201,7 +201,7 @@ GLOBAL_PROTECT(tracy_init_reason)
 	GLOB.world_job_debug_log = "[GLOB.log_directory]/job_debug.log"
 	GLOB.world_paper_log = "[GLOB.log_directory]/paper.log"
 	GLOB.tgui_log = "[GLOB.log_directory]/tgui.log"
-	GLOB.rustg_debug_log = "[GLOB.rustg_debug_log]/rustg_debug.log"
+	GLOB.rustg_debug_log = "[GLOB.log_directory]/rustg_debug.log"
 #ifdef REFERENCE_DOING_IT_LIVE
 	GLOB.harddel_log = "[GLOB.log_directory]/harddel.log"
 #endif
