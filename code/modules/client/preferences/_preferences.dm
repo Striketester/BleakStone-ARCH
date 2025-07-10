@@ -1026,21 +1026,21 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 
 					if(length(allowed_pronouns) == 1)
 						pronouns = allowed_pronouns[1]
-						to_chat(user, "<font color='red'> This species can only use [pronouns].</font>")
+						to_chat(user, span_warning("This species can only use [pronouns]."))
 						return
 
-					var pronouns_input = input(user, "Choose your character's pronouns", "Pronouns") as null|anything in allowed_pronouns
+					var/pronouns_input = input(user, "Choose your character's pronouns", "Pronouns") as null|anything in allowed_pronouns
 					if(pronouns_input)
 						pronouns = pronouns_input
-						to_chat(user, "<font color='red'>Your character's pronouns are now [pronouns].")
+						to_chat(user, span_warning("Your character's pronouns are now [pronouns]."))
 				if ("voicetype")
 					var voicetype_input = input(user, "Choose your character's voice type", "Voice Type") as null|anything in VOICE_TYPES_LIST
 					if(voicetype_input)
 						voice_type = voicetype_input
 						// TODO: remove the notice when we have a sound pack for androgynous voices
 						if(voicetype_input == VOICE_TYPE_ANDRO)
-							to_chat(user, "<font color='orange'>Heads up, we don't have a soundpack for androgynous voices, so it will use the fem voicepack by default, pitched down a bit to achieve a more androgynous sound.</font>")
-						to_chat(user, "<font color='red'>Your character will now vocalize with a [lowertext(voice_type)] affect.")
+							to_chat(user, span_warning("Heads up, we don't have a soundpack for androgynous voices, so it will use the fem voicepack by default, pitched down a bit to achieve a more androgynous sound."))
+						to_chat(user, span_warning("Your character will now vocalize with a [lowertext(voice_type)] affect."))
 				if("faith")
 					var/list/faiths_named = list()
 					for(var/path as anything in GLOB.preference_faiths)
