@@ -11,12 +11,23 @@
 	if(randomise_flags & RANDOMIZE_GENDER)
 		gender = pref_species.sexes ? pick(MALE, FEMALE) : PLURAL
 
-	if(randomise_flags & RANDOMIZE_PRONOUNS)
-		var/list/allowed_pronouns = pref_species.allowed_pronouns
-		if(!allowed_pronouns || !length(allowed_pronouns))
-			allowed_pronouns = PRONOUNS_LIST
+	// pronouns should match gender, not randomized
+	switch(gender)
+		if(MALE)
+			pronouns = HE_HIM
+		if(FEMALE)
+			pronouns = SHE_HER
+		if(PLURAL)
+			pronouns = THEY_THEM
 		else
-			pronouns = pick(allowed_pronouns)
+			pronouns = IT_ITS
+
+	var/list/allowed_pronouns = pref_species.allowed_pronouns
+	if(!allowed_pronouns || !length(allowed_pronouns))
+		allowed_pronouns = PRONOUNS_LIST
+
+	if (!(pronouns in allowed_pronouns))
+		pronouns = pick(allowed_pronouns)
 
 	if(randomise_flags & RANDOMIZE_AGE)
 		age = pick(pref_species.possible_ages)

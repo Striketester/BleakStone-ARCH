@@ -1439,7 +1439,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 
 				if("randomiseappearanceprefs")
 					if (!randomize_shutup)
-						var/alert_response = browser_alert(user, "Are you sure you want to randomise your appearance preferences? This will overwrite your current preferences.", "Randomise Appearance Preferences", "Yes", "No", "Don't Ask Again This Round (Yes)")
+						var/alert_response = browser_alert(user, "Are you sure you want to randomise your appearance preferences? This will overwrite your current preferences.", "Randomise Appearance Preferences", list("Yes", "No", "Don't Ask Again This Round (Yes)"))
 						if(alert_response != "Yes")
 							if(alert_response == "Don't Ask Again This Round (Yes)")
 								randomize_shutup = TRUE
