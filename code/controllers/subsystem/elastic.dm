@@ -17,6 +17,9 @@ SUBSYSTEM_DEF(elastic)
 	var/list/assoc_list_data = list() //! ### This NEEDS NEEDS NEEDS NEEDS NEEDS to be an assoclist. When 516 is in this will be an alist
 	///abstract information - basically want to keep track of spell casts over the round? do it like this
 	var/list/abstract_information = list()
+	/// list of /datum/http_request that we check to ensure they don't leak memory
+	var/list/active_queries = list()
+	var/shutting_down = FALSE
 
 /datum/controller/subsystem/elastic/Initialize(start_timeofday)
 	if(!CONFIG_GET(flag/elastic_middleware_enabled))
@@ -24,16 +27,33 @@ SUBSYSTEM_DEF(elastic)
 	set_abstract_data_zeros()
 	return ..()
 
+/datum/controller/subsystem/elastic/Shutdown()
+	shutting_down = TRUE
+	var/end_time = REALTIMEOFDAY + (5 SECONDS)
+	while((length(active_queries) > 0) && (REALTIMEOFDAY < end_time))
+		for(var/datum/http_request/query as anything in active_queries)
+			if(query.is_complete())
+				active_queries -= query
+				qdel(query)
+	active_queries.Cut()
+
 /datum/controller/subsystem/elastic/fire(resumed)
 	send_data()
+	for(var/datum/http_request/query as anything in active_queries)
+		if(query.is_complete()) // rust-g will clear the job once it's complete
+			active_queries -= query
+			qdel(query)
 
 /datum/controller/subsystem/elastic/proc/send_data()
+	if(shutting_down)
+		return
 	var/datum/http_request/request = new()
 	request.prepare(RUSTG_HTTP_METHOD_POST, CONFIG_GET(string/elastic_endpoint), get_compiled_data(), list(
 		"Authorization" = "ApiKey [CONFIG_GET(string/metrics_api_token)]",
 		"Content-Type" = "application/json"
 	))
 	request.begin_async()
+	active_queries += request
 
 /datum/controller/subsystem/elastic/proc/get_compiled_data()
 	var/list/compiled = list()
