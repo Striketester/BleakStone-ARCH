@@ -1034,7 +1034,16 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						pronouns = pronouns_input
 						to_chat(user, span_warning("Your character's pronouns are now [pronouns]."))
 				if ("voicetype")
-					var voicetype_input = browser_input_list(user, "CHOOSE YOUR HERO'S VOICE TYPE", "DISCARD SOCIETY'S EXPECTATIONS", VOICE_TYPES_LIST)
+					var/list/allowed_voices = pref_species.allowed_voicetypes
+					if(!allowed_voices || !length(allowed_voices))
+						// fallback to the default voice types list
+						allowed_voices = VOICE_TYPES_LIST
+					if(length(allowed_voices) == 1)
+						voice_type = allowed_voices[1]
+						to_chat(user, span_warning("This species can only use the [voice_type] voice type."))
+						return
+
+					var voicetype_input = browser_input_list(user, "CHOOSE YOUR HERO'S VOICE TYPE", "DISCARD SOCIETY'S EXPECTATIONS", allowed_voices)
 					if(voicetype_input)
 						voice_type = voicetype_input
 						// TODO: remove the notice when we have a sound pack for androgynous voices

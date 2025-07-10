@@ -133,8 +133,8 @@
 
 // Voice types
 
-#define VOICE_TYPE_MASC	"Masculine"
-#define VOICE_TYPE_FEM	"Feminine"
+#define VOICE_TYPE_MASC		"Masculine"
+#define VOICE_TYPE_FEM		"Feminine"
 #define VOICE_TYPE_ANDRO	"Androgynous"
 
 #define VOICE_TYPES_LIST list(VOICE_TYPE_MASC, VOICE_TYPE_FEM, VOICE_TYPE_ANDRO)

@@ -35,9 +35,7 @@
 	\n\n\
 	THIS IS A DISCRIMINATED SPECIES. EXPECT A MORE DIFFICULT EXPERIENCE. PLAY AT YOUR OWN RISK."
 
-	allowed_pronouns = list(
-		HE_HIM, SHE_HER, THEY_THEM, IT_ITS
-	)
+	allowed_pronouns = PRONOUNS_LIST
 	skin_tone_wording = "Ancestry"
 	default_color = "FFFFFF"
 	species_traits = list(EYECOLOR, HAIR ,FACEHAIR, LIPS, STUBBLE, OLDGREY)

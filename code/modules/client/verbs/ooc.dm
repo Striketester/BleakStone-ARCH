@@ -3,7 +3,7 @@ GLOBAL_VAR_INIT(OOC_COLOR, normal_ooc_colour)//If this is null, use the CSS for 
 
 #define MAX_PRONOUNS 4
 // This list is non-exhaustive
-GLOBAL_LIST_INIT(pronouns_valid, list(
+GLOBAL_LIST_INIT(oocpronouns_valid, list(
 	"he", "him", "his",
 	"she","her","hers",
 	"hyr", "hyrs",
@@ -18,7 +18,7 @@ GLOBAL_LIST_INIT(pronouns_valid, list(
 ))
 
 // at least one is required
-GLOBAL_LIST_INIT(pronouns_required, list(
+GLOBAL_LIST_INIT(oocpronouns_required, list(
 	"he", "her", "she", "they", "them", "it", "fae", "its"
 ))
 
@@ -29,7 +29,7 @@ GLOBAL_LIST_INIT(pronouns_required, list(
 	set category = "OOC"
 	set hidden = 1
 	if(GLOB.say_disabled)	//This is here to try to identify lag problems
-		to_chat(usr, "<span class='danger'>Speech is currently admin-disabled.</span>")
+		to_chat(usr, span_danger("Speech is currently admin-disabled."))
 		return
 
 	if(!mob)
@@ -37,22 +37,22 @@ GLOBAL_LIST_INIT(pronouns_required, list(
 
 	/*
 	if(get_playerquality(ckey) <= -5)
-		to_chat(src, "<span class='danger'>I can't use that.</span>")
+		to_chat(src, span_danger("I can't use that."))
 		return
 	*/
 
 	if(!holder)
 		if(!GLOB.ooc_allowed)
-			to_chat(src, "<span class='danger'>OOC is globally muted.</span>")
+			to_chat(src, span_danger("OOC is globally muted."))
 			return
 		if(!GLOB.dooc_allowed && (mob.stat == DEAD))
-			to_chat(usr, "<span class='danger'>OOC for dead mobs has been turned off.</span>")
+			to_chat(usr, span_danger("OOC for dead mobs has been turned off."))
 			return
 		if(prefs.muted & MUTE_OOC)
-			to_chat(src, "<span class='danger'>I cannot use OOC (muted).</span>")
+			to_chat(src, span_danger("I cannot use OOC (muted)."))
 			return
 	if(is_misc_banned(ckey, BAN_MISC_OOC))
-		to_chat(src, "<span class='danger'>I have been banned from OOC.</span>")
+		to_chat(src, span_danger("I have been banned from OOC."))
 		return
 	if(QDELETED(src))
 		return
@@ -76,7 +76,7 @@ GLOBAL_LIST_INIT(pronouns_required, list(
 			return
 
 	if(!(prefs.chat_toggles & CHAT_OOC))
-		to_chat(src, "<span class='danger'>I have OOC muted.</span>")
+		to_chat(src, span_danger("I have OOC muted."))
 		return
 
 	mob.log_talk(raw_msg, LOG_OOC)
@@ -107,7 +107,7 @@ GLOBAL_LIST_INIT(pronouns_required, list(
 	set desc = "Talk with the other players."
 
 	if(GLOB.say_disabled)	//This is here to try to identify lag problems
-		to_chat(usr, "<span class='danger'>Speech is currently admin-disabled.</span>")
+		to_chat(usr, span_danger("Speech is currently admin-disabled."))
 		return
 
 	if(!mob)
@@ -115,16 +115,16 @@ GLOBAL_LIST_INIT(pronouns_required, list(
 
 		/*
 	if(get_playerquality(ckey) <= -5)
-		to_chat(src, "<span class='danger'>I can't use that.</span>")
+		to_chat(src, span_danger("I can't use that."))
 		return
 	*/
 
 	if(!holder)
 		if(prefs.muted & MUTE_OOC)
-			to_chat(src, "<span class='danger'>I cannot use OOC (muted).</span>")
+			to_chat(src, span_danger("I cannot use OOC (muted)."))
 			return
 	if(is_misc_banned(ckey, BAN_MISC_OOC))
-		to_chat(src, "<span class='danger'>I have been banned from OOC.</span>")
+		to_chat(src, span_danger("I have been banned from OOC."))
 		return
 	if(QDELETED(src))
 		return
@@ -148,7 +148,7 @@ GLOBAL_LIST_INIT(pronouns_required, list(
 			return
 
 	if(!(prefs.chat_toggles & CHAT_OOC))
-		to_chat(src, "<span class='danger'>I have OOC muted.</span>")
+		to_chat(src, span_danger("I have OOC muted."))
 		return
 
 	mob.log_talk(raw_msg, LOG_OOC)
@@ -400,19 +400,19 @@ GLOBAL_LIST_INIT(pronouns_required, list(
 			pronoun = copytext(pronoun, 1, length(pronoun) - 4)
 		pronoun = trim(pronoun)
 
-		if (!(pronoun in GLOB.pronouns_valid))
-			to_chat(usr, span_warning("Invalid pronoun: [pronoun]. Valid pronouns are: [GLOB.pronouns_valid.Join(", ")]"))
+		if (!(pronoun in GLOB.oocpronouns_valid))
+			to_chat(usr, span_warning("Invalid pronoun: [pronoun]. Valid pronouns are: [GLOB.oocpronouns_valid.Join(", ")]"))
 			return FALSE
 
 	if (length(pronouns) != length(uniqueList(pronouns)))
 		to_chat(usr, span_warning("You cannot use the same pronoun multiple times."))
 		return FALSE
 
-	for (var/pronoun in GLOB.pronouns_required)
+	for (var/pronoun in GLOB.oocpronouns_required)
 		if (pronoun in pronouns)
 			return TRUE
 
-	to_chat(usr, span_warning("You must include at least one of the following pronouns: [GLOB.pronouns_required.Join(", ")]"))
+	to_chat(usr, span_warning("You must include at least one of the following pronouns: [GLOB.oocpronouns_required.Join(", ")]"))
 	// Someone may yell at me i dont know
 	return FALSE
 
@@ -422,7 +422,7 @@ GLOBAL_LIST_INIT(pronouns_required, list(
 	set desc = "Set the pronouns you want to use in OOC messages."
 
 	if(is_misc_banned(ckey, BAN_MISC_OOC))
-		to_chat(src, "<span class='danger'>I have been banned from setting my OOC pronouns.</span>")
+		to_chat(src, span_danger("I have been banned from setting my OOC pronouns."))
 		return
 
 	var/old_pronouns = prefs.oocpronouns

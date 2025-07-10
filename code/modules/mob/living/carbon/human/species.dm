@@ -23,13 +23,22 @@ GLOBAL_LIST_EMPTY(patreon_races)
 	/// Whether this species a requires patreon subscription to access
 	var/patreon_req = FALSE
 
-	/// The list of pronouns this species allows in the character sheet.
-	/// If none are specified, it will default to the PRONOUNS_LIST.
+	/**
+	 * The list of pronouns this species allows in the character sheet.
+	 * If none are specified, it will default to the PRONOUNS_LIST.
+	 */
 	var/list/allowed_pronouns = list(
 		HE_HIM,
 		SHE_HER,
 		THEY_THEM,
 		//IT_ITS // Locked to only Kobolds and half-kin per request of Cocokailey
+	)
+
+	/// The list of voice types this species allows in the character sheet.
+	var/list/allowed_voicetypes = list(
+		VOICE_TYPE_ANDRO,
+		VOICE_TYPE_FEM,
+		VOICE_TYPE_MASC,
 	)
 
 	/// Associative list of FEATURE SLOT to PIXEL ADJUSTMENTS X/Y seperated by gender
