@@ -10,7 +10,7 @@
 			return // not hungry
 
 	var/atom/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
-	if(!QDELETED(target))
+	if(QDELETED(target))
 		// Busy with something
 		return
 
@@ -29,7 +29,7 @@
 			return // not hungry
 
 	var/atom/target = controller.blackboard[BB_BASIC_MOB_FOOD_TARGET]
-	if(!QDELETED(target))
+	if(QDELETED(target))
 		// Busy with something
 		return
 
@@ -70,7 +70,7 @@
 			return // not hungry
 
 	var/atom/target = controller.blackboard[BB_BASIC_MOB_CURRENT_TARGET]
-	if(!QDELETED(target))
+	if(QDELETED(target))
 		// Busy with something
 		return
 
