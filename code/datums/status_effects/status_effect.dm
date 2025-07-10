@@ -41,9 +41,9 @@
 		return
 	if(isnum(duration_override) && duration_override != duration)
 		duration = duration_override
+	initial_duration = duration
 	if(duration != -1)
 		duration = world.time + duration
-	initial_duration = duration
 	tick_interval = world.time + tick_interval
 	if(alert_type)
 		var/atom/movable/screen/alert/status_effect/A = owner.throw_alert(id, alert_type)

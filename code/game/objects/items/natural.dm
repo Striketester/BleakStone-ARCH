@@ -106,7 +106,7 @@
 	else
 		return ..()
 
-/obj/item/natural/bundle/attackby_secondary(obj/item/item, mob/user, params)
+/obj/item/natural/bundle/attack_hand_secondary(mob/user, params)
 	. = ..()
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
@@ -117,8 +117,6 @@
 	if(amount <= 0) //how did you manage to do this
 		qdel(src)
 		return
-	if(item && item.type != stacktype)
-		return SECONDARY_ATTACK_CALL_NORMAL
 	var/mob/living/carbon/human/H = user
 	switch(amount)
 		if(2)
@@ -141,8 +139,8 @@
 			var/obj/F = new stacktype(src.loc)
 			H.put_in_hands(F)
 			to_chat(user, span_notice("You remove \a [F] from [src]."))
+
 	update_bundle()
-	return
 
 /obj/item/natural/bundle/examine(mob/user)
 	. = ..()

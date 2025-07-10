@@ -26,7 +26,7 @@
 	var/spark_cd = 0
 
 /datum/action/cooldown/spell/undirected/touch/prestidigitation/cast_on_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
-	if(victim == caster && !LAZYACCESS(modifiers, SHIFT_CLICKED))
+	if(victim == caster)
 		if(handle_mote())
 			after_action(PRESTI_MOTE)
 		return
@@ -34,12 +34,13 @@
 		after_action(PRESTI_CLEAN)
 
 /datum/action/cooldown/spell/undirected/touch/prestidigitation/cast_on_secondary_hand_hit(obj/item/melee/touch_attack/hand, atom/victim, mob/living/carbon/caster, list/modifiers)
-	if(victim == caster && !LAZYACCESS(modifiers, SHIFT_CLICKED))
+	if(victim == caster)
 		if(create_spark())
 			after_action(PRESTI_SPARK)
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
-
-	return SECONDARY_ATTACK_CALL_NORMAL
+	if(gather_thing(victim))
+		after_action(PRESTI_CLEAN)
+	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /datum/action/cooldown/spell/undirected/touch/prestidigitation/proc/handle_mote()
 	// adjusted from /obj/item/wisp_lantern & /obj/item/wisp
@@ -99,6 +100,16 @@
 		return TRUE
 	return FALSE
 
+/datum/action/cooldown/spell/undirected/touch/prestidigitation/proc/gather_thing(atom/target)
+	// adjusted from /obj/item/soap in clown_items.dm, some duplication unfortunately (needed for flavor)
+
+	var/skill_level = owner.get_skill_level(associated_skill)
+	var/gatherspeed =  3.5 SECONDS - (skill_level * 3)
+	if (istype(target, /turf/open/lava))
+		if (do_after(owner, gatherspeed, target))
+			to_chat(owner, span_notice("I mold a handful of oozing lava  with my arcane power, rapidly hardening it!"))
+			new /obj/item/natural/obsidian(owner.loc)
+
 /datum/action/cooldown/spell/undirected/touch/prestidigitation/proc/create_spark()
 	// adjusted from /obj/item/flint
 	if (world.time < spark_cd + sparkspeed)
@@ -140,9 +151,9 @@
 	name = "\improper prestidigitating touch"
 	desc = "I recall the following incantations I've learned:\n \
 	<b>Touch Left</b>: Use your arcyne powers to scrub something clean, also known as the Apprentice's Woe.\n \
+	<b>Touch Right</b>: Use the hand to gather certain things without risk.\n \
 	<b>Touch Self Right</b>: Will forth a spark to ignite flammable items like torches, lanterns or campfires.\n \
-	<b>Touch Self Left</b>: Conjure forth an orbiting mote of magelight to light your way.\n \
-	I also recall: If Shift is used, I can cast as though I'm casting on someone else."
+	<b>Touch Self Left</b>: Conjure forth an orbiting mote of magelight to light your way."
 	color = "#3FBAFD"
 
 /obj/effect/wisp/prestidigitation
@@ -153,17 +164,6 @@
 	pixel_x = 20
 	light_outer_range =  4
 	light_color = "#3FBAFD"
-
-// /obj/item/melee/touch_attack/prestidigitation/proc/gather_thing(atom/target, mob/living/carbon/human/owner)
-// 	// adjusted from /obj/item/soap in clown_items.dm, some duplication unfortunately (needed for flavor)
-
-// 	// let's adjust the clean speed based on our skill level
-// 	var/skill_level = owner.get_skill_level(attached_spell.associated_skill)
-// 	gatherspeed = initial(gatherspeed) - (skill_level * 3) // 3 cleanspeed per skill level, from 35 down to a maximum of 17 (pretty quick)
-// 	if (istype(target, /turf/open/lava))
-// 		if (do_after(owner, src.gatherspeed, target = target))
-// 			to_chat(owner, span_notice("I mold a handful of oozing lava  with my arcane power, rapidly hardening it!"))
-// 			new /obj/item/natural/obsidian(owner.loc)
 
 #undef PRESTI_CLEAN
 #undef PRESTI_SPARK
