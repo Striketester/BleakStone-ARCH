@@ -162,11 +162,10 @@
 #define span_love(str) ("<span class='love'>" + str + "</span>")
 
 /* Complex Spans */
-// Ones where span_X isn't just the class
-
+/// Ones where span_X isn't just the class
 #define span_admin_log(str) ("<span class='admin'><span class='prefix'>ADMIN LOG: </span><span class='message linkify'>" + str + "</span></span>")
 
-// Normal tooltip with underline and default styling
+/// Normal tooltip with underline and default styling
 #define span_tooltip(tip, main_text) ("<span data-tooltip=\"" + tip + "\" class=\"tooltip-trigger\">" + main_text + "</span>")
 
 /// No italics, potentially different styling if 'tooltip-alt-trigger' has unique CSS rules
