@@ -12,6 +12,8 @@
 	#define SPELL_NO_FEEDBACK (1 << 1)
 	/// Return from before cast signals to prevent the spell from going on cooldown before aftercast.
 	#define SPELL_NO_IMMEDIATE_COOLDOWN (1 << 2)
+	/// Return from before cast signals to prevent the spell from invoking cost before aftercast.
+	#define SPELL_NO_IMMEDIATE_COST (1 << 3)
 
 /// Sent from /datum/action/cooldown/spell/set_click_ability() to the caster: (datum/action/cooldown/spell/spell)
 #define COMSIG_MOB_SPELL_ACTIVATED "mob_spell_active"

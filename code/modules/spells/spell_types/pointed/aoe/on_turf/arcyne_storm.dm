@@ -5,10 +5,10 @@
 
 	point_cost = 8
 
-	charge_time = 12 SECONDS
-	charge_drain = 4
+	charge_time = 8 SECONDS
+	charge_drain = 1
 	cooldown_time = 50 SECONDS
-	spell_cost = 50
+	spell_cost = 40
 
 	aoe_radius = 4
 

@@ -6,9 +6,8 @@
 	has_visual_effects = FALSE
 
 	charge_time = 1 SECONDS
-	charge_drain = 15
 	cooldown_time = 5 MINUTES
-	spell_cost = 0
+	spell_cost = 15
 
 	attunements = list(
 		/datum/attunement/dark = 0.4

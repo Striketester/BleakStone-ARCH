@@ -11,8 +11,8 @@
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross)
 
-	charge_time = 2 SECONDS
-	charge_drain = 0.5
+	charge_time = 3 SECONDS
+	charge_drain = 1
 	charge_slowdown = 0.3
 	cooldown_time = 20 SECONDS
 	spell_cost = 25

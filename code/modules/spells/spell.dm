@@ -186,23 +186,23 @@
 	if(!currently_charging)
 		return
 
+	if(charge_drain)
+		if(!check_cost(charge_drain))
+			to_chat(owner, span_userdanger("I cannot uphold the channeling!"))
+			cancel_charging()
+			return PROCESS_KILL
+		invoke_cost(charge_drain)
+
 	// If this is true we hit our charge goal so stop invoking the cost and update the pointer
 	if(world.time > (charge_started_at + charge_target_time))
 		// We don't want that mouseUp to end in sadness
 		if(!check_cost(charge_drain))
-			to_chat(owner, "I cannot uphold the channeling!")
+			to_chat(owner, span_userdanger("I cannot uphold the channeling!"))
 			cancel_charging()
-			return
+			return PROCESS_KILL
 		owner.client.mouse_override_icon = 'icons/effects/mousemice/charge/spell_charged.dmi'
 		owner.update_mouse_pointer()
 		return PROCESS_KILL
-
-	if(charge_drain)
-		if(!check_cost(charge_drain))
-			to_chat(owner, "I cannot uphold the channeling!")
-			cancel_charging()
-			return
-		invoke_cost(charge_drain)
 
 /datum/action/cooldown/spell/Grant(mob/grant_to)
 	// If our spell is mind-bound, we only wanna grant it to our mind
@@ -271,8 +271,6 @@
 
 		// If pointed we setup signals to override mouse down to call PreActivate()
 		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
-
-		return FALSE
 
 	return ..()
 
@@ -512,6 +510,10 @@
 		// The entire spell is done, start the actual cooldown at its set duration
 		StartCooldown()
 
+	if(!(precast_result & SPELL_NO_IMMEDIATE_COST))
+		// Invoke the base cost of the spell in whatever unit it uses based on spell_type
+		invoke_cost()
+
 	// And then proceed with the aftermath of the cast
 	// Final effects that happen after all the casting is done can go here
 	after_cast(target)
@@ -616,8 +618,6 @@
 		var/mob/living/caster = owner
 		caster.finish_spell_visual_effects(attunements)
 
-	invoke_cost()
-
 /// Provides feedback after a spell cast occurs, in the form of a cast sound and/or invocation
 /datum/action/cooldown/spell/proc/spell_feedback()
 	if(!owner)
@@ -644,9 +644,7 @@
 /// When we start charging the spell called from set_click_ability or start_casting
 /datum/action/cooldown/spell/proc/on_start_charge()
 	currently_charging = TRUE
-	// Doesn't handle charging but does handle charge costs
-	// SSmousecharge is used to match item charge handling times
-	START_PROCESSING(SSmousecharge, src)
+	START_PROCESSING(SSaction_charge, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
 
 	if(charge_slowdown)
@@ -682,8 +680,7 @@
 	currently_charging = FALSE
 	charge_started_at = 0
 	charge_target_time = 0
-	// SSmousecharge is used to match item charge handling times
-	STOP_PROCESSING(SSmousecharge, src)
+	STOP_PROCESSING(SSaction_charge, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
 
 	if(owner?.mmb_intent)
