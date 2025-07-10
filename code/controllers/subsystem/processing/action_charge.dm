@@ -2,5 +2,5 @@
 // charging is a world.time check
 PROCESSING_SUBSYSTEM_DEF(action_charge)
 	name = "action charge"
-	wait = 5 DECISECONDS
+	wait = 4 DECISECONDS
 	stat_tag = "ACT_CHARG"

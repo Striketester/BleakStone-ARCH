@@ -129,11 +129,14 @@
 	// Charged vars
 	// Like the above, but worse since there is already charging behaviour and we are going to reuse
 	// as little of it as possible because its inconsistent
-	/// If the spell requires time to charge
+	/// If the spell requires time to charge.
 	var/charge_required = TRUE
-	/// Whether we're currently charging the spell
+	/// Whether we're currently charging the spell.
 	var/currently_charging = FALSE
-	/// Cost to charge, mana or devoution
+	/// Cost to charge.
+	/// Total drain is:
+	/// process_time is currently 4 Deciseconds from SSaction_charge
+	/// ([charge_time] / [process_time]) * charge_drain
 	var/charge_drain = 0
 	/// Time to charge
 	var/charge_time = 0
@@ -165,15 +168,17 @@
 	if(!deactive_msg)
 		deactive_msg = "You dispel [src]."
 
-	if(charge_required && charge_sound)
-		charge_sound_instance = sound(charge_sound)
-
 	if(click_to_activate && !charge_required)
 		ranged_mousepointer = 'icons/effects/mousemice/charge/spell_charged.dmi'
 
-	if(charge_required && charge_time <= 0)
+	if(!charge_required)
+		return
+	if(charge_time <= 0)
 		stack_trace("Charging spell [src] ([type]) has no charge time")
 		charge_required = FALSE
+		return
+	if(charge_sound)
+		charge_sound_instance = sound(charge_sound)
 
 /datum/action/cooldown/spell/Destroy()
 	if(charge_required && owner)

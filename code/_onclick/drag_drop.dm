@@ -277,9 +277,12 @@
 /client/proc/update_to_mob(mob/living/L)
 	if(!charging)
 		return FALSE
-	if(doneset)
-		return TRUE
 	if(progress >= goal)
+		if(!L.adjust_stamina(L.used_intent.chargedrain))
+			L.stop_attack()
+			return FALSE
+		if(doneset)
+			return TRUE
 		doneset = TRUE
 		chargedprog = 100
 		if(mob.used_intent.charged_pointer)
@@ -295,9 +298,6 @@
 
 		return TRUE
 
-	if(!L.adjust_stamina(L.used_intent.chargedrain))
-		L.stop_attack()
-		return FALSE
 	if(last_charge_process)
 		progress += world.time - last_charge_process
 	last_charge_process = world.time
