@@ -8,8 +8,8 @@
 
 /datum/ai_behavior/find_and_set/perform(delta_time, datum/ai_controller/controller, set_key, locate_path, search_range)
 	. = ..()
-	var/find_this_thing = search_tactic(controller, locate_path, search_range)
-	if(find_this_thing)
+	var/atom/find_this_thing = search_tactic(controller, locate_path, search_range)
+	if(find_this_thing && !QDELETED(find_this_thing))
 		controller.set_blackboard_key(set_key, find_this_thing)
 		finish_action(controller, TRUE)
 	else
