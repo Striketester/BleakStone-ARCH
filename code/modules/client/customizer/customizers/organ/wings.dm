@@ -41,29 +41,6 @@
 		/datum/sprite_accessory/wings/large/harpyswept,
 	)
 
-/atom/proc/fading_leap_up()
-	var/matrix/M = matrix()
-	var/loop_count = 15
-	while(loop_count > 0)
-		loop_count--
-		animate(src, transform = M, pixel_z = src.pixel_z + 12, alpha = src.alpha - 17, time = 2, loop = 1, easing = LINEAR_EASING, flags = ANIMATION_RELATIVE)
-		M.Scale(1.2, 1.2)
-		//sleep(0.1 SECONDS)
-	alpha = 0
-
-//inverse of above
-/atom/proc/fading_leap_down()
-	var/matrix/M = matrix()
-	var/loop_count = 12
-	M.Scale(15, 15)
-	while(loop_count > 0)
-		loop_count--
-		animate(src, transform = M, pixel_z = src.pixel_z - 12, alpha = src.alpha + 17, time = 2, loop = 1, easing = LINEAR_EASING, flags = ANIMATION_RELATIVE)
-		M.Scale(0.8, 0.8)
-		//sleep(0.1 SECONDS)
-	animate(src, transform = M, pixel_z = 0, alpha = 255, time = 1, loop = 1, easing = LINEAR_EASING, flags = ANIMATION_RELATIVE)
-	M.Scale(1, 1)
-
 /obj/effect/flyer_shadow
 	name = ""
 	desc = "A shadow cast from something flying above."
@@ -172,11 +149,14 @@
 	owner.movement_type |= FLYING
 	flying = TRUE
 	if(turf != get_turf(owner))
-		owner.fading_leap_up()
-		owner.pixel_z = 0
-		owner.pixel_w = 0
-		owner.transform = null
-		owner.alpha = 255
+		var/matrix/original = owner.transform
+		var/prev_alpha = owner.alpha
+		var/prev_pixel_z = owner.pixel_z
+		animate(owner, pixel_z = 156, alpha = 0, time = 1.5 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
+		animate(owner, transform = matrix() * 8, time = 1 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
+		animate(transform = original, time = 0.5 SECONDS, EASE_OUT)
+		owner.pixel_z = prev_pixel_z
+		owner.alpha = prev_alpha
 		owner.forceMove(turf)
 
 		var/turf/below_turf = GET_TURF_BELOW(turf)
@@ -209,11 +189,15 @@
 	if(isopenspace(turf))
 		turf = GET_TURF_BELOW(turf)
 	if(turf != get_turf(owner))
+		var/matrix/original = owner.transform
+		var/prev_alpha = owner.alpha
+		var/prev_pixel_z = owner.pixel_z
 		owner.alpha = 0
-		owner.forceMove(turf)
 		owner.pixel_z = 156
-		owner.fading_leap_down()
-		owner.pixel_z = 0
+		owner.transform = matrix() * 8
+		owner.forceMove(turf)
+		animate(owner, transform = original, time = 1.2 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
+		animate(owner, pixel_z = prev_pixel_z, alpha = prev_alpha, time = 1.2 SECONDS, easing = LINEAR_EASING, flags = ANIMATION_PARALLEL)
 
 	remove_signals()
 
