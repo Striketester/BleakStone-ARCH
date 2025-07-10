@@ -436,9 +436,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// Ignores body_parts_covered during the add_fingerprint() proc. Works both on the person and the item in the glove slot.
 #define TRAIT_FINGERPRINT_PASSTHROUGH "fingerprint_passthrough"
 
-/// makes your footsteps completely silent
-#define TRAIT_SILENT_FOOTSTEPS "silent_footsteps"
-
 /// This mob is phased out of reality from magic, either a jaunt or rod form
 #define TRAIT_MAGICALLY_PHASED "magically_phased"
 
@@ -447,3 +444,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 
 /// Target can't be grabbed by tanglers
 #define TRAIT_ENTANGLER_IMMUNE "tangler_immune"
+
+/// makes your footsteps completely silent
+#define TRAIT_SILENT_FOOTSTEPS "silent_footsteps"
