@@ -372,7 +372,9 @@
 		for(var/stat in initialized_storyteller.influence_factors)
 			var/list/stat_data = initialized_storyteller.influence_factors[stat]
 			var/stat_value = GLOB.vanderlin_round_stats[stat] || 0
-			dynamic_content += "[stat_data["name"]] [stat_value] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(storyteller, stat))])<br>"
+			var/special_division = stat == STATS_BLOOD_SPILT ? TRUE : FALSE
+
+			dynamic_content += "[stat_data["name"]] [special_division ? (round(stat_value / 100)) : round(stat_value)] ([get_colored_influence_value(SSgamemode.calculate_specific_influence(storyteller, stat))])<br>"
 	else
 		dynamic_content += "<div style='color: #FFFF00;'><b>DEBUG MODE</b></div>"
 		dynamic_content += "Number of followers: [followers] ([get_colored_influence_value(SSgamemode.get_follower_influence(storyteller))])<br>"
@@ -385,9 +387,10 @@
 				var/stat_value = GLOB.vanderlin_round_stats[stat] || 0
 				var/influence_value = stat_value * stat_data["points"]
 				var/is_active = (stat in initialized_storyteller.influence_factors)
+				var/special_division = stat == STATS_BLOOD_SPILT ? TRUE : FALSE
 
 				dynamic_content += "<span style='color: [is_active ? "#88f088" : "#f79090"];'>"
-				dynamic_content += "[stat_data["name"]] [stat_value] ([get_colored_influence_value(influence_value)])</span><br>"
+				dynamic_content += "[stat_data["name"]] [special_division ? (round(stat_value / 100)) : round(stat_value)] ([get_colored_influence_value(influence_value)])</span><br>"
 		qdel(prototype)
 
 	var/suffix = initialized_storyteller.bonus_points >= 0 ? "from wanting to rule" : "from long reign exhaustion"
