@@ -11,8 +11,8 @@
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross)
 
-	charge_time = 10 SECONDS
-	charge_drain = 1
+	charge_time = 2 SECONDS
+	charge_drain = 0.5
 	charge_slowdown = 0.3
 	cooldown_time = 20 SECONDS
 	spell_cost = 25
@@ -194,9 +194,8 @@
 	name = "Greater Miracle"
 	button_icon_state = "astrata"
 
-	cast_range = 4
+	cast_range = 5
 
-	charge_time = 1 SECONDS
 	charge_slowdown = 0.3
 	cooldown_time = 25 SECONDS
 	spell_cost = 45

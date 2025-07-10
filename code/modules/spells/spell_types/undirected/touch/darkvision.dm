@@ -1,6 +1,6 @@
 /datum/action/cooldown/spell/undirected/touch/darkvision
 	name = "Darkvision"
-	desc = "Enhance the night vision of a target you touch for an hour."
+	desc = "Enhance the night vision of a target you touch for half a dae."
 	button_icon_state = "darkvision"
 	can_cast_on_self = TRUE
 
@@ -27,16 +27,16 @@
 	if(!do_after(caster, 5 SECONDS, victim))
 		return
 
-	var/duration_increase = min(0, attuned_strength * 2 MINUTES)
+	var/duration_increase = attuned_strength * 2 MINUTES
 
 	if(victim != caster)
 		caster.visible_message("[caster] draws a glyph in the air and touches [victim] with an arcyne focus.")
 	else
 		caster.visible_message("[caster] draws a glyph in the air and touches themselves with an arcyne focus.")
 
-	victim.apply_status_effect(/datum/status_effect/buff/darkvision, duration_increase)
+	victim.apply_status_effect(/datum/status_effect/buff/darkvision, 10 MINUTES + duration_increase)
 
 /obj/item/melee/touch_attack/darkvision
 	name = "\improper arcyne focus"
-	desc = "Touch a creature to grant them Darkvision for 10 minutes."
+	desc = "Touch a creature to grant them Darkvision for half a dae."
 	color = "#3FBAFD"
