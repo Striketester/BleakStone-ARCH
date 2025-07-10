@@ -2535,10 +2535,10 @@
 		return
 	if(istype(spell_type, /datum/action/cooldown/spell))
 		spell_type = spell_type.type
+	if(!specific)
+		return locate(spell_type) in actions
 	for(var/datum/action/cooldown/spell/spell in actions)
-		if(specific && (spell.type == spell_type))
-			return spell
-		else if(istype(spell, spell_type))
+		if(spell.type == spell_type)
 			return spell
 
 /// Add a spell to the mob via typepath

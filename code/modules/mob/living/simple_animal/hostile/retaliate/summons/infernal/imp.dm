@@ -47,7 +47,7 @@
 
 	ai_controller = /datum/ai_controller/imp
 
-
+	del_on_death = TRUE
 
 /obj/projectile/magic/firebolt
 	name = "ball of fire"
@@ -73,9 +73,6 @@
 	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/simple_animal/hostile/retaliate/infernal/imp/death(gibbed)
-	. = ..()
-	if(gibbed)
-		return
 	var/turf/deathspot = get_turf(src)
 	for(var/i in 1 to 6)
 		new /obj/item/natural/infernalash(deathspot)
@@ -84,6 +81,7 @@
 		new /obj/item/natural/infernalash(deathspot)
 		new /obj/item/natural/infernalash(deathspot)
 		new /obj/item/natural/infernalash(deathspot)
+	return ..()
 
 /mob/living/simple_animal/hostile/retaliate/infernal/imp/taunted(mob/user)
 	emote("aggro")
