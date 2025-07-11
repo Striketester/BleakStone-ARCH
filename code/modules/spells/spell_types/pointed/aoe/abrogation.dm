@@ -72,7 +72,7 @@
 	var/intensity = 1
 	var/range = 10
 
-/datum/status_effect/debuff/abrogation/on_creation(mob/living/new_owner, mob/living/caster, potency)
+/datum/status_effect/debuff/abrogation/on_creation(mob/living/new_owner, duration_override, mob/living/caster, potency)
 	intensity = potency
 	if(caster)
 		debuffer = WEAKREF(caster)
