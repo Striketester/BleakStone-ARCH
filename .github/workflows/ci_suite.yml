@@ -8,11 +8,6 @@ on:
     branches:
     - main
 
-env:
-  BYOND_MAJOR: 515
-  BYOND_MINOR: 1647
-  SPACEMAN_DMM_VERSION: suite-1.9
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -119,14 +114,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Setup cache
-        uses: actions/cache@v4
-        with:
-          path: ~/BYOND
-          key: ${{ runner.os }}-byond
+      - name: Restore BYOND from cache
+        uses: ./.github/workflows/restore_or_install_byond
       - name: Compile All Maps
         run: |
-          bash tools/ci/install_byond.sh
           source $HOME/BYOND/byond/bin/byondsetup
           python3 tools/ci/template_dm_generator.py
           DreamMaker -DCIBUILDING -DCITESTING -DALL_MAPS vanderlin.dme
@@ -169,11 +160,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      - name: Restore BYOND cache
-        uses: actions/cache@v4
-        with:
-          path: ~/BYOND
-          key: ${{ runner.os }}-byond
       - name: Setup database
         run: |
           sudo systemctl start mysql
@@ -187,9 +173,10 @@ jobs:
           sudo apt update || true
           sudo apt install zlib1g-dev:i386
           bash tools/ci/install_rust_g.sh
+      - name: Restore BYOND from cache
+        uses: ./.github/workflows/restore_or_install_byond
       - name: Compile and run tests
         run: |
-          bash tools/ci/install_byond.sh
           source $HOME/BYOND/byond/bin/byondsetup
           DreamMaker -DCIBUILDING vanderlin.dme
           bash tools/ci/run_server.sh ${{ matrix.map }}
