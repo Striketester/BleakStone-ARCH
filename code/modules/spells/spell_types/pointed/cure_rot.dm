@@ -55,7 +55,7 @@
 			if(bodypart.rotted)
 				has_rot = TRUE
 				break
-	if(!has_rot || !was_zombie)
+	if(!has_rot && !was_zombie)
 		to_chat(owner, span_warning("Nothing happens."))
 		return FALSE
 
