@@ -100,9 +100,9 @@
 					I.screen_loc = "WEST-4:16,SOUTH+7:-16"
 				else
 					if(get_held_index_of_item(I) == 1)
-						I.screen_loc = "WEST-4:0,SOUTH+7:-16"
-					else
 						I.screen_loc = "WEST-3:0,SOUTH+7:-16"
+					else
+						I.screen_loc = "WEST-4:0,SOUTH+7:-16"
 			else
 				if(I.wielded)
 					I.screen_loc = "WEST-3:0,SOUTH+7"

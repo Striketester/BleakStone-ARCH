@@ -85,10 +85,11 @@
 		CP.rmb_show(user)
 		return TRUE
 
-/obj/item/bin/attack_right(mob/user)
+/obj/item/bin/attack_hand_secondary(mob/user, params)
 	. = ..()
-	if(.)
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(kover)
 		if(kover)
 			user.visible_message("<span class='notice'>[user] starts to pick up [src]...</span>", \
