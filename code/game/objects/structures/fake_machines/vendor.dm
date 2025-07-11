@@ -80,8 +80,11 @@
 		return
 	return ..()
 
-/obj/structure/fake_machine/vendor/attack_right(mob/user)
+/obj/structure/fake_machine/vendor/attack_hand_secondary(mob/user, params)
 	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+		return
+	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(!lock_check())
 		to_chat(user, span_notice("There is no lock on \the [src]! I won't be able to sell this!"))
 		return

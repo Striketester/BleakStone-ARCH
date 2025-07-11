@@ -443,7 +443,7 @@
 			if(istype(container, /obj/item/reagent_containers/glass/bottle))
 				var/obj/item/reagent_containers/glass/bottle/bottle = container
 				if(bottle.closed)
-					bottle.rmb_self(user)
+					bottle.attack_self_secondary(user)
 
 			var/reagent_use_time_real = max(reagent_use_time * 0.1, reagent_use_time / max(1, user.get_skill_level(skillcraft)))
 			if(!do_after(user, reagent_use_time_real, container, extra_checks = CALLBACK(user, TYPE_PROC_REF(/atom/movable, CanReach), container)))
