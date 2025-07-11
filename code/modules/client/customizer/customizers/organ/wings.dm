@@ -183,8 +183,8 @@
 // Stop flying normally
 /datum/action/item_action/organ_action/use/flight/proc/stop_flying()
 	var/turf/turf = get_turf(owner)
-	if(owner.can_zTravel(direction = DOWN))
-		if(isopenspace(turf))
+	if(isopenspace(turf))
+		if(owner.can_zTravel(direction = DOWN))
 			turf = GET_TURF_BELOW(turf)
 	if(turf != get_turf(owner))
 		var/matrix/original = owner.transform
