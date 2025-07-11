@@ -122,21 +122,21 @@
 		if(2)
 			if(!user.temporarilyRemoveItemFromInventory(src))
 				return
-			var/obj/F = new stacktype(src.loc)
-			new stacktype(src.loc)
+			var/obj/F = new stacktype(get_turf(src))
+			new stacktype(get_turf(src))
 			H.put_in_hands(F)
 			qdel(src)
 			return
 		if(1)
 			if(!user.temporarilyRemoveItemFromInventory(src))
 				return
-			var/obj/F = new stacktype(src.loc)
+			var/obj/F = new stacktype(get_turf(src))
 			H.put_in_hands(F)
 			qdel(src)
 			return
 		else
 			amount -= 1
-			var/obj/F = new stacktype(src.loc)
+			var/obj/F = new stacktype(get_turf(src))
 			H.put_in_hands(F)
 			to_chat(user, span_notice("You remove \a [F] from [src]."))
 
