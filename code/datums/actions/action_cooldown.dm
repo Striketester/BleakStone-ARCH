@@ -174,7 +174,7 @@
 	if(!PreActivate(target))
 		return FALSE
 
-	// And if we reach here, the action was complete successfully
+	// And if we reach here, the action was completed successfully
 	if(unset_after_click)
 		StartCooldown()
 		unset_click_ability(clicker, refund_cooldown = FALSE)
