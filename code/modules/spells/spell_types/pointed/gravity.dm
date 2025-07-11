@@ -15,6 +15,9 @@
 	spell_cost = 40
 
 /datum/action/cooldown/spell/gravity/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(cast_on)
 
 /datum/action/cooldown/spell/gravity/cast(mob/living/cast_on)

@@ -20,6 +20,9 @@
 	var/was_zombie = FALSE
 
 /datum/action/cooldown/spell/cure_rot/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return ishuman(cast_on)
 
 /datum/action/cooldown/spell/cure_rot/before_cast(mob/living/carbon/human/cast_on)

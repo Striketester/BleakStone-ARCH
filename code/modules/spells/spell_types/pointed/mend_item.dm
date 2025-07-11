@@ -17,6 +17,9 @@
 	var/repair_percent = 0.25
 
 /datum/action/cooldown/spell/mend_item/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isitem(cast_on)
 
 /datum/action/cooldown/spell/mend_item/cast(obj/item/cast_on)

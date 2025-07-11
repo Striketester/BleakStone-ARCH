@@ -3,6 +3,7 @@
 	desc = "Check the wounds of the target."
 	button_icon_state = "diagnose"
 	sound = 'sound/magic/diagnose.ogg'
+	has_visual_effects = FALSE
 
 	cast_range = 2
 	associated_skill = /datum/skill/misc/medicine
@@ -12,6 +13,9 @@
 	spell_cost = 0
 
 /datum/action/cooldown/spell/diagnose/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return ishuman(cast_on)
 
 /datum/action/cooldown/spell/diagnose/cast(mob/living/carbon/human/cast_on)
@@ -25,4 +29,4 @@
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
 	associated_skill = /datum/skill/magic/holy
 
-	spell_cost = 10
+	spell_cost = 5

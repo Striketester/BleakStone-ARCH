@@ -16,6 +16,9 @@
 	spell_cost = 60
 
 /datum/action/cooldown/spell/attach_bodypart/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return ishuman(cast_on)
 
 /datum/action/cooldown/spell/attach_bodypart/cast(mob/living/carbon/human/cast_on)

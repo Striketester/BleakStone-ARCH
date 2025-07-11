@@ -20,6 +20,9 @@
 	charges += FLOOR(attuned_strength * 1.5, 1)
 
 /datum/action/cooldown/spell/undirected/touch/darkvision/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(cast_on)
 
 /datum/action/cooldown/spell/undirected/touch/darkvision/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/victim, mob/living/carbon/caster, list/modifiers)

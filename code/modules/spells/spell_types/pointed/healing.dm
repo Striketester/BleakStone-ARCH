@@ -27,6 +27,9 @@
 	var/stun_undead = FALSE
 
 /datum/action/cooldown/spell/healing/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(cast_on)
 
 /datum/action/cooldown/spell/healing/cast(mob/living/cast_on)

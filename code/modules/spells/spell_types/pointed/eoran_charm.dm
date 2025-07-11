@@ -21,6 +21,9 @@
 	spell_cost = 100
 
 /datum/action/cooldown/spell/eoran_charm/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(cast_on)
 
 /datum/action/cooldown/spell/eoran_charm/cast(mob/living/cast_on)

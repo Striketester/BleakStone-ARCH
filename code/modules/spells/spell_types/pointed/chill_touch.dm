@@ -21,6 +21,9 @@
 	spell_cost = 50
 
 /datum/action/cooldown/spell/chill_touch/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return iscarbon(cast_on)
 
 /datum/action/cooldown/spell/chill_touch/cast(mob/living/carbon/cast_on)

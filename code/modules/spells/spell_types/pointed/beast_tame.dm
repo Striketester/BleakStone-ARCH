@@ -39,11 +39,14 @@
 
 /datum/action/cooldown/spell/beast_tame/is_valid_target(atom/cast_on)
 	. = ..()
+	if(!.)
+		return FALSE
+	return istype(cast_on, /mob/living/simple_animal/hostile/retaliate)
+
+/datum/action/cooldown/spell/beast_tame/before_cast(atom/cast_on)
+	. = ..()
 	if(. & SPELL_CANCEL_CAST)
 		return
-	if(!istype(cast_on, /mob/living/simple_animal/hostile/retaliate))
-		reset_spell_cooldown()
-		return . | SPELL_CANCEL_CAST
 	var/mob/living/simple_animal/hostile/retaliate/SP = cast_on
 	if(!SP.dendor_taming_chance || !SP.ai_controller || (SP.mob_biotypes & MOB_UNDEAD))
 		reset_spell_cooldown()

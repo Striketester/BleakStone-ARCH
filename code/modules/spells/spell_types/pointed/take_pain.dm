@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/transfer_pain
 	name = "Take Pain"
 	button_icon_state = "curse"
+	has_visual_effects = FALSE
 
 	cast_range = 1
 	cooldown_time = 1 MINUTES
@@ -16,6 +17,9 @@
 		return FALSE
 
 /datum/action/cooldown/spell/transfer_pain/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return ishuman(cast_on)
 
 /datum/action/cooldown/spell/transfer_pain/before_cast(mob/living/carbon/human/cast_on)

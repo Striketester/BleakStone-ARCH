@@ -2,6 +2,7 @@
 	name = "Find Flaw"
 	button_icon_state = "tragedy"
 	self_cast_possible = FALSE
+	has_visual_effects = FALSE
 
 	cast_range = 2
 	antimagic_flags = NONE
@@ -10,6 +11,9 @@
 	cooldown_time = 30 SECONDS
 
 /datum/action/cooldown/spell/find_flaw/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return ishuman(cast_on)
 
 /datum/action/cooldown/spell/find_flaw/cast(mob/living/carbon/human/cast_on)

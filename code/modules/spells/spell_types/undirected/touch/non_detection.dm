@@ -2,7 +2,7 @@
 	name = "Nondetection"
 	desc = "Consume a handful of ash and shroud a target that you touch from divination magic for two daes."
 	button_icon_state = "prestidigitation"
-	can_cast_on_self = "nondetect"
+	can_cast_on_self = TRUE
 
 	point_cost = 1
 	attunements = list(
@@ -20,6 +20,9 @@
 	charges += FLOOR(attuned_strength * 1.5, 1)
 
 /datum/action/cooldown/spell/undirected/touch/non_detection/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(cast_on)
 
 /datum/action/cooldown/spell/undirected/touch/non_detection/cast_on_hand_hit(obj/item/melee/touch_attack/hand, mob/living/victim, mob/living/carbon/caster, list/modifiers)

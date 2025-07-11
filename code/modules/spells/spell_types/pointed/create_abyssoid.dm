@@ -1,6 +1,7 @@
 /datum/action/cooldown/spell/undirected/create_abyssoid
 	name = "Create Abyssoid"
 	button_icon_state = "bloodsteal"
+	has_visual_effects = FALSE
 
 	cast_range = 1
 

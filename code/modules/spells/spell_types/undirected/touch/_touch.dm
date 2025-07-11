@@ -20,6 +20,7 @@
 /datum/action/cooldown/spell/undirected/touch
 	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_HANDS_BLOCKED
 	charge_required = FALSE
+	has_visual_effects = FALSE
 
 	/// Typepath of what hand we create on initial cast.
 	var/obj/item/melee/touch_attack/hand_path = /obj/item/melee/touch_attack

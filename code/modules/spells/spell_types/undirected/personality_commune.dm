@@ -20,6 +20,9 @@
 		qdel(src)
 
 /datum/action/cooldown/spell/undirected/personality_commune/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(cast_on)
 
 /datum/action/cooldown/spell/undirected/personality_commune/before_cast(atom/cast_on)

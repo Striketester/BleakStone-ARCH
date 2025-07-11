@@ -3,6 +3,7 @@
 	desc = ""
 	button_icon_state = "consecrateburial"
 	sound = 'sound/magic/churn.ogg'
+	has_visual_effects = FALSE
 
 	cast_range = 1
 	spell_type = SPELL_MIRACLE

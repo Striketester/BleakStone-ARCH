@@ -48,6 +48,9 @@
 	old_gender = transformer.gender
 
 /datum/action/cooldown/spell/enhanced_mimicry/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return ishuman(cast_on)
 
 /datum/action/cooldown/spell/enhanced_mimicry/cast(mob/living/carbon/human/cast_on)

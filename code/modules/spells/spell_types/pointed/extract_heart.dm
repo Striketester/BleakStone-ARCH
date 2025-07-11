@@ -5,6 +5,7 @@
 	button_icon_state = "curse"
 	sound = 'sound/surgery/organ1.ogg'
 	self_cast_possible = FALSE
+	has_visual_effects = FALSE
 
 	cast_range = 1
 	charge_required = FALSE
@@ -13,6 +14,9 @@
 	var/extraction_time = 15 SECONDS
 
 /datum/action/cooldown/spell/extract_heart/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return ishuman(cast_on)
 
 /datum/action/cooldown/spell/extract_heart/cast(mob/living/carbon/human/cast_on)

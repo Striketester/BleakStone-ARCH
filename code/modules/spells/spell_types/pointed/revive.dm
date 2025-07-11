@@ -24,6 +24,9 @@
 	return ..()
 
 /datum/action/cooldown/spell/revive/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return ishuman(cast_on)
 
 /datum/action/cooldown/spell/revive/before_cast(mob/living/carbon/human/cast_on)

@@ -16,6 +16,9 @@
 	spell_cost = 40
 
 /datum/action/cooldown/spell/raise_undead/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return ishuman(cast_on) && !istype(cast_on, /mob/living/carbon/human/species/goblin)
 
 /datum/action/cooldown/spell/raise_undead/before_cast(mob/living/carbon/human/cast_on)

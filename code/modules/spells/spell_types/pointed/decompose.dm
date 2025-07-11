@@ -22,6 +22,9 @@
 	spell_cost = 50
 
 /datum/action/cooldown/spell/decompose/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isitem(cast_on) || isliving(target)
 
 /datum/action/cooldown/spell/decompose/cast(atom/cast_on)

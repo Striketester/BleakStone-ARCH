@@ -22,6 +22,9 @@
 		qdel(src)
 
 /datum/action/cooldown/spell/enchantment/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return istype(cast_on, /obj/item/weapon) || isliving(cast_on)
 
 /datum/action/cooldown/spell/enchantment/cast(atom/cast_on)

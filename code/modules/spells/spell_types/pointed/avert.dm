@@ -29,6 +29,9 @@
 	)
 
 /datum/action/cooldown/spell/avert/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return FALSE
 	return isliving(cast_on)
 
 /datum/action/cooldown/spell/avert/before_cast(mob/living/cast_on)

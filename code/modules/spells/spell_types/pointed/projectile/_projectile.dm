@@ -32,9 +32,6 @@
 	if(projectile_amount > 1)
 		unset_after_click = FALSE
 
-/datum/action/cooldown/spell/projectile/is_valid_target(atom/cast_on)
-	return TRUE
-
 /datum/action/cooldown/spell/projectile/on_activation(mob/on_who)
 	. = ..()
 	if(!.)
