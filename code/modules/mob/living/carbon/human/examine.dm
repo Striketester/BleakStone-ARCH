@@ -123,8 +123,6 @@
 			var/is_male = FALSE
 			if(gender == MALE)
 				is_male = TRUE
-			if(RomanticPartner(stranger))
-				. += span_love(span_bold("[t_He] is my [is_male ? "husband" : "wife"]."))
 			if(family_datum == stranger.family_datum && family_datum)
 				var/family_text = ReturnRelation(user)
 				if(family_text)
