@@ -7,7 +7,7 @@ if [ -d "$HOME/BYOND/byond/bin" ] && grep -Fxq "${BYOND_MAJOR}.${BYOND_MINOR}" $
 then
   echo "Using cached directory."
 else
-  echo "Setting up BYOND, ${BYOND_MAJOR}.${BYOND_MINOR}."
+  echo "Setting up BYOND, ${BYOND_MAJOR}.${BYOND_MINOR}. ${HOME}"
   rm -rf "$HOME/BYOND"
   mkdir -p "$HOME/BYOND"
   cd "$HOME/BYOND"
