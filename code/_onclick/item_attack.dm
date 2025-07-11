@@ -49,7 +49,7 @@
 			else
 				CRASH("pre_attack_secondary must return an SECONDARY_ATTACK_* define, please consult code/__DEFINES/combat.dm")
 	else
-		pre_attack_result = pre_attack(src, user, params)
+		pre_attack_result = pre_attack(target, user, params)
 
 	if(pre_attack_result)
 		return TRUE
