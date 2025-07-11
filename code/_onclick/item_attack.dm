@@ -41,7 +41,7 @@
 	if(is_right_clicking)
 		switch(pre_attack_secondary(target, user, params))
 			if(SECONDARY_ATTACK_CALL_NORMAL)
-				pre_attack_result = pre_attack(src, user, params)
+				pre_attack_result = pre_attack(target, user, params)
 			if(SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 				return TRUE
 			if(SECONDARY_ATTACK_CONTINUE_CHAIN)
