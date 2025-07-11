@@ -270,6 +270,7 @@
 	desc = ""
 	icon = 'icons/obj/bodybag.dmi'
 	icon_state = "shroud"
+	base_icon_state = "shroud"
 	density = FALSE
 	mob_storage_capacity = 1
 	open_sound = 'sound/blank.ogg'
