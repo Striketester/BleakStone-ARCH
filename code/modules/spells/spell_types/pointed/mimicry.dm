@@ -2,7 +2,7 @@
 	name = "Mimicry"
 	desc = "Take on the appearance of your target."
 	button_icon_state = "invisibility"
-	sound = 'sound/misc/area.ogg'
+	sound = 'sound/misc/stings/generic.ogg'
 	self_cast_possible = FALSE
 
 	attunements = list(

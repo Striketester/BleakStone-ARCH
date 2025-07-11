@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/undirected/shadow_step
 	name = "Shadow Step"
 	desc = "Step into the shadows, becoming invisible for a duration."
-	sound = 'sound/misc/area.ogg'
+	sound = 'sound/misc/stings/generic.ogg'
 	associated_skill = /datum/skill/misc/sneaking
 	has_visual_effects = FALSE
 

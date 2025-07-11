@@ -2,7 +2,7 @@
 	name = "Invisibility"
 	desc = "Hide the target from eyes, for a time."
 	button_icon_state = "invisibility"
-	sound = 'sound/misc/area.ogg'
+	sound = 'sound/misc/stings/generic.ogg'
 
 	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
