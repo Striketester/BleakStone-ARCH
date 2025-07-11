@@ -269,9 +269,9 @@
 	if(click_to_activate)
 		on_activation(on_who)
 
-	if(charge_required && click_to_activate)
-		// If pointed we setup signals to override mouse down to call InterceptClickOn()
-		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
+		if(charge_required)
+			// If pointed we setup signals to override mouse down to call InterceptClickOn()
+			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 
 	return ..()
 
@@ -280,9 +280,9 @@
 	if(click_to_activate)
 		on_deactivation(on_who, refund_cooldown = refund_cooldown)
 
-	if(charge_required && click_to_activate)
-		// If pointed we setup signals to override mouse down to call InterceptClickOn()
-		UnregisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN)
+		if(charge_required)
+			// If pointed we setup signals to override mouse down to call InterceptClickOn()
+			UnregisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN)
 
 	return ..()
 
