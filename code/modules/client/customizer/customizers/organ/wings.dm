@@ -150,6 +150,7 @@
 			turf = GET_TURF_ABOVE(turf)
 	owner.movement_type |= FLYING
 	flying = TRUE
+	to_chat(owner, span_notice("I start flying."))
 	if(turf != get_turf(owner))
 		var/matrix/original = owner.transform
 		var/prev_alpha = owner.alpha
@@ -186,6 +187,7 @@
 	if(isopenspace(turf))
 		if(owner.can_zTravel(direction = DOWN))
 			turf = GET_TURF_BELOW(turf)
+	to_chat(owner, span_notice("I stop flying."))
 	if(turf != get_turf(owner))
 		var/matrix/original = owner.transform
 		var/prev_alpha = owner.alpha
