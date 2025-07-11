@@ -282,7 +282,7 @@
 
 	if(charge_required && click_to_activate)
 		// If pointed we setup signals to override mouse down to call InterceptClickOn()
-		UnregisterSignal(owmer.client, COMSIG_CLIENT_MOUSEDOWN)
+		UnregisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN)
 
 	return ..()
 
@@ -688,7 +688,7 @@
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
 
 	if(owner?.mmb_intent)
-		QDEL_NULL(owner.mmb_intent)
+		owner.mmb_intent_change(null)
 
 	if(charge_slowdown)
 		owner.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
