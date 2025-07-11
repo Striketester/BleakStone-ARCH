@@ -108,7 +108,6 @@
 
 	// Clean up the rune
 	if(spell_rune)
-		vis_contents -= spell_rune
 		QDEL_NULL(spell_rune)
 
 	// Create wave_up effect
@@ -123,5 +122,4 @@
 
 	// Clean up the rune
 	if(spell_rune)
-		vis_contents -= spell_rune
 		QDEL_NULL(spell_rune)
