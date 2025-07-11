@@ -110,7 +110,6 @@
 	icon_state = "syndie-ship"
 	has_gravity = STANDARD_GRAVITY
 	flags_1 = NONE
-	ambientsounds = HIGHSEC
 
 /area/syndicate_mothership/control
 	name = "Syndicate Control Room"

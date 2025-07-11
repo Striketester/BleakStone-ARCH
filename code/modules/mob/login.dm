@@ -72,6 +72,11 @@
 
 	update_client_colour()
 	update_mouse_pointer()
+	update_ambience_area(get_area(src))
+
+	if(!can_hear())
+		stop_sound_channel(CHANNEL_AMBIENCE)
+
 	if(client)
 		if(client.player_details.player_actions.len)
 			for(var/datum/action/A in client.player_details.player_actions)
