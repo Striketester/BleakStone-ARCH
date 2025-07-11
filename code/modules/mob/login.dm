@@ -78,8 +78,6 @@
 		stop_sound_channel(CHANNEL_AMBIENCE)
 
 	if(client)
-		client.change_view(CONFIG_GET(string/default_view)) // Resets the client.view in case it was changed.
-
 		if(client.player_details.player_actions.len)
 			for(var/datum/action/A in client.player_details.player_actions)
 				A.Grant(src)

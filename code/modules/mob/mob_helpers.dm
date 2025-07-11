@@ -117,7 +117,7 @@
 
 /proc/relative_angular_facing(mob/living/user, mob/living/target)
 	var/target_facing = dir2angle(target.dir)
-	var/abs_angle = Get_Angle(target, user)
+	var/abs_angle = get_angle(target, user)
 	target_facing = 360 + (abs_angle - target_facing)
 	if(target_facing > 360)
 		target_facing -= 360
@@ -515,7 +515,7 @@
 		used_intent = a_intent
 		cast_move = 0
 	if(hud_used?.action_intent)
-		hud_used.action_intent.switch_intent(r_index,l_index,oactive)
+		hud_used.action_intent.switch_intent(r_index,l_index)
 
 /mob/proc/update_a_intents()
 	possible_a_intents.Cut()
@@ -559,9 +559,9 @@
 			possible_offhand_intents += new defintent(src)
 	if(hud_used?.action_intent)
 		if(active_hand_index == 1)
-			hud_used.action_intent.update(possible_a_intents, possible_offhand_intents, oactive)
+			hud_used.action_intent.update(possible_a_intents, possible_offhand_intents)
 		else
-			hud_used.action_intent.update(possible_offhand_intents, possible_a_intents, oactive)
+			hud_used.action_intent.update(possible_offhand_intents, possible_a_intents)
 	if(active_hand_index == 1)
 		if(l_index <= possible_a_intents.len)
 			rog_intent_change(l_index)
@@ -575,9 +575,6 @@
 			rog_intent_change(1)
 		rog_intent_change(l_index, 1)
 
-/mob/proc/check_spell_quickselect()
-	return (mind && !incapacitated())
-
 /mob/verb/mmb_intent_change(input as text)
 	set name = "mmb-change"
 	set hidden = 1
@@ -588,11 +585,7 @@
 
 	if(!input)
 		qdel(mmb_intent)
-		cancel_spell_visual_effects(src)
 		mmb_intent = null
-	if(input != QINTENT_SPELL)
-		if(ranged_ability)
-			ranged_ability.deactivate()
 	switch(input)
 		if(QINTENT_KICK)
 			if(mmb_intent?.type == INTENT_KICK)
@@ -629,52 +622,9 @@
 				mmb_intent = null
 			else
 				mmb_intent = new INTENT_GIVE(src)
-		if(QINTENT_SPELL)
-			if(mmb_intent)
-				qdel(mmb_intent)
-				cancel_spell_visual_effects(src)
-			mmb_intent = new INTENT_SPELL(src)
-			mmb_intent.releasedrain = ranged_ability.get_fatigue_drain()
-			mmb_intent.chargedrain = ranged_ability.chargedrain
-			mmb_intent.chargetime = ranged_ability.get_chargetime()
-			mmb_intent.warnie = ranged_ability.warnie
-			mmb_intent.charge_invocation = ranged_ability.charge_invocation
-			mmb_intent.no_early_release = FALSE
-			mmb_intent.movement_interrupt = ranged_ability.movement_interrupt
-			mmb_intent.charging_slowdown = ranged_ability.charging_slowdown
-			mmb_intent.chargedloop = ranged_ability.chargedloop
-			mmb_intent.update_chargeloop()
-
-			if(istype(ranged_ability, /obj/effect/proc_holder/spell))
-				var/obj/effect/proc_holder/spell/ability = ranged_ability
-				if(!ability.miracle && ability.uses_mana)
-					start_spell_visual_effects(src, ability)
-					if(ability.spell_flag & SPELL_MANA)
-						mmb_intent.AddComponent(
-							/datum/component/uses_mana/spell,\
-							CALLBACK(mmb_intent, TYPE_PROC_REF(/datum/intent, spell_cannot_activate)),\
-							CALLBACK(mmb_intent, TYPE_PROC_REF(/datum/intent, get_master_mob)),\
-							COMSIG_SPELL_BEFORE_CAST,\
-							null,\
-							COMSIG_SPELL_AFTER_CAST,\
-							CALLBACK(ranged_ability, TYPE_PROC_REF(/obj/effect/proc_holder, get_fatigue_drain)),\
-							ranged_ability.attunements,\
-						)
-					else if(ability.spell_flag & SPELL_ESSENCE)
-						mmb_intent.AddComponent(
-							/datum/component/uses_essence,\
-							CALLBACK(mmb_intent, TYPE_PROC_REF(/datum/intent, spell_cannot_activate)),\
-							CALLBACK(mmb_intent, TYPE_PROC_REF(/datum/intent, get_master_mob)),\
-							COMSIG_SPELL_BEFORE_CAST,\
-							COMSIG_SPELL_BEFORE_CAST,\
-							COMSIG_SPELL_AFTER_CAST,\
-							ability.cost,\
-							ranged_ability.attunements,\
-						)
 
 	hud_used.quad_intents?.switch_intent(input)
 	hud_used.give_intent?.switch_intent(input)
-	givingto = null
 
 /mob/verb/def_intent_change(input as num)
 	set name = "def-change"

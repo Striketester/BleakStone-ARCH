@@ -1094,6 +1094,16 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		if (menuitem)
 			menuitem.Load_checked(src)
 
+
+	if(byond_version >= 516) // Enable 516 compat browser storage mechanisms
+		winset(src, null, "browser-options=byondstorage,find,devtools")
+
+	//fullscreen()
+
+	view_size = new(src, getScreenSize())
+	view_size.resetFormat()
+	view_size.setZoomMode()
+	fit_viewport()
 	Master.UpdateTickRate()
 
 //////////////
@@ -1489,13 +1499,13 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		click_intercept_time = 0 //Just reset. Let's not keep re-checking forever.
 
 	var/ab = FALSE
-	var/list/L = params2list(params)
+	var/list/modifiers = params2list(params)
 
-	var/dragged = L["drag"]
-	if(dragged && !L[dragged])
+	var/dragged = LAZYACCESS(modifiers, BUTTON_DRAGGED)
+	if(dragged)
 		return
 
-	if (object && object == middragatom && L["left"])
+	if (object && IS_WEAKREF_OF(object, middle_drag_atom_ref) && LAZYACCESS(modifiers, LEFT_CLICK))
 		ab = max(0, 5 SECONDS-(world.time-middragtime)*0.1)
 
 	var/mcl = CONFIG_GET(number/minute_click_limit)
@@ -1549,6 +1559,8 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	else
 		winset(src, null, "input.focus=true command=activeInput input.background-color=[COLOR_INPUT_ENABLED] input.text-color = #EEEEEE")
 
+	SEND_SIGNAL(src, COMSIG_CLIENT_CLICK, object, location, control, params, usr)
+
 	..()
 
 /client/proc/add_verbs_from_config()
@@ -1601,7 +1613,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 		if ("key")
 			return FALSE
 		if("view")
-			change_view(var_value)
+			view_size.setDefault(var_value)
 			return TRUE
 	. = ..()
 
@@ -1611,7 +1623,7 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	var/y = viewscale[2]
 	x = CLAMP(x+change, min, max)
 	y = CLAMP(y+change, min,max)
-	change_view("[x]x[y]")
+	view_size.setDefault("[x]x[y]")
 
 /client/proc/update_movement_keys()
 	if(!prefs?.key_bindings)
@@ -1633,12 +1645,9 @@ GLOBAL_LIST_EMPTY(respawncounts)
 	if (isnull(new_size))
 		CRASH("change_view called without argument.")
 
-	if(prefs && !prefs.widescreenpref && new_size == CONFIG_GET(string/default_view))
-		new_size = CONFIG_GET(string/default_view_square)
-
 	view = new_size
 	apply_clickcatcher()
-	mob.reload_fullscreen()
+	mob?.reload_fullscreen()
 	if (isliving(mob))
 		var/mob/living/M = mob
 		M.update_damage_hud()
@@ -1692,10 +1701,6 @@ GLOBAL_LIST_EMPTY(respawncounts)
 
 /client/proc/fullscreen()
 	winset(src, "mainwindow", "statusbar=false")
-
-/client/New()
-	..()
-	fullscreen()
 
 /client/proc/give_award(achievement_type, mob/user)
 	return	player_details.achievements.unlock(achievement_type, mob/user)

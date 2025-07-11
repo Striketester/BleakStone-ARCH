@@ -9,7 +9,7 @@
 #define CHANNEL_AMBIENCE 1018
 /// Ambient background music or droning
 #define CHANNEL_BUZZ 1017
-#define CHANNEL_BICYCLE 1016
+#define CHANNEL_CHARGED_SPELL 1016
 #define CHANNEL_RAIN 1015
 #define CHANNEL_MUSIC 1014
 #define CHANNEL_CMUSIC 1013
