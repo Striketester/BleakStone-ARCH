@@ -263,24 +263,28 @@
 	if(SEND_SIGNAL(on_who, COMSIG_MOB_SPELL_ACTIVATED, src) & SPELL_CANCEL_CAST)
 		return FALSE
 
+	if(currently_charging)
+		return FALSE
+
 	if(click_to_activate)
 		on_activation(on_who)
 
 	if(charge_required && click_to_activate)
-		if(currently_charging)
-			return FALSE
-
-		// If pointed we setup signals to override mouse down to call PreActivate()
+		// If pointed we setup signals to override mouse down to call InterceptClickOn()
 		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 
 	return ..()
 
 // Note: Destroy() calls Remove(), Remove() calls unset_click_ability() if our spell is active.
 /datum/action/cooldown/spell/unset_click_ability(mob/on_who, refund_cooldown = TRUE)
-	. = ..()
-
 	if(click_to_activate)
 		on_deactivation(on_who, refund_cooldown = refund_cooldown)
+
+	if(charge_required && click_to_activate)
+		// If pointed we setup signals to override mouse down to call InterceptClickOn()
+		UnregisterSignal(owmer.client, COMSIG_CLIENT_MOUSEDOWN)
+
+	return ..()
 
 /*
  * The following three procs are only relevant to pointed spells
