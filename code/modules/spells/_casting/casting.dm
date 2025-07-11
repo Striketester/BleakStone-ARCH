@@ -75,6 +75,9 @@
 
 	var/spell_color = get_blended_attunement_color(attunements)
 
+	if(spell_rune)
+		QDEL_NULL(spell_rune)
+
 	//Create the following rune
 	var/obj/effect/spell_rune/rune = new(null, src, spell_color)
 	vis_contents |= rune
@@ -105,6 +108,7 @@
 
 	// Clean up the rune
 	if(spell_rune)
+		vis_contents -= spell_rune
 		QDEL_NULL(spell_rune)
 
 	// Create wave_up effect
@@ -119,4 +123,5 @@
 
 	// Clean up the rune
 	if(spell_rune)
+		vis_contents -= spell_rune
 		QDEL_NULL(spell_rune)
