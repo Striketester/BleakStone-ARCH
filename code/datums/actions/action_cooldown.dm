@@ -22,7 +22,7 @@
 	/// The cooldown added onto the user's next click.
 	var/click_cd_override = CLICK_CD_CLICK_ABILITY
 	/// If TRUE, we will unset after using our click intercept.
-	var/unset_after_click = TRUE
+	var/unset_after_click = FALSE
 	/// What icon to replace our mouse cursor with when active. Optional
 	var/ranged_mousepointer
 	/// The base icon_state of this action's background

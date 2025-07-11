@@ -43,7 +43,8 @@
 	name = "Spell"
 	desc = "A wizard spell."
 	background_icon = 'icons/mob/actions/roguespells.dmi'
-	background_icon_state = "spell"
+	background_icon_state = "spell0"
+	active_background_icon_state = "spell1"
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "shieldsparkles"
 	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_PHASED
@@ -247,11 +248,6 @@
 
 /datum/action/cooldown/spell/IsAvailable()
 	return ..() && can_cast_spell(feedback = FALSE)
-
-/datum/action/cooldown/spell/is_action_active(atom/movable/screen/movable/action_button/current_button)
-	if(charge_required)
-		return currently_charging
-	return ..()
 
 /datum/action/cooldown/spell/Trigger(trigger_flags, atom/target)
 	// We implement this can_cast_spell check before the parent call of Trigger()
@@ -681,10 +677,9 @@
 /datum/action/cooldown/spell/proc/cancel_charging()
 	UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 	UnregisterSignal(owner, list(COMSIG_MOB_LOGOUT, COMSIG_MOVABLE_MOVED))
-
 	currently_charging = FALSE
-	charge_started_at = 0
-	charge_target_time = 0
+	charge_started_at = null
+	charge_target_time = null
 	STOP_PROCESSING(SSaction_charge, src)
 	build_all_button_icons(UPDATE_BUTTON_STATUS)
 
@@ -915,6 +910,8 @@
 		return
 	if(!isturf(owner.loc))
 		return
+	if(charge_started_at)
+		return
 
 	if(isnull(location) || istype(_target, /atom/movable/screen)) //Clicking on a screen object.
 		if(_target.plane != CLICKCATCHER_PLANE) //The clickcatcher is a special case. We want the click to trigger then, under it.
@@ -929,7 +926,7 @@
 	on_start_charge()
 
 	if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
-		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(signal_cancel))
+		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(signal_cancel), TRUE)
 
 	source.mouse_override_icon = 'icons/effects/mousemice/charge/spell_charging.dmi'
 	owner.update_mouse_pointer()
@@ -962,6 +959,7 @@
 		if(!_target)
 			CRASH("Failed to get the turf under clickcatcher")
 
+	source.click_intercept_time = null
 	// Call this directly to do all the relevant checks and aim assist
 	InterceptClickOn(owner, params, _target)
 
