@@ -115,10 +115,10 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_WATER_CONSUMED = list("name" = "Water consumed:", "points" = 0.0125, "capacity" = 90),
+			STATS_FISH_CAUGHT = list("name" = "Fish caught:", "points" = 1.5, "capacity" = 85),
 		),
 		"Set 2" = list(
-			STATS_FISH_CAUGHT = list("name" = "Fish caught:", "points" = 1.5, "capacity" = 85),
+			STATS_WATER_CONSUMED = list("name" = "Water consumed:", "points" = 0.0125, "capacity" = 90),
 		),
 		"Set 3" = list(
 			STATS_ABYSSOR_REMEMBERED = list("name" = "Abyssor remembered:", "points" = 0.75, "capacity" = 40),
@@ -357,13 +357,13 @@
 			STATS_PLANTS_HARVESTED = list("name" = "Plants harvested:", "points" = 0.8, "capacity" = 120),
 		),
 		"Set 3" = list(
-			STATS_ANIMALS_TAMED = list("name" = "Animals tamed:", "points" = 5, "capacity" = 60),
+			STATS_FOREST_DEATHS = list("name" = "Forest deaths:", "points" = 6.5, "capacity" = 90),
 		),
 		"Set 4" = list(
 			STATS_DENDOR_SACRIFICES = list("name" = "Sacrifices to Dendor:", "points" = 15, "capacity" = 80),
 		),
 		"Set 5" = list(
-			STATS_FOREST_DEATHS = list("name" = "Forest deaths:", "points" = 6.5, "capacity" = 90),
+			STATS_ANIMALS_TAMED = list("name" = "Animals tamed:", "points" = 5, "capacity" = 60),
 		)
 	)
 
@@ -487,20 +487,20 @@
 
 	influence_sets = list(
 		"Set 1" = list(
-			STATS_BLOOD_SPILT = list("name" = "Blood spilt:", "points" = 0.00028, "capacity" = 90),
-		),
-		"Set 2" = list(
-			STATS_ORGANS_EATEN = list("name" = "Organs eaten:", "points" = 4, "capacity" = 75),
-		),
-		"Set 3" = list(
-			STATS_LIMBS_BITTEN = list("name" = "Limbs bitten:", "points" = 0.85, "capacity" = 75),
-		),
-		"Set 4" = list(
-			STATS_PEOPLE_GIBBED = list("name" = "People gibbed:", "points" = 3, "capacity" = 50),
-		),
-		"Set 5" = list(
 			STATS_ASSASSINATIONS = list("name" = "Successful assasinations:", "points" = 17.5, "capacity" = 80),
 			STATS_ALIVE_HALF_ORCS = list("name" = "Number of half-orcs:", "points" = 6, "capacity" = 60),
+		),
+		"Set 2" = list(
+			STATS_BLOOD_SPILT = list("name" = "Blood spilt:", "points" = 0.028, "capacity" = 90),
+		),
+		"Set 3" = list(
+			STATS_ORGANS_EATEN = list("name" = "Organs eaten:", "points" = 4, "capacity" = 75),
+		),
+		"Set 4" = list(
+			STATS_LIMBS_BITTEN = list("name" = "Limbs bitten:", "points" = 0.85, "capacity" = 75),
+		),
+		"Set 5" = list(
+			STATS_PEOPLE_GIBBED = list("name" = "People gibbed:", "points" = 3, "capacity" = 50),
 		)
 	)
 
