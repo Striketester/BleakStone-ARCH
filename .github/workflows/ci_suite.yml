@@ -115,7 +115,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Restore BYOND from cache
-        uses: ./.github/workflows/restore_or_install_byond
+        uses: ./.github/actions/restore_or_install_byond
       - name: Compile All Maps
         run: |
           source $HOME/BYOND/byond/bin/byondsetup
@@ -149,7 +149,7 @@ jobs:
         run: |
           echo "max_required_byond_client=$(grep -Ev '^[[:blank:]]{0,}#{1,}|^[[:blank:]]{0,}$' .github/max_required_byond_client.txt | tail -n1)" >> $GITHUB_OUTPUT
       - name: Set up BYOND cache
-        uses: ./.github/workflows/restore_or_install_byond
+        uses: ./.github/actions/restore_or_install_byond
 
   run_all_tests:
     name: Integration Tests
@@ -176,7 +176,7 @@ jobs:
           sudo apt install zlib1g-dev:i386
           bash tools/ci/install_rust_g.sh
       - name: Restore BYOND from cache
-        uses: ./.github/workflows/restore_or_install_byond
+        uses: ./.github/actions/restore_or_install_byond
       - name: Compile and run tests
         run: |
           source $HOME/BYOND/byond/bin/byondsetup
