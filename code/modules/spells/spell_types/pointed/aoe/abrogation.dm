@@ -16,10 +16,10 @@
 	invocation = "The Undermaiden rejects your presence!"
 	invocation_type = INVOCATION_SHOUT
 
-	charge_time = 5 SECONDS
+	charge_time = 3 SECONDS
 	charge_drain = 1
 	charge_slowdown = 0.7
-	cooldown_time = 1.5 MINUTES
+	cooldown_time = 1 MINUTES
 	spell_cost = 40
 
 	aoe_radius = 4
