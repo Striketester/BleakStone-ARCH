@@ -41,7 +41,7 @@
 */
 
 /proc/ui_hand_position(i)
-	var/x_off = i % 2 ? 0 : 1
+	var/x_off = i % 2 ? 1 : 0
 	return "WEST-[2+x_off]:-16,SOUTH+7"
 
 /proc/ui_equip_position(mob/M)

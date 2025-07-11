@@ -85,10 +85,10 @@
 /atom/movable/screen/movable/action_button/MouseEntered(location, control, params)
 	. = ..()
 	if(!QDELETED(src))
-		openToolTip(usr, src, params, title = name, content = desc, theme = actiontooltipstyle)
+		handle_mouseover(location, control, params)
 
 /atom/movable/screen/movable/action_button/MouseExited(location, control, params)
-	closeToolTip(usr)
+	handle_mouseexit(params)
 	return ..()
 
 /atom/movable/screen/movable/action_button/MouseDrop(over_object)
