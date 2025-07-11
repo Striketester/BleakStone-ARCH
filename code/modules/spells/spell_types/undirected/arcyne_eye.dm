@@ -18,8 +18,9 @@
 	. = ..()
 	if(isliving(owner))
 		var/mob/living/L = owner
-		var/duration_increase = min(0, attuned_strength * 1.5 MINUTES)
-		L.apply_status_effect(/datum/status_effect/buff/arcyne_eye, duration_increase)
+		var/datum/status_effect/status = /datum/status_effect/buff/arcyne_eye
+		var/duration_increase = attuned_strength * 1.5 MINUTES
+		L.apply_status_effect(status, initial(status.duration) + duration_increase)
 
 /datum/status_effect/buff/arcyne_eye
 	duration = 1 MINUTES
