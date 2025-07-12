@@ -22,7 +22,7 @@
 	/// The cooldown added onto the user's next click.
 	var/click_cd_override = CLICK_CD_CLICK_ABILITY
 	/// If TRUE, we will unset after using our click intercept.
-	var/unset_after_click = FALSE
+	var/unset_after_click = TRUE
 	/// What icon to replace our mouse cursor with when active. Optional
 	var/ranged_mousepointer
 	/// The base icon_state of this action's background
@@ -205,7 +205,7 @@
 	if(ranged_mousepointer)
 		on_who.client?.mouse_override_icon = ranged_mousepointer
 		on_who.update_mouse_pointer()
-	build_all_button_icons(UPDATE_BUTTON_STATUS)
+	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 	return TRUE
 
 /**
@@ -221,7 +221,7 @@
 	if(ranged_mousepointer)
 		on_who.client?.mouse_override_icon = initial(on_who.client?.mouse_override_icon)
 		on_who.update_mouse_pointer()
-	build_all_button_icons(UPDATE_BUTTON_STATUS)
+	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 	return TRUE
 
 /datum/action/cooldown/process()
