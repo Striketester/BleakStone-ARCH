@@ -43,6 +43,11 @@
 		/datum/skill/misc/swimming = 4,
 	)
 
+	allowed_voicetypes = list(
+		VOICE_TYPE_MASC,
+		VOICE_TYPE_ANDRO
+	)
+
 	specstats_m = list(STATKEY_STR = -1, STATKEY_PER = -2, STATKEY_CON = -2, STATKEY_SPD = 1, STATKEY_INT = 2)
 	specstats_f = list(STATKEY_STR = 2, STATKEY_PER = -4, STATKEY_CON = 3, STATKEY_SPD = -3)
 
