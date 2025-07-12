@@ -19,8 +19,6 @@
 	spell_cost = 50
 
 	projectile_type = /obj/projectile/magic/swordfish
-	projectile_amount = 2
-	projectiles_per_fire = 2
 
 //esssentially a magic throwing knife
 /obj/projectile/magic/swordfish

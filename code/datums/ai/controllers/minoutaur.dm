@@ -24,7 +24,7 @@
 	var/mob/living/simple_animal/hostile/retaliate/minotaur/boss = controller.pawn
 
 	if(prob(65))
-		SSmove_manager.move_rand(boss)
+		step_rand(boss)
 
 	if(!istype(boss) || prob(50))
 		return

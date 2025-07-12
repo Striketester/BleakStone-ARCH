@@ -11,15 +11,15 @@
 	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
 	associated_skill = /datum/skill/magic/holy
-	required_items = list(/obj/item/clothing/neck/psycross/silver/necra)
+	required_items = list(/obj/item/clothing/neck/psycross)
 
 	invocation = "The Undermaiden rejects your presence!"
 	invocation_type = INVOCATION_SHOUT
 
-	charge_time = 5 SECONDS
+	charge_time = 3 SECONDS
 	charge_drain = 1
 	charge_slowdown = 0.7
-	cooldown_time = 1.5 MINUTES
+	cooldown_time = 1 MINUTES
 	spell_cost = 40
 
 	aoe_radius = 4
@@ -72,7 +72,7 @@
 	var/intensity = 1
 	var/range = 10
 
-/datum/status_effect/debuff/abrogation/on_creation(mob/living/new_owner, mob/living/caster, potency)
+/datum/status_effect/debuff/abrogation/on_creation(mob/living/new_owner, duration_override, mob/living/caster, potency)
 	intensity = potency
 	if(caster)
 		debuffer = WEAKREF(caster)

@@ -155,6 +155,10 @@
 	<b>Touch Self Right</b>: Will forth a spark to ignite flammable items like torches, lanterns or campfires.\n \
 	<b>Touch Self Left</b>: Conjure forth an orbiting mote of magelight to light your way."
 	color = "#3FBAFD"
+	possible_item_intents = list(/datum/intent/use/prestidigitation)
+
+/datum/intent/use/prestidigitation
+	reach = 3
 
 /obj/effect/wisp/prestidigitation
 	name = "minor magelight mote"
