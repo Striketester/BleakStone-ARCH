@@ -14,6 +14,9 @@
 	spell_cost = 30
 
 /datum/action/cooldown/spell/blindness/is_valid_target(atom/cast_on)
+	. = ..()
+	if(!.)
+		return
 	return isliving(cast_on)
 
 /datum/action/cooldown/spell/blindness/cast(mob/living/cast_on)
