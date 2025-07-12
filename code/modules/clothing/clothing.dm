@@ -1,3 +1,8 @@
+#define ARMOR_CLASS_NONE 0
+#define AC_LIGHT 1
+#define AC_MEDIUM 2
+#define AC_HEAVY 3
+
 /obj/item/clothing
 	name = "clothing"
 	resistance_flags = FLAMMABLE
@@ -67,6 +72,8 @@
 	var/adjustable = CANT_CADJUST
 
 /obj/item/clothing/Initialize()
+	if(CHECK_BITFIELD(clothing_flags, VOICEBOX_TOGGLABLE))
+		actions_types += /datum/action/item_action/toggle_voice_box
 	. = ..()
 	if(ispath(pocket_storage_component_path))
 		LoadComponent(pocket_storage_component_path)
@@ -122,7 +129,7 @@
 	var/mob/living/L = user
 	var/altheld //Is the user pressing alt?
 	var/list/modifiers = params2list(params)
-	if(LAZYACCESS(modifiers, ALT_CLICKED))
+	if(modifiers["alt"])
 		altheld = TRUE
 	if(!isliving(user))
 		return
@@ -431,16 +438,12 @@ BLIND     // can't see anything
 		W.connectedc = src
 		hood = W
 
-/obj/item/clothing/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
-	if(hoodtype && (loc == user))
+/obj/item/clothing/attack_right(mob/user)
+	if(hoodtype)
 		ToggleHood()
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
-	if(adjustable > 0 && (loc == user))
-		AdjustClothes(user)
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+	if(adjustable > 0)
+		if(loc == user)
+			AdjustClothes(user)
 
 /obj/item/clothing/proc/AdjustClothes(mob/usFer)
 	return //override this in the clothing item itself so we can update the right inv
@@ -478,7 +481,12 @@ BLIND     // can't see anything
 		H.update_inv_pants()
 		H.update_fov_angles()
 	else
+//		hood.forceMove(src)
 		hood.moveToNullspace()
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon()
+
 
 /obj/item/clothing/proc/ToggleHood()
 	if(!hoodtoggled)

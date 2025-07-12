@@ -61,9 +61,9 @@
 	dodgetime = 17
 	aggressive = 1
 
-	ai_controller = /datum/ai_controller/void_obelisk
 
-	del_on_death = TRUE
+
+	ai_controller = /datum/ai_controller/void_obelisk
 
 	var/datum/action/cooldown/mob_cooldown/voidblast/beam
 
@@ -82,10 +82,13 @@
 	item_damage_type = "blunt"
 
 /mob/living/simple_animal/hostile/retaliate/voidstoneobelisk/death(gibbed)
+	..()
 	var/turf/deathspot = get_turf(src)
 	new /obj/item/natural/voidstone(deathspot)
 	new /obj/item/natural/artifact(deathspot)
-	return ..()
+	update_appearance()
+	sleep(1)
+	qdel(src)
 
 /mob/living/simple_animal/hostile/retaliate/voidstoneobelisk/Destroy()
 	. = ..()

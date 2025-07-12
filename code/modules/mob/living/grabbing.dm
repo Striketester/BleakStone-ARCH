@@ -159,7 +159,7 @@
 		if(C != grabbee)
 			qdel(src)
 			return 1
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		if(modifiers["right"])
 			qdel(src)
 			return 1
 	return ..()
@@ -719,10 +719,10 @@
 		if(C != grabbee)
 			qdel(src)
 			return 1
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		if(modifiers["right"])
 			qdel(src)
 			return 1
-		var/_y = text2num(LAZYACCESS(modifiers, ICON_Y))
+		var/_y = text2num(params2list(params)["icon-y"])
 		if(_y>=17)
 			bitelimb(C)
 		else

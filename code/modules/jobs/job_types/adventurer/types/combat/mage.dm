@@ -41,5 +41,5 @@
 		H.change_stat(STATKEY_CON, -2)
 		H.change_stat(STATKEY_END, -1)
 		H.change_stat(STATKEY_SPD, -2)
-		H.adjust_spellpoints(5)
-		H.add_spell(/datum/action/cooldown/spell/undirected/touch/prestidigitation)
+		H.mind.adjust_spellpoints(5)
+		H.mind.AddSpell(new /obj/effect/proc_holder/spell/targeted/touch/prestidigitation)

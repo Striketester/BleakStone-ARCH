@@ -14,7 +14,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	spells = list(
-		/datum/action/cooldown/spell/undirected/list_target/grant_title,
+		/obj/effect/proc_holder/spell/self/grant_title,
 	)
 	min_pq = 10
 	bypass_lastclass = TRUE

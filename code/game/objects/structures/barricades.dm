@@ -15,8 +15,7 @@
 /obj/structure/barricade/proc/make_debris()
 	return
 
-/obj/structure/barricade/CanAllowThrough(atom/movable/mover, turf/target)//So bullets will fly over and stuff.
-	. = ..()
+/obj/structure/barricade/CanPass(atom/movable/mover, turf/target)//So bullets will fly over and stuff.
 	if(locate(/obj/structure/barricade) in get_turf(mover))
 		return TRUE
 	else if(istype(mover, /obj/projectile))
@@ -28,6 +27,8 @@
 		if(prob(proj_pass_rate))
 			return TRUE
 		return FALSE
+	else
+		return !density
 
 /////BARRICADE TYPES///////
 

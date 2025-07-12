@@ -1,7 +1,5 @@
-// Once a blessing Dendor's champions, now a curse suffering endless hunger from Graggar's corruption.
-
 /datum/antagonist/werewolf
-	name = "Werevolf"
+	name = "Verewolf"
 	roundend_category = "Werewolves"
 	antagpanel_category = "Werewolf"
 	job_rank = ROLE_WEREWOLF
@@ -17,10 +15,10 @@
 	var/transformed
 	var/transforming
 	var/untransforming
-	var/wolfname = "Werevolf"
+	var/wolfname = "Verewolf"
 
 /datum/antagonist/werewolf/lesser
-	name = "Lesser Werevolf"
+	name = "Lesser Verewolf"
 	antag_hud_type = ANTAG_HUD_WEREWOLF
 	antag_hud_name = "werewolf_lesser"
 	increase_votepwr = FALSE
@@ -140,7 +138,7 @@
 
 /obj/item/clothing/armor/skin_armor/werewolf_skin
 	slot_flags = null
-	name = "Werevolf's skin"
+	name = "verewolf's skin"
 	desc = ""
 	icon_state = null
 	body_parts_covered = FULL_BODY

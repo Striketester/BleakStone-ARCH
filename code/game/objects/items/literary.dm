@@ -94,7 +94,7 @@
 		return TRUE
 	. = ..()
 
-/obj/item/textbook/attack_self(mob/user, params)
+/obj/item/textbook/attack_self(mob/user)
 	. = ..()
 	attemptlearn(user)
 

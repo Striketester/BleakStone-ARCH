@@ -121,7 +121,7 @@
 
 /obj/item/clothing/cloak/cape/crusader
 	name = "desert cape"
-	desc = "Zaladin is known for it's legacies in tailoring, this particular cape is interwoven with fine stained silks and leather - a sand elf design, renown for it's style and durability."
+	desc = "Zybantu is known for it's legacies in tailoring, this particular cape is interwoven with fine stained silks and leather - a sand elf design, renown for it's style and durability."
 	icon_state = "crusader_cloak"
 	icon = 'icons/roguetown/clothing/special/crusader.dmi'
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/crusader.dmi'
@@ -151,14 +151,12 @@
 	. = ..()
 	AddComponent(/datum/component/storage/concrete/grid/cloak/lord)
 
-/obj/item/clothing/cloak/cape/crusader/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
+/obj/item/clothing/cloak/cape/crusader/attack_right(mob/user)
 	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
 	if(CP)
 		CP.rmb_show(user)
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return TRUE
+	..()
 
 /obj/item/clothing/cloak/cape/crusader/dropped(mob/living/carbon/human/user)
 	..()

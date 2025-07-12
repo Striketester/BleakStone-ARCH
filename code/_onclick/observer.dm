@@ -35,22 +35,22 @@
 		return
 
 	var/list/modifiers = params2list(params)
-	if(LAZYACCESS(modifiers, SHIFT_CLICKED) && LAZYACCESS(modifiers, MIDDLE_CLICK))
+	if(modifiers["shift"] && modifiers["middle"])
 		ShiftMiddleClickOn(A)
 		return
-	if(LAZYACCESS(modifiers, SHIFT_CLICKED) && LAZYACCESS(modifiers, CTRL_CLICKED))
+	if(modifiers["shift"] && modifiers["ctrl"])
 		CtrlShiftClickOn(A)
 		return
-	if(LAZYACCESS(modifiers, MIDDLE_CLICK))
+	if(modifiers["middle"])
 		MiddleClickOn(A)
 		return
-	if(LAZYACCESS(modifiers, SHIFT_CLICKED))
+	if(modifiers["shift"])
 		ShiftClickOn(A)
 		return
-	if(LAZYACCESS(modifiers, ALT_CLICKED))
+	if(modifiers["alt"])
 		AltClickNoInteract(src, A)
 		return
-	if(LAZYACCESS(modifiers, CTRL_CLICKED))
+	if(modifiers["ctrl"])
 		CtrlClickOn(A)
 		return
 
@@ -62,7 +62,7 @@
 
 // Oh by the way this didn't work with old click code which is why clicking shit didn't spam you
 /atom/proc/attack_ghost(mob/dead/observer/user)
-	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_GHOST, user) & COMPONENT_CANCEL_ATTACK_CHAIN)
+	if(SEND_SIGNAL(src, COMSIG_ATOM_ATTACK_GHOST, user) & COMPONENT_NO_ATTACK_HAND)
 		return TRUE
 	if(user.client)
 		if(user.client.prefs.inquisitive_ghost)

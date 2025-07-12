@@ -55,10 +55,6 @@
 	. = ..()
 	update_appearance(UPDATE_ICON_STATE)
 	PopulateContents()
-	var/static/list/loc_connections = list(
-		COMSIG_ATOM_MAGICALLY_UNLOCKED = PROC_REF(on_magic_unlock),
-	)
-	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/structure/closet/Destroy()
 	dump_contents()
@@ -78,10 +74,10 @@
 	open()
 	..()
 
-/obj/structure/closet/CanAllowThrough(atom/movable/mover, turf/target)
-	. = ..()
+/obj/structure/closet/CanPass(atom/movable/mover, turf/target)
 	if(wall_mounted)
 		return TRUE
+	return !density
 
 /obj/structure/closet/proc/can_open(mob/living/user)
 	if(welded || locked())
@@ -320,10 +316,3 @@
 
 /obj/structure/closet/AllowDrop()
 	return TRUE
-
-/// Signal proc for [COMSIG_ATOM_MAGICALLY_UNLOCKED]. Unlock and open up when we get knock casted.
-/obj/structure/closet/proc/on_magic_unlock(datum/source, datum/action/cooldown/spell/knock, mob/living/caster)
-	SIGNAL_HANDLER
-
-	INVOKE_ASYNC(src, PROC_REF(unlock))
-	INVOKE_ASYNC(src, PROC_REF(open))

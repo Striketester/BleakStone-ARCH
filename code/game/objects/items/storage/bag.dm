@@ -61,7 +61,8 @@
 	. = ..()
 	for(var/obj/item/I as anything in contents)
 		var/mutable_appearance/M = new /mutable_appearance(I)
-		M.plane = FLOAT_PLANE + 0.01
+		M.plane = FLOAT_PLANE + 1
+		M.layer = FLOAT_LAYER
 		. += M
 
 /obj/item/storage/bag/tray/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)

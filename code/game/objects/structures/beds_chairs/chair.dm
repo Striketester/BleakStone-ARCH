@@ -9,7 +9,6 @@
 	resistance_flags = NONE
 	max_integrity = 250
 	integrity_failure = 0.1
-	pass_flags_self = PASSTABLE|LETPASSTHROW
 	var/buildstacktype
 	var/buildstackamount = 1
 	var/item_chair = /obj/item/chair // if null it can't be picked up
@@ -169,7 +168,7 @@
 	W.setDir(dir)
 	qdel(src)
 
-/obj/item/chair/attack_self(mob/user, params)
+/obj/item/chair/attack_self(mob/user)
 	plant(user)
 
 /obj/item/chair/proc/plant(mob/user)

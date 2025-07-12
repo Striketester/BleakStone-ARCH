@@ -75,31 +75,27 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 
 	if(icon_state != open_icon_state)
 		return
-	var/used_alpha = mix_alpha_from_reagents(reagents.reagent_list)
-	. += mutable_appearance(
-		icon,
-		"filling",
-		color = mix_color_from_reagents(reagents.reagent_list),
-		alpha = used_alpha,
-	)
+
+	var/mutable_appearance/filling = mutable_appearance(icon, "filling")
+	filling.color = mix_color_from_reagents(reagents)
+	filling.alpha = mix_alpha_from_reagents(reagents)
+	. += filling
 	var/datum/reagent/master = reagents.get_master_reagent()
 	if(master?.glows)
-		. += emissive_appearance(icon, "filling", alpha = used_alpha)
+		. += mutable_appearance(filling.icon, filling.icon_state, plane = EMISSIVE_PLANE)
 
-/obj/structure/fermentation_keg/attack_hand_secondary(mob/user, params)
+/obj/structure/fermentation_keg/attack_right(mob/user)
 	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
 	if(!ready_to_bottle && selected_recipe && !brewing)
 		user.visible_message("[user] starts emptying out [src].", "You start emptying out [src].")
 		if(!do_after(user, 5 SECONDS, src))
-			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+			return
 		clear_keg(TRUE)
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return
 
 	if(!brewing && (!selected_recipe || ready_to_bottle))
 		if(!shopping_run(user))
-			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+			return
 
 /obj/structure/fermentation_keg/AltClick(mob/user)
 	. = ..()

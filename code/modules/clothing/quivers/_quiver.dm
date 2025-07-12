@@ -60,21 +60,18 @@
 		return
 	..()
 
-/obj/item/ammo_holder/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
-	if(length(ammo_list))
-		var/obj/O = ammo_list[length(ammo_list)]
+/obj/item/ammo_holder/attack_right(mob/user)
+	if(ammo_list.len)
+		var/obj/O = ammo_list[ammo_list.len]
 		ammo_list -= O
 		O.forceMove(user.loc)
 		user.put_in_hands(O)
 		update_appearance(UPDATE_ICON_STATE)
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return TRUE
 
 /obj/item/ammo_holder/examine(mob/user)
 	. = ..()
-	if(length(ammo_list))
+	if(ammo_list.len)
 		var/list/unique_ammos = list()
 		for(var/obj/item/ammo_casing/ammo in ammo_list)
 			unique_ammos[ammo.name] += 1

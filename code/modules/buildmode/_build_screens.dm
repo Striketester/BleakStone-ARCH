@@ -1,6 +1,9 @@
 /**
  * Core buildmode mode buttons
  */
+/atom/movable/screen/buildmode
+	icon = 'icons/misc/buildmode.dmi'
+
 /atom/movable/screen/buildmode/New(datum/buildmode/bm)
 	bd = bm
 	return ..()
@@ -73,8 +76,8 @@
  * @return {bool} - Whether the click was handled
  */
 /datum/buildmode_mode/proc/handle_click(client/c, params, atom/object)
-	var/list/modifiers = params2list(params)
-	var/left_click = LAZYACCESS(modifiers, LEFT_CLICK)
+	var/list/pa = params2list(params)
+	var/left_click = pa.Find("left")
 
 	if(use_corner_selection)
 		if(left_click)

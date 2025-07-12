@@ -55,13 +55,11 @@
 	wound = FALSE
 	update_appearance(UPDATE_ICON_STATE)
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attack_hand_secondary(mob/user, params)
+/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attack_right(mob/user)
 	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
 	if(!user.is_holding(src))
 		to_chat(user, "<span class='warning'>I need to hold \the [src] to cock it!</span>")
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return
 	if(cocked)
 		cocked = FALSE
 		to_chat(user, "<span class='warning'>I carefully de-cock \the [src].</span>")
@@ -72,25 +70,22 @@
 		cocked = TRUE
 	update_appearance(UPDATE_ICON_STATE)
 
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/attack_self_secondary(mob/user, params)
+/obj/item/gun/ballistic/revolver/grenadelauncher/pistol/rmb_self(mob/user)
 	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
 	if(user.get_skill_level(/datum/skill/combat/firearms) <= 0)
 		to_chat(user, "<span class='warning'>I don't know how to do this!</span>")
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return
 	if(wound)
 		to_chat(user, "<span class='info'>\The [src]'s mechanism is already wound!</span>")
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return
 	var/windtime = 3.5
 	windtime = windtime - (user.get_skill_level(/datum/skill/combat/firearms) / 2)
 	if(do_after(user, windtime SECONDS, src) && !wound)
 		to_chat(user, "<span class='info'>I wind \the [src]'s mechanism.</span>")
 		playsound(src.loc, 'sound/foley/winding.ogg', 100, FALSE)
 		wound = TRUE
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+
 
 /obj/item/gun/ballistic/revolver/grenadelauncher/pistol/MiddleClick(mob/user, params)
 	. = ..()
@@ -216,7 +211,3 @@
 	list_reagents = list(/datum/reagent/blastpowder = 30)
 	icon_state = "aflask"
 	can_label_bottle = FALSE
-
-/obj/item/reagent_containers/glass/bottle/aflask/Initialize()
-	. = ..()
-	icon_state = "aflask"

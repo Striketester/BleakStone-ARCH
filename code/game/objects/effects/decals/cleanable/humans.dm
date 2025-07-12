@@ -40,7 +40,10 @@
 		return
 	if(!glows)
 		return
-	. += emissive_appearance(icon, icon_state)
+
+	var/mutable_appearance/glow = mutable_appearance(icon, icon_state)
+	glow.plane = EMISSIVE_PLANE
+	. += glow
 
 /obj/effect/decal/cleanable/blood/attack_hand(mob/living/user)
 	. = ..()
@@ -393,7 +396,7 @@
 			bloodstep_overlay.alpha = alpha
 			. += bloodstep_overlay
 			if(glows)
-				. += emissive_appearance(bloodstep_overlay.icon, bloodstep_overlay.icon_state, alpha = src.alpha)
+				. += mutable_appearance(bloodstep_overlay.icon, bloodstep_overlay.icon_state, plane = EMISSIVE_PLANE)
 		if(exited_dirs & Ddir)
 			var/image/bloodstep_overlay = GLOB.bloody_footprints_cache["exited-[blood_state]-[Ddir]"]
 			if(!bloodstep_overlay)
@@ -401,7 +404,7 @@
 			bloodstep_overlay.alpha = alpha
 			. += bloodstep_overlay
 			if(glows)
-				. += emissive_appearance(bloodstep_overlay.icon, bloodstep_overlay.icon_state, alpha = src.alpha)
+				. += mutable_appearance(bloodstep_overlay.icon, bloodstep_overlay.icon_state, plane = EMISSIVE_PLANE)
 
 /obj/effect/decal/cleanable/blood/footprints/examine(mob/user)
 	. = ..()

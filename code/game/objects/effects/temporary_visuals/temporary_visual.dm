@@ -4,11 +4,8 @@
 	anchored = TRUE
 	layer = ABOVE_MOB_LAYER
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	///time, in deciseconds, that this object will exist
-	var/duration = 10
-	///if true, will pick a random direction when created.
+	var/duration = 10 //in deciseconds
 	var/randomdir = TRUE
-	///id of the deletion timer
 	var/timerid
 
 /obj/effect/temp_visual/Initialize()
@@ -32,3 +29,5 @@
 	if(set_dir)
 		setDir(set_dir)
 	. = ..()
+
+

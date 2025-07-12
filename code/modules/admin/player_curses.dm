@@ -1,4 +1,6 @@
 
+#define CURSE_MASTER_LIST list("brokedick")
+
 /proc/curse_to_path(path)
 	return text2path(path)
 

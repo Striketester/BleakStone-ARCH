@@ -1,10 +1,9 @@
-GLOBAL_LIST_EMPTY(last_messages)
-
 /mob/living/gib(no_brain, no_organs, no_bodyparts)
 	var/prev_lying = lying_angle
 	if(stat != DEAD)
 		death(TRUE)
-
+	if(client)
+		SSdroning.kill_droning(client)
 	playsound(src.loc, pick('sound/combat/gib (1).ogg','sound/combat/gib (2).ogg'), 200, FALSE, 3)
 
 	if(!prev_lying)
@@ -75,6 +74,10 @@ GLOBAL_LIST_EMPTY(last_messages)
 	if(!gibbed && !was_dead_before)
 		GLOB.dead_mob_list += src
 
+//	stop_all_loops()
+	SSdroning.kill_rain(src.client)
+	SSdroning.kill_loop(src.client)
+	SSdroning.kill_droning(src.client)
 	if(prob(0.1))
 		src.playsound_local(src, 'sound/misc/dark_die.ogg', 250)
 	else
@@ -85,7 +88,7 @@ GLOBAL_LIST_EMPTY(last_messages)
 	SetSleeping(0)
 	reset_perspective(null)
 	reload_fullscreen()
-	update_mob_action_buttons()
+	update_action_buttons_icon()
 	update_damage_hud()
 	update_health_hud()
 	// update_mobility()
@@ -99,15 +102,16 @@ GLOBAL_LIST_EMPTY(last_messages)
 	if(client)
 		client.move_delay = initial(client.move_delay)
 		var/atom/movable/screen/gameover/hog/H = new()
-		H.plane = SPLASHSCREEN_PLANE
+		H.layer = SPLASHSCREEN_LAYER+0.1
 		client.screen += H
+//		flick("gameover",H)
+//		addtimer(CALLBACK(H, TYPE_PROC_REF(/atom/movable/screen/gameover, Fade)), 29)
 		H.Fade()
 		MOBTIMER_SET(src, MT_LASTDIED)
 		addtimer(CALLBACK(H, TYPE_PROC_REF(/atom/movable/screen/gameover, Fade), TRUE), 100)
+//		addtimer(CALLBACK(client, PROC_REF(ghostize), 1, src), 150)
 		add_client_colour(/datum/client_colour/monochrome/death)
 		client?.verbs |= /client/proc/descend
-		if(last_message)
-			GLOB.last_messages |= last_message
 
 	for(var/s in ownedSoullinks)
 		var/datum/soullink/S = s

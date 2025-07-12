@@ -95,15 +95,7 @@
 		unlink_pylon(linked_pylon)
 
 	if(pylon_to_link.z == z)
-		created_beam = Beam(
-			pylon_to_link,
-			icon_state = "medbeam",
-			time = INFINITY,
-			max_distance = world.maxx,
-			beam_layer = LOWER_LEYLINE_LAYER,
-			beam_plane = LEYLINE_PLANE,
-			invisibility = INVISIBILITY_LEYLINES,
-		)
+		created_beam = LeyBeam(pylon_to_link, icon_state = "medbeam", maxdistance = world.maxx, time = INFINITY)
 
 	if(pylon_to_link.z != z)
 		different_z = TRUE
@@ -152,11 +144,8 @@
 		else
 			mana_pool.transfer_specific_mana(user.mana_pool, transfer_amount, decrement_budget = TRUE)
 
-/obj/structure/mana_pylon/attack_hand_secondary(mob/user, params)
+/obj/structure/mana_pylon/attack_right(mob/user)
 	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
 	if(user.client)
 		drain_mana(user)
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 

@@ -94,11 +94,7 @@
 
 /datum/antagonist/prebel/head/on_gain()
 	. = ..()
-	owner.current.add_spell(/datum/action/cooldown/spell/undirected/convert_rebel, source = src)
-
-/datum/antagonist/prebel/head/on_removal()
-	. = ..()
-	owner.current.remove_spells(source = src)
+	owner.AddSpell(new /obj/effect/proc_holder/spell/self/rebelconvert)
 
 /datum/antagonist/prebel/proc/can_be_converted(mob/living/candidate)
 	if(!candidate.mind)
@@ -114,25 +110,20 @@
 		return FALSE
 	return TRUE
 
-/datum/action/cooldown/spell/undirected/convert_rebel
+/obj/effect/proc_holder/spell/self/rebelconvert
 	name = "RECRUIT REBELS"
 	desc = "!"
+	antimagic_allowed = TRUE
+	recharge_time = 150
 
-	antimagic_flags = NONE
-
-	charge_required = FALSE
-	cooldown_time = 25 SECONDS
-
-/datum/action/cooldown/spell/undirected/convert_rebel/cast(atom/cast_on)
-	. = ..()
-	if(!owner.mind.has_antag_datum(/datum/antagonist/prebel))
-		return
-	var/inputty = browser_input_text(cast_on, "Make a speech", "REVOLUTON!")
+/obj/effect/proc_holder/spell/self/rebelconvert/cast(list/targets,mob/user = usr)
+	..()
+	var/inputty = input("Make a speech!", "VANDERLIN") as text|null
 	if(inputty)
-		owner.say(inputty, forced = "Revolution ([name])")
-		var/datum/antagonist/prebel/PR = owner.mind.has_antag_datum(/datum/antagonist/prebel)
-		for(var/mob/living/carbon/human/rebel in get_hearers_in_view(6, owner))
-			addtimer(CALLBACK(rebel, TYPE_PROC_REF(/mob/living/carbon/human, rev_ask), owner, PR, inputty), 1)
+		user.say(inputty, forced = "spell")
+		var/datum/antagonist/prebel/PR = user.mind.has_antag_datum(/datum/antagonist/prebel)
+		for(var/mob/living/carbon/human/L in get_hearers_in_view(6, get_turf(user)))
+			addtimer(CALLBACK(L,TYPE_PROC_REF(/mob/living/carbon/human, rev_ask), user,PR,inputty),1)
 
 /mob/living/carbon/human/proc/rev_ask(mob/living/carbon/human/guy,datum/antagonist/prebel/mind_datum,offer)
 	if(!guy || !mind_datum || !offer)
@@ -202,5 +193,3 @@
 	for(var/datum/mind/M in members)
 		if(considered_alive(M))
 			M.adjust_triumphs(5)
-
-#undef INGAME_ROLE_HEAD_UPDATE_PERIOD

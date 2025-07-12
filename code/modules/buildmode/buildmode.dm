@@ -193,9 +193,8 @@ GLOBAL_LIST_EMPTY(buildmode_appearance_cache)
 	update_preview_position()
 
 /proc/get_pixel_offsets_from_screenloc(params)
-	var/list/modifiers = params2list(params)
-	var/screen_loc = LAZYACCESS(modifiers, SCREEN_LOC)
-
+	var/list/pa = params2list(params)
+	var/screen_loc = pa["screen-loc"]
 	if(!screen_loc || !istext(screen_loc))
 		return null
 
@@ -311,9 +310,9 @@ GLOBAL_LIST_EMPTY(buildmode_appearance_cache)
  * @return {bool} - Whether the click was handled
  */
 /datum/buildmode/proc/InterceptClickOn(mob/user, params, atom/object)
-	var/list/modifiers = params2list(params)
-	var/left_click = LAZYACCESS(modifiers, LEFT_CLICK)
-	var/right_click = LAZYACCESS(modifiers, RIGHT_CLICK)
+	var/list/pa = params2list(params)
+	var/left_click = pa.Find("left")
+	var/right_click = pa.Find("right")
 
 	if(selected_item && !istype(mode, /datum/buildmode_mode/advanced))
 		if(left_click)

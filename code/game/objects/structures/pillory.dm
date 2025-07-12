@@ -35,18 +35,15 @@
 	if(lock)
 		. += span_info("It is [locked() ? "locked" : "unlocked"].")
 
-/obj/structure/pillory/attack_hand_secondary(mob/living/user, params)
+/obj/structure/pillory/attack_right(mob/living/user)
 	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
 	if(!length(buckled_mobs))
 		to_chat(user, span_warning("What's the point of latching it with nobody inside?"))
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return
 	if(user in buckled_mobs)
 		to_chat(user, span_warning("I can't reach the latch!"))
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return
 	togglelatch(user)
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/pillory/pre_lock_interact(mob/user)
 	if(user in buckled_mobs)

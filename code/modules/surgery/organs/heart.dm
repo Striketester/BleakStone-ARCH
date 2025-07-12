@@ -87,7 +87,7 @@
 	if(!owner)
 		Stop()
 
-/obj/item/organ/heart/attack_self(mob/user, params)
+/obj/item/organ/heart/attack_self(mob/user)
 	..()
 	if(!beating)
 		user.visible_message("<span class='notice'>[user] squeezes [src] to \
@@ -197,7 +197,7 @@
 	name = "Pump my blood"
 
 //You are now brea- pumping blood manually
-/datum/action/item_action/organ_action/cursed_heart/Trigger(trigger_flags)
+/datum/action/item_action/organ_action/cursed_heart/Trigger()
 	. = ..()
 	if(. && istype(target, /obj/item/organ/heart/cursed))
 		var/obj/item/organ/heart/cursed/cursed_heart = target

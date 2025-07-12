@@ -44,7 +44,6 @@ SUBSYSTEM_DEF(plexora)
 
 	var/restart_type = PLEXORA_SHUTDOWN_NORMAL
 	var/mob/restart_requester
-	var/list/active_requests = list()
 
 /datum/controller/subsystem/plexora/Initialize()
 	if(!CONFIG_GET(flag/plexora_enabled) && !load_old_plexora_config())
@@ -75,15 +74,6 @@ SUBSYSTEM_DEF(plexora)
 	)
 	return TRUE
 
-/datum/controller/subsystem/plexora/Shutdown()
-	var/end_time = REALTIMEOFDAY + (5 SECONDS)
-	while((length(active_requests) > 0) && (REALTIMEOFDAY < end_time))
-		for(var/datum/http_request/request as anything in active_requests)
-			if(request.is_complete())
-				active_requests -= request
-				qdel(request)
-	active_requests.Cut()
-
 /datum/controller/subsystem/plexora/Recover()
 	flags |= SS_NO_INIT // Make extra sure we don't initialize twice.
 	initialized = SSplexora.initialized
@@ -92,7 +82,6 @@ SUBSYSTEM_DEF(plexora)
 	enabled = SSplexora.enabled
 	tripped_bad_version = SSplexora.tripped_bad_version
 	default_headers = SSplexora.default_headers
-	active_requests = SSplexora.active_requests
 	if(initialized && !enabled)
 		flags |= SS_NO_FIRE
 
@@ -137,18 +126,12 @@ SUBSYSTEM_DEF(plexora)
 	var/list/status = status_handler.Run()
 	status["round_id"] = GLOB.round_id
 
-	var/datum/http_request/status_request = http_request(
+	http_request(
 		RUSTG_HTTP_METHOD_POST,
 		"[base_url]/status",
 		json_encode(status),
 		default_headers
-	)
-	status_request.begin_async()
-	active_requests += status_request
-	for(var/datum/http_request/request as anything in active_requests)
-		if(request.is_complete()) // rust-g will clear the job once it's complete
-			active_requests -= request
-			qdel(request)
+	).begin_async()
 
 /datum/controller/subsystem/plexora/proc/_Shutdown(hard = FALSE, requestedby)
 	var/static/server_restart_sent = FALSE
@@ -166,7 +149,7 @@ SUBSYSTEM_DEF(plexora)
 		"restart_type" = restart_type,
 		"requestedby" = usr?.ckey,
 		"requestedby_stealthed" = usr?.client?.holder?.fakekey,
-	), mark_active = FALSE)
+	))
 
 /datum/controller/subsystem/plexora/proc/serverstarted()
 	http_basicasync("serverupdates", list(
@@ -340,7 +323,7 @@ SUBSYSTEM_DEF(plexora)
 		"data" = data,
 	))
 
-/datum/controller/subsystem/plexora/proc/http_basicasync(path, list/body, mark_active = TRUE)
+/datum/controller/subsystem/plexora/proc/http_basicasync(path, list/body) as /datum/http_request
 	RETURN_TYPE(/datum/http_request)
 	if(!enabled) return
 
@@ -352,8 +335,7 @@ SUBSYSTEM_DEF(plexora)
 		"tmp/response.json"
 	)
 	request.begin_async()
-	if(mark_active)
-		active_requests += request
+	return request
 
 /datum/world_topic/plx_restartcontroller
 	keyword = "PLX_restartcontroller"

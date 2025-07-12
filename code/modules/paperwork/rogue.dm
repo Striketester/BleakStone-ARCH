@@ -34,7 +34,7 @@
 				if("onbelt")
 					return list("shrink" = 0.3,"sx" = -2,"sy" = -5,"nx" = 4,"ny" = -5,"wx" = 0,"wy" = -5,"ex" = 2,"ey" = -5,"nturn" = 0,"sturn" = 0,"wturn" = 0,"eturn" = 0,"nflip" = 0,"sflip" = 0,"wflip" = 0,"eflip" = 0,"northabove" = 0,"southabove" = 1,"eastabove" = 1,"westabove" = 0)
 
-/obj/item/paper/scroll/attack_self(mob/user, params)
+/obj/item/paper/scroll/attack_self(mob/user)
 	if(mailer)
 		user.visible_message("<span class='notice'>[user] opens the missive from [mailer].</span>")
 		mailer = null
@@ -42,7 +42,7 @@
 		update_appearance(UPDATE_ICON_STATE | UPDATE_NAME)
 		return
 	if(!open)
-		attack_hand_secondary(user, params)
+		attack_right(user)
 		return
 	..()
 	user.update_inv_hands()
@@ -78,13 +78,11 @@
 	. = ..()
 	update_appearance(UPDATE_ICON_STATE | UPDATE_NAME)
 
-/obj/item/paper/scroll/attack_self_secondary(mob/user, params)
-	attack_hand_secondary(user, params)
+/obj/item/paper/scroll/rmb_self(mob/user)
+	attack_right(user)
+	return
 
-/obj/item/paper/scroll/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
+/obj/item/paper/scroll/attack_right(mob/user)
 	if(open)
 		slot_flags |= ITEM_SLOT_HIP
 		open = FALSE
@@ -95,7 +93,6 @@
 		playsound(src, 'sound/items/scroll_open.ogg', 100, FALSE)
 	update_appearance(UPDATE_ICON_STATE | UPDATE_NAME)
 	user.update_inv_hands()
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/paper/scroll/update_icon_state()
 	. = ..()
@@ -313,11 +310,11 @@
 	else
 		return "<span class='warning'>I'm too far away to read it.</span>"
 
-/obj/item/paper/confession/attack_self_secondary(mob/user, params)
-	return SECONDARY_ATTACK_CALL_NORMAL
+/obj/item/paper/confession/rmb_self(mob/user)
+	return TRUE
 
-/obj/item/paper/confession/attack_hand_secondary(mob/user, params)
-	return SECONDARY_ATTACK_CALL_NORMAL
+/obj/item/paper/confession/attack_right(mob/user)
+	return TRUE
 
 /obj/item/merctoken
 	name = "mercenary token"
@@ -478,7 +475,7 @@
 
 	faction = faction_name
 	if(!faction)
-		faction = pick("Heartfelt", "Zalad", "Grenzelhoft", "Kingsfield")
+		faction = pick("Heartfelt", "Zybantine", "Grenzelhoft", "Kingsfield")
 
 	sell_prices = prices
 	if(!length(sell_prices))

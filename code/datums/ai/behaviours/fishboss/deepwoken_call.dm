@@ -53,7 +53,6 @@
 	icon_state = "blessing" // Replace with appropriate icon_state
 
 /datum/status_effect/deep_blessing/on_apply()
-	. = ..()
 	if(ishostile(owner))
 		var/mob/living/simple_animal/hostile/H = owner
 		H.melee_damage_lower *= 1.3
@@ -61,12 +60,11 @@
 		H.maxHealth *= 1.5
 		H.health = H.maxHealth
 		H.color = "#66DDFF"
-		H.add_filter("blessing_glow", 2, outline_filter(1, "#3366FF"))
+		H.add_filter("blessing_glow", 2, list("type" = "outline", "color" = "#3366FF", "size" = 1))
 		return TRUE
 	return FALSE
 
 /datum/status_effect/deep_blessing/on_remove()
-	. = ..()
 	if(ishostile(owner))
 		var/mob/living/simple_animal/hostile/H = owner
 		H.melee_damage_lower /= 1.3

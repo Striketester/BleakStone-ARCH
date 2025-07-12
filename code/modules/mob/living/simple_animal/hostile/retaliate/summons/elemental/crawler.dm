@@ -48,14 +48,21 @@
 
 	ai_controller = /datum/ai_controller/crawler
 
-	del_on_death = TRUE
+
 
 /mob/living/simple_animal/hostile/retaliate/elemental/crawler/Initialize()
 	. = ..()
 	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/simple_animal/hostile/retaliate/elemental/crawler/death(gibbed)
+	..()
 	var/turf/deathspot = get_turf(src)
-	for(var/i in 1 to 6)
-		new /obj/item/natural/elementalmote(deathspot)
-	return ..()
+	new /obj/item/natural/elementalmote(deathspot)
+	new /obj/item/natural/elementalmote(deathspot)
+	new /obj/item/natural/elementalmote(deathspot)
+	new /obj/item/natural/elementalmote(deathspot)
+	new /obj/item/natural/elementalmote(deathspot)
+	new /obj/item/natural/elementalmote(deathspot)
+	update_appearance()
+	sleep(1)
+	qdel(src)

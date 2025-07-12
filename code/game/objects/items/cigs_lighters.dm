@@ -291,7 +291,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		handle_reagents()
 */
 
-/obj/item/clothing/face/cigarette/attack_self(mob/user, params)
+/obj/item/clothing/face/cigarette/attack_self(mob/user)
 	if(lit)
 		user.visible_message("<span class='notice'>[user] calmly drops and treads on \the [src], putting it out instantly.</span>")
 		new type_butt(user.loc)
@@ -486,7 +486,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 		else
 			return ..()
 
-/obj/item/clothing/face/cigarette/pipe/attack_self(mob/user, params)
+/obj/item/clothing/face/cigarette/pipe/attack_self(mob/user)
 	var/turf/location = get_turf(user)
 	if(lit)
 		user.visible_message("<span class='notice'>[user] puts out [src].</span>", "<span class='notice'>I put out [src].</span>")
@@ -575,7 +575,7 @@ CIGARETTE PACKETS ARE IN FANCY.DM
 /obj/item/lighter/extinguish()
 	set_lit(FALSE)
 
-/obj/item/lighter/attack_self(mob/living/user, params)
+/obj/item/lighter/attack_self(mob/living/user)
 	if(user.is_holding(src))
 		if(!lit)
 			set_lit(TRUE)

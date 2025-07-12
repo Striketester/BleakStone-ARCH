@@ -101,9 +101,11 @@
 
 /mob/living/simple_animal/hostile/retaliate/wolf/update_overlays()
 	. = ..()
-	if(stat == DEAD)
-		return
-	. += emissive_appearance(icon, "vve")
+	if(stat != DEAD)
+		var/mutable_appearance/eye_lights = mutable_appearance(icon, "vve")
+		eye_lights.plane = 19
+		eye_lights.layer = 19
+		. += eye_lights
 
 /mob/living/simple_animal/hostile/retaliate/wolf/get_sound(input)
 	switch(input)

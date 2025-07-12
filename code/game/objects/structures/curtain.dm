@@ -11,20 +11,15 @@
 	opacity = FALSE
 	density = FALSE
 	var/open = TRUE
-	var/directional = FALSE //Can it be closed from one side only? i.e. Window curtains vs surgical drapes, curtain doors...
 
-/obj/structure/curtain/proc/toggle(mob/user)
-	user.changeNext_move(CLICK_CD_FAST)
-	if(directional && !(get_dir(src, user) == dir))
-		to_chat(user, span_notice("I can't reach the curtains from this side."))
-		return
-	if(open)
+/obj/structure/curtain/proc/toggle()
+	if(!open)
 		set_opacity(TRUE)
-		icon_state = "[icon_type]-open"
+		icon_state = "[icon_type]-closed"
 		open = FALSE
 	else
 		set_opacity(FALSE)
-		icon_state = "[icon_type]-closed"
+		icon_state = "[icon_type]-open"
 		open = TRUE
 	update_appearance(UPDATE_ICON_STATE)
 
@@ -49,21 +44,13 @@
 	. = ..()
 	if(.)
 		return
-	toggle(user)
+	toggle()
 
 /obj/structure/curtain/deconstruct(disassembled = TRUE)
 	qdel(src)
-
-/obj/structure/curtain/dir
-	icon_state = MAP_SWITCH("bathroom-open", "curtaindir")
-	directional = TRUE
 
 /obj/structure/curtain/bounty
 	icon_type = "bounty"
 	icon_state = "bounty-open"
 	color = null
 	alpha = 255
-
-/obj/structure/curtain/bounty/dir
-	icon_state = MAP_SWITCH("bounty-open", "bountydir")
-	directional = TRUE

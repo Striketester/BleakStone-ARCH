@@ -30,17 +30,16 @@
 
 /obj/machinery/essence/harvester/update_overlays()
 	. = ..()
+
 	if(installed_node)
-		var/mutable_appearance/node = mutable_appearance(
-			installed_node.icon,
-			installed_node.icon_state,
-			layer = src.layer + 0.1,
-			color = installed_node.color,
-		)
+		var/mutable_appearance/node = mutable_appearance(installed_node.icon, installed_node.icon_state)
+		node.color = installed_node.color
+		node.layer = layer + 0.1
 		node.pixel_y = 12
 		. += node
 
-		var/mutable_appearance/node_emissive = emissive_appearance(installed_node.icon, installed_node.icon_state, alpha = node.alpha)
+		var/mutable_appearance/node_emissive = mutable_appearance(installed_node.icon, installed_node.icon_state)
+		node_emissive.plane = EMISSIVE_PLANE
 		node_emissive.pixel_y = 12
 		. += node_emissive
 

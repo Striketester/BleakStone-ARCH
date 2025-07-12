@@ -247,7 +247,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	var/unfoldedbag_path = /obj/structure/closet/burial_shroud
 
-/obj/item/burial_shroud/attack_self(mob/user, params)
+/obj/item/burial_shroud/attack_self(mob/user)
 	deploy_bodybag(user, user.loc)
 
 /obj/item/burial_shroud/afterattack(atom/target, mob/user, proximity)
@@ -270,7 +270,6 @@
 	desc = ""
 	icon = 'icons/obj/bodybag.dmi'
 	icon_state = "shroud"
-	base_icon_state = "shroud"
 	density = FALSE
 	mob_storage_capacity = 1
 	open_sound = 'sound/blank.ogg'
@@ -325,7 +324,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	var/unfoldedbag_path = /obj/structure/closet/body_bag
 
-/obj/item/bodybag/attack_self(mob/user, params)
+/obj/item/bodybag/attack_self(mob/user)
 	deploy_bodybag(user, user.loc)
 
 /obj/item/bodybag/afterattack(atom/target, mob/user, proximity)

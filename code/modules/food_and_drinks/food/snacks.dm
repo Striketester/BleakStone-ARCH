@@ -339,7 +339,7 @@ All foods are distributed among various categories. Use common sense.
 			generate_trash(current_loc.drop_location())
 	update_appearance(UPDATE_ICON_STATE)
 
-/obj/item/reagent_containers/food/snacks/attack_self(mob/user, params)
+/obj/item/reagent_containers/food/snacks/attack_self(mob/user)
 	return
 
 /obj/item/reagent_containers/food/snacks/attack(mob/living/M, mob/living/user, def_zone)

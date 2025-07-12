@@ -2,7 +2,7 @@
 	icon = 'icons/misc/buildmode.dmi'
 	var/datum/buildmode/bd
 	// If we don't do this, we get occluded by item action buttons
-	plane = ABOVE_HUD_PLANE
+	layer = ABOVE_HUD_LAYER
 
 /atom/movable/screen/buildmode/New(bld)
 	bd = bld
@@ -18,13 +18,11 @@
 	screen_loc = "NORTH,WEST"
 
 /atom/movable/screen/buildmode/mode/Click(location, control, params)
-	var/list/modifiers = params2list(params)
-	var/left_click = LAZYACCESS(modifiers, LEFT_CLICK)
-	var/right_click = LAZYACCESS(modifiers, RIGHT_CLICK)
+	var/list/pa = params2list(params)
 
-	if(left_click)
+	if(pa.Find("left"))
 		bd.toggle_modeswitch()
-	else if(right_click)
+	else if(pa.Find("right"))
 		bd.mode.change_settings(usr.client)
 	update_appearance(UPDATE_ICON_STATE)
 	return TRUE

@@ -342,7 +342,7 @@
 
 	animal_species = null
 	gender = FEMALE
-	pass_flags = PASSMOB
+	pass_flags = PASSTABLE | PASSMOB
 	mob_size = MOB_SIZE_SMALL
 
 	botched_butcher_results = list(/obj/item/reagent_containers/food/snacks/meat/mince/beef = 1)
