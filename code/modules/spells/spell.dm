@@ -43,7 +43,9 @@
 	name = "Spell"
 	desc = "A wizard spell."
 	background_icon = 'icons/mob/actions/roguespells.dmi'
-	background_icon_state = "spell"
+	background_icon_state = "spell0"
+	base_background_icon_state = "spell0"
+	active_background_icon_state = "spell1"
 	button_icon = 'icons/mob/actions/roguespells.dmi'
 	button_icon_state = "shieldsparkles"
 	check_flags = AB_CHECK_CONSCIOUS|AB_CHECK_PHASED
@@ -157,6 +159,8 @@
 	var/charge_started_at = 0
 	/// Charge target time, from get_charge_time()
 	var/charge_target_time = 0
+	/// Whether the spell is currently charged, for cases where you want to keep casting after the initial charge (projectiles)
+	var/charged = FALSE
 
 	/// If the spell creates visual effects
 	var/has_visual_effects = TRUE
@@ -245,13 +249,13 @@
 
 	return ..()
 
-/datum/action/cooldown/spell/IsAvailable()
-	return ..() && can_cast_spell(feedback = FALSE)
-
 /datum/action/cooldown/spell/is_action_active(atom/movable/screen/movable/action_button/current_button)
-	if(charge_required)
+	if(charge_required && !click_to_activate)
 		return currently_charging
 	return ..()
+
+/datum/action/cooldown/spell/IsAvailable()
+	return ..() && can_cast_spell(feedback = FALSE)
 
 /datum/action/cooldown/spell/Trigger(trigger_flags, atom/target)
 	// We implement this can_cast_spell check before the parent call of Trigger()
@@ -267,24 +271,28 @@
 	if(SEND_SIGNAL(on_who, COMSIG_MOB_SPELL_ACTIVATED, src) & SPELL_CANCEL_CAST)
 		return FALSE
 
+	if(currently_charging)
+		return FALSE
+
 	if(click_to_activate)
 		on_activation(on_who)
 
-	if(charge_required && click_to_activate)
-		if(currently_charging)
-			return FALSE
-
-		// If pointed we setup signals to override mouse down to call PreActivate()
-		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
+		if(charge_required)
+			// If pointed we setup signals to override mouse down to call InterceptClickOn()
+			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 
 	return ..()
 
 // Note: Destroy() calls Remove(), Remove() calls unset_click_ability() if our spell is active.
 /datum/action/cooldown/spell/unset_click_ability(mob/on_who, refund_cooldown = TRUE)
-	. = ..()
-
 	if(click_to_activate)
 		on_deactivation(on_who, refund_cooldown = refund_cooldown)
+
+		if(charge_required)
+			// If pointed we setup signals to override mouse down to call InterceptClickOn()
+			UnregisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN)
+
+	return ..()
 
 /*
  * The following three procs are only relevant to pointed spells
@@ -314,6 +322,11 @@
 	return TRUE
 
 /datum/action/cooldown/spell/InterceptClickOn(mob/living/clicker, params, atom/click_target)
+	if(charge_required && !charged)
+		to_chat(owner, span_warning("I did not channel the spell enough!"))
+		cancel_charging()
+		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
+		return
 	var/atom/aim_assist_target
 	if(aim_assist && isturf(click_target))
 		// Find any human in the list. We aren't picky, it's aim assist after all
@@ -328,6 +341,8 @@
 /datum/action/cooldown/spell/PreActivate(atom/target)
 	if(!is_valid_target(target))
 		return FALSE
+
+	charged = FALSE
 
 	return Activate(target)
 
@@ -401,6 +416,16 @@
 	if(!owner)
 		CRASH("[type] - can_cast_spell called on a spell without an owner!")
 
+	if(!ignore_cockblock && HAS_TRAIT(owner, TRAIT_SPELLBLOCK))
+		if(feedback)
+			to_chat(owner, span_warning("I can't seem to concentrate on casting..."))
+		return FALSE
+
+	if(HAS_TRAIT(owner, TRAIT_NOC_CURSE))
+		if(feedback)
+			to_chat(owner, span_warning("My magicka has left me..."))
+		return FALSE
+
 	for(var/datum/action/cooldown/spell/spell in owner.actions)
 		if(spell == src)
 			continue
@@ -410,16 +435,6 @@
 			return FALSE
 
 	if(!check_cost(feedback = feedback))
-		return FALSE
-
-	if(!ignore_cockblock && HAS_TRAIT(owner, TRAIT_SPELLBLOCK))
-		if(feedback)
-			to_chat(owner, span_warning("I can't seem to concentrate on casting..."))
-		return FALSE
-
-	if(HAS_TRAIT(owner, TRAIT_NOC_CURSE))
-		if(feedback)
-			to_chat(owner, span_warning("My magicka has left me..."))
 		return FALSE
 
 	// Certain spells are not allowed on the centcom zlevel
@@ -650,7 +665,7 @@
 /datum/action/cooldown/spell/proc/on_start_charge()
 	currently_charging = TRUE
 	START_PROCESSING(SSaction_charge, src)
-	build_all_button_icons(UPDATE_BUTTON_STATUS)
+	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 
 	if(charge_slowdown)
 		owner.add_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING, override = TRUE, multiplicative_slowdown = charge_slowdown)
@@ -674,6 +689,7 @@
 	cancel_charging()
 	. = success
 	if(success)
+		charged = TRUE
 		return
 	if(owner)
 		to_chat(owner, span_warning("My channeling of [src] was interrupted!"))
@@ -681,15 +697,15 @@
 /datum/action/cooldown/spell/proc/cancel_charging()
 	UnregisterSignal(owner.client, list(COMSIG_CLIENT_MOUSEDOWN, COMSIG_CLIENT_MOUSEUP))
 	UnregisterSignal(owner, list(COMSIG_MOB_LOGOUT, COMSIG_MOVABLE_MOVED))
-
 	currently_charging = FALSE
-	charge_started_at = 0
-	charge_target_time = 0
+	charge_started_at = null
+	charge_target_time = null
+	charged = FALSE
 	STOP_PROCESSING(SSaction_charge, src)
-	build_all_button_icons(UPDATE_BUTTON_STATUS)
+	build_all_button_icons(UPDATE_BUTTON_STATUS|UPDATE_BUTTON_BACKGROUND)
 
 	if(owner?.mmb_intent)
-		QDEL_NULL(owner.mmb_intent)
+		owner.mmb_intent_change(null)
 
 	if(charge_slowdown)
 		owner.remove_movespeed_modifier(MOVESPEED_ID_SPELL_CASTING)
@@ -915,6 +931,8 @@
 		return
 	if(!isturf(owner.loc))
 		return
+	if(charge_started_at)
+		return
 
 	if(isnull(location) || istype(_target, /atom/movable/screen)) //Clicking on a screen object.
 		if(_target.plane != CLICKCATCHER_PLANE) //The clickcatcher is a special case. We want the click to trigger then, under it.
@@ -929,7 +947,7 @@
 	on_start_charge()
 
 	if(spell_requirements & SPELL_REQUIRES_NO_MOVE)
-		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(signal_cancel))
+		RegisterSignal(owner, COMSIG_MOVABLE_MOVED, PROC_REF(signal_cancel), TRUE)
 
 	source.mouse_override_icon = 'icons/effects/mousemice/charge/spell_charging.dmi'
 	owner.update_mouse_pointer()
@@ -962,6 +980,7 @@
 		if(!_target)
 			CRASH("Failed to get the turf under clickcatcher")
 
+	source.click_intercept_time = null
 	// Call this directly to do all the relevant checks and aim assist
 	InterceptClickOn(owner, params, _target)
 

@@ -1,7 +1,7 @@
 /datum/action/cooldown/spell/sacred_flame
 	name = "Sacred Flame"
 	desc = "Burn the target with divine light."
-	button_icon_state = "pflower"
+	button_icon_state = "sacredflame"
 	sound = 'sound/magic/heal.ogg'
 	charge_sound = 'sound/magic/holycharging.ogg'
 	self_cast_possible = FALSE
@@ -14,11 +14,11 @@
 	invocation = "Cleansing flames, kindle!"
 	invocation_type = INVOCATION_SHOUT
 
-	charge_time = 3 SECONDS
+	charge_time = 2 SECONDS
 	charge_drain = 1
 	charge_slowdown = 0.7
-	cooldown_time = 20 SECONDS
-	spell_cost = 50
+	cooldown_time = 10 SECONDS
+	spell_cost = 30
 
 	var/stacks_to_add = 3
 

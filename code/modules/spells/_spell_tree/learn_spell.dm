@@ -1,6 +1,8 @@
 /datum/action/cooldown/spell/undirected/learn
 	name = "Attempt to learn a new spell"
 	desc = "Weave a new spell"
+	button_icon_state = "book1"
+	sound = null
 
 	school = SCHOOL_TRANSMUTATION
 

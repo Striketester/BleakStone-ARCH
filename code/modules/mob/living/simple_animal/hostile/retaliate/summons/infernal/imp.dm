@@ -76,11 +76,6 @@
 	var/turf/deathspot = get_turf(src)
 	for(var/i in 1 to 6)
 		new /obj/item/natural/infernalash(deathspot)
-		new /obj/item/natural/infernalash(deathspot)
-		new /obj/item/natural/infernalash(deathspot)
-		new /obj/item/natural/infernalash(deathspot)
-		new /obj/item/natural/infernalash(deathspot)
-		new /obj/item/natural/infernalash(deathspot)
 	return ..()
 
 /mob/living/simple_animal/hostile/retaliate/infernal/imp/taunted(mob/user)
