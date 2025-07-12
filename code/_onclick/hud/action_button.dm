@@ -85,10 +85,10 @@
 /atom/movable/screen/movable/action_button/MouseEntered(location, control, params)
 	. = ..()
 	if(!QDELETED(src))
-		openToolTip(usr, src, params, title = name, content = desc, theme = actiontooltipstyle)
+		handle_mouseover(location, control, params)
 
 /atom/movable/screen/movable/action_button/MouseExited(location, control, params)
-	closeToolTip(usr)
+	handle_mouseexit(params)
 	return ..()
 
 /atom/movable/screen/movable/action_button/MouseDrop(over_object)
@@ -444,7 +444,7 @@ GLOBAL_LIST_INIT(palette_removed_matrix, list(1.4,0,0,0, 0.7,0.4,0,0, 0.4,0,0.6,
 	if(owner)
 		owner.landing = null
 		owner?.owner?.mymob?.client?.screen -= src
-		owner.refresh_actions()
+		owner?.refresh_actions()
 		owner = null
 	return ..()
 

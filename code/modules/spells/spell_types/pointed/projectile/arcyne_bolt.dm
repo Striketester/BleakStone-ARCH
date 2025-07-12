@@ -16,8 +16,6 @@
 	spell_cost = 50
 
 	projectile_type = /obj/projectile/magic/energy/rogue3
-	projectile_amount = 3
-	projectiles_per_fire = 3
 
 /datum/action/cooldown/spell/projectile/arcyne_bolt/ready_projectile(obj/projectile/to_fire, atom/target, mob/user, iteration)
 	. = ..()

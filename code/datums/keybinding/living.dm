@@ -2,38 +2,16 @@
 	category = CATEGORY_HUMAN
 	weight = WEIGHT_MOB
 
-
 /datum/keybinding/living/can_use(client/user)
 	return isliving(user.mob)
 
 /datum/keybinding/living/swap_left
-	hotkey_keys = list("E")
+	hotkey_keys = list("Q")
 	name = "swap_left"
 	full_name = "Swap to left hand"
 	description = ""
 
 /datum/keybinding/living/swap_left/down(client/user)
-	. = ..()
-	var/mob/M = user.mob
-	if(!isliving(M))
-		return
-	if(M.atkswinging)
-		M.stop_attack()
-	if(M.active_hand_index == 2)
-		var/obj/item/I = M.get_active_held_item()
-		if(I)
-			I.Click()
-	else
-		M.swap_hand(2)
-	return TRUE
-
-/datum/keybinding/living/swap_right
-	hotkey_keys = list("Q")
-	name = "swap_right"
-	full_name = "Swap to right hand"
-	description = ""
-
-/datum/keybinding/living/swap_right/down(client/user)
 	. = ..()
 	var/mob/M = user.mob
 	if(!isliving(M))
@@ -46,6 +24,27 @@
 			I.Click()
 	else
 		M.swap_hand(1)
+	return TRUE
+
+/datum/keybinding/living/swap_right
+	hotkey_keys = list("E")
+	name = "swap_right"
+	full_name = "Swap to right hand"
+	description = ""
+
+/datum/keybinding/living/swap_right/down(client/user)
+	. = ..()
+	var/mob/M = user.mob
+	if(!isliving(M))
+		return
+	if(M.atkswinging)
+		M.stop_attack()
+	if(M.active_hand_index == 2)
+		var/obj/item/I = M.get_active_held_item()
+		if(I)
+			I.Click()
+	else
+		M.swap_hand(2)
 	return TRUE
 
 /datum/keybinding/living/swap_hands

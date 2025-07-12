@@ -5,7 +5,6 @@
 	sound = 'sound/magic/diagnose.ogg'
 	has_visual_effects = FALSE
 
-	cast_range = 2
 	associated_skill = /datum/skill/misc/medicine
 
 	charge_required = FALSE
