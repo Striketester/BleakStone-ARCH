@@ -1687,11 +1687,6 @@
 			to_chat(src, span_warning("You are too far away!"))
 			return FALSE
 
-		// var/datum/dna/mob_DNA = has_dna()
-		// if(!mob_DNA || !mob_DNA.check_mutation(/datum/mutation/human/telekinesis) || !tkMaxRangeCheck(src, target))
-		to_chat(src, span_warning("You are too far away!"))
-		return FALSE
-
 	if((action_bitflags & NEED_DEXTERITY) && !IsAdvancedToolUser()) // !ISADVANCEDTOOLUSER(src)
 		to_chat(src, span_warning("You don't have the dexterity to do this!"))
 		return FALSE
@@ -2488,6 +2483,9 @@
 			log_combat(src, src, "lost consciousness")
 		if(DEAD)
 			log_combat(src, src, "died")
+	if(!can_hear())
+		stop_sound_channel(CHANNEL_AMBIENCE)
+	refresh_looping_ambience()
 
 /mob/living/set_pulledby(new_pulledby)
 	. = ..()

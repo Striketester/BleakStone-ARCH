@@ -142,7 +142,7 @@
 		lower_from_mouth()
 		update_appearance()
 	// Prevents an exploit
-	for(var/mob/living/carbon/L as anything in hearers(7, loc))
+	for(var/mob/living/L in hearers(7, loc))
 		for(var/datum/status_effect/bardicbuff/b in L.status_effects)
 			L.remove_status_effect(b) // All applicable bard buffs stopped
 
