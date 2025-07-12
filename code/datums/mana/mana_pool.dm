@@ -386,6 +386,8 @@
 		var/datum/hud/human/hud_used = holder.hud_used
 		if(hud_used?.mana)
 			var/filled = round((src.amount / get_softcap()) * 100, 10)
+			if(filled < 10)
+				return
 			filled = clamp(filled, 0, 120)
 			hud_used.mana.icon_state = "mana[filled]"
 
