@@ -966,6 +966,8 @@
 
 	var/success = world.time >= (charge_started_at + charge_target_time)
 	if(!on_end_charge(success))
+		to_chat(owner, span_warning("I did not channel the spell enough!"))
+		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 		return
 
 	if(!can_cast_spell(TRUE))
