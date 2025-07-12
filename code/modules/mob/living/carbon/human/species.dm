@@ -29,7 +29,7 @@ GLOBAL_LIST_EMPTY(patreon_races)
 	 */
 	var/list/allowed_pronouns = PRONOUNS_LIST_NO_IT
 
-	/// The list of voice types this species allows in the character sheet for feminine bodys
+	/// The list of voice types this species allows in the character sheet for feminine bodies
 	var/list/allowed_voicetypes_f = VOICE_TYPES_LIST
 
 	/// The list of voice types this species allows in the character sheet for masculine bodys
