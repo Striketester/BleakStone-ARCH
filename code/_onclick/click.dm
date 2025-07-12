@@ -193,6 +193,11 @@
 		update_inv_hands()
 		return
 
+	if(!A.Adjacent(src) && LAZYACCESS(params2list(params), RIGHT_CLICK))
+		if(uses_intents && used_intent.rmb_ranged)
+			used_intent.rmb_ranged(A, src) //get the message from the intent
+			return
+
 	// operate three levels deep here (item in backpack in src; item in box in backpack in src, not any deeper)
 	if(!isturf(A) && A == loc || (A in contents) || (A.loc in contents) || (A.loc && (A.loc.loc in contents)))
 		// the above ensures adjacency
