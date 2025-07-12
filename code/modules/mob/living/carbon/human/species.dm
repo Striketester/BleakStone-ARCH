@@ -32,7 +32,7 @@ GLOBAL_LIST_EMPTY(patreon_races)
 	/// The list of voice types this species allows in the character sheet for feminine bodies
 	var/list/allowed_voicetypes_f = VOICE_TYPES_LIST
 
-	/// The list of voice types this species allows in the character sheet for masculine bodys
+	/// The list of voice types this species allows in the character sheet for masculine bodies
 	var/list/allowed_voicetypes_m = VOICE_TYPES_LIST
 
 	/// Associative list of FEATURE SLOT to PIXEL ADJUSTMENTS X/Y seperated by gender
