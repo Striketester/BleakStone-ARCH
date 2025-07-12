@@ -441,7 +441,7 @@ GLOBAL_VAR_INIT(OOC_COLOR, normal_ooc_colour)//If this is null, use the CSS for 
 		return
 	// Fetch aspect ratio
 	var/view_size = getviewsize(view)
-	var/aspect_ratio = view_size[1] / view_size[2]
+	var/aspect_ratio = view_size[1] / (view_size[2] / 1.3)
 
 	// Calculate desired pixel width using window size and aspect ratio
 	var/sizes = params2list(winget(src, "mainwindow.split;mapwindow", "size"))
