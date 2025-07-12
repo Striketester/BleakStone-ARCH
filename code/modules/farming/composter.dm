@@ -146,12 +146,13 @@
 		return
 	. = ..()
 
-/obj/structure/composter/attack_right(mob/user)
-	user.changeNext_move(CLICK_CD_FAST)
-	var/obj/item = user.get_active_held_item()
-	if(try_handle_flipping_compost(item, user, null))
+/obj/structure/composter/attackby_secondary(obj/item/weapon, mob/user, params)
+	. = ..()
+	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
-	return ..()
+	user.changeNext_move(CLICK_CD_FAST)
+	if(try_handle_flipping_compost(weapon, user, null))
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/composter/update_overlays()
 	. = ..()
