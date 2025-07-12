@@ -23,6 +23,8 @@
 			continue
 		if(H.age == AGE_CHILD)
 			continue
+		return TRUE
+
 	return FALSE
 
 /datum/round_event/ultimate_sacrifice/start()

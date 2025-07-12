@@ -19,7 +19,7 @@
 		),
 		"Set 4" = list(
 			STATS_ASTRATA_REVIVALS = list("name" = "Holy revivals:", "points" = 6, "capacity" = 75),
-			STATS_PRAYERS_MADE = list("name" = "Prayers made:", "points" = 3, "capacity" = 60),
+			STATS_PRAYERS_MADE = list("name" = "Prayers made:", "points" = 2, "capacity" = 60),
 		),
 		"Set 5" = list(
 			STATS_TAXES_COLLECTED = list("name" = "Taxes collected:", "points" = 0.175, "capacity" = 90),
