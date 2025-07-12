@@ -5,17 +5,17 @@
 	sound = 'sound/magic/heal.ogg'
 	charge_sound = 'sound/magic/holycharging.ogg'
 
-	cast_range = 3
+	cast_range = 6
 	spell_type = SPELL_MIRACLE
 	antimagic_flags = MAGIC_RESISTANCE_HOLY
 	associated_skill = /datum/skill/magic/holy
 	required_items = list(/obj/item/clothing/neck/psycross)
 
-	charge_time = 3 SECONDS
+	charge_time = 1 SECONDS
 	charge_drain = 1
 	charge_slowdown = 0.3
-	cooldown_time = 20 SECONDS
-	spell_cost = 25
+	cooldown_time = 15 SECONDS
+	spell_cost = 15
 
 	/// Base healing before adjustments
 	var/base_healing = 25
@@ -184,10 +184,10 @@
 /datum/action/cooldown/spell/healing/lesser
 	name = "Lesser Miracle"
 
-	cast_range = 2
+	cast_range = 4
 
-	cooldown_time = 30 SECONDS
-	spell_cost = 30
+	cooldown_time = 20 SECONDS
+	spell_cost = 15
 
 	base_healing = 20
 	wound_modifier = 0.4
@@ -197,11 +197,10 @@
 	name = "Greater Miracle"
 	button_icon_state = "astrata"
 
-	cast_range = 5
-
+	charge_time = 1.5 SECONDS
 	charge_slowdown = 0.3
-	cooldown_time = 25 SECONDS
-	spell_cost = 45
+	cooldown_time = 20 SECONDS
+	spell_cost = 20
 
 	base_healing = 50
 	wound_modifier = 0.5

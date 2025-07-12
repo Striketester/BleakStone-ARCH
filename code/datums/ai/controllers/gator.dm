@@ -53,11 +53,11 @@
 
 		// Move less in water
 		if(prob(15))
-			SSmove_manager.move_rand(gator_pawn)
+			step_rand(gator_pawn)
 	else
 		// Normal movement on land
 		if(prob(50))
-			SSmove_manager.move_rand(gator_pawn)
+			step_rand(gator_pawn)
 
 /datum/idle_behavior/gator_idle/proc/end_ambush_pose(mob/living/simple_animal/hostile/retaliate/gator/gator_pawn)
 	if(istype(gator_pawn))
@@ -110,7 +110,9 @@
 
 	if(!has_target && !in_water && prob(return_to_water_chance))
 		var/atom/water_target = controller.blackboard[BB_GATOR_PREFERRED_TERRITORY]
-		if(water_target.z != controller.pawn.z)
+		if(QDELETED(water_target))
+			return
+		if(water_target.z != gator_pawn.z)
 			controller.set_blackboard_key(BB_GATOR_PREFERRED_TERRITORY, null)
 			water_target = null
 		if(water_target)

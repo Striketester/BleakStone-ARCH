@@ -11,6 +11,24 @@
 	if(randomise_flags & RANDOMIZE_GENDER)
 		gender = pref_species.sexes ? pick(MALE, FEMALE) : PLURAL
 
+	// pronouns should match gender, not randomized
+	switch(gender)
+		if(MALE)
+			pronouns = HE_HIM
+		if(FEMALE)
+			pronouns = SHE_HER
+		if(PLURAL)
+			pronouns = THEY_THEM
+		else
+			pronouns = IT_ITS
+
+	var/list/allowed_pronouns = pref_species.allowed_pronouns
+	if(!allowed_pronouns || !length(allowed_pronouns))
+		allowed_pronouns = PRONOUNS_LIST
+
+	if (!(pronouns in allowed_pronouns))
+		pronouns = pick(allowed_pronouns)
+
 	if(randomise_flags & RANDOMIZE_AGE)
 		age = pick(pref_species.possible_ages)
 
@@ -56,6 +74,17 @@
 		gender = pref_species.sexes ? pick(MALE, FEMALE) : PLURAL
 	if(randomise[RANDOM_AGE] || randomise[RANDOM_AGE_ANTAG] && antag_override)
 		age = pick(pref_species.possible_ages)
+	if(randomise[RANDOM_VOICETYPE] || antag_override && randomise[RANDOM_VOICETYPE_ANTAG])
+		voice_type = pick(VOICE_TYPES_LIST)
+	if(randomise[RANDOM_PRONOUNS] || antag_override && randomise[RANDOM_PRONOUNS_ANTAG])
+		var/list/allowed_pronouns = pref_species.allowed_pronouns
+		if(!allowed_pronouns || !length(allowed_pronouns))
+			allowed_pronouns = PRONOUNS_LIST
+		if(length(allowed_pronouns) == 1)
+			pronouns = allowed_pronouns[1]
+		else
+			pronouns = pick(allowed_pronouns)
+
 	if(randomise[RANDOM_NAME] || antag_override && randomise[RANDOM_NAME_ANTAG])
 		real_name = pref_species.random_name(gender, TRUE)
 

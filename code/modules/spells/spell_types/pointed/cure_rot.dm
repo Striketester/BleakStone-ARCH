@@ -17,8 +17,6 @@
 	cooldown_time = 2 MINUTES
 	spell_cost = 100
 
-	var/was_zombie = FALSE
-
 /datum/action/cooldown/spell/cure_rot/is_valid_target(atom/cast_on)
 	. = ..()
 	if(!.)
@@ -48,18 +46,16 @@
 			reset_spell_cooldown()
 			return . | SPELL_CANCEL_CAST
 
-	if(cast_on.mind?.has_antag_datum(/datum/antagonist/zombie))
-		was_zombie = TRUE
-
 /datum/action/cooldown/spell/cure_rot/cast(mob/living/carbon/human/cast_on)
 	. = ..()
+	var/was_zombie = cast_on.mind?.has_antag_datum(/datum/antagonist/zombie)
 	var/has_rot = FALSE
 	if(!was_zombie)
 		for(var/obj/item/bodypart/bodypart as anything in cast_on.bodyparts)
 			if(bodypart.rotted)
 				has_rot = TRUE
 				break
-	if(!has_rot)
+	if(!has_rot && !was_zombie)
 		to_chat(owner, span_warning("Nothing happens."))
 		return FALSE
 

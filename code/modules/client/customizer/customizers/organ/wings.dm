@@ -144,14 +144,13 @@
 
 // Start flying normally
 /datum/action/item_action/organ_action/use/flight/proc/start_flying()
-	if(!owner.can_zTravel(direction = UP))
-		to_chat(owner, span_warning("Something is blocking me!"))
-		return
 	var/turf/turf = get_turf(owner)
-	if(isopenspace(GET_TURF_ABOVE(turf)))
-		turf = GET_TURF_ABOVE(turf)
+	if(owner.can_zTravel(direction = UP))
+		if(isopenspace(GET_TURF_ABOVE(turf)))
+			turf = GET_TURF_ABOVE(turf)
 	owner.movement_type |= FLYING
 	flying = TRUE
+	to_chat(owner, span_notice("I start flying."))
 	if(turf != get_turf(owner))
 		var/matrix/original = owner.transform
 		var/prev_alpha = owner.alpha
@@ -184,12 +183,11 @@
 
 // Stop flying normally
 /datum/action/item_action/organ_action/use/flight/proc/stop_flying()
-	if(!owner.can_zTravel(direction = DOWN))
-		to_chat(owner, span_warning("Something is blocking me!"))
-		return
 	var/turf/turf = get_turf(owner)
 	if(isopenspace(turf))
-		turf = GET_TURF_BELOW(turf)
+		if(owner.can_zTravel(direction = DOWN))
+			turf = GET_TURF_BELOW(turf)
+	to_chat(owner, span_notice("I stop flying."))
 	if(turf != get_turf(owner))
 		var/matrix/original = owner.transform
 		var/prev_alpha = owner.alpha

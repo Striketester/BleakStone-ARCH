@@ -306,7 +306,7 @@
 				GLOB.vanderlin_round_stats[STATS_CRAFT_SKILLS]++
 			if(skill == /datum/skill/misc/reading && old_level == SKILL_LEVEL_NONE && current.is_literate())
 				GLOB.vanderlin_round_stats[STATS_LITERACY_TAUGHT]++
-		if(ispath(skill, /datum/skill/magic))
+		if(skill == /datum/skill/magic/arcane)
 			current?.adjust_spellpoints(1)
 
 		return TRUE
@@ -331,7 +331,7 @@
 	/// How much experience the mob gets at the end
 	var/amt2gain = 0
 	// Give spellpoints if the skill is arcane
-	if(ispath(skill, /datum/skill/magic))
+	if(skill == /datum/skill/magic/arcane)
 		current?.adjust_spellpoints(amt)
 	if(amt > 0)
 		for(var/i in 1 to amt)

@@ -34,7 +34,7 @@
 	node_x = 110
 	node_y = -90
 	prerequisites = list(/datum/spell_node/illusionist)
-	spell_type = /datum/action/cooldown/spell/undirected/forcewall
+	spell_type = /datum/action/cooldown/spell/undirected/forcewall/breakable
 
 /datum/spell_node/mana_well
 	name = "Mana Well"

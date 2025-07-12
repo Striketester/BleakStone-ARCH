@@ -19,14 +19,14 @@
 
 /datum/action/cooldown/spell/undirected/forcewall/cast(atom/cast_on)
 	. = ..()
-
+	var/turf/ahead = get_step(owner, owner.dir)
+	new wall_type(ahead, owner, antimagic_flags)
 	if(owner.dir == SOUTH || owner.dir == NORTH)
-		new wall_type(get_step(owner, EAST), owner, antimagic_flags)
-		new wall_type(get_step(owner, WEST), owner, antimagic_flags)
-
+		new wall_type(get_step(ahead, EAST), owner, antimagic_flags)
+		new wall_type(get_step(ahead, WEST), owner, antimagic_flags)
 	else
-		new wall_type(get_step(owner, NORTH), owner, antimagic_flags)
-		new wall_type(get_step(owner, SOUTH), owner, antimagic_flags)
+		new wall_type(get_step(ahead, NORTH), owner, antimagic_flags)
+		new wall_type(get_step(ahead, SOUTH), owner, antimagic_flags)
 
 /datum/action/cooldown/spell/undirected/forcewall/breakable
 	name = "Lesser Forcewall"

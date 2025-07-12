@@ -12,15 +12,13 @@
 	invocation = "Feel Abyssor's rage!"
 	invocation_type = INVOCATION_SHOUT
 
-	charge_time = 4 SECONDS
+	charge_time = 1.5 SECONDS
 	charge_drain = 1
-	charge_slowdown = 0.7
-	cooldown_time = 40 SECONDS
-	spell_cost = 50
+	charge_slowdown = 0.3
+	cooldown_time = 20 SECONDS
+	spell_cost = 25
 
 	projectile_type = /obj/projectile/magic/swordfish
-	projectile_amount = 2
-	projectiles_per_fire = 2
 
 //esssentially a magic throwing knife
 /obj/projectile/magic/swordfish

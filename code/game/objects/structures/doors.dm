@@ -193,7 +193,7 @@
 	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
 		return
 	user.changeNext_move(CLICK_CD_FAST)
-	if((has_bolt || has_viewport) && user.get_active_held_item())
+	if((has_bolt || has_viewport))
 		to_chat(user, span_warning("I need a free hand."))
 		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	if(has_bolt)
