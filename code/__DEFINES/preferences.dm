@@ -140,6 +140,8 @@
 #define IT_ITS			"it/its"
 
 #define PRONOUNS_LIST list(HE_HIM, SHE_HER, THEY_THEM, IT_ITS)
+#define PRONOUNS_LIST_NO_IT list(HE_HIM, SHE_HER, THEY_THEM)
+#define PRONOUNS_LIST_IT_ONLY list(IT_ITS)
 
 // Voice types
 

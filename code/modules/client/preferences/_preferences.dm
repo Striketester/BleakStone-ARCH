@@ -67,29 +67,68 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	var/uses_glasses_colour = 0
 
 	//character preferences
-	var/slot_randomized					//keeps track of round-to-round randomization of the character slot, prevents overwriting
-	var/real_name						//our character's name
-	var/gender = MALE					//gender of character (well duh) (this no longer references anything but whether the masculine or feminine model is used)
-	var/pronouns = HE_HIM				// character's pronouns (well duh)
-	var/voice_type = VOICE_TYPE_MASC	// the type of soundpack the mob should use
-	var/age = AGE_ADULT						//age of character
+	/// Keeps track of round-to-round randomization of the character slot, prevents overwriting.
+	var/slot_randomized
+
+	/// The character's real name.
+	var/real_name
+
+	/// Gender of character (used for masculine or feminine model selection).
+	var/gender = MALE
+
+	/// Character's pronouns.
+	var/pronouns = HE_HIM
+
+	/// The type of voice soundpack the mob should use.
+	var/voice_type = VOICE_TYPE_MASC
+
+	/// Age of character.
+	var/age = AGE_ADULT
+
+	/// Character's origin.
 	var/origin = "Default"
-	var/underwear = "Nude"				//underwear type
-	var/underwear_color = null			//underwear color
-	var/undershirt = "Nude"				//undershirt type
+
+	/// Underwear type.
+	var/underwear = "Nude"
+
+	/// Underwear color.
+	var/underwear_color = null
+
+	/// Undershirt type.
+	var/undershirt = "Nude"
+
+	/// Accessory type.
 	var/accessory = "Nothing"
+
+	/// Detail type.
 	var/detail = "Nothing"
-	var/socks = "Nude"					//socks type
-	var/skin_tone = "caucasian1"		//Skin color
-	var/eye_color = "000"				//Eye color
+
+	/// Socks type.
+	var/socks = "Nude"
+
+	/// Skin color.
+	var/skin_tone = "caucasian1"
+
+	/// Eye color.
+	var/eye_color = "000"
+
+	/// Voice color.
 	var/voice_color = "a0a0a0"
+
+	/// Detail color.
 	var/detail_color = "000"
+
 	/// link to a page containing your headshot image
 	var/headshot_link
+
 	/// text of your flavor
 	var/flavortext
+
+	/// The species this character is.
 	var/datum/species/pref_species = new /datum/species/human/northern()	//Mutant race
+	/// The patron/god/diety this character worships
 	var/datum/patron/selected_patron
+	/// The default patron to use if none is selected
 	var/static/datum/patron/default_patron = /datum/patron/divine/astrata
 	var/list/features = MANDATORY_FEATURE_LIST
 	var/list/randomise = list(
@@ -101,6 +140,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 		(RANDOM_SKIN_TONE) = FALSE,
 		(RANDOM_EYE_COLOR) = FALSE
 	)
+
 	var/phobia = "spiders"
 
 	var/list/custom_names = list()
@@ -111,7 +151,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 		// Want randomjob if preferences already filled - Donkie
 	var/joblessrole = RETURNTOLOBBY  //defaults to 1 for fewer assistants
 
-	// 0 = character settings, 1 = game preferences
+	/// 0 = character settings, 1 = game preferences
 	var/current_tab = 0
 
 	var/unlock_content = 0
@@ -151,7 +191,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	var/alignment = ALIGNMENT_TN
 	var/datum/charflaw/charflaw
 
-	//Family system
+	/// Family system
 	var/family = FAMILY_NONE
 	var/setspouse = ""
 
@@ -173,7 +213,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 	/// If our owner has patreon access
 	var/patreon = FALSE
 
-	// If the user clicked "Don't ask again" on the randomize character prompt
+	/// If the user clicked "Don't ask again" on the randomize character prompt
 	var/randomize_shutup = FALSE
 
 /datum/preferences/New(client/C)
@@ -1133,7 +1173,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 							to_chat(user, "[pref_species.desc]")
 
 						if(!length(pref_species.allowed_pronouns))
-							to_chat(user, "<span class='warning'>This species does not have any allowed pronouns. Please contact a coder to add them.</span>")
+							to_chat(user, span_warning("This species does not have any allowed pronouns. Please contact a coder to add them."))
 						else if (length(pref_species.allowed_pronouns) == 1)
 							pronouns = pref_species.allowed_pronouns[1]
 						else

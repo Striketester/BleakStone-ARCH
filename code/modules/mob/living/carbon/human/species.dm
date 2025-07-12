@@ -27,12 +27,7 @@ GLOBAL_LIST_EMPTY(patreon_races)
 	 * The list of pronouns this species allows in the character sheet.
 	 * If none are specified, it will default to the PRONOUNS_LIST.
 	 */
-	var/list/allowed_pronouns = list(
-		HE_HIM,
-		SHE_HER,
-		THEY_THEM,
-		//IT_ITS // Locked to only Kobolds and half-kin per request of Cocokailey
-	)
+	var/list/allowed_pronouns = PRONOUNS_LIST_NO_IT
 
 	/// The list of voice types this species allows in the character sheet.
 	var/list/allowed_voicetypes = list(
