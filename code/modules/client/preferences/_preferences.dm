@@ -1092,7 +1092,7 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						to_chat(user, span_warning("This species can only use the [voice_type] voice type."))
 						return
 
-					var voicetype_input = browser_input_list(user, "CHOOSE YOUR HERO'S VOICE TYPE", "DISCARD SOCIETY'S EXPECTATIONS", allowed_voices)
+					var/voicetype_input = browser_input_list(user, "CHOOSE YOUR HERO'S VOICE TYPE", "DISCARD SOCIETY'S EXPECTATIONS", allowed_voices)
 					if(voicetype_input)
 						voice_type = voicetype_input
 						// TODO: remove the notice when we have a sound pack for androgynous voices
