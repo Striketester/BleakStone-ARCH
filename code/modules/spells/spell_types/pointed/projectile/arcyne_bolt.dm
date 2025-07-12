@@ -12,8 +12,8 @@
 	charge_time = 1 SECONDS
 	charge_drain = 1
 	charge_slowdown = 1.3
-	cooldown_time = 15 SECONDS
-	spell_cost = 25
+	cooldown_time = 5 SECONDS
+	spell_cost = 20
 
 	projectile_type = /obj/projectile/magic/energy/rogue3
 
@@ -25,7 +25,7 @@
 /obj/projectile/magic/energy/rogue3
 	name = "arcyne bolt"
 	icon_state = "arcane_barrage"
-	damage = 20
+	damage = 30
 	damage_type = BRUTE
 	armor_penetration = 10
 	nodamage = FALSE
