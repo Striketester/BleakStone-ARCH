@@ -10,7 +10,7 @@
 	)
 
 	school = SCHOOL_TRANSMUTATION
-	charge_time = 4 SECONDS
+	charge_time = 2 SECONDS
 	cooldown_time = 30 SECONDS
 
 	invocation = "AULIE OXIN FIERA"

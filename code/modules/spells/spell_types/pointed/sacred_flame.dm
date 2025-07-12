@@ -14,7 +14,7 @@
 	invocation = "Cleansing flames, kindle!"
 	invocation_type = INVOCATION_SHOUT
 
-	charge_time = 2 SECONDS
+	charge_time = 1 SECONDS
 	charge_drain = 1
 	charge_slowdown = 0.7
 	cooldown_time = 10 SECONDS

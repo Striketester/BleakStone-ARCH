@@ -12,11 +12,11 @@
 	invocation = "Be at peace with Eora!"
 	invocation_type = INVOCATION_SHOUT
 
-	charge_time = 4 SECONDS
+	charge_time = 2.5 SECONDS
 	charge_drain = 1
 	charge_slowdown = 0.7
-	cooldown_time = 60 SECONDS
-	spell_cost = 60
+	cooldown_time = 45 SECONDS
+	spell_cost = 50
 
 /datum/action/cooldown/spell/eoran_bloom/cast(atom/cast_on)
 	. = ..()
