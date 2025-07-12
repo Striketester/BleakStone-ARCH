@@ -249,6 +249,6 @@
 	prevent_crits = list(BCLASS_CUT, BCLASS_TWIST, BCLASS_STAB)
 
 /obj/item/clothing/armor/leather/jacket/leathercoat/renegade
-	name = "black leather coat"
+	name = "renegade's coat"
 	desc = "An insulated leather coat with capelets. It protects you well from the elements, a useful thing for those who like to wait in ambush."
 	icon_state = "renegadecoat"
