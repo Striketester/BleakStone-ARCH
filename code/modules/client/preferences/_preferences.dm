@@ -1083,9 +1083,14 @@ GLOBAL_LIST_INIT(name_adjustments, list())
 						pronouns = pronouns_input
 						to_chat(user, span_warning("Your character's pronouns are now [pronouns]."))
 				if ("voicetype")
-					var/list/allowed_voices = pref_species.allowed_voicetypes
+					var/list/allowed_voices
+					if(gender == MALE)
+						allowed_voices = pref_species.allowed_voicetypes_m
+					else if(gender == FEMALE)
+						allowed_voices = pref_species.allowed_voicetypes_f
+					else
+						allowed_voices = VOICE_TYPES_LIST
 					if(!allowed_voices || !length(allowed_voices))
-						// fallback to the default voice types list
 						allowed_voices = VOICE_TYPES_LIST
 					if(length(allowed_voices) == 1)
 						voice_type = allowed_voices[1]

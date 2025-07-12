@@ -26,10 +26,9 @@
 	species_traits = list(EYECOLOR, HAIR, FACEHAIR, LIPS, STUBBLE, OLDGREY)
 	inherent_traits = list(TRAIT_NOMOBSWAP, TRAIT_NOSTINK)
 
-	allowed_voicetypes = list(
-		VOICE_TYPE_MASC,
-		VOICE_TYPE_ANDRO
-	)
+	allowed_voicetypes_m = VOICE_TYPES_MASCANDRO
+
+	allowed_voicetypes_f = VOICE_TYPES_MASCANDRO
 
 	// horcs are STINKY
 	components_to_add = list(/datum/component/rot/stinky_person)

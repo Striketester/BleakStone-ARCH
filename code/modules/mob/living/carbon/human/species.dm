@@ -29,12 +29,11 @@ GLOBAL_LIST_EMPTY(patreon_races)
 	 */
 	var/list/allowed_pronouns = PRONOUNS_LIST_NO_IT
 
-	/// The list of voice types this species allows in the character sheet.
-	var/list/allowed_voicetypes = list(
-		VOICE_TYPE_ANDRO,
-		VOICE_TYPE_FEM,
-		VOICE_TYPE_MASC,
-	)
+	/// The list of voice types this species allows in the character sheet for feminine bodys
+	var/list/allowed_voicetypes_f = VOICE_TYPES_LIST
+
+	/// The list of voice types this species allows in the character sheet for masculine bodys
+	var/list/allowed_voicetypes_m = VOICE_TYPES_LIST
 
 	/// Associative list of FEATURE SLOT to PIXEL ADJUSTMENTS X/Y seperated by gender
 	var/list/offset_features_m = list(

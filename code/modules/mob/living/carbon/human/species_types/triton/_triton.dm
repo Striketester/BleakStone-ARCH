@@ -43,8 +43,11 @@
 		/datum/skill/misc/swimming = 4,
 	)
 
-	allowed_voicetypes = list(
+	allowed_voicetypes_f = list(
 		VOICE_TYPE_MASC,
+	)
+
+	allowed_voicetypes_m = list(
 		VOICE_TYPE_ANDRO
 	)
 
