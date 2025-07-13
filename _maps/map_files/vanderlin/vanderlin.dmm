@@ -11314,11 +11314,12 @@
 	},
 /area/rogue/under/town/sewer)
 "hch" = (
-/obj/item/key/manor,
 /obj/structure/table/wood/plain_alt,
 /obj/machinery/light/fueled/wallfire/candle{
 	pixel_y = -32
 	},
+/obj/item/key/manor,
+/obj/item/key/manor,
 /turf/open/floor/cobble,
 /area/rogue/under/town/basement)
 "hcl" = (
@@ -13101,6 +13102,7 @@
 /area/rogue/outdoors/town/roofs)
 "imw" = (
 /obj/structure/table/wood/plain_alt,
+/obj/item/key/manor,
 /obj/item/key/manor,
 /turf/open/floor/cobble,
 /area/rogue/under/town/basement)
@@ -24502,8 +24504,9 @@
 /area/rogue/indoors/town/orphanage)
 "pCT" = (
 /obj/structure/table/wood/plain_alt,
-/obj/item/key/manor,
 /obj/effect/decal/cleanable/dirt/cobweb,
+/obj/item/key/manor,
+/obj/item/key/manor,
 /turf/open/floor/cobble,
 /area/rogue/under/town/basement)
 "pCV" = (
@@ -32941,8 +32944,6 @@
 /turf/open/floor/blocks/stonered,
 /area/rogue/indoors/town/dwarfin)
 "uRY" = (
-/obj/item/key/manor,
-/obj/item/key/manor,
 /obj/item/key/manor,
 /obj/item/key/manor,
 /obj/structure/closet/crate/chest/crafted,
