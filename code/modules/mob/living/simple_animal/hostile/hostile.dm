@@ -56,7 +56,6 @@
 		targets_from = src
 
 /mob/living/simple_animal/hostile/Destroy()
-	target = null
 	targets_from = null
 	return ..()
 

@@ -1,12 +1,16 @@
 /atom/movable/lighting_object
-	name = ""
-	anchored = TRUE
-	icon = LIGHTING_ICON
-	icon_state = "lighting_transparent"
-	color = null //we manually set color in init instead
-	plane = LIGHTING_PLANE
+	name          = ""
+
+	anchored      = TRUE
+
+	icon             = LIGHTING_ICON
+	icon_state       = "transparent"
+	color            = null //we manually set color in init instead
+	plane            = LIGHTING_PLANE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
-	invisibility = INVISIBILITY_LIGHTING
+	layer            = LIGHTING_LAYER
+	invisibility     = INVISIBILITY_LIGHTING
+
 	var/needs_update = FALSE
 	var/turf/myturf
 
@@ -103,10 +107,10 @@
 
 	if((rr & gr & br & ar) && (rg + gg + bg + ag + rb + gb + bb + ab == 8))
 	//anything that passes the first case is very likely to pass the second, and addition is a little faster in this case
-		icon_state = "lighting_transparent"
+		icon_state = "transparent"
 		color = null
 	else if(!set_luminosity)
-		icon_state = "lighting_dark"
+		icon_state = "dark"
 		color = null
 	else
 		icon_state = null

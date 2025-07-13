@@ -1,3 +1,7 @@
+///Can the atom pass this mob (always true for /mob)
+/mob/CanPass(atom/movable/mover, turf/target)
+	return TRUE				//There's almost no cases where non /living mobs should be used in game as actual mobs, other than ghosts.
+
 /**
  * If your mob is concious, drop the item in the active hand
  *
@@ -317,7 +321,7 @@
 				for(var/obj/effect/decal/cleanable/food/salt/S in stepTurf)
 					to_chat(L, "<span class='warning'>[S] bars your passage!</span>")
 					return
-				if(stepTurf.turf_flags & NO_JAUNT)
+				if(stepTurf.flags_1 & NOJAUNT_1)
 					to_chat(L, "<span class='warning'>Some strange aura is blocking the way.</span>")
 					return
 				if (locate(/obj/effect/blessing, stepTurf))
@@ -651,7 +655,7 @@
 		atom_flags |= NO_DIR_CHANGE
 
 	for(var/atom/movable/screen/eye_intent/eyet in hud_used.static_inventory)
-		eyet.update_appearance(UPDATE_ICON)
+		eyet.update_appearance(UPDATE_ICON_STATE)
 	playsound_local(src, 'sound/misc/click.ogg', 100)
 
 /client/proc/hearallasghost()

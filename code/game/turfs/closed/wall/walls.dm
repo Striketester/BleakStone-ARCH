@@ -26,7 +26,11 @@
 	opacity = FALSE
 	max_integrity = 800
 	explosion_block = 2
-	pass_flags_self = PASSTABLE|PASSGRILLE
+
+/turf/closed/wall/mineral/stone/window/CanPass(atom/movable/mover, turf/target)
+	if(istype(mover) && ((mover.pass_flags & PASSTABLE) || (mover.pass_flags & PASSGRILLE)) )
+		return 1
+	return ..()
 
 /turf/closed/wall/mineral/stone/window/Initialize()
 	. = ..()
@@ -168,7 +172,11 @@
 	icon_state = "wood"
 	opacity = FALSE
 	max_integrity = 550
-	pass_flags_self = PASSTABLE|PASSGRILLE
+
+/turf/closed/wall/mineral/wood/window/CanPass(atom/movable/mover, turf/target)
+	if(istype(mover) && ((mover.pass_flags & PASSTABLE) || (mover.pass_flags & PASSGRILLE)) )
+		return 1
+	return ..()
 
 /turf/closed/wall/mineral/wood/window/Initialize()
 	. = ..()
@@ -241,7 +249,6 @@
 	icon_state = "subwindow"
 	opacity = FALSE
 	explosion_block = 1
-	pass_flags_self = PASSTABLE|PASSGRILLE
 
 /turf/closed/wall/mineral/wooddark/window/OnCrafted(dirin, mob/user)
 	SHOULD_CALL_PARENT(FALSE)
@@ -250,6 +257,11 @@
 	record_featured_object_stat(FEATURED_STATS_CRAFTED_ITEMS, name)
 	add_abstract_elastic_data(ELASCAT_CRAFTING, "[name]", 1)
 	return
+
+/turf/closed/wall/mineral/wooddark/window/CanPass(atom/movable/mover, turf/target)
+	if(istype(mover) && ((mover.pass_flags & PASSTABLE) || (mover.pass_flags & PASSGRILLE)) )
+		return 1
+	return ..()
 
 /turf/closed/wall/mineral/roofwall
 	name = "wall"

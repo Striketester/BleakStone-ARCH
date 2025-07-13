@@ -1272,7 +1272,13 @@
 /obj/item/weapon/tongs/stone{
 	pixel_x = -5
 	},
-/obj/item/key/thatchwood/smithy,
+/obj/item/key/medroomi{
+	desc = "an old key with signs of rust";
+	name = "Thatchwood Smithy key";
+	lockid = "oldsmith";
+	pixel_y = 6;
+	pixel_x = -12
+	},
 /obj/item/flint{
 	pixel_x = 5
 	},
@@ -1624,9 +1630,9 @@
 /area/rogue/outdoors/bog)
 "qB" = (
 /obj/structure/door{
-	name = "Salem Smithy"
+	name = "Salem Smithy";
+	lockid = "oldsmith"
 	},
-/obj/effect/mapping_helpers/access/keyset/thatchwood/smith,
 /turf/open/floor/cobble,
 /area/rogue/indoors)
 "qH" = (

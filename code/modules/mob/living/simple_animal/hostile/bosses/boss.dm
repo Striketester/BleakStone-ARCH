@@ -51,7 +51,7 @@
 	var/needs_target = TRUE //Does the boss need to have a target? (Only matters for the AI)
 	var/say_when_triggered = "" //What does the boss Say() when the ability triggers?
 
-/datum/action/boss/Trigger(trigger_flags)
+/datum/action/boss/Trigger()
 	. = ..()
 	if(.)
 		if(!istype(boss, boss_type))

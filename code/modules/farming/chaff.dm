@@ -1,16 +1,13 @@
 /obj/item/natural/chaff
-	name = "chaff"
-	desc = "Grain that has not yet been made suitable for grinding and baking."
 	icon = 'icons/roguetown/items/produce.dmi'
-	icon_state = "chaff1"
 	var/foodextracted = null
+	name = "chaff"
+	icon_state = "chaff1"
+	desc = "Grain that has not yet been made suitable for grinding and baking."
 	var/canthresh = TRUE
 
-/obj/item/natural/chaff/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
-	if(foodextracted)
+/obj/item/natural/chaff/attack_right(mob/user)
+	if(foodextracted && !user.get_active_held_item())
 		to_chat(user, span_warning("I start to shuck [src]..."))
 		if(do_after(user, 4 SECONDS, src))
 			user.visible_message(span_notice("[user] shucks [src]."), \
@@ -19,7 +16,6 @@
 			user.put_in_active_hand(G)
 			new /obj/item/natural/fibers(get_turf(src))
 			qdel(src)
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/natural/chaff/proc/thresh()
 	if(foodextracted && canthresh)

@@ -11,7 +11,7 @@
 	max_integrity = 100
 	integrity_failure = 0.1
 	blade_dulling = DULLING_BASHCHOP
-	pass_flags_self = LETPASSTHROW
+	pass_flags = LETPASSTHROW
 	climb_time = 20
 	climb_offset = 10
 	attacked_sound = 'sound/combat/hits/onglass/glasshit.ogg'
@@ -125,19 +125,10 @@
 	. = ..()
 	lockdir = dir
 	GLOB.TodUpdate += src
-	var/static/list/loc_connections = list(
-		COMSIG_ATOM_MAGICALLY_UNLOCKED = PROC_REF(on_magic_unlock),
-	)
-	AddElement(/datum/element/connect_loc, loc_connections)
 
 /obj/structure/window/openclose/Destroy()
 	GLOB.TodUpdate -= src
 	return ..()
-
-/obj/structure/window/openclose/proc/on_magic_unlock(datum/source, datum/action/cooldown/spell/aoe/knock, mob/living/caster)
-	SIGNAL_HANDLER
-
-	INVOKE_ASYNC(src, PROC_REF(open_up))
 
 /obj/structure/window/openclose/update_tod(todd)
 	update_appearance(UPDATE_ICON_STATE)
@@ -150,28 +141,23 @@
 	icon += initial(icon_state)
 	if(brokenstate)
 		icon_state = "[icon]br"
-		return
+		return ..()
 	if(climbable)
 		icon_state = "[icon]op"
-		return
+		return ..()
 	icon_state = "[icon]"
 
-/obj/structure/window/openclose/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
-	if(get_dir(src, user) == lockdir)
+/obj/structure/window/openclose/attack_right(mob/user)
+	if(get_dir(src,user) == lockdir)
 		if(brokenstate)
 			to_chat(user, "<span class='warning'>It's broken, that would be foolish.</span>")
-			return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+			return
 		if(climbable)
 			close_up(user)
 		else
 			open_up(user)
 	else
 		to_chat(user, "<span class='warning'>The window doesn't close from this side.</span>")
-
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/structure/window/openclose/attackby(obj/item/attacking_item, mob/user, params)
 	if(istype(attacking_item, /obj/item/weapon/knife/dagger) && !climbable && !user.cmode)
@@ -191,21 +177,18 @@
 	smeltresult = /obj/item/ingot/iron
 
 /obj/structure/window/proc/open_up(mob/user)
-	if(user)
-		visible_message("<span class='info'>[user] opens [src].</span>")
+	visible_message("<span class='info'>[user] opens [src].</span>")
 	playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)
 	climbable = TRUE
 	update_appearance(UPDATE_ICON_STATE)
 
 /obj/structure/window/proc/close_up(mob/user)
-	if(user)
-		visible_message("<span class='info'>[user] closes [src].</span>")
+	visible_message("<span class='info'>[user] closes [src].</span>")
 	playsound(src, 'sound/foley/doors/windowdown.ogg', 100, FALSE)
 	climbable = FALSE
 	update_appearance(UPDATE_ICON_STATE)
 
-/obj/structure/window/CanAllowThrough(atom/movable/mover, turf/target)
-	. = ..()
+/obj/structure/window/CanPass(atom/movable/mover, turf/target)
 	if(istype(mover) && climbable && ((mover.pass_flags & PASSTABLE) || (mover.pass_flags & PASSGRILLE)))
 		return 1
 	if(isliving(mover))
@@ -230,13 +213,16 @@
 						dude.visible_message(
 							span_warning("[dude] hits their head as they fly through the window!"),
 							span_danger("I hit my head on the window frame!"))
-				return TRUE
+				return 1
 	else if(isitem(mover))
 		var/obj/item/I = mover
-		if(brokenstate)
-			return TRUE
 		if(I.throwforce >= 10)
 			take_damage(I.throwforce)
+			if(brokenstate)
+				return 1
+		else
+			return !density
+	return ..()
 
 /obj/structure/window/proc/force_open()
 	playsound(src, 'sound/foley/doors/windowup.ogg', 100, FALSE)

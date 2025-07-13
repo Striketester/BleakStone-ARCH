@@ -32,14 +32,11 @@
 
 	update_appearance(UPDATE_ICON_STATE | UPDATE_DESC)
 
-/obj/item/storage/keyring/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
+/obj/item/storage/keyring/attack_right(mob/user)
 	var/datum/component/storage/CP = GetComponent(/datum/component/storage)
 	if(CP)
 		CP.rmb_show(user)
-		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+		return TRUE
 
 /obj/item/storage/keyring/update_icon_state()
 	icon_state = "keyring[clamp(length(contents), 0, 5)]"
@@ -189,17 +186,11 @@
 	else
 		return ..()
 
-/obj/item/lockpickring/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
-	if(length(picks))
+/obj/item/lockpickring/attack_right(mob/user)
+	if(picks.len)
 		to_chat(user, span_notice("I steal a pick off the ring."))
 		var/obj/item/lockpick/K = removefromring(user)
 		user.put_in_active_hand(K)
-	else
-		to_chat(user, span_notice("No picks."))
-	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/lockpickring/update_icon_state()
 	icon_state = "keyring[clamp(length(contents), 0, 3)]"
@@ -282,7 +273,7 @@
 	keys = list(/obj/item/key/artificer, /obj/item/key/blacksmith, /obj/item/key/miner)
 
 /obj/item/storage/keyring/veteran
-	keys = list(/obj/item/key/veteran, /obj/item/key/dungeon, /obj/item/key/garrison, /obj/item/key/atarms, /obj/item/key/walls, /obj/item/key/elder, /obj/item/key/butcher, /obj/item/key/soilson, /obj/item/key/manor)
+	keys = list(/obj/item/key/veteran, /obj/item/key/dungeon, /obj/item/key/garrison, /obj/item/key/atarms, /obj/item/key/walls, /obj/item/key/elder, /obj/item/key/butcher, /obj/item/key/soilson)
 
 /obj/item/storage/keyring/stevedore
 	keys = list(/obj/item/key/warehouse, /obj/item/key/merchant)

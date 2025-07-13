@@ -26,7 +26,7 @@
 	bypass_lastclass = TRUE
 	selection_color = "#3b150e"
 
-	spells = list(/datum/action/cooldown/spell/undirected/list_target/convert_role/mercenary)
+	spells = list(/obj/effect/proc_holder/spell/self/convertrole/mercenary)
 
 /datum/outfit/job/gaffer/pre_equip(mob/living/carbon/human/H, visualsOnly)
 	..()
@@ -85,3 +85,11 @@
 		H.adjust_skillrank(/datum/skill/misc/athletics, 2, TRUE)
 		H.change_stat("perception", 1)
 
+/obj/effect/proc_holder/spell/self/convertrole/mercenary
+	name = "Recruit Mercenary"
+	new_role = "Mercenary"
+	overlay_state = "recruit_servant" //N/A change this to the correct sprite when its made
+	recruitment_faction = "Mercenaries"
+	recruitment_message = "Hey, %RECRUIT, you ever considered going full time?"
+	accept_message = "For coin and glory!"
+	refuse_message = "I refuse."

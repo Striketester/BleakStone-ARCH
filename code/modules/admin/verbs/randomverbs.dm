@@ -556,9 +556,9 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		views |= 32
 		views |= 64
 		views |= 128
-		view_size.setTo(input("Select view range:", "FUCK YE", 7) in views)
+		change_view(input("Select view range:", "FUCK YE", 7) in views)
 	else
-		view_size.resetToDefault()
+		change_view(CONFIG_GET(string/default_view))
 
 	log_admin("[key_name(usr)] changed their view range to [view].")
 	//message_admins("\blue [key_name_admin(usr)] changed their view range to [view].")	//why? removed by order of XSI

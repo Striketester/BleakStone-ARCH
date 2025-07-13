@@ -66,7 +66,7 @@
 			shoes = /obj/item/clothing/shoes/sandals
 			armor = /obj/item/clothing/shirt/robe/noc
 			H.cmode_music = 'sound/music/cmode/adventurer/CombatMonk.ogg'
-			var/language = pickweight(list("Dwarvish" = 1, "Elvish" = 1, "Hellspeak" = 1, "Zaladin" = 1, "Orcish" = 1,))
+			var/language = pickweight(list("Dwarvish" = 1, "Elvish" = 1, "Hellspeak" = 1, "Zybantu" = 1, "Orcish" = 1,))
 			switch(language)
 				if("Dwarvish")
 					H.grant_language(/datum/language/dwarvish)
@@ -83,10 +83,10 @@
 					to_chat(H,span_info("\
 					I learned the tongue of the hellspawn.")
 					)
-				if("Zaladin")
-					H.grant_language(/datum/language/zalad)
+				if("Zybantu")
+					H.grant_language(/datum/language/zybantine)
 					to_chat(H,span_info("\
-					I learned the tongue of Zaladin.")
+					I learned the tongue of Zybantu.")
 					)
 				if("Orcish")
 					H.grant_language(/datum/language/orcish)

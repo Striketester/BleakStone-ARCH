@@ -63,11 +63,9 @@
 	to_chat(user, "<span class='info'>I [speaking ? "unmute" : "mute"] the SCOM.</span>")
 	update_appearance(UPDATE_ICON_STATE)
 
-/obj/structure/fake_machine/scomm/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
+/obj/structure/fake_machine/scomm/attack_right(mob/user)
+	if(.)
 		return
-	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	user.changeNext_move(CLICK_CD_MELEE)
 	playsound(loc, 'sound/misc/beep.ogg', 100, FALSE, -1)
 	var/canread = user.can_read(src, TRUE)
@@ -190,11 +188,7 @@
 	return ..()
 
 //wip
-/obj/item/scomstone/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
-	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+/obj/item/scomstone/attack_right(mob/user)
 	user.changeNext_move(CLICK_CD_MELEE)
 	var/input_text = input(user, "Enter your message:", "Message")
 	if(input_text)

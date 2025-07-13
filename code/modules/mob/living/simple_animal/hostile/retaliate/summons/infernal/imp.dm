@@ -47,7 +47,7 @@
 
 	ai_controller = /datum/ai_controller/imp
 
-	del_on_death = TRUE
+
 
 /obj/projectile/magic/firebolt
 	name = "ball of fire"
@@ -62,7 +62,7 @@
 /obj/projectile/magic/firebolt/on_hit(target)
 	if(ismob(target))
 		var/mob/M = target
-		if(M.can_block_magic(MAGIC_RESISTANCE))
+		if(M.anti_magic_check())
 			M.visible_message(span_warning("[src] vanishes on contact with [target]!"))
 			qdel(src)
 			return BULLET_ACT_BLOCK
@@ -73,10 +73,18 @@
 	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/simple_animal/hostile/retaliate/infernal/imp/death(gibbed)
+	..()
 	var/turf/deathspot = get_turf(src)
-	for(var/i in 1 to 6)
-		new /obj/item/natural/infernalash(deathspot)
-	return ..()
+	new /obj/item/natural/infernalash(deathspot)
+	new /obj/item/natural/infernalash(deathspot)
+	new /obj/item/natural/infernalash(deathspot)
+	new /obj/item/natural/infernalash(deathspot)
+	new /obj/item/natural/infernalash(deathspot)
+	new /obj/item/natural/infernalash(deathspot)
+	update_appearance()
+	sleep(1)
+	qdel(src)
+
 
 /mob/living/simple_animal/hostile/retaliate/infernal/imp/taunted(mob/user)
 	emote("aggro")

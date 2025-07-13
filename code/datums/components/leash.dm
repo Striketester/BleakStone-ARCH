@@ -15,11 +15,9 @@
 
 	var/beam_icon_state
 	var/beam_icon
+	var/list/beams = list()
 	var/force_teleports
 	var/datum/callback/break_callback
-	var/duration
-
-	var/list/beams = list()
 
 	VAR_PRIVATE
 		// Pathfinding can yield, so only move us closer if this is the best one
@@ -37,7 +35,6 @@
 	beam_icon,
 	force_teleports = TRUE,
 	break_callback,
-	duration,
 )
 	. = ..()
 
@@ -69,9 +66,8 @@
 	src.beam_icon = beam_icon
 	src.force_teleports = force_teleports
 	src.break_callback = break_callback
-	src.duration = duration
 
-	RegisterSignal(owner, COMSIG_PARENT_QDELETING, PROC_REF(remove_leash))
+	RegisterSignal(owner, COMSIG_PARENT_QDELETING, PROC_REF(on_owner_qdel))
 
 	var/static/list/container_connections = list(
 		COMSIG_MOVABLE_MOVED = PROC_REF(on_moved),
@@ -82,9 +78,6 @@
 	RegisterSignal(parent, COMSIG_MOVABLE_MOVED, PROC_REF(on_moved))
 	RegisterSignal(parent, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(on_parent_pre_move))
 
-	if(isnum(duration) && duration > 0)
-		addtimer(CALLBACK(src, PROC_REF(remove_leash)), duration)
-
 	check_distance()
 
 /datum/component/leash/UnregisterFromParent()
@@ -94,7 +87,6 @@
 
 /datum/component/leash/Destroy()
 	owner = null
-	break_callback = null
 	QDEL_LIST(beams)
 	return ..()
 
@@ -103,8 +95,7 @@
 	src.distance = distance
 	check_distance()
 
-/datum/component/leash/proc/remove_leash()
-	SIGNAL_HANDLER
+/datum/component/leash/proc/on_owner_qdel()
 	PRIVATE_PROC(TRUE)
 
 	if(break_callback)
@@ -129,32 +120,18 @@
 	if (get_dist(new_location_turf, owner) <= distance)
 		return NONE
 
-	if(ismob(source))
-		to_chat(source, span_warning("Too far!"))
-
 	return COMPONENT_MOVABLE_BLOCK_PRE_MOVE
 
 /datum/component/leash/proc/check_distance()
 	set waitfor = FALSE
 	PRIVATE_PROC(TRUE)
 
-	if (QDELETED(src))
-		return
-
-	if (beam_icon && beam_icon_state)
-		var/list/true_path = get_path_to(parent, get_turf(owner), TYPE_PROC_REF(/turf, Heuristic_cardinal_3d), 33, 250, 1)
+	if(beam_icon && beam_icon_state)
+		var/list/true_path= get_path_to(parent, get_turf(owner), TYPE_PROC_REF(/turf, Heuristic_cardinal_3d), 33, 250, 1)
 		true_path |= list(get_turf(owner))
 		redraw_beams(true_path)
 
 	if (get_dist(parent, owner) <= distance)
-		return
-
-	var/atom/movable/atom_parent = parent
-	if (isnull(owner.loc))
-		atom_parent.moveToNullspace() // If our parent is in nullspace I guess we gotta go there too
-		return
-	if (isnull(atom_parent.loc))
-		force_teleport_back("in nullspace") // If we're in nullspace, get outta there
 		return
 
 	SEND_SIGNAL(parent, COMSIG_LEASH_PATH_STARTED)
@@ -183,10 +160,7 @@
 		if (!to_move.Adjacent(parent))
 			continue
 
-		if (!movable_parent.Move(to_move))
-			force_teleport_back("bad path step")
-			performing_path_move = FALSE
-			return
+		movable_parent.Move(to_move)
 
 	if (get_dist(parent, owner) > distance)
 		force_teleport_back("incomplete path")
@@ -216,6 +190,7 @@
 		new force_teleport_in_effect(movable_parent.loc)
 
 	SEND_SIGNAL(parent, COMSIG_LEASH_FORCE_TELEPORT)
+
 
 /datum/component/leash/proc/redraw_beams(list/path)
 	for(var/datum/beam/beam as anything in beams)

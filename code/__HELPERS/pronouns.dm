@@ -128,16 +128,6 @@
 			. = "he"
 		if(PLURAL)
 			. = "they"
-	if (pronouns)
-		switch (pronouns)
-			if (HE_HIM)
-				. = "he"
-			if (SHE_HER)
-				. = "she"
-			if (THEY_THEM)
-				. = "they"
-			if (IT_ITS)
-				. = "it"
 	if(capitalized)
 		. = capitalize(.)
 
@@ -152,16 +142,6 @@
 			. = "his"
 		if(PLURAL)
 			. = "their"
-	if (pronouns)
-		switch (pronouns)
-			if (HE_HIM)
-				. = "his"
-			if (SHE_HER)
-				. = "her"
-			if (THEY_THEM)
-				. = "their"
-			if (IT_ITS)
-				. = "its"
 	if(capitalized)
 		. = capitalize(.)
 
@@ -178,16 +158,6 @@
 			. = "them"
 	if(capitalized)
 		. = capitalize(.)
-	if (pronouns)
-		switch (pronouns)
-			if (HE_HIM)
-				. = "him"
-			if (SHE_HER)
-				. = "her"
-			if (THEY_THEM)
-				. = "them"
-			if (IT_ITS)
-				. = "it"
 
 /mob/p_have(temp_gender)
 	if(!temp_gender)
@@ -195,43 +165,38 @@
 	. = "has"
 	if(temp_gender == PLURAL)
 		. = "have"
-		return
-	if (pronouns)
-		if (pronouns == THEY_THEM)
-			. = "have"
 
 /mob/p_are(temp_gender)
 	if(!temp_gender)
 		temp_gender = gender
 	. = "is"
-	if(temp_gender == PLURAL || (pronouns && pronouns == THEY_THEM))
+	if(temp_gender == PLURAL)
 		. = "are"
 
 /mob/p_were(temp_gender)
 	if(!temp_gender)
 		temp_gender = gender
 	. = "was"
-	if(temp_gender == PLURAL || (pronouns && pronouns == THEY_THEM))
+	if(temp_gender == PLURAL)
 		. = "were"
-
 
 /mob/p_do(temp_gender)
 	if(!temp_gender)
 		temp_gender = gender
 	. = "does"
-	if(temp_gender == PLURAL || (pronouns && pronouns == THEY_THEM))
+	if(temp_gender == PLURAL)
 		. = "do"
 
 /mob/p_s(temp_gender)
 	if(!temp_gender)
 		temp_gender = gender
-	if(temp_gender != PLURAL || (pronouns && pronouns != THEY_THEM))
+	if(temp_gender != PLURAL)
 		. = "s"
 
 /mob/p_es(temp_gender)
 	if(!temp_gender)
 		temp_gender = gender
-	if(temp_gender != PLURAL || (pronouns && pronouns != THEY_THEM))
+	if(temp_gender != PLURAL)
 		. = "es"
 
 //humans need special handling, because they can have their gender hidden

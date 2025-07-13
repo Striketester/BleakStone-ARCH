@@ -6,26 +6,51 @@ GLOBAL_DATUM_INIT(pathfind_dude, /obj/pathfind_guy, new())
 /// Enables testing/visualization of pathfinding work
 /datum/pathfind_debug
 	var/datum/admins/owner
+	var/obj/effect/proc_holder/path_debug/jps_debug
 
 /datum/pathfind_debug/New(datum/admins/owner)
 	src.owner = owner
 	hook_client()
 
 /datum/pathfind_debug/Destroy(force)
-	owner = null
+	QDEL_NULL(jps_debug)
 	return ..()
 
 /datum/pathfind_debug/proc/hook_client()
 	if(!owner.owner)
 		return
-	var/datum/action/innate/path_debug/jps = new
-	jps.Grant(owner.owner)
+	QDEL_NULL(jps_debug)
+	jps_debug = new
+	owner.owner.mob.AddSpell(jps_debug)
+	RegisterSignal(owner.owner.mob, COMSIG_MOB_LOGOUT, PROC_REF(on_logout))
+
+/datum/pathfind_debug/proc/on_logout(mob/logging_out)
+	SIGNAL_HANDLER
+	UnregisterSignal(logging_out, COMSIG_MOB_LOGOUT)
+	var/mob/new_mob = owner.owner?.mob
+	if(!new_mob)
+		RegisterSignal(logging_out, COMSIG_MOB_LOGIN, PROC_REF(on_login))
+		return
+	hook_client()
+
+/datum/pathfind_debug/proc/on_login(mob/logging_in)
+	SIGNAL_HANDLER
+	UnregisterSignal(logging_in, list(COMSIG_MOB_LOGOUT, COMSIG_MOB_LOGIN))
+	hook_client()
+
+/obj/effect/proc_holder/path_debug
+	name = "JPS Test"
+	action_icon = 'icons/turf/debug.dmi'
+	action_icon_state = "jps"
+
+	base_action = /datum/action/innate/path_debug/jps
+
 
 /datum/action/innate/path_debug
 	var/list/image/display_images = list()
 	var/toggled = FALSE
 
-/datum/action/innate/path_debug/Trigger(trigger_flags)
+/datum/action/innate/path_debug/Trigger()
 	if(!toggled)
 		Activate()
 	else
@@ -35,7 +60,7 @@ GLOBAL_DATUM_INIT(pathfind_dude, /obj/pathfind_guy, new())
 
 /datum/action/innate/path_debug/Activate()
 	. = ..()
-	RegisterSignal(owner, COMSIG_MOB_CLICKON, PROC_REF(clicked_something))
+	RegisterSignal(owner, COMSIG_MOB_CLICKON, PROC_REF(clicked_somethin))
 	active = TRUE
 
 /datum/action/innate/path_debug/Deactivate()
@@ -44,7 +69,7 @@ GLOBAL_DATUM_INIT(pathfind_dude, /obj/pathfind_guy, new())
 	active = FALSE
 	return ..()
 
-/datum/action/innate/path_debug/proc/clicked_something(datum/source, atom/clicked, params)
+/datum/action/innate/path_debug/proc/clicked_somethin(datum/source, atom/clicked, params)
 	SIGNAL_HANDLER
 
 	var/list/modifiers = params2list(params)

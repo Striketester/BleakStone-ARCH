@@ -18,12 +18,7 @@
 
 
 	outfit = /datum/outfit/job/jester
-	spells = list(
-		/datum/action/cooldown/spell/undirected/joke,
-		/datum/action/cooldown/spell/undirected/tragedy,
-		/datum/action/cooldown/spell/undirected/fart,
-		/datum/action/cooldown/spell/undirected/list_target/vicious_mockery,
-	)
+	spells = list(/obj/effect/proc_holder/spell/self/telljoke,/obj/effect/proc_holder/spell/self/telltragedy,/obj/effect/proc_holder/spell/self/fart)
 	give_bank_account = TRUE
 
 /datum/outfit/job/jester/pre_equip(mob/living/carbon/human/H)
@@ -51,6 +46,7 @@
 	H.adjust_skillrank(/datum/skill/misc/music, pick(1,2,3,4,5,6), TRUE)
 	H.adjust_skillrank(/datum/skill/craft/cooking, pick(1,2,3,4,5,6), TRUE)
 	H.adjust_skillrank(/datum/skill/combat/firearms, pick(1,2,3,4,5,6), TRUE)
+	H.mind?.AddSpell(new /obj/effect/proc_holder/spell/invoked/mockery) // Mock people to your heart's content!
 
 	H.base_intelligence = rand(1, 20)
 	H.base_fortune = rand(1, 20)

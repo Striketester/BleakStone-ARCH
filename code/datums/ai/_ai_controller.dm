@@ -81,8 +81,6 @@ have ways of interacting with a specific atom and control it. They posses a blac
 
 /datum/ai_controller/Destroy(force, ...)
 	set_ai_status(AI_STATUS_OFF)
-	if(ai_movement)
-		ai_movement.stop_moving_towards(src)
 	UnpossessPawn(FALSE)
 	our_cells = null
 	return ..()

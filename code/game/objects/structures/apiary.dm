@@ -697,7 +697,7 @@
 	var/max_fuel = 20
 	var/active = FALSE
 
-/obj/item/bee_smoker/attack_self(mob/user, params)
+/obj/item/bee_smoker/attack_self(mob/user)
 	if(!active && fuel > 0)
 		to_chat(user, "<span class='notice'>You light [src].</span>")
 		active = TRUE

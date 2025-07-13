@@ -7,6 +7,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	anchored = TRUE
 	plane = OPENSPACE_BACKDROP_PLANE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	layer = SPLASHSCREEN_LAYER
 	vis_flags = VIS_INHERIT_ID
 
 /turf/open/transparent/openspace
@@ -25,9 +26,9 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	smoothing_list = SMOOTH_GROUP_OPEN_FLOOR + SMOOTH_GROUP_CLOSED_WALL
 	neighborlay_self = "staticedge"
 
-/turf/open/transparent/openspace/Initialize() // handle plane and layer here so that they don't cover other obs/turfs in Dream Maker
-	. = ..()
-	vis_contents += GLOB.openspace_backdrop_one_for_all //Special grey square for projecting backdrop darkness filter on it.
+/turf/open/transparent/openspace/debug/update_multiz()
+	..()
+	return TRUE
 
 /turf/open/transparent/openspace/can_traverse_safely(atom/movable/traveler)
 	var/turf/destination = GET_TURF_BELOW(src)
@@ -63,7 +64,8 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	if(!add)
 		return
 
-	var/image/overlay = image(icon, src, add, pixel_x = offset ? x : 0, pixel_y = offset ? y : 0 )
+	var/image/overlay = image(icon, src, add, SPLASHSCREEN_LAYER + 0.01, pixel_x = offset ? x : 0, pixel_y = offset ? y : 0 )
+	overlay.plane = OPENSPACE_BACKDROP_PLANE + 0.01
 
 	LAZYADDASSOC(neighborlay_list, "[dir]", overlay)
 	add_overlay(overlay)
@@ -71,6 +73,11 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 ///No bottom level for openspace.
 /turf/open/transparent/openspace/show_bottom_level()
 	return FALSE
+
+/turf/open/transparent/openspace/Initialize() // handle plane and layer here so that they don't cover other obs/turfs in Dream Maker
+	. = ..()
+	dynamic_lighting = 1
+	vis_contents += GLOB.openspace_backdrop_one_for_all //Special grey square for projecting backdrop darkness filter on it.
 
 /turf/open/transparent/openspace/zAirIn()
 	return TRUE
@@ -92,7 +99,7 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	return FALSE
 
 /turf/open/transparent/openspace/zPassOut(atom/movable/A, direction, turf/destination)
-	if(A.anchored && !isprojectile(A))
+	if(A.anchored)
 		return FALSE
 	if(HAS_TRAIT(A, TRAIT_I_AM_INVISIBLE_ON_A_BOAT))
 		return FALSE
@@ -157,3 +164,14 @@ GLOBAL_DATUM_INIT(openspace_backdrop_one_for_all, /atom/movable/openspace_backdr
 	..()
 	if(!CanBuildHere())
 		return
+
+/turf/open/transparent/openspace/bullet_act(obj/projectile/P)
+	if(!P.arcshot)
+		return ..()
+	var/turf/target = get_step_multiz(src, DOWN)
+	if(target)
+		P.forceMove(target)
+		P.visible_message(span_danger("[P] flies down from above!"), vision_distance = COMBAT_MESSAGE_RANGE)
+		P.original = target
+		P.process_hit(target, P.select_target(target))
+		return BULLET_ACT_TURF

@@ -15,6 +15,7 @@
 		VAMPCOST_THREE,
 		VAMPCOST_FOUR,
 	)
+
 	var/datum/team/vampires/owner_team
 
 /obj/structure/vampire/bloodpool/Initialize()
@@ -99,8 +100,3 @@
 		if(abs(change) > current)
 			return FALSE
 		return TRUE
-
-#undef VAMPCOST_ONE
-#undef VAMPCOST_TWO
-#undef VAMPCOST_THREE
-#undef VAMPCOST_FOUR

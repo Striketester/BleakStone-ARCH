@@ -20,7 +20,6 @@
 	minstr = 5
 	blade_dulling = DULLING_BASHCHOP
 	var/static/list/rod_jobs = null
-	COOLDOWN_DECLARE(scepter)
 
 	grid_height = 96
 	grid_width = 32
@@ -79,7 +78,7 @@
 			if(H == HU)
 				return
 
-			if(H.can_block_magic(MAGIC_RESISTANCE))
+			if(H.anti_magic_check())
 				return
 
 			if(!rod_jobs)
@@ -94,26 +93,20 @@
 			if(!((H.mind?.assigned_role.title in rod_jobs)))
 				return
 
-			if(!COOLDOWN_FINISHED(src, scepter))
-				to_chat(user, span_danger("The [src] is not ready yet! [round(COOLDOWN_TIMELEFT(src, scepter) / 10, 1)] seconds left!"))
-				return
-
 			if(istype(user.used_intent, /datum/intent/lord_electrocute))
-				HU.visible_message(span_warning("[HU] electrocutes [H] with \the [src]."))
+				HU.visible_message("<span class='warning'>[HU] electrocutes [H] with \the [src].</span>")
 				user.Beam(target, icon_state = "lightning[rand(1, 12)]", time = 0.5 SECONDS) // LIGHTNING
 				playsound(user, 'sound/magic/lightningshock.ogg', 70, TRUE)
 				H.electrocute_act(5, src)
-				HU.log_message("has shocked [H.real_name] with the [src]!", LOG_ATTACK)
-				to_chat(H, span_danger("I'm electrocuted by the scepter!"))
-				COOLDOWN_START(src, scepter, 20 SECONDS)
+				HU.log_message("has shocked [H] with the [src]!", LOG_ATTACK)
+				to_chat(H, "<span class='danger'>I'm electrocuted by the scepter!</span>")
 				return
 
 			if(istype(user.used_intent, /datum/intent/lord_silence))
 				HU.visible_message(span_warning("[HU] silences [H] with \the [src]."))
 				H.set_silence(20 SECONDS)
-				HU.log_message("has silenced [H.real_name] with the [src]!", LOG_ATTACK)
+				HU.log_message("[HU] has silenced [H] with the master's rod!", LOG_ATTACK)
 				to_chat(H, span_danger("I'm silenced by the scepter!"))
-				COOLDOWN_START(src, scepter, 10 SECONDS)
 				return
 
 /obj/item/weapon/mace/stunmace
@@ -175,7 +168,7 @@
 	. = ..()
 	icon_state = "stunmace[on]"
 
-/obj/item/weapon/mace/stunmace/attack_self(mob/user, params)
+/obj/item/weapon/mace/stunmace/attack_self(mob/user)
 	if(on)
 		on = FALSE
 	else

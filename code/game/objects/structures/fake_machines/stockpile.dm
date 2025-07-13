@@ -148,11 +148,7 @@
 		else
 			attemptsell(P, user, TRUE, TRUE)
 
-/obj/structure/fake_machine/stockpile/attack_hand_secondary(mob/user, params)
-	. = ..()
-	if(. == SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN)
-		return
-	. = SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+/obj/structure/fake_machine/stockpile/attack_right(mob/user)
 	if(ishuman(user))
 		if(user.real_name in GLOB.outlawed_players)
 			say("OUTLAW DETECTED! REFUSING SERVICE!")

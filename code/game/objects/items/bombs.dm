@@ -94,7 +94,7 @@
 	grid_width = 32
 	grid_height = 64
 
-/obj/item/smokebomb/attack_self(mob/user, params)
+/obj/item/smokebomb/attack_self(mob/user)
 	..()
 	explode()
 

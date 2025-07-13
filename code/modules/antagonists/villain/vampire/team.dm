@@ -97,19 +97,21 @@
 		return
 
 	var/datum/antagonist/vampire/lord/lord_datum = lord.has_antag_datum(/datum/antagonist/vampire/lord)
-	var/mob/living/owner = lord_datum.owner.current
+
 	switch(++power_level)
 		if(1)
-			owner.add_spell(/datum/action/cooldown/spell/undirected/shapeshift/bat, source = lord_datum)
+			lord_datum.batform = new
+			lord.current.AddSpell(lord_datum.batform)
 			for(var/statkey in MOBSTATS)
-				owner.change_stat(statkey, 2)
+				lord.current.change_stat(statkey, 2)
 			to_chat(lord, "<font color='red'>I am refreshed and have grown stronger. The visage of the bat is once again available to me. I can also once again access my portals.</font>")
 
 		if(2)
-			owner.add_spell(/datum/action/cooldown/spell/projectile/blood_steal, source = lord_datum)
-			owner.add_spell(/datum/action/cooldown/spell/projectile/blood_bolt, source = lord_datum)
-			owner.add_spell(/datum/action/cooldown/spell/undirected/shapeshift/mist, source = lord_datum)
+			lord.current.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodsteal)
+			lord.current.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/bloodlightning)
 			lord.current.adjust_skillrank(/datum/skill/magic/blood, 2, TRUE)
+			lord_datum.gas = new
+			lord.current.AddSpell(lord_datum.gas)
 			for(var/S in MOBSTATS)
 				lord.current.change_stat(S, 2)
 			to_chat(lord, "<font color='red'>My power is returning. I can once again access my spells. I have also regained usage of my mist form.</font>")
@@ -117,8 +119,8 @@
 		if(3)
 			lord.current.verbs |= /mob/living/carbon/human/proc/blood_strength
 			lord.current.verbs |= /mob/living/carbon/human/proc/blood_celerity
-			owner.remove_spell(/datum/action/cooldown/spell/undirected/transfix)
-			owner.add_spell(/datum/action/cooldown/spell/undirected/transfix/master, source = lord_datum)
+			lord.current.RemoveSpell(/obj/effect/proc_holder/spell/targeted/transfix)
+			lord.current.AddSpell(new /obj/effect/proc_holder/spell/targeted/transfix/master)
 			for(var/S in MOBSTATS)
 				lord.current.change_stat(S, 2)
 			to_chat(lord, span_notice("My dominion over others minds and my own body returns to me. I am nearing perfection. The armies of the dead shall now answer my call."))

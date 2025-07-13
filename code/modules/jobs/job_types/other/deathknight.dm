@@ -17,8 +17,6 @@
 
 /datum/outfit/job/deathknight/pre_equip(mob/living/carbon/human/H)
 	..()
-	if(!(H.patron == /datum/patron/inhumen/zizo))	//Magic MUST be Noc or Zizo. Probably unneeded here, but better to be sure.
-		H.set_patron(/datum/patron/divine/noc)
 	H.adjust_skillrank(/datum/skill/combat/polearms, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/axesmaces, 2, TRUE)
 	H.adjust_skillrank(/datum/skill/combat/wrestling, 4, TRUE)
@@ -43,8 +41,8 @@
 	H.change_stat(STATKEY_END, 2)
 	H.change_stat(STATKEY_CON, 2)
 	H.change_stat(STATKEY_SPD, -3)
-	H.add_spell(/datum/action/cooldown/spell/projectile/lightning)
-	H.add_spell(/datum/action/cooldown/spell/projectile/fetch)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/lightningbolt)
+	H.mind.AddSpell(new /obj/effect/proc_holder/spell/invoked/projectile/fetch)
 
 	var/datum/antagonist/new_antag = new /datum/antagonist/skeleton/knight()
 	H.mind.add_antag_datum(new_antag)

@@ -42,9 +42,6 @@
 		var/datum/rotation_network/old_network = rotation_network
 		rotation_network.remove_connection(src)
 		old_network.reassess_group(src)
-	rotation_network = null
-	input = null
-	output = null
 	return ..()
 
 /obj/structure/MiddleClick(mob/user, params)
@@ -70,7 +67,7 @@
 	qdel(src)
 
 // You can path over a dense structure if it's climbable.
-/obj/structure/CanAStarPass(ID, to_dir, requester)
+/obj/structure/CanAStarPass(ID, to_dir, caller)
 	. = climbable || ..()
 
 /obj/structure/return_rotation_chat(atom/movable/screen/movable/mouseover/mouseover)

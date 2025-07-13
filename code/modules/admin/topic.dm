@@ -1483,7 +1483,7 @@
 		if(!fexists(json_file))
 			WRITE_FILE(json_file, "{}")
 		var/list/json = json_decode(file2text(json_file))
-		for(var/curse in list("brokedick"))
+		for(var/curse in CURSE_MASTER_LIST)
 			var/yes_cursed
 			for(var/X in json)
 				if(X == curse)

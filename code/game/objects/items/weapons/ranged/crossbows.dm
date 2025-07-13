@@ -121,7 +121,7 @@
 		cocked = FALSE
 		update_appearance(UPDATE_ICON_STATE)
 
-/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/attack_self(mob/living/user, params)
+/obj/item/gun/ballistic/revolver/grenadelauncher/crossbow/attack_self(mob/living/user)
 	if(chambered)
 		return ..()
 	if(!cocked)

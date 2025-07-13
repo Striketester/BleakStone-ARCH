@@ -54,7 +54,7 @@
 
 	ai_controller = /datum/ai_controller/fiend
 
-	del_on_death = TRUE
+
 
 /mob/living/simple_animal/hostile/retaliate/infernal/fiend/Initialize()
 	. = ..()
@@ -62,6 +62,7 @@
 	AddComponent(/datum/component/ai_aggro_system)
 
 /mob/living/simple_animal/hostile/retaliate/infernal/fiend/death(gibbed)
+	..()
 	var/turf/deathspot = get_turf(src)
 	new /obj/item/natural/abyssalflame(deathspot)
 	new /obj/item/natural/moltencore(deathspot)
@@ -69,5 +70,6 @@
 	new /obj/item/natural/infernalash(deathspot)
 	new /obj/item/natural/infernalash(deathspot)
 	new /obj/item/natural/melded/t2(deathspot)
+	update_appearance()
 	spill_embedded_objects()
-	return ..()
+	qdel(src)

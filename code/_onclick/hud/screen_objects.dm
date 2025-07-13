@@ -9,6 +9,7 @@
 /atom/movable/screen
 	name = ""
 	icon = 'icons/mob/screen_gen.dmi'
+	layer = HUD_LAYER
 	plane = HUD_PLANE
 	appearance_flags = APPEARANCE_UI
 	var/obj/master = null	//A reference to the object in the slot. Grabs or items, generally.
@@ -25,8 +26,8 @@
 	if(!usr || !usr.client)
 		return FALSE
 	var/mob/user = usr
-	var/list/modifiers = params2list(params)
-	if(LAZYACCESS(modifiers, LEFT_CLICK) && LAZYACCESS(modifiers, SHIFT_CLICKED)) // screen objects don't do the normal Click() stuff so we'll cheat
+	var/paramslist = params2list(params)
+	if(paramslist["shift"] && paramslist["left"]) // screen objects don't do the normal Click() stuff so we'll cheat
 		examine_ui(user)
 		return FALSE
 
@@ -58,6 +59,7 @@
 	maptext_width = 480
 
 /atom/movable/screen/swap_hand
+	layer = HUD_LAYER
 	plane = HUD_PLANE
 	name = "swap hand"
 
@@ -80,7 +82,7 @@
 /atom/movable/screen/skills/Click(location, control, params)
 	var/list/modifiers = params2list(params)
 
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+	if(modifiers["right"])
 		var/ht
 		var/mob/living/L = usr
 		to_chat(L, "*----*")
@@ -162,6 +164,7 @@
 	/// Icon when contains an item. For now used only by humans.
 	var/icon_full = "genslot"
 	/// The overlay when hovering over with an item in your hand
+	layer = HUD_LAYER
 	plane = HUD_PLANE
 	nomouseover = FALSE
 
@@ -299,6 +302,7 @@
 
 /atom/movable/screen/close
 	name = "close"
+	layer = ABOVE_HUD_LAYER
 	plane = ABOVE_HUD_PLANE
 	icon_state = "backpack_close"
 
@@ -314,7 +318,9 @@
 
 /atom/movable/screen/drop
 	name = "drop"
+
 	icon_state = "act_drop"
+	layer = HUD_LAYER
 	plane = HUD_PLANE
 
 /atom/movable/screen/drop/Click()
@@ -334,9 +340,8 @@
 
 /atom/movable/screen/act_intent/segmented/Click(location, control, params)
 	if(usr.client.prefs.toggles & INTENT_STYLE)
-		var/list/modifiers = params2list(params)
-		var/_x = text2num(LAZYACCESS(modifiers, ICON_X))
-		var/_y = text2num(LAZYACCESS(modifiers, ICON_Y))
+		var/_x = text2num(params2list(params)["icon-x"])
+		var/_y = text2num(params2list(params)["icon-y"])
 
 		if(_x<=16 && _y<=16)
 			usr.a_intent_change(INTENT_HARM)
@@ -385,10 +390,6 @@
 	if(!hud?.mymob)
 		return
 	var/lol = 0
-	intent1 = null
-	intent2 = null
-	intent3 = null
-	intent4 = null
 	var/list/used = right_intents
 	if(hud.mymob.active_hand_index == 1)
 		used = left_intents
@@ -408,8 +409,10 @@
 		switch_intent(M.r_index, M.l_index, active)
 		update_appearance(UPDATE_OVERLAYS)
 
-/atom/movable/screen/act_intent/rogintent/switch_intent(r_index, l_index)
+/atom/movable/screen/act_intent/rogintent/switch_intent(r_index, l_index, oactive = FALSE)
 	var/used = "offintent"
+	if(oactive)
+		used = "offintentselected"
 	if(!r_index || !l_index)
 		return
 	var/used_index = r_index
@@ -438,6 +441,7 @@
 	update_appearance(UPDATE_OVERLAYS)
 
 /atom/movable/screen/act_intent/rogintent/Click(location, control, params)
+
 	var/list/modifiers = params2list(params)
 
 	var/mob/user = hud?.mymob
@@ -447,13 +451,46 @@
 	user.playsound_local(user, 'sound/misc/click.ogg', 100)
 
 	if(usr.client.prefs.toggles & INTENT_STYLE)
-		var/_x = text2num(LAZYACCESS(modifiers, ICON_X))
-		var/_y = text2num(LAZYACCESS(modifiers, ICON_Y))
+		var/_x = text2num(params2list(params)["icon-x"])
+		var/_y = text2num(params2list(params)["icon-y"])
 		var/clicked = get_index_at_loc(_x, _y)
 		if(!clicked)
 			return
-		if(LAZYACCESS(modifiers, LEFT_CLICK))
-			if(LAZYACCESS(modifiers, SHIFT_CLICKED))
+/*		if(_x<=64)
+			if(user.active_hand_index == 2)
+				if(modifiers["right"])
+					if(clicked != user.l_index)
+						user.rog_intent_change(clicked,1)
+					else
+						if(user.oactive)
+							user.oactive = FALSE
+//						else
+//							user.oactive = TRUE
+						switch_intent(user.r_index, user.l_index, user.oactive)
+					return
+				if(!user.swap_hand(1))
+					return
+			if(modifiers["left"])
+				if(modifiers["shift"])
+					user.examine_intent(clicked, FALSE)
+					return
+			user.rog_intent_change(clicked)
+		else*/
+//			if(user.active_hand_index == 1)
+//				if(modifiers["right"])
+//					if(clicked != user.r_index)
+//						user.rog_intent_change(clicked,1)
+//					else
+//						if(user.oactive)
+//							user.oactive = FALSE
+//						else
+//							user.oactive = TRUE
+//						switch_intent(user.r_index, user.l_index, user.oactive)
+//					return
+//				if(!user.swap_hand(2))
+//					return
+		if(modifiers["left"])
+			if(modifiers["shift"])
 				user.examine_intent(clicked, FALSE)
 				return
 		user.rog_intent_change(clicked)
@@ -501,8 +538,7 @@
 		var/mob/M = usr
 		M.playsound_local(M, 'sound/misc/click.ogg', 100)
 
-	var/list/modifiers = params2list(params)
-	var/_y = text2num(LAZYACCESS(modifiers, ICON_Y))
+	var/_y = text2num(params2list(params)["icon-y"])
 
 	if(_y<=9)
 		usr.mmb_intent_change(QINTENT_STEAL)
@@ -557,8 +593,7 @@
 	icon_state = "def[hud.mymob.d_intent]n"
 
 /atom/movable/screen/def_intent/Click(location, control, params)
-	var/list/modifiers = params2list(params)
-	var/_y = text2num(LAZYACCESS(modifiers, ICON_Y))
+	var/_y = text2num(params2list(params)["icon-y"])
 
 	if(_y>=0 && _y<17)
 		usr.def_intent_change(INTENT_DODGE)
@@ -576,7 +611,7 @@
 	if(isliving(usr))
 		var/mob/living/L = usr
 		L.playsound_local(L, 'sound/misc/click.ogg', 100)
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		if(modifiers["right"])
 			L.submit()
 		else
 			L.toggle_cmode()
@@ -710,7 +745,7 @@
 
 /atom/movable/screen/eye_intent/Click(location,control,params)
 	var/list/modifiers = params2list(params)
-	var/_y = text2num(LAZYACCESS(modifiers, ICON_Y))
+	var/_y = text2num(params2list(params)["icon-y"])
 
 	hud.mymob.playsound_local(hud.mymob, 'sound/misc/click.ogg', 100)
 	if(isliving(hud?.mymob))
@@ -718,10 +753,10 @@
 		if(L.eyesclosed)
 			L.eyesclosed = 0
 			L.cure_blind("eyelids")
-			update_appearance(UPDATE_ICON)
+			update_appearance(UPDATE_ICON_STATE)
 			return
 
-	if(LAZYACCESS(modifiers, LEFT_CLICK))
+	if(modifiers["left"])
 		if(_y>=29 || _y<=4)
 			if(isliving(hud.mymob))
 				var/mob/living/L = hud.mymob
@@ -730,13 +765,13 @@
 		else
 			toggle(usr)
 
-	if(LAZYACCESS(modifiers, MIDDLE_CLICK))
+	if(modifiers["middle"])
 		if(isliving(hud.mymob))
 			var/mob/living/L = hud.mymob
 			L.look_up()
-	update_appearance(UPDATE_ICON)
+	update_appearance(UPDATE_ICON_STATE)
 
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+	if(modifiers["right"])
 		if(isliving(hud.mymob))
 			var/mob/living/L = hud.mymob
 			L.look_around()
@@ -798,7 +833,9 @@
 
 /atom/movable/screen/rest
 	name = "rest"
+
 	icon_state = "act_rest"
+	layer = HUD_LAYER
 	plane = HUD_PLANE
 
 /atom/movable/screen/rest/Click()
@@ -819,30 +856,34 @@
 
 /atom/movable/screen/restup
 	name = "stand up"
+
 	icon_state = "act_rest_up"
+	layer = HUD_LAYER
 	plane = HUD_PLANE
 
 /atom/movable/screen/restup/Click(location, control, params)
-	var/list/modifiers = params2list(params)
+	var/paramslist = params2list(params)
 
 	if(isliving(usr))
 		var/mob/living/L = usr
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		if(paramslist["right"])
 			L.look_up()
 		else
 			L.stand_up()
 
 /atom/movable/screen/restdown
 	name = "lay down"
+
 	icon_state = "act_rest_down"
+	layer = HUD_LAYER
 	plane = HUD_PLANE
 
 /atom/movable/screen/restdown/Click(location, control, params)
-	var/list/modifiers = params2list(params)
+	var/paramslist = params2list(params)
 
 	if(isliving(usr))
 		var/mob/living/L = usr
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		if(paramslist["right"])
 			var/turf/O
 			for(var/turf/T in range(1, L))
 				if(istransparentturf(T))
@@ -856,6 +897,7 @@
 	name = "storage"
 	icon_state = "block"
 	screen_loc = "7,7 to 10,8"
+	layer = HUD_LAYER
 	plane = HUD_PLANE
 
 /atom/movable/screen/storage/Initialize(mapload, new_master)
@@ -864,7 +906,7 @@
 
 /atom/movable/screen/storage/Click(location, control, params)
 	var/list/modifiers = params2list(params)
-	if(LAZYACCESS(modifiers, RIGHT_CLICK))
+	if(modifiers["right"])
 		if(master)
 			var/obj/item/flipper = usr.get_active_held_item()
 			if(!flipper || (!usr.Adjacent(flipper) && !usr.DirectAccess(flipper)) || !isliving(usr) || usr.incapacitated(ignore_grab = TRUE))
@@ -920,9 +962,9 @@
 	if(isobserver(usr))
 		return
 
-	var/list/modifiers = params2list(params)
-	var/icon_x = text2num(LAZYACCESS(modifiers, ICON_X))
-	var/icon_y = text2num(LAZYACCESS(modifiers, ICON_Y))
+	var/list/PL = params2list(params)
+	var/icon_x = text2num(PL["icon-x"])
+	var/icon_y = text2num(PL["icon-y"])
 	var/choice = get_zone_at(icon_x, icon_y)
 	if(ismob(hud.mymob))
 		var/mob/M = hud.mymob
@@ -931,7 +973,7 @@
 	if (!choice)
 		return 1
 
-	if(LAZYACCESS(modifiers, RIGHT_CLICK) && ishuman(hud.mymob))
+	if(PL["right"] && ishuman(hud.mymob))
 		var/mob/living/carbon/human/H = hud.mymob
 		return H.check_limb_for_injuries(H, choice = check_zone(choice))
 	else
@@ -944,9 +986,9 @@
 	if(isobserver(usr))
 		return
 
-	var/list/modifiers = params2list(params)
-	var/icon_x = text2num(LAZYACCESS(modifiers, ICON_X))
-	var/icon_y = text2num(LAZYACCESS(modifiers, ICON_Y))
+	var/list/PL = params2list(params)
+	var/icon_x = text2num(PL["icon-x"])
+	var/icon_y = text2num(PL["icon-y"])
 	var/choice = get_zone_at(icon_x, icon_y)
 	choice = "m_[choice]"
 	if(ismob(hud.mymob))
@@ -974,6 +1016,7 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	alpha = 128
 	anchored = TRUE
+	layer = ABOVE_HUD_LAYER+0.2
 	plane = ABOVE_HUD_PLANE
 
 /atom/movable/screen/zone_sel/MouseExited(location, control, params)
@@ -1320,10 +1363,10 @@
 	var/list/modifiers = params2list(params)
 	if(ishuman(usr))
 		var/mob/living/carbon/human/H = usr
-		if(LAZYACCESS(modifiers, LEFT_CLICK))
+		if(modifiers["left"])
 			H.check_for_injuries(H)
 			to_chat(H, "I am [H.get_encumbrance() * 100]% Encumbered")
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		if(modifiers["right"])
 			if(!H.mind)
 				return
 			if(length(H.mind.known_people))
@@ -1335,6 +1378,7 @@
 	icon = 'icons/blank_title.png'
 	icon_state = ""
 	screen_loc = "1,1"
+	layer = SPLASHSCREEN_LAYER+1
 	plane = SPLASHSCREEN_PLANE
 	var/client/holder
 	var/fucme = TRUE
@@ -1343,7 +1387,7 @@
 	icon = 'icons/fullblack.dmi'
 	icon_state = ""
 	screen_loc = ui_backhudl
-	plane = SPLASHSCREEN_PLANE
+	layer = SPLASHSCREEN_LAYER
 	fucme = FALSE
 
 /atom/movable/screen/splash/New(client/C, visible, use_previous_title) //TODO: Make this use INITIALIZE_IMMEDIATE, except its not easy
@@ -1387,6 +1431,7 @@
 	icon = 'icons/gameover.dmi'
 	icon_state = ""
 	screen_loc = ui_backhudl
+	layer = SPLASHSCREEN_LAYER
 	plane = SPLASHSCREEN_PLANE
 
 /atom/movable/screen/gameover/proc/Fade(out = FALSE, qdel_after = FALSE)
@@ -1437,6 +1482,7 @@
 	icon_state = ""
 	name = " "
 	screen_loc = ui_backhudl
+	layer = BACKHUD_LAYER
 	plane = FULLSCREEN_PLANE
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
@@ -1455,6 +1501,7 @@
 	name = ""
 	icon = 'icons/mob/roguehud.dmi'
 	icon_state = "aimbg"
+	layer = HUD_LAYER
 	plane = HUD_PLANE
 
 /atom/movable/screen/aim/boxaim
@@ -1516,7 +1563,7 @@
 
 	if(ishuman(usr))
 		var/mob/living/carbon/human/M = usr
-		if(LAZYACCESS(modifiers, LEFT_CLICK))
+		if(modifiers["left"])
 			if(M.charflaw)
 				to_chat(M, "*----*")
 				to_chat(M, "<span class='info'>[M.charflaw.desc]</span>")
@@ -1560,7 +1607,7 @@
 					to_chat(M, "[ddesc]")
 			already_printed = list()
 			to_chat(M, "*--------*")
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		if(modifiers["right"])
 			if(M.get_triumphs() <= 0)
 				to_chat(M, "<span class='warning'>I haven't TRIUMPHED.</span>")
 				return
@@ -1594,12 +1641,12 @@
 
 	if(isliving(usr))
 		var/mob/living/M = usr
-		if(LAZYACCESS(modifiers, LEFT_CLICK))
+		if(modifiers["left"])
 			if(showing)
 				collapse_intents()
 			else
 				show_intents(M)
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		if(modifiers["right"])
 			if(M.rmb_intent)
 				to_chat(M, "<span class='info'>* --- *</span>")
 				to_chat(M, "<span class='info'>[name]: [desc]</span>")
@@ -1668,10 +1715,10 @@
 
 	if(isliving(usr))
 		var/mob/living/M = usr
-		if(LAZYACCESS(modifiers, LEFT_CLICK))
+		if(modifiers["left"])
 			if(stored_intent)
 				M.swap_rmb_intent(type = stored_intent)
-		if(LAZYACCESS(modifiers, RIGHT_CLICK))
+		if(modifiers["right"])
 			to_chat(M, "<span class='info'>* --- *</span>")
 			to_chat(M, "<span class='info'>[name]: [desc]</span>")
 			to_chat(M, "<span class='info'>* --- *</span>")
@@ -1788,7 +1835,7 @@
 	icon_state = "heatstamover"
 	icon = 'icons/mob/rogueheat.dmi'
 	screen_loc = stamina_loc
-	plane = ABOVE_HUD_PLANE
+	layer = HUD_LAYER+0.1
 
 /atom/movable/screen/mana_over
 	name = ""
@@ -1796,7 +1843,7 @@
 	icon_state = "manaover"
 	icon = 'icons/mob/rogueheat.dmi'
 	screen_loc = mana_loc
-	plane = ABOVE_HUD_PLANE
+	layer = HUD_LAYER+0.1
 
 /atom/movable/screen/scannies
 	icon = 'icons/mob/roguehudback2.dmi'
@@ -1805,7 +1852,8 @@
 	screen_loc = ui_backhudl
 	mouse_opacity = 0
 	alpha = 0
-	plane = HUD_PLANE
+	layer = 24
+	plane = 24
 	blend_mode = BLEND_MULTIPLY
 
 /atom/movable/screen/char_preview
@@ -1821,6 +1869,7 @@
 	icon_state = ""
 	name = ""
 	screen_loc = "1,1"
+	layer = HUD_LAYER+0.01
 	plane = HUD_PLANE
 	alpha = 0
 	var/atom/movable/screen/readtext/textright
@@ -1863,16 +1912,12 @@
 		animate(textleft, alpha = 255, time = 5, easing = EASE_IN)
 		animate(textright, alpha = 255, time = 5, easing = EASE_IN)
 
-#undef READ_RIGHT
-#undef READ_LEFT
-#undef READ_BOTH
-
 /atom/movable/screen/readtext
 	name = ""
 	icon = null
 	icon_state = ""
 	screen_loc = "5,5"
-	plane = ABOVE_HUD_PLANE
+	layer = HUD_LAYER+0.02
 	plane = HUD_PLANE
 
 /atom/movable/screen/area_text
@@ -1880,7 +1925,7 @@
 	icon_state = ""
 	name = ""
 	screen_loc = "5,5"
-	plane = ABOVE_HUD_PLANE
+	layer = HUD_LAYER+0.02
 	plane = HUD_PLANE
 	alpha = 0
 	var/reading

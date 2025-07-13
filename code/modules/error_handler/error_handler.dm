@@ -141,5 +141,3 @@ GLOBAL_VAR_INIT(total_runtimes_skipped, 0)
 		"line" = E.line,
 	))
 #endif
-
-#undef ERROR_USEFUL_LEN

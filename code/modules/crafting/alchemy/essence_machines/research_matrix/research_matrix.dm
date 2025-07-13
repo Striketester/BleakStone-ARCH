@@ -2,7 +2,7 @@
 	name = "thaumaturgical research matrix"
 	desc = "A complex crystalline construct that allows researchers to visualize and unlock the interconnected web of thaumaturgical knowledge. The surface shimmers with arcane symbols."
 	icon = 'icons/roguetown/misc/splitter.dmi'
-	icon_state = "splitter"
+	icon_state = "research_matrix"
 	density = TRUE
 	anchored = TRUE
 	processing_priority = 3
