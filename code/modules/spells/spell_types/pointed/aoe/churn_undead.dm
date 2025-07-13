@@ -14,7 +14,7 @@
 	invocation = "The Undermaiden rebukes!"
 	invocation_type = INVOCATION_SHOUT
 
-	charge_time = 4 SECONDS
+	charge_time = 3 SECONDS
 	charge_drain = 1
 	charge_slowdown = 0.7
 	cooldown_time = 40 SECONDS

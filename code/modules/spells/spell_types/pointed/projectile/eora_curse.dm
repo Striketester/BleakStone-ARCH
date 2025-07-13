@@ -12,11 +12,11 @@
 	invocation =  "Nulla felicitas sine amore!"
 	invocation_type = INVOCATION_WHISPER
 
-	charge_time = 3 SECONDS
+	charge_time = 2 SECONDS
 	charge_drain = 0
 	charge_slowdown = 0.3
-	cooldown_time = 60 SECONDS
-	spell_cost = 45
+	cooldown_time = 40 SECONDS
+	spell_cost = 35
 
 	projectile_type = /obj/projectile/magic/eora
 

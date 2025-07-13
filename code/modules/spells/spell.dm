@@ -322,6 +322,8 @@
 	return TRUE
 
 /datum/action/cooldown/spell/InterceptClickOn(mob/living/clicker, params, atom/click_target)
+	if(!LAZYACCESS(params2list(params), MIDDLE_CLICK))
+		return
 	if(charge_required && !charged)
 		to_chat(owner, span_warning("I did not channel the spell enough!"))
 		cancel_charging()
@@ -966,6 +968,8 @@
 
 	var/success = world.time >= (charge_started_at + charge_target_time)
 	if(!on_end_charge(success))
+		to_chat(owner, span_warning("I did not channel the spell enough!"))
+		RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 		return
 
 	if(!can_cast_spell(TRUE))
@@ -980,7 +984,6 @@
 		if(!_target)
 			CRASH("Failed to get the turf under clickcatcher")
 
-	source.click_intercept_time = null
 	// Call this directly to do all the relevant checks and aim assist
 	InterceptClickOn(owner, params, _target)
 

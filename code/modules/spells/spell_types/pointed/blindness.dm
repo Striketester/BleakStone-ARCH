@@ -9,7 +9,7 @@
 		/datum/attunement/arcyne = 0.1
 	)
 
-	charge_time = 2 SECONDS
+	charge_time = 1 SECONDS
 	cooldown_time = 2 MINUTES
 	spell_cost = 30
 
