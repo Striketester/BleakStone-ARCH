@@ -345,6 +345,7 @@
 	charged = FALSE
 	if(!is_valid_target(target))
 		if(charge_required && click_to_activate)
+			to_chat(owner, span_warning("I can't cast [src] on [target]!"))
 			RegisterSignal(owner.client, COMSIG_CLIENT_MOUSEDOWN, PROC_REF(start_casting))
 		return FALSE
 
