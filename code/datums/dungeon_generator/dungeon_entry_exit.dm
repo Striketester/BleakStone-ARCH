@@ -23,13 +23,24 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 	var/dungeon_id
 	var/list/dungeon_exits = list()
 	var/can_enter = TRUE
+	var/list/entry_requirements = list()
+	var/requires_all = FALSE
+	// ["Time"] = "day", "night", etc.
 
 
 /obj/structure/dungeon_entry/New(loc, ...)
 	GLOB.dungeon_entries |= src
 	if(!dungeon_id)
 		GLOB.unlinked_dungeon_entries |= src
+	if("Time" in entry_requirements) // not sure if entry_requirements["Time"] results in runtime
+		GLOB.TodUpdate += src
 	return ..()
+
+/obj/structure/dungeon_entry/update_tod(todd)
+	if(todd == entry_requirements["Time"])
+		icon_state = "portal"
+	else
+		icon_state = "portal_noenter"
 
 /obj/structure/dungeon_entry/Initialize()
 	. = ..()
@@ -56,6 +67,9 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 	dungeon_exits = null
 	GLOB.dungeon_entries -= src
 	GLOB.unlinked_dungeon_entries -= src
+	if("Time" in entry_requirements)
+		GLOB.TodUpdate -= src
+
 	return ..()
 
 /obj/structure/dungeon_entry/attack_hand(mob/user)
@@ -72,8 +86,29 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 	use(user, TRUE)
 	return ..()
 
-/obj/structure/dungeon_entry/proc/use(mob/user, is_ghost)
+/obj/structure/dungeon_entry/proc/attempt_entry(mob/user, is_ghost)
 	if(!is_ghost && !can_enter)
+		return FALSE
+	if(entry_requirements && !is_ghost)
+		if(!has_requirements(user))
+			return FALSE
+
+	return TRUE
+
+/obj/structure/dungeon_entry/proc/has_requirements(mob/user)
+	var/can_enter = 0
+	for(var/requirement in entry_requirements)
+		if(requirement == "Time")
+			if(GLOB.tod == entry_requirements[requirement])
+				can_enter++
+		if(!requires_all && can_enter > 0)
+			return TRUE
+	if(can_enter < length(entry_requirements))
+		return FALSE
+	return TRUE
+
+/obj/structure/dungeon_entry/proc/use(mob/user, is_ghost)
+	if(!attempt_entry(user, is_ghost))
 		return
 	if(!length(dungeon_exits))
 		return
