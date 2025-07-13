@@ -144,6 +144,7 @@
 	. = ..()
 	if(get_dir(loc, target) == dir)
 		return FALSE
+	return TRUE
 
 /obj/structure/bars
 	name = "bars"
