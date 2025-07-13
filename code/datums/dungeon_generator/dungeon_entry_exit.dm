@@ -7,6 +7,7 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 /obj/structure/dungeon_entry/center/vanderlin
 	icon_state = "portal_noenter"
 	entry_requirements = list("Time" = "day")
+
 /obj/structure/dungeon_exit/center
 	dungeon_id = "center"
 	entry_requirements = list("Time" = "day")
@@ -30,6 +31,7 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 	var/list/dungeon_exits = list()
 	var/can_enter = TRUE
 	/// Requirements for entry/exit
+	/// "Time" = "dat" etc
 	var/list/entry_requirements = list()
 	/// Make the requirements not inclusive
 	var/requires_all = FALSE
