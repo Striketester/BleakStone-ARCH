@@ -125,11 +125,11 @@
 		),
 		"Set 4" = list(
 			STATS_LEECHES_EMBEDDED = list("name" = "Leeches embedded:", "points" = 0.165, "capacity" = 70),
-			STATS_ALIVE_TRITONS = list("name" = "Number of tritons:", "points" = 7, "capacity" = 70),
+			STATS_ALIVE_TRITONS = list("name" = "Number of tritons:", "points" = 8, "capacity" = 70),
 		),
 		"Set 5" = list(
 			STATS_PEOPLE_DROWNED = list("name" = "People drowned:", "points" = 9, "capacity" = 75),
-			STATS_BATHS_TAKEN = list("name" = "Baths taken:", "points" = 2.75, "capacity" = 50),
+			STATS_BATHS_TAKEN = list("name" = "Baths taken:", "points" = 3, "capacity" = 50),
 		)
 	)
 
@@ -270,7 +270,7 @@
 			STATS_MASTERWORKS_FORGED = list("name" = "Masterworks forged:", "points" = 2.3, "capacity" = 85),
 		),
 		"Set 2" = list(
-			STATS_ROCKS_MINED = list("name" = "Rocks mined:", "points" = 0.275, "capacity" = 100),
+			STATS_ROCKS_MINED = list("name" = "Rocks mined:", "points" = 0.265, "capacity" = 100),
 		),
 		"Set 3" = list(
 			STATS_CRAFT_SKILLS = list("name" = "Craft skills learned:", "points" = 0.6, "capacity" = 90),
