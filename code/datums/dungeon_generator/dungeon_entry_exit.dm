@@ -92,7 +92,6 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 	if(entry_requirements && !is_ghost)
 		if(!has_requirements(user))
 			return FALSE
-
 	return TRUE
 
 /obj/structure/dungeon_entry/proc/has_requirements(mob/user)
@@ -131,6 +130,8 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 
 	var/dungeon_id
 	var/obj/structure/dungeon_entry/entry
+	var/list/entry_requirements = list()
+	var/requires_all = FALSE
 
 /obj/structure/dungeon_exit/Initialize()
 	. = ..()
@@ -173,10 +174,34 @@ GLOBAL_LIST_INIT(dungeon_exits, list())
 	return ..()
 
 /obj/structure/dungeon_exit/proc/use(mob/user, is_ghost)
-	if(!entry)
+	if(!attempt_entry(user, is_ghost))
 		return
 	if(!is_ghost)
 		playsound(src, 'sound/foley/ladder.ogg', 100, FALSE)
 		if(!do_after(user, 3 SECONDS, src))
 			return
 	movable_travel_z_level(user, get_turf(entry))
+
+/*
+	suggest making this proc shared beftween the two, or a refatoring that makes that work
+	instead of repeating code that is
+*/
+/obj/structure/dungeon_exit/proc/attempt_entry(mob/user, is_ghost)
+	if(!is_ghost && !entry)
+		return FALSE
+	if(entry_requirements && !is_ghost)
+		if(!has_requirements(user))
+			return FALSE
+	return TRUE
+
+/obj/structure/dungeon_exit/proc/has_requirements(mob/user)
+	var/can_enter = 0
+	for(var/requirement in entry_requirements)
+		if(requirement == "Time")
+			if(GLOB.tod == entry_requirements[requirement])
+				can_enter++
+		if(!requires_all && can_enter > 0)
+			return TRUE
+	if(can_enter < length(entry_requirements))
+		return FALSE
+	return TRUE

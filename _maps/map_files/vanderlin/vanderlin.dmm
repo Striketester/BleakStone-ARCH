@@ -29079,8 +29079,8 @@
 /area/rogue/outdoors/river)
 "sOy" = (
 /obj/structure/dungeon_entry/center{
-	can_enter = 0;
 	icon_state = "portal_noenter"
+	entry_requirements = list("Time" = "day")
 	},
 /turf/open/floor/cobble/mossy,
 /area/rogue/under/cavewet)
