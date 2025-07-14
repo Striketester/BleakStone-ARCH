@@ -1,5 +1,5 @@
 /datum/faith/psydon
-	name = "\improper Old God"
+	name = "\improper Purist"
 	desc = "Worship of Psydon as the primary diety. \n\
 		Popular among the Grenzelhofters, but can be found in all Humen Kingdoms. \n\
 		Worshippers have held deep grudges against the Church of the Ten for their role in the butchery of their god. \
