@@ -31,7 +31,7 @@
 					   addition = "(INTENT:[uppertext(user.used_intent.name)])")
 
 		if(src.client)
-			GLOB.vanderlin_round_stats[STATS_DODGES]++
+			record_round_statistic(STATS_DODGES)
 		return TRUE
 	return FALSE
 
@@ -95,7 +95,7 @@
 		log_defense(src, user, "dodged", defending_item, attacking_item, "INTENT:[uppertext(user.used_intent.name)]")
 
 	if(client)
-		GLOB.vanderlin_round_stats[STATS_DODGES]++
+		record_round_statistic(STATS_DODGES)
 
 	return TRUE
 

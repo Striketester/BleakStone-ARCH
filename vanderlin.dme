@@ -1688,6 +1688,7 @@
 #include "code\modules\client\darkmode.dm"
 #include "code\modules\client\message.dm"
 #include "code\modules\client\player_details.dm"
+#include "code\modules\client\round_end_panel.dm"
 #include "code\modules\client\roundendmanifest.dm"
 #include "code\modules\client\customizer\customizer.dm"
 #include "code\modules\client\customizer\customizer_choice.dm"

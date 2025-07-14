@@ -252,7 +252,7 @@
 		log_defense(src, user, "parried", defending_item, attacking_item, "INTENT:[uppertext(user.used_intent.name)]")
 
 	if(src.client)
-		GLOB.vanderlin_round_stats[STATS_PARRIES]++
+		record_round_statistic(STATS_PARRIES)
 
 	return TRUE
 
@@ -281,6 +281,6 @@
 				   "hands", attacking_item, "INTENT:[uppertext(user.used_intent.name)]")
 
 	if(src.client)
-		GLOB.vanderlin_round_stats[STATS_PARRIES]++
+		record_round_statistic(STATS_PARRIES)
 
 	return TRUE

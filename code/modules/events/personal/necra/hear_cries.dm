@@ -5,7 +5,7 @@
 	weight = 7
 	earliest_start = 15 MINUTES
 	max_occurrences = 1
-	min_players = 20
+	min_players = 25
 
 	tags = list(
 		TAG_HAUNTED,
