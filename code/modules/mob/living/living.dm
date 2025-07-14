@@ -2509,6 +2509,11 @@
 
 /mob/living/proc/encumbrance_to_speed()
 
+/// checks if this mob can do a dualwielding attack or defense
+/mob/living/proc/dual_wielding_check()
+	if(!ishuman(src)) // lol
+		return FALSE
+
 /mob/proc/food_tempted(/obj/item/W, mob/user)
 	return
 
