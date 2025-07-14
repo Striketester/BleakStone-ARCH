@@ -17803,10 +17803,6 @@
 	},
 /turf/closed/wall/mineral/craftstone,
 /area/rogue/indoors/town/merc_guild)
-"ldu" = (
-/obj/machinery/light/fueled/oven,
-/turf/closed/wall/mineral/craftstone,
-/area/rogue/indoors/town/merc_guild)
 "ldE" = (
 /obj/structure/table/wood/plain/alt,
 /turf/open/floor/churchbrick,
@@ -19756,6 +19752,7 @@
 /obj/item/reagent_containers/glass/bucket/pot{
 	pixel_y = 7
 	},
+/obj/machinery/light/fueled/oven/south,
 /turf/open/floor/ruinedwood/spiral,
 /area/rogue/indoors/town/merc_guild)
 "mAU" = (
@@ -29824,6 +29821,7 @@
 "sXv" = (
 /obj/machinery/light/fueled/hearth,
 /obj/item/cooking/pan,
+/obj/machinery/light/fueled/oven/south,
 /turf/open/floor/ruinedwood/spiral,
 /area/rogue/indoors/town/merc_guild)
 "sXE" = (
@@ -134718,7 +134716,7 @@ vgJ
 vgJ
 vgJ
 vgJ
-ldu
+jMD
 sXv
 pGO
 pGO
@@ -134920,7 +134918,7 @@ vgJ
 vgJ
 vgJ
 vgJ
-ldu
+jMD
 mAT
 pGO
 pGO
