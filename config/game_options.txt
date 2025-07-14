@@ -1,7 +1,7 @@
 ## HEALTH ###
 
 ##Damage multiplier, effects both weapons and healing on all mobs. For example, 1.25 would result in 25% higher damage.
-DAMAGE_MULTIPLIER 1
+DAMAGE_MULTIPLIER 1.2
 
 ## REVIVAL ###
 
@@ -569,7 +569,7 @@ ENABLE_NIGHT_SHIFTS
 #SHIFT_TIME_REALTIME
 
 ## A cap on how many monkeys may be created via monkey cubes
-MONKEYCAP 64
+MONKEYCAP 764
 
 ## Enable the capitalist agenda on your server.
 ECONOMY
