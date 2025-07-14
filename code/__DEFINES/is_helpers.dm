@@ -60,7 +60,6 @@ GLOBAL_LIST_INIT(turfs_without_ground, typecacheof(list(
 
 //Human sub-species
 #define ishumanbasic(A) (is_species(A, /datum/species/human))
-#define isvampire(A) (is_species(A,/datum/species/vampire))
 
 //RT species
 #define ishumannorthern(A) (is_species(A, /datum/species/human/northern))

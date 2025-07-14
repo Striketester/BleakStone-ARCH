@@ -1,4 +1,10 @@
 //ROGUETRAITS (description when rmb skills button)
+#define TRAIT_AUTOMATON_SPEECH "Voicebox"
+#define TRAIT_COMMAND_OBEDIENCE "Programmed Loyalty"
+#define TRAIT_STEAM_POWERED "Steam Powered"
+#define TRAIT_MECHANICAL_BODY "Mechanial Body"
+#define TRAIT_HEAVY_STEP 		"Heavy Steps"
+
 #define TRAIT_WEBWALK 					"Webwalker"
 #define TRAIT_NOSTINK 					"Dead Nose"
 #define TRAIT_ZJUMP 					"High Jumping"
@@ -58,6 +64,9 @@
 #define TRAIT_KITTEN_MOM				"Loved By Kittens"
 #define TRAIT_WATER_BREATHING			"Waterbreathing"
 #define TRAIT_MOONWATER_ELIXIR			"Moonwater Elixir"
+#define TRAIT_VIOLATOR					"Violator of the Coven"
+#define TRAIT_TORPOR					"Endless Slumber"
+
 #define TRAIT_FLOWERFIELD_IMMUNITY		"Flower Strider"
 /// applied to orphans
 #define TRAIT_ORPHAN 					"Orphan"
@@ -307,6 +316,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_HARDDISMEMBER		"hard_dismember"
 #define TRAIT_FOREIGNER "foreigner" // is this guy a foreigner?
 #define TRAIT_NOAMBUSH "no_ambush" //! mob cannot be ambushed for any reason
+#define TRAIT_CLAN_LEADER "clan_leader"
+
 /// Can swim ignoring water flow and slowdown
 #define TRAIT_GOOD_SWIM "good_swim"
 ///trait determines if this mob can breed given by /datum/component/breeding
@@ -432,6 +443,46 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// Ignores body_parts_covered during the add_fingerprint() proc. Works both on the person and the item in the glove slot.
 #define TRAIT_FINGERPRINT_PASSTHROUGH "fingerprint_passthrough"
 
+
+/// The mob will automatically breach the Masquerade when seen by others, with no exceptions
+#define TRAIT_UNMASQUERADE		"unmasquerade"
+/// Makes gambling incredibly effective, and causes random beneficial events to happen for the mob.
+#define TRAIT_SUPERNATURAL_LUCK	"supernatural_luck"
+/// Lets the mob block projectiles like bullets using only their hands.
+#define TRAIT_HANDS_BLOCK_PROJECTILES "hands_block_projectiles"
+/// The mob always dodges melee attacks
+#define TRAIT_ENHANCED_MELEE_DODGE "enhanced_melee_dodge"
+/// The mob can easily swim and jump very far.
+#define TRAIT_SUPERNATURAL_DEXTERITY "supernatural_dexterity"
+/// Can pass through walls so long as it doesn't move the mob into a new area
+#define TRAIT_PASS_THROUGH_WALLS "pass_through_walls"
+/// Technology supernaturally refuses to work or doesn't work properly for this person
+#define TRAIT_REJECTED_BY_TECHNOLOGY "rejected_by_technology"
+/// Doesn't cast a reflection
+#define TRAIT_NO_REFLECTION "no_reflection"
+/// Vampire cannot drink from anyone who doesn't consent to it
+#define TRAIT_CONSENSUAL_FEEDING_ONLY "consensual_feeding_only"
+/// Instead of knocking someone out when fed on, this vampire's Kiss inflicts pain
+#define TRAIT_PAINFUL_VAMPIRE_KISS "painful_vampire_kiss"
+/// Vampires will always diablerise this vampire given the chance
+#define TRAIT_IRRESISTIBLE_VITAE "irresistible_vitae"
+/// Vampire cannot feed from poor people
+#define TRAIT_FEEDING_RESTRICTION "feeding_restriction"
+/// Will always fail to resist supernatural mind-influencing powers
+#define TRAIT_CANNOT_RESIST_MIND_CONTROL "cannot_resist_mind_control"
+/// Cannot leave the vicinity of whoever's vitae you've drank
+#define TRAIT_VITAE_ADDICTION "vitae_addiction"
+/// Is hurt by holiness/holy symbols and repelled by them
+#define TRAIT_REPELLED_BY_HOLINESS "repelled_by_holiness"
+/// Any changes in this Kindred's Humanity will be doubled
+#define TRAIT_SENSITIVE_HUMANITY "sensitive_humanity"
+/// Duration of frenzy is doubled
+#define TRAIT_LONGER_FRENZY "longer_frenzy"
+// TODO: [Lucia] refactor these traits into mutant bodyparts and a component maybe
+/// If eyes are uncovered, they will be obviously supernatural to everyone nearby
+#define TRAIT_MASQUERADE_VIOLATING_EYES "masquerade_violating_eyes"
+/// If face is uncovered, they will be obviously supernatural to everyone nearby
+#define TRAIT_MASQUERADE_VIOLATING_FACE "masquerade_violating_face"
 /// This mob is phased out of reality from magic, either a jaunt or rod form
 #define TRAIT_MAGICALLY_PHASED "magically_phased"
 

@@ -206,6 +206,7 @@
 #define COMSIG_HUMAN_MELEE_UNARMED_ATTACKBY "human_melee_unarmed_attackby"		//from mob/living/carbon/human/UnarmedAttack(): (mob/living/carbon/human/attacker)
 #define COMSIG_HUMAN_DISARM_HIT	"human_disarm_hit"	//Hit by successful disarm attack (mob/living/carbon/human/attacker,zone_targeted)
 #define COMSIG_JOB_RECEIVED "job_received"										//Whenever EquipRanked is called, called after job is set
+#define COMSIG_HUMAN_LIFE "human_life"
 
 // /datum/species signals
 #define COMSIG_SPECIES_GAIN "species_gain"						//from datum/species/on_species_gain(): (datum/species/new_species, datum/species/old_species)
@@ -309,3 +310,6 @@
 #define COMSIG_HABITABLE_HOME "comsig_habitable_home"
 
 #define COMSIG_COMBAT_TARGET_SET "comsig_combat_target_set"
+
+#define COMSIG_DISGUISE_STATUS "comsig_disguise_status"
+#define COMSIG_OBSERVABLE_CHANGE "comsig_observable_change"

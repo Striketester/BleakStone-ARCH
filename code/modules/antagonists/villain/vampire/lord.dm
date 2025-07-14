@@ -2,7 +2,6 @@
 	name = "Vampire Lord"
 	antag_hud_type = ANTAG_HUD_VAMPIRE
 	antag_hud_name = "vamplord"
-	autojoin_team = TRUE
 	confess_lines = list(
 		"I AM ANCIENT!",
 		"I AM THE LAND!",
@@ -11,31 +10,14 @@
 
 	var/ascended = FALSE
 
-	innate_traits = list(
-		TRAIT_HEAVYARMOR,
-	)
-
 /datum/antagonist/vampire/lord/on_gain()
 	var/mob/living/carbon/vampire = owner.current
 	remove_job()
 	owner.current?.roll_mob_stats()
 	owner.current?.purge_combat_knowledge()
 	. = ..()
-	var/datum/action/cooldown/spell/undirected/mansion_portal/portal = new(src)
-	portal.Grant(owner.current)
 	addtimer(CALLBACK(owner.current, TYPE_PROC_REF(/mob/living/carbon/human, choose_name_popup), "[name]"), 5 SECONDS)
 	vampire.grant_undead_eyes()
-
-/datum/antagonist/vampire/lord/after_gain()
-	owner.current.verbs |= /mob/living/carbon/human/proc/demand_submission
-	owner.current.verbs |= /mob/living/carbon/human/proc/vamp_regenerate
-	owner.current.verbs |= /mob/living/carbon/human/proc/punish_spawn
-
-/datum/antagonist/vampire/lord/on_removal()
-	. = ..()
-	owner.current.verbs -= /mob/living/carbon/human/proc/demand_submission
-	owner.current.verbs -= /mob/living/carbon/human/proc/vamp_regenerate
-	owner.current.verbs -= /mob/living/carbon/human/proc/punish_spawn
 
 /datum/antagonist/vampire/lord/greet()
 	to_chat(owner.current, span_userdanger("I am ancient. I am the Land. And I am now awoken to trespassers upon my domain."))
@@ -59,28 +41,6 @@
 	H.set_patron(/datum/patron/godless)
 
 	return TRUE
-
-/datum/antagonist/vampire/lord/on_life(mob/user)
-	if(ascended)
-		return
-	vitae = team.vitae_pool.current
-	. = ..()
-
-/datum/antagonist/vampire/lord/exposed_to_sunlight()
-	var/mob/living/carbon/human/H = owner.current
-	to_chat(H, span_warning("ASTRATA spurns me! I must get out of Her rays!")) // VLord is more punished for daylight excursions.
-	var/turf/N = H.loc
-	if(N.can_see_sky())
-		if(N.get_lumcount() > 0.15)
-			H.fire_act(3)
-			adjust_vitae(-500)
-
-/datum/antagonist/vampire/lord/adjust_vitae(change, tribute)
-	team.vitae_pool.update_pool(change)
-
-/datum/antagonist/vampire/lord/handle_vitae()
-	. = ..()
-	vitae = team.vitae_pool.current
 
 /datum/antagonist/vampire/lord/move_to_spawnpoint()
 	owner.current.forceMove(pick(GLOB.vlord_starts))

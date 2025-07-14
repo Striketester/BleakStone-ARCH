@@ -599,6 +599,13 @@
 
 	if(HAS_TRAIT(user, TRAIT_SEEPRICES) && sellprice)
 		. += "Is worth around [sellprice] mammons."
+
+	if(ishuman(user))
+		var/mob/living/carbon/human/human_user = user
+		var/hierarchy_text = get_clan_hierarchy_examine(human_user)
+		if(hierarchy_text)
+			. += hierarchy_text
+
 	SEND_SIGNAL(src, COMSIG_PARENT_EXAMINE, user, .)
 
 /mob/living/proc/status_effect_examines(pronoun_replacement) //You can include this in any mob's examine() to show the examine texts of status effects!

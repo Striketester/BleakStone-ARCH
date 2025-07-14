@@ -54,6 +54,7 @@
 	///Normal check for the vampire and werewolves
 	if(affected)
 		to_chat(target, span_userdanger("I am struck by my BANE!"))
+		target.rollfrenzy()
 		target.Stun(20)
 		target.Knockdown(10)
 		target.Paralyze(10)
@@ -63,7 +64,7 @@
 			target.apply_status_effect(/datum/status_effect/debuff/silver_curse)
 		if(vamp_datum && affected != AFFECTED_VLORD)
 			target.apply_status_effect(/datum/status_effect/debuff/silver_curse)
-			if(vamp_datum.disguised)
+			if(SEND_SIGNAL(target, COMSIG_DISGUISE_STATUS))
 				target.visible_message("<font color='white'>[target]'s curse manifests!</font>", ignored_mobs = list(target))
 		last_used[source] = world.time
 		return

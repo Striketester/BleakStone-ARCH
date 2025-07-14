@@ -84,6 +84,10 @@
 		return Move_object(direct)
 	if(!isliving(mob))
 		return mob.Move(n, direct)
+	else
+		if(mob:in_frenzy)
+			return FALSE
+
 	if(mob.stat == DEAD)
 #ifdef TESTSERVER
 		mob.ghostize()
