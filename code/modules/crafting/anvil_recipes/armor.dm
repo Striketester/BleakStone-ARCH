@@ -504,6 +504,29 @@
 	created_item = /obj/item/clothing/armor/plate/decorated/corset
 	craftdiff = 4
 
+// --------- SILVER -----------
+/datum/anvil_recipe/armor/silver/bascinet
+	name = "Silver Bascinet"
+	recipe_name = "a silver bascinet"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/clothing/head/helmet/visored/silver
+	craftdiff = 3
+
+/datum/anvil_recipe/armor/silver/platefull
+	name = "Silver Plate Armor (+Bar x3)"
+	recipe_name = "a Full-Plate Silver Armor"
+	req_bar = /obj/item/ingot/silver
+	additional_items = list(/obj/item/ingot/silver,/obj/item/ingot/silver,/obj/item/ingot/silver)
+	created_item = /obj/item/clothing/armor/plate/full/silver
+	craftdiff = 4
+
+/datum/anvil_recipe/armor/silver/plateleg
+	name = "Silver Plate Chausses"
+	recipe_name = "a pair of Silver Plate Chausses"
+	req_bar = /obj/item/ingot/silver
+	created_item = /obj/item/clothing/pants/platelegs/silver
+	craftdiff = 3
+
 // --------- GOLD -----------
 /datum/anvil_recipe/armor/gold/mask
 	name = "Gold Mask"

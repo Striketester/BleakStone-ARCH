@@ -133,3 +133,15 @@
 	mob_overlay_icon = 'icons/roguetown/clothing/special/onmob/evilarmor.dmi'
 	sleeved = 'icons/roguetown/clothing/special/onmob/evilarmor.dmi'
 	sellprice = 0 // See above comment
+
+//.............. Silver Armor .................//
+
+/obj/item/clothing/armor/plate/full/silver
+	name = "silver fullplate"
+	desc = "A finely forged set of full silver plate, with long tassets protecting the legs."
+	icon_state = "silverarmor"
+	armor = ARMOR_PLATE_SILVER
+	allowed_age = list("Adult","Middle-Aged","Old","Immortal") //placeholder until younglings have onmob sprites for this item
+	smeltresult = /obj/item/ingot/silver
+	item_weight = 12 * SILVER_MULTIPLIER
+	sellprice = VALUE_SILVER_ITEM * 3
