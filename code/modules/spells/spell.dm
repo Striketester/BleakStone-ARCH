@@ -60,6 +60,8 @@
 	var/point_cost = 0
 	/// Cost to cast, mana or devotion
 	var/spell_cost = 0
+	/// Cost to stamina for casting the spell. Defaults to spell_cost / 2
+	var/stamina_cost
 
 	/// The sound played on cast
 	var/sound = 'sound/magic/whiteflame.ogg'
@@ -305,7 +307,7 @@
 	if(charge_required)
 		tip = "<B>Hold Middle-click and release once charged to cast the spell on a target!</B>"
 
-	to_chat(on_who, span_notice("[active_msg] [tip]"))
+	to_chat(on_who, span_smallnotice("[active_msg] [tip]"))
 	build_all_button_icons()
 
 	return TRUE
@@ -316,7 +318,7 @@
 
 	if(refund_cooldown)
 		// Only send the "deactivation" message if they're willingly disabling the ability
-		to_chat(on_who, span_notice("[deactive_msg]"))
+		to_chat(on_who, span_smallnotice("[deactive_msg]"))
 	build_all_button_icons()
 
 	return TRUE
@@ -364,30 +366,30 @@
 		new_time -= charge_time * INT * 0.02
 	else
 		new_time += charge_time * (10 - INT) * 0.02
-	var/encumbrance = L.get_encumbrance()
-	if(encumbrance > 0.4)
-		new_time += charge_time * (encumbrance * 0.5)
 
 	return clamp(new_time, 1 DECISECONDS, 30 SECONDS)
 
 /datum/action/cooldown/spell/proc/get_fatigue_drain()
-	if(!spell_cost)
-		return FALSE
 	if(!isliving(owner))
 		return
-	var/mob/living/L = owner
-	var/new_cost = spell_cost
-	new_cost -= spell_cost * L.get_skill_level(associated_skill) * 0.05
-	var/INT = L.STAINT
-	if(INT > 10)
-		new_cost -= spell_cost * INT * 0.02
-	else
-		new_cost -= spell_cost * (10 - INT) * 0.02
-	var/encumbrance = L.get_encumbrance()
-	if(encumbrance > 0.4)
-		new_cost += spell_cost * (encumbrance * 0.5)
+	var/mob/living/living_owner = owner
+	var/new_stamina_cost = spell_cost / 2
+	if(!isnull(stamina_cost))
+		new_stamina_cost = stamina_cost
+	var/base_cost = new_stamina_cost
 
-	return clamp(new_cost, 5, 200)
+	new_stamina_cost -= base_cost * (living_owner.get_skill_level(associated_skill) * 0.05)
+
+	var/owner_int = living_owner.STAINT
+	if(owner_int > 10)
+		new_stamina_cost -= (base_cost * (owner_int * 0.02))
+	else
+		new_stamina_cost += (base_cost * ((10-owner_int)) * 0.02)
+	var/owner_encumbrance = living_owner.get_encumbrance()
+	if(owner_encumbrance > 0.4)
+		new_stamina_cost += base_cost * (owner_encumbrance * 0.5)
+
+	return max(new_stamina_cost, 0)
 
 /// Do any attunement handling in here or any time after before_cast
 /datum/action/cooldown/spell/proc/handle_attunements()
@@ -902,7 +904,10 @@
 		used_type = type_override
 
 	if(!re_run)
-		owner.adjust_stamina(-(used_cost / 2))
+		if(cost_override)
+			owner.adjust_stamina(-(used_cost / 2))
+		else
+			owner.adjust_stamina(get_fatigue_drain())
 
 	switch(used_type)
 		if(SPELL_MANA)
