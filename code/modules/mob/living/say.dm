@@ -472,7 +472,12 @@ GLOBAL_LIST_INIT(department_radio_keys, list(
 							listener_obstructed = FALSE
 				if(listener_obstructed && speaker_obstructed)
 					continue
-		if(eavesdrop_range && get_dist(source, AM) > message_range && !(the_dead[AM]))
+			var/sensitiveears
+			if(ishuman(AM))
+				var/mob/living/carbon/human/H = AM
+				sensitiveears = HAS_TRAIT(H, TRAIT_SENSITIVE_EARS)
+
+		if(eavesdrop_range && get_dist(source, AM) > message_range+sensitiveears && !(the_dead[AM]))
 			AM.Hear(eavesrendered, src, message_language, eavesdropping, , spans, message_mode, original_message)
 		else
 			AM.Hear(rendered, src, message_language, message, , spans, message_mode, original_message)

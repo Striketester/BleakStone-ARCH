@@ -59,6 +59,7 @@
 #define TRAIT_WATER_BREATHING			"Waterbreathing"
 #define TRAIT_MOONWATER_ELIXIR			"Moonwater Elixir"
 #define TRAIT_FLOWERFIELD_IMMUNITY		"Flower Strider"
+#define TRAIT_SENSITIVE_EARS 			"Sensitive Ears" //Ability to hear whispers from further & voices through walls
 /// applied to orphans
 #define TRAIT_ORPHAN 					"Orphan"
 #define TRAIT_RECRUITED					"Recruit" //Trait used to give foreigners their new title
