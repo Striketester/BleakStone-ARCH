@@ -1,6 +1,6 @@
 /datum/patron/psydon
 	name = "Psydon"
-	display_name = "Orthodox Psydonite"
+	display_name = "Orthodox Purist"
 	domain = "God of Humenity, Dreams and Creation"
 	desc = "Deceased, slain by Necra in His final moments. She ripped His body apart to create The Ten... we must put Him back together again. Psydon lives. He will return."
 	flaws = "Grudge-Holding, Judgemental, Self-Sacrificing"
